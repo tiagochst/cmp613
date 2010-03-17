@@ -1,5 +1,5 @@
 #LyX 1.6.5 created this file. For more info see http://www.lyx.org/
-\lxformat 345
+\lyxformat 345
 \begin_document
 \begin_header
 \textclass article
@@ -73,8 +73,12 @@ end{titlepage} % capa no preambulo document settings
 
 \end_layout
 
+\begin_layout Subsection*
+Questão 1
+\end_layout
+
 \begin_layout Standard
-jddjdjd
+
 \end_layout
 
 \end_body
