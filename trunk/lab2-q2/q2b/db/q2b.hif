@@ -1,0 +1,179 @@
+Quartus II
+Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
+11
+980
+OFF
+OFF
+OFF
+ON
+ON
+ON
+FV_OFF
+Level2
+0
+0
+VRSM_ON
+VHSM_ON
+0
+-- Start Library Paths --
+-- End Library Paths --
+-- Start VHDL Libraries --
+-- End VHDL Libraries --
+# entity
+q2a
+# storage
+db|q2b.(1).cnf
+db|q2b.(1).cnf
+# logic_option {
+AUTO_RAM_RECOGNITION
+ON
+}
+# case_insensitive
+# source_file
+q2a.vhdl
+23883efa6de56f209df69f7ae4bfed46
+5
+# internal_option {
+HDL_INITIAL_FANOUT_LIMIT
+OFF
+AUTO_RESOURCE_SHARING
+OFF
+AUTO_RAM_RECOGNITION
+ON
+AUTO_ROM_RECOGNITION
+ON
+}
+# user_parameter {
+ constraint(a)
+0 to 3
+PARAMETER_STRING
+USR
+ constraint(bi)
+0 to 3
+PARAMETER_STRING
+USR
+ constraint(z)
+0 to 3
+PARAMETER_STRING
+USR
+}
+# hierarchies {
+q2a:sum
+}
+# lmf
+|altera|91sp1|quartus|lmf|maxplus2.lmf
+a36c8ec425c8a2589af98b2d4daabc3
+# macro_sequence
+
+# end
+# entity
+somador
+# storage
+db|q2b.(2).cnf
+db|q2b.(2).cnf
+# logic_option {
+AUTO_RAM_RECOGNITION
+ON
+}
+# case_insensitive
+# source_file
+somador.vhdl
+37baab7ddfe2c33256d887f1993e846
+5
+# internal_option {
+HDL_INITIAL_FANOUT_LIMIT
+OFF
+AUTO_RESOURCE_SHARING
+OFF
+AUTO_RAM_RECOGNITION
+ON
+AUTO_ROM_RECOGNITION
+ON
+}
+# hierarchies {
+q2a:sum|somador:s0
+q2a:sum|somador:s1
+q2a:sum|somador:s2
+q2a:sum|somador:s3
+}
+# lmf
+|altera|91sp1|quartus|lmf|maxplus2.lmf
+a36c8ec425c8a2589af98b2d4daabc3
+# macro_sequence
+
+# end
+# entity
+conv_7seg
+# storage
+db|q2b.(3).cnf
+db|q2b.(3).cnf
+# case_insensitive
+# source_file
+conv_7seg.bdf
+ac74bb1488d5bc8ca301cad898b9cba
+26
+# internal_option {
+BLOCK_DESIGN_NAMING
+AUTO
+}
+# hierarchies {
+conv_7seg:disp
+}
+# macro_sequence
+
+# end
+# entity
+16dmux
+# storage
+db|q2b.(4).cnf
+db|q2b.(4).cnf
+# case_insensitive
+# source_file
+|altera|91sp1|quartus|libraries|others|maxplus2|16dmux.bdf
+f7825b6391322192a09197e53c934
+26
+# internal_option {
+BLOCK_DESIGN_NAMING
+AUTO
+}
+# hierarchies {
+conv_7seg:disp|16dmux:inst
+}
+# macro_sequence
+
+# end
+# entity
+q2b
+# storage
+db|q2b.(0).cnf
+db|q2b.(0).cnf
+# logic_option {
+AUTO_RAM_RECOGNITION
+ON
+}
+# case_insensitive
+# source_file
+q2b.vhdl
+ebeda23da1df89881784207ddbee6b67
+5
+# internal_option {
+HDL_INITIAL_FANOUT_LIMIT
+OFF
+AUTO_RESOURCE_SHARING
+OFF
+AUTO_RAM_RECOGNITION
+ON
+AUTO_ROM_RECOGNITION
+ON
+}
+# hierarchies {
+|
+}
+# lmf
+|altera|91sp1|quartus|lmf|maxplus2.lmf
+a36c8ec425c8a2589af98b2d4daabc3
+# macro_sequence
+
+# end
+# complete
+
