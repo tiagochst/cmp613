@@ -26,13 +26,14 @@ BEGIN
 		PORT MAP (a, b, z, s, ovf);
 	
 	PROCESS (z)
-	BEGIN IF z(3) = '1' THEN
+	BEGIN IF z(3) = '1' THEN --aplica compl de 2 para obter o 
+			                 --valor absoluto para o display
 			zcor:=not(z);
 			zcor(3):=zcor(3) xor (zcor(0) and zcor(1) and zcor(2));
 			zcor(2):=zcor(2) xor (zcor(0) and zcor(1));
 			zcor(1):=zcor(1) xor zcor(0);
 			zcor(0):=not zcor(0);
-			seg(7)<='1'; --acender ponto decimal
+			seg(7)<='1'; --acender sinal negativo
 		ELSE 
 			zcor:=z;
 			seg(7)<='0';
