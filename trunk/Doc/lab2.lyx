@@ -73,12 +73,37 @@ end{titlepage} % capa no preambulo document settings
 
 \end_layout
 
-\begin_layout Subsection*
-Questão 1
+\begin_layout Section
+Questão 1(Henrique - falta descrição,codigo ou parte estrutural)
+\end_layout
+
+\begin_layout Section
+Questão 2(Mars - falta descrição,codigo ou parte estrutural)
+\end_layout
+
+\begin_layout Section
+Questão 3 (Tiago - falta descrição,codigo ou parte estrutural)
 \end_layout
 
 \begin_layout Standard
+Utilizando o chip 74284 projetou-se um circuito que executasse a multipĺicação
+ de 2 números de 4 bits.O chip 74284 possuia como entradas 4 bits de um número
+ e 4 bits de do outro número, contudo somente retornava os 4 bits mais significa
+tivos da multiplicação.
+ Para o calculo dos 4 bits menos significativos utilizando componentes básicas
+ do circuito lógico.
+\end_layout
 
+\begin_layout Standard
+Na segunda parte do projeto desenvolvemos em VHDL um multiplicador utilizando
+ a função pré-definida y=a*b,sendo a um inteiro de 4 bits,b um inteiro de
+ 4 bits e y um vetor de 8 bits.
+\end_layout
+
+\begin_layout Standard
+Posteriormente fizemos a comparação de todos os resultados possíveis através
+ de um circuito testbench no qual simulamos todas as entradas possíveis.
+ 
 \end_layout
 
 \end_body
