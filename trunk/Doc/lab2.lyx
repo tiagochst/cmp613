@@ -453,7 +453,7 @@ reference "alg:Implementação-VHDL-q2a"
 \end_layout
 
 \begin_layout Section
-Questão 3 (Tiago - falta codigos e tabela de simulaçao da c)
+Questão 3 
 \end_layout
 
 \begin_layout Standard
@@ -801,6 +801,53 @@ Comparador de resultados
 
 \end_inset
 
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A simulação obtida está representada no gráfico abaixo, em que percebemos
+ uma falha na multiplicação na parte a, em que o chip 74284 nos fornce o
+ valor errado para os bits mais significativos na multipicação do número
+ dez e número sete, assim nosso sinal de saída torna-se zero.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename waveform_q3c.png
+	lyxscale 10
+	scale 50
+	rotateAngle 90
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação da comparação de multiplicação
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 
 \end_layout
 
