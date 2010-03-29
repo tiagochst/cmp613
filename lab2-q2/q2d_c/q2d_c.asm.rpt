@@ -1,5 +1,5 @@
-Assembler report for q2d
-Thu Mar 25 19:05:25 2010
+Assembler report for q2d_c
+Mon Mar 29 17:55:46 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -10,8 +10,8 @@ Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
   2. Assembler Summary
   3. Assembler Settings
   4. Assembler Generated Files
-  5. Assembler Device Options: C:/Documents and Settings/marspeople/My Documents/Downloads/Lab 2/lab2-q2/q2d/q2d.sof
-  6. Assembler Device Options: C:/Documents and Settings/marspeople/My Documents/Downloads/Lab 2/lab2-q2/q2d/q2d.pof
+  5. Assembler Device Options: //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/q2d_c.sof
+  6. Assembler Device Options: //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/q2d_c.pof
   7. Assembler Messages
 
 
@@ -38,9 +38,9 @@ applicable agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Thu Mar 25 19:05:25 2010 ;
-; Revision Name         ; q2d                                   ;
-; Top-level Entity Name ; q2d                                   ;
+; Assembler Status      ; Successful - Mon Mar 29 17:55:46 2010 ;
+; Revision Name         ; q2d_c                                 ;
+; Top-level Entity Name ; q2d_c                                 ;
 ; Family                ; Cyclone II                            ;
 ; Device                ; EP2C20F484C7                          ;
 +-----------------------+---------------------------------------+
@@ -78,37 +78,37 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------+----------+---------------+
 
 
-+---------------------------------------------------------------------------------------+
-; Assembler Generated Files                                                             ;
-+---------------------------------------------------------------------------------------+
-; File Name                                                                             ;
-+---------------------------------------------------------------------------------------+
-; C:/Documents and Settings/marspeople/My Documents/Downloads/Lab 2/lab2-q2/q2d/q2d.sof ;
-; C:/Documents and Settings/marspeople/My Documents/Downloads/Lab 2/lab2-q2/q2d/q2d.pof ;
-+---------------------------------------------------------------------------------------+
++---------------------------------------------------------------+
+; Assembler Generated Files                                     ;
++---------------------------------------------------------------+
+; File Name                                                     ;
++---------------------------------------------------------------+
+; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/q2d_c.sof ;
+; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/q2d_c.pof ;
++---------------------------------------------------------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------+
-; Assembler Device Options: C:/Documents and Settings/marspeople/My Documents/Downloads/Lab 2/lab2-q2/q2d/q2d.sof ;
-+----------------+------------------------------------------------------------------------------------------------+
-; Option         ; Setting                                                                                        ;
-+----------------+------------------------------------------------------------------------------------------------+
-; Device         ; EP2C20F484C7                                                                                   ;
-; JTAG usercode  ; 0xFFFFFFFF                                                                                     ;
-; Checksum       ; 0x001B2A06                                                                                     ;
-+----------------+------------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------+
+; Assembler Device Options: //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/q2d_c.sof ;
++----------------+------------------------------------------------------------------------+
+; Option         ; Setting                                                                ;
++----------------+------------------------------------------------------------------------+
+; Device         ; EP2C20F484C7                                                           ;
+; JTAG usercode  ; 0xFFFFFFFF                                                             ;
+; Checksum       ; 0x001B28E4                                                             ;
++----------------+------------------------------------------------------------------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------+
-; Assembler Device Options: C:/Documents and Settings/marspeople/My Documents/Downloads/Lab 2/lab2-q2/q2d/q2d.pof ;
-+--------------------+--------------------------------------------------------------------------------------------+
-; Option             ; Setting                                                                                    ;
-+--------------------+--------------------------------------------------------------------------------------------+
-; Device             ; EPCS16                                                                                     ;
-; JTAG usercode      ; 0x00000000                                                                                 ;
-; Checksum           ; 0x1DD992B8                                                                                 ;
-; Compression Ratio  ; 3                                                                                          ;
-+--------------------+--------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------+
+; Assembler Device Options: //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/q2d_c.pof ;
++--------------------+--------------------------------------------------------------------+
+; Option             ; Setting                                                            ;
++--------------------+--------------------------------------------------------------------+
+; Device             ; EPCS16                                                             ;
+; JTAG usercode      ; 0x00000000                                                         ;
+; Checksum           ; 0x1DD99158                                                         ;
+; Compression Ratio  ; 3                                                                  ;
++--------------------+--------------------------------------------------------------------+
 
 
 +--------------------+
@@ -117,14 +117,14 @@ applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus II Assembler
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Thu Mar 25 19:05:19 2010
-Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off q2d -c q2d
+    Info: Processing started: Mon Mar 29 17:55:41 2010
+Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off q2d_c -c q2d_c
 Info: Writing out detailed assembly data for power analysis
 Info: Assembler is generating device programming files
 Info: Quartus II Assembler was successful. 0 errors, 0 warnings
     Info: Peak virtual memory: 179 megabytes
-    Info: Processing ended: Thu Mar 25 19:05:25 2010
-    Info: Elapsed time: 00:00:06
+    Info: Processing ended: Mon Mar 29 17:55:46 2010
+    Info: Elapsed time: 00:00:05
     Info: Total CPU time (on all processors): 00:00:03
 
 

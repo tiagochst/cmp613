@@ -1,5 +1,5 @@
-Analysis & Synthesis report for q2a
-Mon Mar 29 16:16:49 2010
+Analysis & Synthesis report for q2d_c
+Mon Mar 29 17:55:15 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -13,9 +13,12 @@ Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
   5. Analysis & Synthesis Resource Usage Summary
   6. Analysis & Synthesis Resource Utilization by Entity
   7. General Register Statistics
-  8. Port Connectivity Checks: "somador:s3"
-  9. Port Connectivity Checks: "somador:s0"
- 10. Analysis & Synthesis Messages
+  8. Port Connectivity Checks: "q2c:adder|somador:s3"
+  9. Port Connectivity Checks: "q2c:adder|somador:s2"
+ 10. Port Connectivity Checks: "q2c:adder|somador:s1"
+ 11. Port Connectivity Checks: "q2c:adder|somador:s0"
+ 12. Port Connectivity Checks: "q2c:adder"
+ 13. Analysis & Synthesis Messages
 
 
 
@@ -41,16 +44,16 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                      ;
 +------------------------------------+----------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Mar 29 16:16:49 2010        ;
+; Analysis & Synthesis Status        ; Successful - Mon Mar 29 17:55:15 2010        ;
 ; Quartus II Version                 ; 9.1 Build 304 01/25/2010 SP 1 SJ Web Edition ;
-; Revision Name                      ; q2a                                          ;
-; Top-level Entity Name              ; q2a                                          ;
+; Revision Name                      ; q2d_c                                        ;
+; Top-level Entity Name              ; q2d_c                                        ;
 ; Family                             ; Cyclone II                                   ;
-; Total logic elements               ; 11                                           ;
+; Total logic elements               ; 20                                           ;
 ;     Total combinational functions  ; 11                                           ;
-;     Dedicated logic registers      ; 0                                            ;
-; Total registers                    ; 0                                            ;
-; Total pins                         ; 14                                           ;
+;     Dedicated logic registers      ; 14                                           ;
+; Total registers                    ; 14                                           ;
+; Total pins                         ; 15                                           ;
 ; Total virtual pins                 ; 0                                            ;
 ; Total memory bits                  ; 0                                            ;
 ; Embedded Multiplier 9-bit elements ; 0                                            ;
@@ -64,7 +67,7 @@ applicable agreement for further details.
 ; Option                                                                     ; Setting            ; Default Value      ;
 +----------------------------------------------------------------------------+--------------------+--------------------+
 ; Device                                                                     ; EP2C20F484C7       ;                    ;
-; Top-level entity name                                                      ; q2a                ; q2a                ;
+; Top-level entity name                                                      ; q2d_c              ; q2d_c              ;
 ; Family name                                                                ; Cyclone II         ; Stratix II         ;
 ; Use Generated Physical Constraints File                                    ; Off                ;                    ;
 ; Use smart compilation                                                      ; Off                ; Off                ;
@@ -137,14 +140,15 @@ applicable agreement for further details.
 +----------------------------------------------------------------------------+--------------------+--------------------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                              ;
-+----------------------------------------------------------------+-----------------+-----------------+----------------------------------------------------------------+
-; File Name with User-Entered Path                               ; Used in Netlist ; File Type       ; File Name with Absolute Path                                   ;
-+----------------------------------------------------------------+-----------------+-----------------+----------------------------------------------------------------+
-; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2a/somador.vhdl ; yes             ; User VHDL File  ; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2a/somador.vhdl ;
-; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2a/q2a.vhdl     ; yes             ; User VHDL File  ; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2a/q2a.vhdl     ;
-+----------------------------------------------------------------+-----------------+-----------------+----------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                  ;
++------------------------------------------------------------------+-----------------+-----------------+------------------------------------------------------------------+
+; File Name with User-Entered Path                                 ; Used in Netlist ; File Type       ; File Name with Absolute Path                                     ;
++------------------------------------------------------------------+-----------------+-----------------+------------------------------------------------------------------+
+; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/q2c.vhdl     ; yes             ; User VHDL File  ; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/q2c.vhdl     ;
+; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/q2d_c.vhdl   ; yes             ; User VHDL File  ; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/q2d_c.vhdl   ;
+; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/somador.vhdl ; yes             ; User VHDL File  ; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/somador.vhdl ;
++------------------------------------------------------------------+-----------------+-----------------+------------------------------------------------------------------+
 
 
 +-----------------------------------------------------+
@@ -152,7 +156,7 @@ applicable agreement for further details.
 +---------------------------------------------+-------+
 ; Resource                                    ; Usage ;
 +---------------------------------------------+-------+
-; Estimated Total logic elements              ; 11    ;
+; Estimated Total logic elements              ; 20    ;
 ;                                             ;       ;
 ; Total combinational functions               ; 11    ;
 ; Logic element usage by number of LUT inputs ;       ;
@@ -164,29 +168,30 @@ applicable agreement for further details.
 ;     -- normal mode                          ; 11    ;
 ;     -- arithmetic mode                      ; 0     ;
 ;                                             ;       ;
-; Total registers                             ; 0     ;
-;     -- Dedicated logic registers            ; 0     ;
+; Total registers                             ; 14    ;
+;     -- Dedicated logic registers            ; 14    ;
 ;     -- I/O registers                        ; 0     ;
 ;                                             ;       ;
-; I/O pins                                    ; 14    ;
-; Maximum fan-out node                        ; bi[0] ;
-; Maximum fan-out                             ; 6     ;
-; Total fan-out                               ; 41    ;
-; Average fan-out                             ; 1.64  ;
+; I/O pins                                    ; 15    ;
+; Maximum fan-out node                        ; clk   ;
+; Maximum fan-out                             ; 14    ;
+; Total fan-out                               ; 69    ;
+; Average fan-out                             ; 1.73  ;
 +---------------------------------------------+-------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                         ;
-+----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+--------------+
-; Compilation Hierarchy Node ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name ; Library Name ;
-+----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+--------------+
-; |q2a                       ; 11 (5)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 14   ; 0            ; |q2a                ; work         ;
-;    |somador:s0|            ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2a|somador:s0     ;              ;
-;    |somador:s1|            ; 2 (2)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2a|somador:s1     ;              ;
-;    |somador:s2|            ; 2 (2)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2a|somador:s2     ;              ;
-;    |somador:s3|            ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2a|somador:s3     ;              ;
-+----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+--------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                 ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------+--------------+
+; Compilation Hierarchy Node ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name         ; Library Name ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------+--------------+
+; |q2d_c                     ; 11 (0)            ; 14 (14)      ; 0           ; 0            ; 0       ; 0         ; 15   ; 0            ; |q2d_c                      ; work         ;
+;    |q2c:adder|             ; 11 (7)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2d_c|q2c:adder            ;              ;
+;       |somador:s0|         ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2d_c|q2c:adder|somador:s0 ; work         ;
+;       |somador:s1|         ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2d_c|q2c:adder|somador:s1 ; work         ;
+;       |somador:s2|         ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2d_c|q2c:adder|somador:s2 ; work         ;
+;       |somador:s3|         ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2d_c|q2c:adder|somador:s3 ; work         ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
@@ -195,7 +200,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 0     ;
+; Total registers                              ; 14    ;
 ; Number of registers using Synchronous Clear  ; 0     ;
 ; Number of registers using Synchronous Load   ; 0     ;
 ; Number of registers using Asynchronous Clear ; 0     ;
@@ -206,7 +211,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 
 
 +----------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "somador:s3"                                                                         ;
+; Port Connectivity Checks: "q2c:adder|somador:s3"                                                               ;
 +------+--------+----------+-------------------------------------------------------------------------------------+
 ; Port ; Type   ; Severity ; Details                                                                             ;
 +------+--------+----------+-------------------------------------------------------------------------------------+
@@ -214,13 +219,41 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +------+--------+----------+-------------------------------------------------------------------------------------+
 
 
-+----------------------------------------+
-; Port Connectivity Checks: "somador:s0" ;
-+------+-------+----------+--------------+
-; Port ; Type  ; Severity ; Details      ;
-+------+-------+----------+--------------+
-; c0   ; Input ; Info     ; Stuck at GND ;
-+------+-------+----------+--------------+
++----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "q2c:adder|somador:s2"                                                               ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                             ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; c1   ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "q2c:adder|somador:s1"                                                               ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                             ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; c1   ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "q2c:adder|somador:s0"                                                               ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                             ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; c0   ; Input  ; Info     ; Stuck at GND                                                                        ;
+; c1   ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "q2c:adder"                                                                                                  ;
++------+--------+------------------+-----------------------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity         ; Details                                                                                             ;
++------+--------+------------------+-----------------------------------------------------------------------------------------------------+
+; z    ; Output ; Critical Warning ; Port on prototype, e.g. VHDL component, declared as "Bidir" but port on entity declared as "Output" ;
++------+--------+------------------+-----------------------------------------------------------------------------------------------------+
 
 
 +-------------------------------+
@@ -229,37 +262,30 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus II Analysis & Synthesis
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Mon Mar 29 16:16:45 2010
-Info: Command: quartus_map --read_settings_files=on --write_settings_files=off q2a -c q2a
+    Info: Processing started: Mon Mar 29 17:55:10 2010
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off q2d_c -c q2d_c
+Info: Found 2 design units, including 1 entities, in source file q2c.vhdl
+    Info: Found design unit 1: q2c-struct
+    Info: Found entity 1: q2c
+Info: Found 2 design units, including 1 entities, in source file q2d_c.vhdl
+    Info: Found design unit 1: q2d_c-struct
+    Info: Found entity 1: q2d_c
 Info: Found 2 design units, including 1 entities, in source file somador.vhdl
     Info: Found design unit 1: somador-LogicFunction
     Info: Found entity 1: somador
-Info: Found 2 design units, including 1 entities, in source file q2a.vhdl
-    Info: Found design unit 1: q2a-struct
-    Info: Found entity 1: q2a
-Info: Elaborating entity "q2a" for the top level hierarchy
-Info: Elaborating entity "somador" for hierarchy "somador:s0"
-Warning: The following nodes have both tri-state and non-tri-state drivers
-    Warning: Inserted always-enabled tri-state buffer between "z[3]" and its non-tri-state driver.
-    Warning: Inserted always-enabled tri-state buffer between "z[2]" and its non-tri-state driver.
-    Warning: Inserted always-enabled tri-state buffer between "z[1]" and its non-tri-state driver.
-    Warning: Inserted always-enabled tri-state buffer between "z[0]" and its non-tri-state driver.
-Info: One or more bidirs are fed by always enabled tri-state buffers
-    Info: Fan-out of permanently enabled tri-state buffer feeding bidir "z[3]" is moved to its source
-Warning: TRI or OPNDRN buffers permanently enabled
-    Warning: Node "z[3]~synth"
-    Warning: Node "z[2]~synth"
-    Warning: Node "z[1]~synth"
-    Warning: Node "z[0]~synth"
-Info: Implemented 25 device resources after synthesis - the final resource count might be different
-    Info: Implemented 9 input pins
-    Info: Implemented 1 output pins
-    Info: Implemented 4 bidirectional pins
-    Info: Implemented 11 logic cells
-Info: Quartus II Analysis & Synthesis was successful. 0 errors, 10 warnings
-    Info: Peak virtual memory: 183 megabytes
-    Info: Processing ended: Mon Mar 29 16:16:49 2010
-    Info: Elapsed time: 00:00:04
+Info: Elaborating entity "q2d_c" for the top level hierarchy
+Info: Elaborating entity "q2c" for hierarchy "q2c:adder"
+Warning (10036): Verilog HDL or VHDL warning at q2c.vhdl(12): object "zcor" assigned a value but never read
+Info: Elaborating entity "somador" for hierarchy "q2c:adder|somador:s0"
+Warning: 1 hierarchies have connectivity warnings - see the Connectivity Checks report folder
+Info: Implemented 35 device resources after synthesis - the final resource count might be different
+    Info: Implemented 10 input pins
+    Info: Implemented 5 output pins
+    Info: Implemented 20 logic cells
+Info: Quartus II Analysis & Synthesis was successful. 0 errors, 2 warnings
+    Info: Peak virtual memory: 184 megabytes
+    Info: Processing ended: Mon Mar 29 17:55:15 2010
+    Info: Elapsed time: 00:00:05
     Info: Total CPU time (on all processors): 00:00:03
 
 
