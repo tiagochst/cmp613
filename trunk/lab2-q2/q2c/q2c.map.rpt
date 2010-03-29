@@ -1,5 +1,5 @@
 Analysis & Synthesis report for q2c
-Mon Mar 29 17:02:28 2010
+Mon Mar 29 17:33:49 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -9,16 +9,15 @@ Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
   1. Legal Notice
   2. Analysis & Synthesis Summary
   3. Analysis & Synthesis Settings
-  4. Parallel Compilation
-  5. Analysis & Synthesis Source Files Read
-  6. Analysis & Synthesis Resource Usage Summary
-  7. Analysis & Synthesis Resource Utilization by Entity
-  8. General Register Statistics
-  9. Port Connectivity Checks: "q2a:sum|somador:s3"
- 10. Port Connectivity Checks: "q2a:sum|somador:s2"
- 11. Port Connectivity Checks: "q2a:sum|somador:s1"
- 12. Port Connectivity Checks: "q2a:sum|somador:s0"
- 13. Analysis & Synthesis Messages
+  4. Analysis & Synthesis Source Files Read
+  5. Analysis & Synthesis Resource Usage Summary
+  6. Analysis & Synthesis Resource Utilization by Entity
+  7. General Register Statistics
+  8. Port Connectivity Checks: "somador:s3"
+  9. Port Connectivity Checks: "somador:s2"
+ 10. Port Connectivity Checks: "somador:s1"
+ 11. Port Connectivity Checks: "somador:s0"
+ 12. Analysis & Synthesis Messages
 
 
 
@@ -44,7 +43,7 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                      ;
 +------------------------------------+----------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Mar 29 17:02:28 2010        ;
+; Analysis & Synthesis Status        ; Successful - Mon Mar 29 17:33:49 2010        ;
 ; Quartus II Version                 ; 9.1 Build 304 01/25/2010 SP 1 SJ Web Edition ;
 ; Revision Name                      ; q2c                                          ;
 ; Top-level Entity Name              ; q2c                                          ;
@@ -140,72 +139,59 @@ applicable agreement for further details.
 +----------------------------------------------------------------------------+--------------------+--------------------+
 
 
-Parallel compilation was disabled, but you have multiple processors available. Enable parallel compilation to reduce compilation time.
-+-------------------------------------+
-; Parallel Compilation                ;
-+----------------------------+--------+
-; Processors                 ; Number ;
-+----------------------------+--------+
-; Number detected on machine ; 2      ;
-; Maximum allowed            ; 1      ;
-+----------------------------+--------+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                ;
++----------------------------------+-----------------+------------------------------------+---------------------------------------------------------------------------------------------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                          ; File Name with Absolute Path                                                                ;
++----------------------------------+-----------------+------------------------------------+---------------------------------------------------------------------------------------------+
+; q2c.vhdl                         ; yes             ; User VHDL File                     ; C:/Documents and Settings/marspeople/My Documents/Downloads/Lab02/lab2-q2/q2c/q2c.vhdl      ;
+; conv_7seg.bdf                    ; yes             ; User Block Diagram/Schematic File  ; C:/Documents and Settings/marspeople/My Documents/Downloads/Lab02/lab2-q2/q2c/conv_7seg.bdf ;
+; somador.vhdl                     ; yes             ; User VHDL File                     ; C:/Documents and Settings/marspeople/My Documents/Downloads/Lab02/lab2-q2/q2c/somador.vhdl  ;
+; 16dmux.bdf                       ; yes             ; Megafunction                       ; c:/altera/91sp1/quartus/libraries/others/maxplus2/16dmux.bdf                                ;
++----------------------------------+-----------------+------------------------------------+---------------------------------------------------------------------------------------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                 ;
-+----------------------------------+-----------------+------------------------------------+--------------------------------------------------------------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type                          ; File Name with Absolute Path                                 ;
-+----------------------------------+-----------------+------------------------------------+--------------------------------------------------------------+
-; q2c.vhdl                         ; yes             ; User VHDL File                     ; C:/Users/Tiago/Desktop/Lab2/lab2-q2/q2c/q2c.vhdl             ;
-; conv_7seg.bdf                    ; yes             ; User Block Diagram/Schematic File  ; C:/Users/Tiago/Desktop/Lab2/lab2-q2/q2c/conv_7seg.bdf        ;
-; q2a.vhdl                         ; yes             ; User VHDL File                     ; C:/Users/Tiago/Desktop/Lab2/lab2-q2/q2c/q2a.vhdl             ;
-; somador.vhdl                     ; yes             ; User VHDL File                     ; C:/Users/Tiago/Desktop/Lab2/lab2-q2/q2c/somador.vhdl         ;
-; 16dmux.bdf                       ; yes             ; Megafunction                       ; c:/altera/91sp1/quartus/libraries/others/maxplus2/16dmux.bdf ;
-+----------------------------------+-----------------+------------------------------------+--------------------------------------------------------------+
++-------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                 ;
++---------------------------------------------+---------------+
+; Resource                                    ; Usage         ;
++---------------------------------------------+---------------+
+; Estimated Total logic elements              ; 19            ;
+;                                             ;               ;
+; Total combinational functions               ; 19            ;
+; Logic element usage by number of LUT inputs ;               ;
+;     -- 4 input functions                    ; 13            ;
+;     -- 3 input functions                    ; 5             ;
+;     -- <=2 input functions                  ; 1             ;
+;                                             ;               ;
+; Logic elements by mode                      ;               ;
+;     -- normal mode                          ; 19            ;
+;     -- arithmetic mode                      ; 0             ;
+;                                             ;               ;
+; Total registers                             ; 0             ;
+;     -- Dedicated logic registers            ; 0             ;
+;     -- I/O registers                        ; 0             ;
+;                                             ;               ;
+; I/O pins                                    ; 22            ;
+; Maximum fan-out node                        ; somador:s2|b0 ;
+; Maximum fan-out                             ; 8             ;
+; Total fan-out                               ; 82            ;
+; Average fan-out                             ; 2.00          ;
++---------------------------------------------+---------------+
 
 
-+---------------------------------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary                         ;
-+---------------------------------------------+-----------------------+
-; Resource                                    ; Usage                 ;
-+---------------------------------------------+-----------------------+
-; Estimated Total logic elements              ; 19                    ;
-;                                             ;                       ;
-; Total combinational functions               ; 19                    ;
-; Logic element usage by number of LUT inputs ;                       ;
-;     -- 4 input functions                    ; 13                    ;
-;     -- 3 input functions                    ; 5                     ;
-;     -- <=2 input functions                  ; 1                     ;
-;                                             ;                       ;
-; Logic elements by mode                      ;                       ;
-;     -- normal mode                          ; 19                    ;
-;     -- arithmetic mode                      ; 0                     ;
-;                                             ;                       ;
-; Total registers                             ; 0                     ;
-;     -- Dedicated logic registers            ; 0                     ;
-;     -- I/O registers                        ; 0                     ;
-;                                             ;                       ;
-; I/O pins                                    ; 22                    ;
-; Maximum fan-out node                        ; q2a:sum|somador:s2|b0 ;
-; Maximum fan-out                             ; 8                     ;
-; Total fan-out                               ; 82                    ;
-; Average fan-out                             ; 2.00                  ;
-+---------------------------------------------+-----------------------+
-
-
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                             ;
-+----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------+--------------+
-; Compilation Hierarchy Node ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name     ; Library Name ;
-+----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------+--------------+
-; |q2c                       ; 19 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 22   ; 0            ; |q2c                    ; work         ;
-;    |conv_7seg:disp|        ; 7 (7)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2c|conv_7seg:disp     ;              ;
-;    |q2a:sum|               ; 12 (7)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2c|q2a:sum            ;              ;
-;       |somador:s0|         ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2c|q2a:sum|somador:s0 ;              ;
-;       |somador:s1|         ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2c|q2a:sum|somador:s1 ;              ;
-;       |somador:s2|         ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2c|q2a:sum|somador:s2 ;              ;
-;       |somador:s3|         ; 2 (2)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2c|q2a:sum|somador:s3 ;              ;
-+----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------+--------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                         ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+--------------+
+; Compilation Hierarchy Node ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name ; Library Name ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+--------------+
+; |q2c                       ; 19 (7)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 22   ; 0            ; |q2c                ; work         ;
+;    |conv_7seg:disp|        ; 7 (7)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2c|conv_7seg:disp ;              ;
+;    |somador:s0|            ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2c|somador:s0     ;              ;
+;    |somador:s1|            ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2c|somador:s1     ;              ;
+;    |somador:s2|            ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2c|somador:s2     ;              ;
+;    |somador:s3|            ; 2 (2)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2c|somador:s3     ;              ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
@@ -225,7 +211,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 
 
 +----------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "q2a:sum|somador:s3"                                                                 ;
+; Port Connectivity Checks: "somador:s3"                                                                         ;
 +------+--------+----------+-------------------------------------------------------------------------------------+
 ; Port ; Type   ; Severity ; Details                                                                             ;
 +------+--------+----------+-------------------------------------------------------------------------------------+
@@ -234,7 +220,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 
 
 +----------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "q2a:sum|somador:s2"                                                                 ;
+; Port Connectivity Checks: "somador:s2"                                                                         ;
 +------+--------+----------+-------------------------------------------------------------------------------------+
 ; Port ; Type   ; Severity ; Details                                                                             ;
 +------+--------+----------+-------------------------------------------------------------------------------------+
@@ -243,7 +229,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 
 
 +----------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "q2a:sum|somador:s1"                                                                 ;
+; Port Connectivity Checks: "somador:s1"                                                                         ;
 +------+--------+----------+-------------------------------------------------------------------------------------+
 ; Port ; Type   ; Severity ; Details                                                                             ;
 +------+--------+----------+-------------------------------------------------------------------------------------+
@@ -252,7 +238,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 
 
 +----------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "q2a:sum|somador:s0"                                                                 ;
+; Port Connectivity Checks: "somador:s0"                                                                         ;
 +------+--------+----------+-------------------------------------------------------------------------------------+
 ; Port ; Type   ; Severity ; Details                                                                             ;
 +------+--------+----------+-------------------------------------------------------------------------------------+
@@ -267,22 +253,18 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus II Analysis & Synthesis
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Mon Mar 29 17:02:24 2010
+    Info: Processing started: Mon Mar 29 17:33:44 2010
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off q2c -c q2c
 Info: Found 2 design units, including 1 entities, in source file q2c.vhdl
     Info: Found design unit 1: q2c-struct
     Info: Found entity 1: q2c
 Info: Found 1 design units, including 1 entities, in source file conv_7seg.bdf
     Info: Found entity 1: conv_7seg
-Info: Found 2 design units, including 1 entities, in source file q2a.vhdl
-    Info: Found design unit 1: q2a-struct
-    Info: Found entity 1: q2a
 Info: Found 2 design units, including 1 entities, in source file somador.vhdl
     Info: Found design unit 1: somador-LogicFunction
     Info: Found entity 1: somador
 Info: Elaborating entity "q2c" for the top level hierarchy
-Info: Elaborating entity "q2a" for hierarchy "q2a:sum"
-Info: Elaborating entity "somador" for hierarchy "q2a:sum|somador:s0"
+Info: Elaborating entity "somador" for hierarchy "somador:s0"
 Info: Elaborating entity "conv_7seg" for hierarchy "conv_7seg:disp"
 Info: Elaborating entity "16dmux" for hierarchy "conv_7seg:disp|16dmux:inst"
 Info: Elaborated megafunction instantiation "conv_7seg:disp|16dmux:inst"
@@ -291,9 +273,9 @@ Info: Implemented 41 device resources after synthesis - the final resource count
     Info: Implemented 13 output pins
     Info: Implemented 19 logic cells
 Info: Quartus II Analysis & Synthesis was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 206 megabytes
-    Info: Processing ended: Mon Mar 29 17:02:28 2010
-    Info: Elapsed time: 00:00:04
-    Info: Total CPU time (on all processors): 00:00:04
+    Info: Peak virtual memory: 181 megabytes
+    Info: Processing ended: Mon Mar 29 17:33:49 2010
+    Info: Elapsed time: 00:00:05
+    Info: Total CPU time (on all processors): 00:00:03
 
 
