@@ -453,7 +453,132 @@ reference "alg:Implementação-VHDL-q2a"
 \end_layout
 
 \begin_layout Section
-Questão 3 (Tiago - falta descrição,codigo ou parte estrutural)
+Questão 3 (Tiago - falta codigos e tabela de simulaçao da c)
+\end_layout
+
+\begin_layout Standard
+Utilizando o chip 74284 projetou-se um circuito que executasse a multiplicação
+ de 2 números de 4 bits.O chip 74284 possuía como entrada 4 bits de um número
+ e 4 bits de do outro número, contudo retornava somente os 4 bits mais significa
+tivos da multiplicação.
+ Para o cálculo dos 4 bits menos significativos utilizando componentes básicas
+ do circuito lógico.
+ 
+\end_layout
+
+\begin_layout Standard
+A idéia central era analisar a relevância de cada multiplicação de bits
+ para os bits da saída.
+ Em que temos:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+ 
+\backslash
+begin{verbatim}                          
+\end_layout
+
+\begin_layout Plain Layout
+
+                            x4y0   x3y0   x2y0  x1y0  x0y0        
+\end_layout
+
+\begin_layout Plain Layout
+
+                     x4y1   x3y1   x2y1   x1y1  x0y1    
+\end_layout
+
+\begin_layout Plain Layout
+
+              x4y2   x3y2   x2y2   x1y2   x0y2      
+\end_layout
+
+\begin_layout Plain Layout
+
+       x4y3   x3y3   x2y3   x1y3   x0y3 
+\end_layout
+
+\begin_layout Plain Layout
+
+ x4y4  x3y4   x2y4   x1y4   x0y4
+\end_layout
+
+\begin_layout Plain Layout
+
+-------------------------------------------------------------- 
+\end_layout
+
+\begin_layout Plain Layout
+
+ z8     z7     z6     z5     z4     z3     z2    z1    z0 
+\backslash
+end{verbatim}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Como queríamos z3,z2,z1 e z0 deveriamos ter portanto:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{verbatim}
+\end_layout
+
+\begin_layout Plain Layout
+
+z0 = x0y0
+\end_layout
+
+\begin_layout Plain Layout
+
+z1 = x0y1 + x1y0
+\end_layout
+
+\begin_layout Plain Layout
+
+z2 = x2y0 + x1y1 + x0y2
+\end_layout
+
+\begin_layout Plain Layout
+
+z3 = x3y0 + x2y1 + x1y2 + x0y3 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{verbatim}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Utilizando o componente somador,usamo-lo como somadores totais (com carry
+ na entrada) e parciais(sem carry na entrada),para o calculo dos bits menos
+ significativos.Por exemplo,para o z1.Inicialmente como entrada no somador
+ colocamos (x0 and y1) e (x1 and y0) sendo a saída em cm e z1 (Obs: carry
+ e saída são usados em outros somadores, sendo o primeiro para o calculo
+ do próximo z -nesse caso z2 - e o zm para o calculo do próprio z).
 \end_layout
 
 \begin_layout Standard
@@ -510,15 +635,11 @@ end{multicols}
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Multiplicador de 4 bits
+Multiplicador de 4 bits em VHDL 
 \end_layout
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -528,6 +649,163 @@ Multiplicador de 4 bits
 \end_layout
 
 \begin_layout Standard
+Na segunda parte do projeto desenvolvemos em VHDL um multiplicador utilizando
+ a função pré-definida 
+\series bold
+ y=a*b
+\series default
+, sendo 
+\series bold
+a
+\series default
+ um inteiro de 4 bits, 
+\series bold
+b
+\series default
+ um inteiro de 4 bits e 
+\series bold
+y
+\series default
+ um vetor de 8 bits.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q3b.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Função pré-defenida y=a*b 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Posteriormente fizemos a comparação de todos os resultados possíveis através
+ de um circuito testbench no qual simulamos todas as entradas possíveis.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q3c.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Comparador de resultados
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
