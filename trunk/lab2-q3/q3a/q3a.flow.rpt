@@ -1,5 +1,5 @@
 Flow report for q3a
-Fri Mar 26 15:44:04 2010
+Mon Mar 29 14:12:44 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -38,7 +38,7 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Flow Summary                                                                      ;
 +------------------------------------+----------------------------------------------+
-; Flow Status                        ; Successful - Fri Mar 26 15:44:04 2010        ;
+; Flow Status                        ; Successful - Mon Mar 29 14:12:44 2010        ;
 ; Quartus II Version                 ; 9.1 Build 304 01/25/2010 SP 1 SJ Web Edition ;
 ; Revision Name                      ; q3a                                          ;
 ; Top-level Entity Name              ; q3a                                          ;
@@ -46,11 +46,11 @@ applicable agreement for further details.
 ; Device                             ; EP2C20F484C7                                 ;
 ; Timing Models                      ; Final                                        ;
 ; Met timing requirements            ; Yes                                          ;
-; Total logic elements               ; 57 / 18,752 ( < 1 % )                        ;
-;     Total combinational functions  ; 57 / 18,752 ( < 1 % )                        ;
+; Total logic elements               ; 71 / 18,752 ( < 1 % )                        ;
+;     Total combinational functions  ; 71 / 18,752 ( < 1 % )                        ;
 ;     Dedicated logic registers      ; 0 / 18,752 ( 0 % )                           ;
 ; Total registers                    ; 0                                            ;
-; Total pins                         ; 16 / 315 ( 5 % )                             ;
+; Total pins                         ; 32 / 315 ( 10 % )                            ;
 ; Total virtual pins                 ; 0                                            ;
 ; Total memory bits                  ; 0 / 239,616 ( 0 % )                          ;
 ; Embedded Multiplier 9-bit elements ; 0 / 52 ( 0 % )                               ;
@@ -63,7 +63,7 @@ applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 03/26/2010 15:42:56 ;
+; Start date & time ; 03/29/2010 14:12:22 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; q3a                 ;
 +-------------------+---------------------+
@@ -74,12 +74,13 @@ applicable agreement for further details.
 +------------------------------------+-------------------------------------------------------------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                    ; Value                                                                                     ; Default Value ; Entity Name ; Section Id     ;
 +------------------------------------+-------------------------------------------------------------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID              ; 123494882995.126962897600584                                                              ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID              ; 129772612393.126988274103300                                                              ; --            ; --          ; --             ;
 ; MAX_CORE_JUNCTION_TEMP             ; 85                                                                                        ; --            ; --          ; --             ;
 ; MIN_CORE_JUNCTION_TEMP             ; 0                                                                                         ; --            ; --          ; --             ;
 ; MISC_FILE                          ; C:/Documents and Settings/ra082115/Meus documentos/Downloads/lab2-q3/q3a/q3a.dpf          ; --            ; --          ; --             ;
 ; MISC_FILE                          ; C:/Documents and Settings/ra082941/Meus documentos/Downloads/Lab 2(2)/lab2-q3/q3a/q3a.dpf ; --            ; --          ; --             ;
 ; MISC_FILE                          ; C:/Documents and Settings/ra082115/Meus documentos/Downloads/q3a/q3a.dpf                  ; --            ; --          ; --             ;
+; MISC_FILE                          ; C:/Users/Tiago/Desktop/Lab2/lab2-q3/q3a/q3a.dpf                                           ; --            ; --          ; --             ;
 ; PARTITION_COLOR                    ; 16764057                                                                                  ; --            ; --          ; Top            ;
 ; PARTITION_NETLIST_TYPE             ; SOURCE                                                                                    ; --            ; --          ; Top            ;
 ; USE_GENERATED_PHYSICAL_CONSTRAINTS ; Off                                                                                       ; --            ; --          ; eda_blast_fpga ;
@@ -91,24 +92,24 @@ applicable agreement for further details.
 +-------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name             ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +-------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis    ; 00:00:21     ; 1.0                     ; 193 MB              ; 00:00:03                           ;
-; Fitter                  ; 00:00:23     ; 3.2                     ; 239 MB              ; 00:00:05                           ;
-; Assembler               ; 00:00:20     ; 1.0                     ; 191 MB              ; 00:00:02                           ;
-; Classic Timing Analyzer ; 00:00:19     ; 1.0                     ; 125 MB              ; 00:00:00                           ;
-; Total                   ; 00:01:23     ; --                      ; --                  ; 00:00:10                           ;
+; Analysis & Synthesis    ; 00:00:06     ; 1.0                     ; 206 MB              ; 00:00:07                           ;
+; Fitter                  ; 00:00:08     ; 1.0                     ; 215 MB              ; 00:00:08                           ;
+; Assembler               ; 00:00:03     ; 1.0                     ; 199 MB              ; 00:00:03                           ;
+; Classic Timing Analyzer ; 00:00:01     ; 1.0                     ; 134 MB              ; 00:00:01                           ;
+; Total                   ; 00:00:18     ; --                      ; --                  ; 00:00:19                           ;
 +-------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
-+---------------------------------------------------------------------------------------+
-; Flow OS Summary                                                                       ;
-+-------------------------+------------------+------------+------------+----------------+
-; Module Name             ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
-+-------------------------+------------------+------------+------------+----------------+
-; Analysis & Synthesis    ; honduras         ; Windows XP ; 5.1        ; i686           ;
-; Fitter                  ; honduras         ; Windows XP ; 5.1        ; i686           ;
-; Assembler               ; honduras         ; Windows XP ; 5.1        ; i686           ;
-; Classic Timing Analyzer ; honduras         ; Windows XP ; 5.1        ; i686           ;
-+-------------------------+------------------+------------+------------+----------------+
++------------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                          ;
++-------------------------+------------------+---------------+------------+----------------+
+; Module Name             ; Machine Hostname ; OS Name       ; OS Version ; Processor type ;
++-------------------------+------------------+---------------+------------+----------------+
+; Analysis & Synthesis    ; Tiago-PC         ; Windows Vista ; 6.1        ; i686           ;
+; Fitter                  ; Tiago-PC         ; Windows Vista ; 6.1        ; i686           ;
+; Assembler               ; Tiago-PC         ; Windows Vista ; 6.1        ; i686           ;
+; Classic Timing Analyzer ; Tiago-PC         ; Windows Vista ; 6.1        ; i686           ;
++-------------------------+------------------+---------------+------------+----------------+
 
 
 ------------
