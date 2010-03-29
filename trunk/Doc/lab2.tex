@@ -29,7 +29,7 @@
 {\large\scshape  Grupo 5 - Turma A}\\[\baselineskip]
 \rule{11.0cm}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt}
 \rule{11.0cm}{0.4pt}\\[\baselineskip]
-{\LARGE Primeiro laboratório }\\[0.2\baselineskip]
+{\LARGE Segundo laboratório }\\[0.2\baselineskip]
 {\LARGE de Circuitos Digitais}\\[0.2\baselineskip]
 {\itshape MC 613 - Primeiro Semestre de 2010}\\[0.2\baselineskip]
 \rule{11.0cm}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt}
@@ -96,19 +96,28 @@ Utilizando o componente somador,usamo-lo como somadores totais (com carry na ent
 \begin{centering}
 \includegraphics[scale=0.7]{q3a.eps}
 \par\end{centering}
-\caption{Picos de sinal na sa\'ida \emph{Cout}, o terceiro pico em z é o \'unico desejado}
+\caption{Multiplicação de 4 bits, saída dos bits menos significativos}
 \end{figure}
  
 Na segunda parte do projeto desenvolvemos em VHDL um multiplicador utilizando a função pré-definida {\bf y=a*b},sendo {\bf a} um inteiro de 4 bits,{\bf b} um inteiro de 4 bits e {\bf y} um vetor de 8 bits.
 
 Posteriormente fizemos a comparação de todos os resultados possíveis através de um circuito testbench no qual simulamos todas as entradas possíveis. 
 \newpage
+
+
+%codigo fonte q3a%
+\lstset{language=VHDL,numbers=left, stepnumber=1,caption= Multiplicador de 4 bits, label=DescriptiveLabel,tabsize=3,morecomment=[l]{--},frameround=fttt,frame=trBL}
 \lstinputlisting{q3a.vhdl}
 
+
+%codigo fonte q3b%
 \newpage
+\lstset{language=VHDL,numbers=left, stepnumber=1,caption= Funcao pre-defenida a*b, label=DescriptiveLabel,tabsize=3,morecomment=[l]{--},frameround=fttt,frame=trBL}
 \lstinputlisting{q3b.vhd}
 
+%codigo fonte q3c%
 \newpage
+\lstset{language=VHDL,numbers=left, stepnumber=1,caption= Comparador de resultados, label=DescriptiveLabel,tabsize=3,morecomment=[l]{--},frameround=fttt,frame=trBL}
 \lstinputlisting{q3c.vhd}
 
 
