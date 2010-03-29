@@ -23,12 +23,14 @@
 \begin{center} 	\begin{tabular}{  l  l  p{5cm} } 		Henrique Serapião Gonzales     &  RA: 083636 \\ 		Marcelo Galvão Póvoa & RA: 082115\\ 		Tiago Chedraoui Silva      & RA: 082941\\  	
 \end{tabular} \end{center}
 \itshape \today }\\[\baselineskip] \vspace{3.2pt} \endgroup}
+
+\usepackage{multicol}
 \end_preamble
 \use_default_options true
 \language brazilian
 \inputencoding auto
-\font_roman default
-\font_sans default
+\font_roman ae
+\font_sans lmss
 \font_typewriter default
 \font_default_family default
 \font_sc false
@@ -37,16 +39,19 @@
 \font_tt_scale 100
 
 \graphics default
+\float_placement h
 \paperfontsize default
 \spacing single
 \use_hyperref false
 \papersize letterpaper
-\use_geometry false
+\use_geometry true
 \use_amsmath 1
 \use_esint 1
 \cite_engine basic
 \use_bibtopic false
 \paperorientation portrait
+\leftmargin 3cm
+\rightmargin 3cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -93,14 +98,357 @@ Questão 1(Henrique - falta descrição,codigo ou parte estrutural)
 \end_layout
 
 \begin_layout Section
-Questão 2(Mars - falta descrição,codigo ou parte estrutural)
+Questão 2
+\end_layout
+
+\begin_layout Paragraph*
+a) 
 \end_layout
 
 \begin_layout Standard
-Parte a
+Um somador de vários bits pode ser construído a partir de instâncias (componente
+s) de somadores totais de 1-bit, criado na questão anterior.
+ Uma implementação comum é a de 
+\emph on
+carry propagado
+\emph default
+, na qual o 
+\emph on
+carry
+\emph default
+ de saída de um somador é ligado no de entrada do próximo somador, como
+ na figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Somador-de-carry"
+
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename 500px-4-bit_ripple_carry_adder.svg.png
+	width 7cm
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Somador de 
+\emph on
+carry propagado
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Somador-de-carry"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Além disso, para realizar também as operações de subtração (através do parâmetro
+ 
+\begin_inset Formula $S=0$
+\end_inset
+
+), basta usar a identidade 
+\begin_inset Formula $A-B=A+(-B)$
+\end_inset
+
+ para precisar realizar apenas somas.
+ Entretanto, note que é necessário obter o oposto do segundo operando.
+ A representação mais usual de números negativos em 
+\begin_inset Formula $b$
+\end_inset
+
+ bits é a de 
+\emph on
+complemento de 2
+\emph default
+, uma vez que ela 
+\emph on
+(i)
+\emph default
+ permite somar positivos e negativos indistintamente e 
+\emph on
+(ii) 
+\emph default
+cada número (de 
+\begin_inset Formula $-2^{b-1}$
+\end_inset
+
+ a 
+\begin_inset Formula $+2^{b-1}-1$
+\end_inset
+
+) tem representação única.
+ Para trocar o sinal de um número, basta complementar cada dígito binário
+ e somar 1.
+ Sejam 
+\begin_inset Formula $b_{3}b_{2}b_{1}b_{0}$
+\end_inset
+
+ o número a ser convertido e 
+\begin_inset Formula $c_{3}c_{2}c_{1}c_{0}$
+\end_inset
+
+ a saída.
+ As expressões lógicas para tal operação podem ser obtidas por inspeção:
+ 
+\begin_inset Formula $c_{i}$
+\end_inset
+
+ vai ser 
+\begin_inset Formula $\overline{b_{i}}$
+\end_inset
+
+, a não ser que tenha ocorrido um carry na soma final até 
+\begin_inset Formula $i$
+\end_inset
+
+, isto é, se 
+\begin_inset Formula $b_{i-1}=0,\: b_{i-2}=0\ldots$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{equation}
+c_{0}=b_{0}\qquad c_{1}=\overline{b_{1}}\oplus\overline{b_{0}}\qquad c_{2}=\overline{b_{2}}\oplus(\overline{b_{1}}\cdot\overline{b_{0}})\qquad c_{3}=\overline{b_{3}}\oplus(\overline{b_{2}}\cdot\overline{b_{1}}\cdot\overline{b_{0}})\label{eq:compl}\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A verificação de 
+\emph on
+overflow
+\emph default
+ é feita simplismente verificando se ocorreu uma soma de dois positivos
+ que "resultou" em um negativo (bit 3 ativo) ou de dois negativos, em um
+ positivo (bit 3 inativo).
+ Com isso, foi criado o programa em VHDL para implementar esse módulo, usando
+ como entradas oito 
+\emph on
+toggle switches 
+\emph default
+para os operandos e um para o tipo de operação (S).
+ A saída foi conectada a quatro 
+\emph on
+LEDs
+\emph default
+ do resultado e um para o 
+\emph on
+overflow.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q2a.vhdl"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+2-a) Implementação VHDL do somador-subtrator com 
+\emph on
+carry propagado
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Implementação-VHDL-q2a"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph*
+b) 
+\end_layout
+
+\begin_layout Standard
+Para uma melhor visualização do resultado, este será mostrado no display
+ de 7 segmentos.
+ O componente já criado anteriormente é facilmente instanciado no código
+ VHDL.
+ No entanto, para visualização de números negativos será necessário enviar
+ o valor absoluto deste para o display e indicar o sinal negativo por um
+ 
+\emph on
+LED
+\emph default
+.
+ Não foi possível usar o ponto decimal para esse fim, uma vez que ele encontra-s
+e desconectado nessa placa.
+ O valor absoluto pode ser obtido aplicando novamente as fórmulas (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:compl"
+
+\end_inset
+
+) se o número for negativo.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q2b.vhdl"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+2-b) Implementação VHDL da interface do display 7-seg para o algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Implementação-VHDL-q2a"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
