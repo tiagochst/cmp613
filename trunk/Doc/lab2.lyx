@@ -457,24 +457,78 @@ Questão 3 (Tiago - falta descrição,codigo ou parte estrutural)
 \end_layout
 
 \begin_layout Standard
-Utilizando o chip 74284 projetou-se um circuito que executasse a multipĺicação
- de 2 números de 4 bits.O chip 74284 possuia como entradas 4 bits de um número
- e 4 bits de do outro número, contudo somente retornava os 4 bits mais significa
-tivos da multiplicação.
- Para o calculo dos 4 bits menos significativos utilizando componentes básicas
- do circuito lógico.
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q3a.vhdl"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Multiplicador de 4 bits
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Na segunda parte do projeto desenvolvemos em VHDL um multiplicador utilizando
- a função pré-definida y=a*b,sendo a um inteiro de 4 bits,b um inteiro de
- 4 bits e y um vetor de 8 bits.
-\end_layout
 
-\begin_layout Standard
-Posteriormente fizemos a comparação de todos os resultados possíveis através
- de um circuito testbench no qual simulamos todas as entradas possíveis.
- 
 \end_layout
 
 \end_body
