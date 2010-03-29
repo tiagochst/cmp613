@@ -4,6 +4,21 @@
 \begin_header
 \textclass article
 \begin_preamble
+\usepackage[brazil]{babel}    % dá suporte para os termos na língua portuguesa do Brasil
+\usepackage{url}
+\usepackage{textcomp}
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{amsmath} 
+\usepackage{wrapfig}
+\numberwithin{table}{section}
+\numberwithin{figure}{section}
+\usepackage{color}
+\usepackage{listings}
+
+
 \newcommand*{\titleTMB}{\begingroup \centering \settowidth{\unitlength}{\LARGE MC 613} \vspace*{\baselineskip} {\large\scshape  Grupo 5 - Turma A}\\[\baselineskip] \rule{11.0cm}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} \rule{11.0cm}{0.4pt}\\[\baselineskip] {\LARGE Segundo laboratório }\\[0.2\baselineskip] {\LARGE de Circuitos Digitais}\\[0.2\baselineskip] {\itshape MC 613 - Primeiro Semestre de 2010}\\[0.2\baselineskip] \rule{11.0cm}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} \rule{11.0cm}{1.6pt}\\[\baselineskip] {\large\scshape Professor: Guido Araújo}\par \vfill {\normalsize   \scshape 
 \begin{center} 	\begin{tabular}{  l  l  p{5cm} } 		Henrique Serapião Gonzales     &  RA: 083636 \\ 		Marcelo Galvão Póvoa & RA: 082115\\ 		Tiago Chedraoui Silva      & RA: 082941\\  	
 \end{tabular} \end{center}
@@ -79,6 +94,14 @@ Questão 1(Henrique - falta descrição,codigo ou parte estrutural)
 
 \begin_layout Section
 Questão 2(Mars - falta descrição,codigo ou parte estrutural)
+\end_layout
+
+\begin_layout Standard
+Parte a
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \begin_layout Section
