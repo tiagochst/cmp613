@@ -713,9 +713,13 @@ carry antecipado
 Questão 3
 \end_layout
 
+\begin_layout Paragraph*
+a)
+\end_layout
+
 \begin_layout Standard
-A) Utilizando o chip 74284 projetou-se um circuito que executasse a multiplicaçã
-o de 2 números de 4 bits e colocasse a saída no display de 7 segmentos .O
+Utilizando o chip 74284 projetou-se um circuito que executasse a multiplicação
+ de 2 números de 4 bits e colocasse a saída no display de 7 segmentos .O
  chip 74284 possuía como entrada 4 bits de um número e 4 bits de do outro
  número, contudo retornava somente os 4 bits mais significativos da multiplicaçã
 o.
@@ -943,9 +947,13 @@ Multiplicador de 4 bits em VHDL
 
 \end_layout
 
+\begin_layout Paragraph*
+b)
+\end_layout
+
 \begin_layout Standard
-B)Na segunda parte do projeto desenvolvemos em VHDL(código em algorithm
- 6) um multiplicador utilizando a função pré-definida 
+Na segunda parte do projeto desenvolvemos em VHDL(código em algorithm 6)
+ um multiplicador utilizando a função pré-definida 
 \series bold
  y=a*b
 \series default
@@ -1031,8 +1039,12 @@ Função pré-defenida y=a*b
 
 \end_layout
 
+\begin_layout Paragraph*
+c)
+\end_layout
+
 \begin_layout Standard
-C) Posteriormente fizemos a comparação dos resultados possíveis forncecidos
+Posteriormente fizemos a comparação dos resultados possíveis forncecidos
  pela a função pré-definida e pela implementação inicial em VHDL usando
  o chip 74284,através de um circuito testbench projetado em VHDL (ver código
  em Algorithm 7).Finalmente, simulamos todas as entradas possíveis e se fossem
