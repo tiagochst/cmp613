@@ -3,9 +3,9 @@ USE ieee.std_logic_1164.all ;
 
 ENTITY q2c IS
 	PORT (a,bi: IN STD_LOGIC_VECTOR(0 to 3);
-	      z: BUFFER STD_LOGIC_VECTOR(0 to 3);
-	      s: IN STD_LOGIC;
-	      ovf: OUT STD_LOGIC);
+          z: BUFFER STD_LOGIC_VECTOR(0 to 3);
+          s: IN STD_LOGIC;
+          ovf: OUT STD_LOGIC);
 END q2c;
 
 ARCHITECTURE struct OF q2c IS

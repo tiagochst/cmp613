@@ -1,5 +1,5 @@
 Analysis & Synthesis report for q2d_c
-Mon Mar 29 17:55:15 2010
+Mon Mar 29 21:12:54 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -44,7 +44,7 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                      ;
 +------------------------------------+----------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Mar 29 17:55:15 2010        ;
+; Analysis & Synthesis Status        ; Successful - Mon Mar 29 21:12:54 2010        ;
 ; Quartus II Version                 ; 9.1 Build 304 01/25/2010 SP 1 SJ Web Edition ;
 ; Revision Name                      ; q2d_c                                        ;
 ; Top-level Entity Name              ; q2d_c                                        ;
@@ -140,15 +140,15 @@ applicable agreement for further details.
 +----------------------------------------------------------------------------+--------------------+--------------------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                  ;
-+------------------------------------------------------------------+-----------------+-----------------+------------------------------------------------------------------+
-; File Name with User-Entered Path                                 ; Used in Netlist ; File Type       ; File Name with Absolute Path                                     ;
-+------------------------------------------------------------------+-----------------+-----------------+------------------------------------------------------------------+
-; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/q2c.vhdl     ; yes             ; User VHDL File  ; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/q2c.vhdl     ;
-; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/q2d_c.vhdl   ; yes             ; User VHDL File  ; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/q2d_c.vhdl   ;
-; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/somador.vhdl ; yes             ; User VHDL File  ; //VBOXSVR/UNICAMP/MC613/Lab 02/cmp613/lab2-q2/q2d_c/somador.vhdl ;
-+------------------------------------------------------------------+-----------------+-----------------+------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                    ;
++-----------------------------------------------------------+-----------------+-----------------+-----------------------------------------------------------+
+; File Name with User-Entered Path                          ; Used in Netlist ; File Type       ; File Name with Absolute Path                              ;
++-----------------------------------------------------------+-----------------+-----------------+-----------------------------------------------------------+
+; //VBOXSVR/UNICAMP/MC613/cmp613/lab2-q2/q2d_c/q2c.vhdl     ; yes             ; User VHDL File  ; //VBOXSVR/UNICAMP/MC613/cmp613/lab2-q2/q2d_c/q2c.vhdl     ;
+; //VBOXSVR/UNICAMP/MC613/cmp613/lab2-q2/q2d_c/q2d_c.vhdl   ; yes             ; User VHDL File  ; //VBOXSVR/UNICAMP/MC613/cmp613/lab2-q2/q2d_c/q2d_c.vhdl   ;
+; //VBOXSVR/UNICAMP/MC613/cmp613/lab2-q2/q2d_c/somador.vhdl ; yes             ; User VHDL File  ; //VBOXSVR/UNICAMP/MC613/cmp613/lab2-q2/q2d_c/somador.vhdl ;
++-----------------------------------------------------------+-----------------+-----------------+-----------------------------------------------------------+
 
 
 +-----------------------------------------------------+
@@ -188,7 +188,7 @@ applicable agreement for further details.
 ; |q2d_c                     ; 11 (0)            ; 14 (14)      ; 0           ; 0            ; 0       ; 0         ; 15   ; 0            ; |q2d_c                      ; work         ;
 ;    |q2c:adder|             ; 11 (7)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2d_c|q2c:adder            ;              ;
 ;       |somador:s0|         ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2d_c|q2c:adder|somador:s0 ; work         ;
-;       |somador:s1|         ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2d_c|q2c:adder|somador:s1 ; work         ;
+;       |somador:s1|         ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2d_c|q2c:adder|somador:s1 ;              ;
 ;       |somador:s2|         ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2d_c|q2c:adder|somador:s2 ; work         ;
 ;       |somador:s3|         ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |q2d_c|q2c:adder|somador:s3 ; work         ;
 +----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------+--------------+
@@ -262,7 +262,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus II Analysis & Synthesis
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Mon Mar 29 17:55:10 2010
+    Info: Processing started: Mon Mar 29 21:12:47 2010
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off q2d_c -c q2d_c
 Info: Found 2 design units, including 1 entities, in source file q2c.vhdl
     Info: Found design unit 1: q2c-struct
@@ -275,17 +275,16 @@ Info: Found 2 design units, including 1 entities, in source file somador.vhdl
     Info: Found entity 1: somador
 Info: Elaborating entity "q2d_c" for the top level hierarchy
 Info: Elaborating entity "q2c" for hierarchy "q2c:adder"
-Warning (10036): Verilog HDL or VHDL warning at q2c.vhdl(12): object "zcor" assigned a value but never read
 Info: Elaborating entity "somador" for hierarchy "q2c:adder|somador:s0"
 Warning: 1 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Info: Implemented 35 device resources after synthesis - the final resource count might be different
     Info: Implemented 10 input pins
     Info: Implemented 5 output pins
     Info: Implemented 20 logic cells
-Info: Quartus II Analysis & Synthesis was successful. 0 errors, 2 warnings
+Info: Quartus II Analysis & Synthesis was successful. 0 errors, 1 warning
     Info: Peak virtual memory: 184 megabytes
-    Info: Processing ended: Mon Mar 29 17:55:15 2010
-    Info: Elapsed time: 00:00:05
+    Info: Processing ended: Mon Mar 29 21:12:54 2010
+    Info: Elapsed time: 00:00:07
     Info: Total CPU time (on all processors): 00:00:03
 
 

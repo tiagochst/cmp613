@@ -9,7 +9,6 @@ ENTITY q2d_b IS
 END q2d_b;
 
 ARCHITECTURE struct OF q2d_b IS
-	SIGNAL b, cla: STD_LOGIC_VECTOR(0 to 3);
 	SIGNAL a, bi, z_0: STD_LOGIC_VECTOR(0 to 3); --variaveis sincronas
 	SIGNAL s, ovf_0: STD_LOGIC; --variaveis sincronas
 COMPONENT q2a IS

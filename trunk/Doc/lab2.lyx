@@ -39,7 +39,7 @@
 \font_tt_scale 100
 
 \graphics default
-\float_placement h
+\float_placement H
 \paperfontsize default
 \spacing single
 \use_hyperref false
@@ -357,8 +357,8 @@ b)
 \begin_layout Standard
 Para uma melhor visualização do resultado, este será mostrado no display
  de 7 segmentos.
- O componente já criado anteriormente é facilmente instanciado no código
- VHDL.
+ O componente conversor de binário para o display já criado anteriormente
+ é facilmente instanciado no código VHDL.
  No entanto, para visualização de números negativos será necessário enviar
  o valor absoluto deste para o display e indicar o sinal negativo por um
  
@@ -452,8 +452,258 @@ reference "alg:Implementação-VHDL-q2a"
 
 \end_layout
 
+\begin_layout Paragraph*
+c)
+\end_layout
+
+\begin_layout Standard
+Outra possível implementação de um somador de vários bits é através da lógica
+ de 
+\emph on
+carry antecipado ("
+\emph default
+look-ahead
+\emph on
+")
+\emph default
+.
+ Tal nome deve-se ao fato de os 
+\emph on
+carrys 
+\emph default
+serem previamente calculados para todos os somadores de 1-bit.
+ Esses cálculos são feitos a partir do bit menos significativo usando expressões
+ de geração e propagação de 
+\emph on
+carry
+\emph default
+ naquele bit.
+ O próximo bit terá 
+\emph on
+carry
+\emph default
+ "1" caso o anterior tenha gerado um ou apenas propagado o seu 
+\emph on
+carry
+\emph default
+ 
+\begin_inset Formula $c_{i}$
+\end_inset
+
+.
+ As fórmulas para operandos 
+\begin_inset Formula $x$
+\end_inset
+
+ e 
+\begin_inset Formula $y$
+\end_inset
+
+ são as seguintes:
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $z_{i}=p_{i}\oplus c_{i}\qquad c_{i+1}=g_{i}+p_{i}\cdot c_{i}\qquad$
+\end_inset
+
+, sendo definidos 
+\begin_inset Formula $\qquad p=x_{i}\oplus y_{i}\qquad g_{i}=x_{i}\cdot y_{i}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Com essa idéia, foi modificado o código resultante do item 
+\series bold
+a)
+\series default
+ no trecho de E/S dos somadores de 1-bit instanciados, sendo o restante
+ do programa análogo.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q2c.vhdl"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+2-c) Implementação VHDL do somador-subtrator de 
+\emph on
+carry antecipado
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph*
+d)
+\end_layout
+
+\begin_layout Standard
+A fim de comparar as duas implementações realizadas para somadores, é possível
+ avaliar a máxima frequência de operação das mesmas, grandeza que é inversamente
+ proporcional aos atrasos do caminho crítico do circuito.
+ Para realizar a análise, é necessário tornar 
+\emph on
+síncronos
+\emph default
+ ambos os circuitos, isto é, alimentados por um 
+\emph on
+clock
+\emph default
+, cujas subidas determinam o instante de entrada e saída de dados dos mesmos.
+ Uma maneira simples de fazê-lo é armazenar temporariamente toda a entrada
+ e a saída, isto é, dois 
+\emph on
+buffers,
+\emph default
+ atualizando-os quando da subida do 
+\emph on
+clock
+\emph default
+ - o que é facilmente implementado através de flip-flops.
+ Em VHDL, basta copiar esses valores em sinais, sensitivamente à subida
+ do 
+\emph on
+clock.
+
+\emph default
+ O código é análogo para ambas implementações de somadores, omitiremos um
+ deles.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q2c.vhdl"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+2-c) Implementação VHDL do somador-subtrator de 
+\emph on
+carry antecipado
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
-Questão 3 
+Questão 3
 \end_layout
 
 \begin_layout Standard
