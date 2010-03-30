@@ -702,23 +702,29 @@ carry antecipado
 
 \end_layout
 
+\begin_layout LyX-Code
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Questão 3
 \end_layout
 
 \begin_layout Standard
-Utilizando o chip 74284 projetou-se um circuito que executasse a multiplicação
- de 2 números de 4 bits.O chip 74284 possuía como entrada 4 bits de um número
- e 4 bits de do outro número, contudo retornava somente os 4 bits mais significa
-tivos da multiplicação.
- Para o cálculo dos 4 bits menos significativos utilizando componentes básicas
- do circuito lógico.
+A) Utilizando o chip 74284 projetou-se um circuito que executasse a multiplicaçã
+o de 2 números de 4 bits e colocasse a saída no display de 7 segmentos .O
+ chip 74284 possuía como entrada 4 bits de um número e 4 bits de do outro
+ número, contudo retornava somente os 4 bits mais significativos da multiplicaçã
+o.
  
 \end_layout
 
 \begin_layout Standard
-A idéia central era analisar a relevância de cada multiplicação de bits
- para os bits da saída.
+Para o cálculo dos 4 bits menos significativos, a idéia central era analisar
+ a relevância de cada multiplicação de bits para os bits da saída.
  Em que temos:
 \end_layout
 
@@ -823,12 +829,51 @@ end{verbatim}
 \end_layout
 
 \begin_layout Standard
-Utilizando o componente somador,usamo-lo como somadores totais (com carry
- na entrada) e parciais(sem carry na entrada),para o calculo dos bits menos
- significativos.Por exemplo,para o z1.Inicialmente como entrada no somador
- colocamos (x0 and y1) e (x1 and y0) sendo a saída em cm e z1 (Obs: carry
- e saída são usados em outros somadores, sendo o primeiro para o calculo
- do próximo z -nesse caso z2 - e o zm para o calculo do próprio z).
+Utilizando o componente somador,usado como somadores totais (com carry na
+ entrada) ou parciais(sem carry na entrada)[ver figura 3.1], para o cálculo
+ dos bits menos significativos.
+ 
+\end_layout
+
+\begin_layout Standard
+Por exemplo, para o z1: Inicialmente como entrada no somador teremos (x0
+ and y1) e (x1 and y0) sendo a saída em cm e z1 (Obs: carry e saída são
+ usados em outros somadores, sendo o primeiro para o calculo do próximo
+ z -nesse caso z2 - e o segundo para o calculo do próprio z).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename q3a.eps
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Esquemático do circuito lógico de multiplicação
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -899,8 +944,8 @@ Multiplicador de 4 bits em VHDL
 \end_layout
 
 \begin_layout Standard
-Na segunda parte do projeto desenvolvemos em VHDL um multiplicador utilizando
- a função pré-definida 
+B)Na segunda parte do projeto desenvolvemos em VHDL(código em algorithm
+ 6) um multiplicador utilizando a função pré-definida 
 \series bold
  y=a*b
 \series default
@@ -987,8 +1032,11 @@ Função pré-defenida y=a*b
 \end_layout
 
 \begin_layout Standard
-Posteriormente fizemos a comparação de todos os resultados possíveis através
- de um circuito testbench no qual simulamos todas as entradas possíveis.
+C) Posteriormente fizemos a comparação dos resultados possíveis forncecidos
+ pela a função pré-definida e pela implementação inicial em VHDL usando
+ o chip 74284,através de um circuito testbench projetado em VHDL (ver código
+ em Algorithm 7).Finalmente, simulamos todas as entradas possíveis e se fossem
+ iguais acenderia um led(valor igual a 1),caso contrário apagaria.
  
 \end_layout
 
@@ -1094,10 +1142,6 @@ Simulação da comparação de multiplicação
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
