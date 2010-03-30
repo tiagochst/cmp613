@@ -9,7 +9,6 @@ ENTITY q2c IS
 END q2c;
 
 ARCHITECTURE struct OF q2c IS
-	SIGNAL zcor: STD_LOGIC_VECTOR(0 to 3);
 	SIGNAL b, cla: STD_LOGIC_VECTOR(0 to 3);
 COMPONENT somador IS
 	PORT ( c0, a0, a1 : IN STD_LOGIC ;
@@ -42,16 +41,4 @@ BEGIN
 		PORT MAP (cla(2), a(3), b(3), z(3));
 		
 	ovf<=(b(3) and a(3) and not z(3)) or (not b(3) and not a(3) and z(3));
-	
-	PROCESS (z)
-	BEGIN IF z(3) = '1' THEN --aplica compl de 2 para obter o 
-			                 --valor absoluto para o display
-			zcor(3)<=not z(3) xor (not z(0) and not z(1) and not z(2));
-			zcor(2)<=not z(2) xor (not z(0) and not z(1));
-			zcor(1)<=not z(1) xor not z(0);
-			zcor(0)<=z(0);
-		ELSE
-			zcor<=z;
-		END IF;
-	END PROCESS;
 END struct;
