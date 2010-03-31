@@ -271,7 +271,9 @@ c1
 \begin_inset Text
 
 \begin_layout Plain Layout
-1
+
+\lang english
+0
 \end_layout
 
 \end_inset
@@ -328,7 +330,7 @@ c1
 \begin_layout Plain Layout
 
 \lang english
-1
+0
 \end_layout
 
 \end_inset
@@ -385,7 +387,7 @@ c1
 \begin_layout Plain Layout
 
 \lang english
-0
+1
 \end_layout
 
 \end_inset
@@ -442,7 +444,7 @@ c1
 \begin_layout Plain Layout
 
 \lang english
-1
+0
 \end_layout
 
 \end_inset
@@ -611,7 +613,9 @@ c1
 \begin_inset Text
 
 \begin_layout Plain Layout
-1
+
+\lang english
+0
 \end_layout
 
 \end_inset
@@ -655,7 +659,7 @@ Expressões Lógicas:
 \begin_layout Standard
 
 \lang english
-\begin_inset Formula $b0=c0\oplus(a1\oplus a0)$
+\begin_inset Formula $b0=c0\cdot(a1\oplus a0)$
 \end_inset
 
 
@@ -1886,8 +1890,8 @@ Comparador de resultados
 
 \begin_layout Standard
 A simulação obtida está representada no gráfico abaixo, em que percebemos
- uma falha na multiplicação na parte a, em que o chip 74284 nos fornce o
- valor errado para os bits mais significativos na multipicação do número
+ uma falha na multiplicação na parte a, em que o chip 74284 nos fornece
+ o valor errado para os bits mais significativos na multipicação do número
  dez e número sete, assim nosso sinal de saída torna-se zero.
 \end_layout
 
@@ -2390,7 +2394,7 @@ status open
 \end_layout
 
 \begin_layout Standard
-Posteirormente realizamos a simulação de soma e subtração para os seguintes
+Posteriormente realizamos a simulação de soma e subtração para os seguintes
  valores representativos:
 \end_layout
 
@@ -2444,7 +2448,7 @@ Posteirormente realizamos a simulação de soma e subtração para os seguintes
 \end_layout
 
 \begin_layout Standard
-Na simulção temos como entrada valores de load(usado para carregar valor
+Na simulação temos como entrada valores de load(usado para carregar valor
  no registrador),mode_tg (muda para próximo estado), run (realiza cálculo
  caso valor seja 1),sw (valor BCD a ser carregado no registrador),já para
  alterar as operaçẽos,quando run é 1 devemos colocar sw[0] igual a 1 para
