@@ -271,9 +271,7 @@ c1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
-0
+1
 \end_layout
 
 \end_inset
@@ -330,7 +328,7 @@ c1
 \begin_layout Plain Layout
 
 \lang english
-0
+1
 \end_layout
 
 \end_inset
@@ -387,7 +385,7 @@ c1
 \begin_layout Plain Layout
 
 \lang english
-1
+0
 \end_layout
 
 \end_inset
@@ -444,7 +442,7 @@ c1
 \begin_layout Plain Layout
 
 \lang english
-0
+1
 \end_layout
 
 \end_inset
@@ -613,9 +611,7 @@ c1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
-0
+1
 \end_layout
 
 \end_inset
@@ -659,7 +655,7 @@ Expressões Lógicas:
 \begin_layout Standard
 
 \lang english
-\begin_inset Formula $b0=c0\cdot(a1\oplus a0)$
+\begin_inset Formula $b0=c0\oplus(a1\oplus a0)$
 \end_inset
 
 
@@ -2382,7 +2378,6 @@ status open
 
 \end_layout
 
-<<<<<<< .mine
 \begin_layout Standard
 \begin_inset space \quad{}
 \end_inset
@@ -2497,7 +2492,13 @@ Simulação de subtração e adição de termos BCD
 
 \end_layout
 
-=======
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section*
 Conclusão
 \end_layout
@@ -2529,6 +2530,5 @@ los facilmente em modo comportamental, na qual a lógica binária fica implícit
  falha de implementação no módulo.
 \end_layout
 
->>>>>>> .r53
 \end_body
 \end_document
