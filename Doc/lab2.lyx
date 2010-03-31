@@ -659,27 +659,17 @@ Expressões Lógicas:
 \begin_layout Standard
 
 \lang english
-b0 = c0.(a1
-\begin_inset Graphics
-	filename xor.png
-	scale 50
-
+\begin_inset Formula $b0=c0\cdot(a1\oplus a0)$
 \end_inset
 
-a0)
+
 \end_layout
 
 \begin_layout Standard
-
-\lang english
-c1 = (a1
-\begin_inset Graphics
-	filename xor.png
-	scale 50
-
+\begin_inset Formula $c1=(a1\oplus a0)\cdot c0+a1\cdot a0$
 \end_inset
 
-a0).c0 + a1.a0
+
 \end_layout
 
 \begin_layout Standard
@@ -1811,6 +1801,457 @@ status open
 
 \begin_layout Plain Layout
 Simulação da comparação de multiplicação
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 4
+\end_layout
+
+\begin_layout Standard
+Deseja-se construir um somador/subtrator para números BCD
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+BCD é uma representação usual de um dígito decimal (0 a 9) em 4-bits usando
+ os 10 menores números binários; as outras 6 representações possíveis são
+ desprezadas.
+ 
+\end_layout
+
+\end_inset
+
+ de 2 dígitos 
+\begin_inset Formula $x$
+\end_inset
+
+ e 
+\begin_inset Formula $y$
+\end_inset
+
+, positivos.
+ Quatro displays de 7-segmentos serão usados para mostrar a saída em decimal,
+ um deles será o sinal.
+ A entrada multiplexada nesse caso é relativamente complexa, pois os dígitos
+ são selecionados um a um e carregados, portanto trata-se de um circuito
+ sequencial.
+ Mais especificamente, serão usados 10 
+\emph on
+toggle switches, 
+\emph default
+cada um representando um dígito BCD, um 
+\emph on
+push button 
+\emph default
+"mode" que alternará a posição a ser carregada (da unidade ou dezena de
+ 
+\begin_inset Formula $x$
+\end_inset
+
+ ou 
+\begin_inset Formula $y$
+\end_inset
+
+), exibindo a seleção atual em 4 leds.
+ Outro 
+\emph on
+pb
+\emph default
+ "load" fará a carga (armazenamento) quando pressionado; um "opr" alternará
+ entre operação de soma (
+\begin_inset Formula $'0'$
+\end_inset
+
+) e subtração (
+\begin_inset Formula $'1'$
+\end_inset
+
+), exibindo-se em um led.
+ Por fim, um "run" realizará o cálculo programado, exibindo o resultado
+ automaticamente no display.
+ Pode
+\emph on
+-
+\emph default
+se resumir
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+As transições a partir de 
+\emph on
+calcular
+\emph default
+ foram omitidas por simplicidade.
+\end_layout
+
+\end_inset
+
+ a entrada através do diagrama de estados abaixo.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename /Users/marspeople/UNICAMP/MC613/q4part/Doc/q4.png
+	width 10cm
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Estados da entrada do somador BCD
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Estados-da-entrada"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A implementação dessa parte do circuito foi feita através de um conversor
+ BCD-Binário ligado nos 
+\emph on
+switches
+\emph default
+, cuja saída atua como entrada de 4 registradores.
+ Estes armazenam um dígito BCD quando a seleção (implementada com um contador
+ de 2 bits, incrementado pela entrada "mode") está sobre um deles e, ao
+ mesmo tempo, o botão "load" é pressionado.
+ Portanto, os quatro registradores contém os operandos BCD, que devem entrar
+ junto com "opr" num módulo responsável pela aritmética desejada quando
+ da subida do botão "run".
+ Essa parte foi feita usando implementação comportamental VHDL, portanto
+ não interessa discutir os detalhes, bastando ver o código fonte.
+ Esse módulo tem como saídas (as mesmas do circuito geral) quatro barramentos
+ para os displays supracitados.
+ Note que não é possível ocorrer "overflow", uma vez que a saída tem 3 dígitos
+ BCD, enquanto as entradas, cada uma, apenas 2.
+ O código VHDL (dividido em componentes) e o diagrama de blocos encontram-se
+ a seguir.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "bcd-dec.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+4) Componente conversor bcd_dec
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "reg4.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+4) Componente de armazenamento reg4
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "reg_mux.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+4) Componente multiplexador/contador reg4_mux 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q4.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+4) Código principal, incluindo parte aritmética
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename /Users/marspeople/UNICAMP/MC613/q4part/Doc/q4-sch.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+4) Diagrama de blocos para o circuito completo
 \end_layout
 
 \end_inset
