@@ -6,15 +6,14 @@ ENTITY q4 IS
 	PORT (sw: IN STD_LOGIC_VECTOR(0 to 9);
           mode_tg, run, load: IN STD_LOGIC;
           su, sd, sc: OUT STD_LOGIC_VECTOR(6 downto 0);
-          sig: OUT STD_LOGIC_VECTOR(6 downto 0));
+          sig: OUT STD_LOGIC_VECTOR(6 downto 0);
+          rclk: BUFFER STD_LOGIC_VECTOR(0 to 3));
 END q4;
 
 ARCHITECTURE struct OF q4 IS
 	SIGNAL bi: STD_LOGIC_VECTOR(3 downto 0);
-	SIGNAL rclk: STD_LOGIC_VECTOR(0 to 3);
 	SIGNAL au, bu, ad, bd: STD_LOGIC_VECTOR(3 downto 0);
 	SIGNAL ru, rd, rc: UNSIGNED(3 downto 0);
-	SIGNAL res: INTEGER;
 	
 COMPONENT bcd_dec IS
 	PORT (x: IN STD_LOGIC_VECTOR(0 to 9);
@@ -53,7 +52,7 @@ BEGIN
 		PORT MAP (bi, rclk(3), bd);
 	
 	PROCESS (run) 
-		VARIABLE a, b: INTEGER;
+		VARIABLE a, b, res: INTEGER;
 	BEGIN
 		IF (run'event AND run='1') THEN
 			a:=to_integer(unsigned(ad))*10+
@@ -62,24 +61,19 @@ BEGIN
 			   to_integer(unsigned(bu));
 			
 			IF (sw(0)='1') THEN --deseja-se fazer subtracao
-				res<=a-b;
+				res:=a-b;
 			ELSE
-				res<=a+b;
+				res:=a+b;
 			END IF;
 		END IF;
-	END PROCESS;
-	
-	PROCESS (res) --processamento do resultado p/ 7-seg
-	BEGIN 
-		IF (res<0) THEN
-			sig<="0000000"; --acende sinal '-'
-			res<=-res;
+		
+		IF (res<0) THEN --processamento do resultado p/ 7-seg
+			sig<="0111111"; --acende sinal '-'
 		ELSE sig<="1111111"; END IF;
+		res:=abs(res);
 		
 		ru<=to_unsigned(res MOD 10, 4);
-		--res<=res/10;
 		rd<=to_unsigned((res/10) MOD 10, 4);
-		--res<=res/10;
 		rc<=to_unsigned((res/100) MOD 10, 4);
 	END PROCESS;
 	
