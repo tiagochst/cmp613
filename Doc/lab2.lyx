@@ -271,9 +271,7 @@ c1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
-0
+1
 \end_layout
 
 \end_inset
@@ -330,7 +328,7 @@ c1
 \begin_layout Plain Layout
 
 \lang english
-0
+1
 \end_layout
 
 \end_inset
@@ -387,7 +385,7 @@ c1
 \begin_layout Plain Layout
 
 \lang english
-1
+0
 \end_layout
 
 \end_inset
@@ -444,7 +442,7 @@ c1
 \begin_layout Plain Layout
 
 \lang english
-0
+1
 \end_layout
 
 \end_inset
@@ -499,9 +497,7 @@ c1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
-1
+0
 \end_layout
 
 \end_inset
@@ -613,9 +609,7 @@ c1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
-0
+1
 \end_layout
 
 \end_inset
@@ -659,7 +653,7 @@ Expressões Lógicas:
 \begin_layout Standard
 
 \lang english
-\begin_inset Formula $b0=c0\cdot(a1\oplus a0)$
+\begin_inset Formula $b0=c0\oplus(a1\oplus a0)$
 \end_inset
 
 
