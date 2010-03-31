@@ -1351,6 +1351,126 @@ end{multicols}
 
 \end_layout
 
+\begin_layout Standard
+Para os circuitos somadores com carry progagado e com carry antecipado implement
+ados, realizamos uma simulação das mesmas entradas em que  encontramos as
+ mesmas saídas, conforme esperado.
+ Os valores entrados foram:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $2+3=5$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $6+4=overflow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $-2+1=-1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $4-(-4)=overflow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $-2-(1)=-3$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $6-7=-1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename q2a_waveform.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação 2) a
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename q2c_wav.pdf
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação 2) c
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout LyX-Code
 \begin_inset Newpage newpage
 \end_inset
@@ -2257,6 +2377,127 @@ status open
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \quad{}
+\end_inset
+
+
+\begin_inset space \quad{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Posteirormente realizamos a simulação de soma e subtração para os seguintes
+ valores representativos:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $11+11=22$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $11+18=29$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $0+18=18$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $55-55=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $55-10=45$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $2-10=-8$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $0-10=-10$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Na simulção temos como entrada valores de load(usado para carregar valor
+ no registrador),mode_tg (muda para próximo estado), run (realiza cálculo
+ caso valor seja 1),sw (valor BCD a ser carregado no registrador),já para
+ alterar as operaçẽos,quando run é 1 devemos colocar sw[0] igual a 1 para
+ subtração ou 0 para soma.
+\end_layout
+
+\begin_layout Standard
+Na saída temos os vetores sc, sd, su para valores da centena,dezena e unidade(re
+spectivamente) que serão as entradas no display de sete segmentos.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align left
+\begin_inset Graphics
+	filename q4_wave_corrigido.pdf
+	scale 85
+	BoundingBox 30bp 0bp 595bp 842bp
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação de subtração e adição de termos BCD 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
 \end_inset
 
 
