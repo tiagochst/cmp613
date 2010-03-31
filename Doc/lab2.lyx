@@ -1311,7 +1311,7 @@ begin{multicols}{2}
 
 \begin_inset CommandInset include
 LatexCommand verbatiminput
-filename "q2c.vhdl"
+filename "q2d_b.vhdl"
 
 \end_inset
 
@@ -1338,9 +1338,7 @@ end{multicols}
 \begin_inset Caption
 
 \begin_layout Plain Layout
-2-c) Implementação VHDL do somador-subtrator de 
-\emph on
-carry antecipado
+2-d) Estanciação do circuito b com flip-flops de entrada e saída
 \end_layout
 
 \end_inset
@@ -1910,7 +1908,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename /Users/marspeople/UNICAMP/MC613/q4part/Doc/q4.png
+	filename q4.png
 	width 10cm
 
 \end_inset
@@ -2234,12 +2232,12 @@ end{multicols}
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename /Users/marspeople/UNICAMP/MC613/q4part/Doc/q4-sch.png
+	filename q4-sch.png
 	width 100text%
 
 \end_inset
