@@ -2262,5 +2262,36 @@ status open
 
 \end_layout
 
+\begin_layout Section*
+Conclusão
+\end_layout
+
+\begin_layout Standard
+Esse laboratório explorou diversos aspectos de circuitos aritméticos: desde
+ simples somadores completos, que são a base para vários outros circuitos
+ desse tipo, incluindo multiplicadores e subtratores; até somadores BCD
+ com armazenamento e método de entrada multiplexado (máquina de estados).
+ A implementação eficiente desses módulos é crucial, uma vez que unidades
+ aritméticas são largamente usadas e devem ter a frequência máxima de operação
+ maior possível.
+ 
+\end_layout
+
+\begin_layout Standard
+Foram revistos conceitos como overflow, representação em complemento de
+ 2 e carry.
+ Este último é essencial em somadores de vários bits, e pode ser usado na
+ forma de carry propagado ou antecipado, por exemplo.
+\end_layout
+
+\begin_layout Standard
+Multiplicadores são circuitos mais complexos, mas em VHDL é possível implementá-
+los facilmente em modo comportamental, na qual a lógica binária fica implícita.
+ Existem também módulos multiplicadores prontos que podem ser usados em
+ diagrama de blocos.
+ No entanto, notamos erro em uma das saídas, indicando possivelmente uma
+ falha de implementação no módulo.
+\end_layout
+
 \end_body
 \end_document
