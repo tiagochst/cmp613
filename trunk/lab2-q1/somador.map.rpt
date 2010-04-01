@@ -1,5 +1,5 @@
 Analysis & Synthesis report for somador
-Wed Mar 17 16:57:08 2010
+Wed Mar 31 17:10:55 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -40,7 +40,7 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                      ;
 +------------------------------------+----------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed Mar 17 16:57:08 2010        ;
+; Analysis & Synthesis Status        ; Successful - Wed Mar 31 17:10:55 2010        ;
 ; Quartus II Version                 ; 9.1 Build 304 01/25/2010 SP 1 SJ Web Edition ;
 ; Revision Name                      ; somador                                      ;
 ; Top-level Entity Name              ; somador                                      ;
@@ -147,13 +147,13 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------+--------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                          ;
-+----------------------------------+-----------------+-----------------+----------------------------------------------------------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path                             ;
-+----------------------------------+-----------------+-----------------+----------------------------------------------------------+
-; somador.vhdl                     ; yes             ; User VHDL File  ; Z:/Users/marspeople/UNICAMP/MC613/Lab 02/q1/somador.vhdl ;
-+----------------------------------+-----------------+-----------------+----------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                            ;
++----------------------------------+-----------------+-----------------+------------------------------------------------------------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path                               ;
++----------------------------------+-----------------+-----------------+------------------------------------------------------------+
+; somador.vhdl                     ; yes             ; User VHDL File  ; C:/Users/Tiago/Desktop/lab02_RA082115/lab2-q1/somador.vhdl ;
++----------------------------------+-----------------+-----------------+------------------------------------------------------------+
 
 
 +-----------------------------------------------------+
@@ -216,7 +216,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus II Analysis & Synthesis
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Wed Mar 17 16:57:03 2010
+    Info: Processing started: Wed Mar 31 17:10:51 2010
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off somador -c somador
 Info: Found 2 design units, including 1 entities, in source file somador.vhdl
     Info: Found design unit 1: somador-LogicFunction
@@ -227,9 +227,9 @@ Info: Implemented 7 device resources after synthesis - the final resource count 
     Info: Implemented 2 output pins
     Info: Implemented 2 logic cells
 Info: Quartus II Analysis & Synthesis was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 0 megabytes
-    Info: Processing ended: Wed Mar 17 16:57:08 2010
-    Info: Elapsed time: 00:00:05
+    Info: Peak virtual memory: 205 megabytes
+    Info: Processing ended: Wed Mar 31 17:10:55 2010
+    Info: Elapsed time: 00:00:04
     Info: Total CPU time (on all processors): 00:00:03
 
 
