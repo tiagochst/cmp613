@@ -14,6 +14,6 @@ BEGIN
 		IF (clk'event AND clk='1') THEN
 			cont<=x;
 		END IF;
-		q<=cont;
 	END PROCESS;
+	q<=cont;
 END;

@@ -1,5 +1,5 @@
 Classic Timing Analyzer report for q2a
-Mon Mar 29 16:17:17 2010
+Wed Mar 31 15:52:12 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -123,7 +123,7 @@ applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus II Classic Timing Analyzer
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Mon Mar 29 16:17:16 2010
+    Info: Processing started: Wed Mar 31 15:52:12 2010
 Info: Command: quartus_tan --read_settings_files=off --write_settings_files=off q2a -c q2a --timing_analysis_only
 Info: Longest tpd from source pin "s" to destination pin "z[3]" is 10.262 ns
     Info: 1: + IC(0.000 ns) + CELL(1.026 ns) = 1.026 ns; Loc. = PIN_L2; Fanout = 3; PIN Node = 's'
@@ -136,7 +136,7 @@ Info: Longest tpd from source pin "s" to destination pin "z[3]" is 10.262 ns
     Info: Total interconnect delay = 4.599 ns ( 44.82 % )
 Info: Quartus II Classic Timing Analyzer was successful. 0 errors, 0 warnings
     Info: Peak virtual memory: 127 megabytes
-    Info: Processing ended: Mon Mar 29 16:17:17 2010
+    Info: Processing ended: Wed Mar 31 15:52:13 2010
     Info: Elapsed time: 00:00:01
     Info: Total CPU time (on all processors): 00:00:00
 

@@ -2,19 +2,21 @@ LIBRARY ieee ;
 USE ieee.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
+--converte entrada unaria de 10 posicoes
+--para BCD, prioridade p/ digitos maiores
 ENTITY bcd_dec IS
 	PORT (x: IN STD_LOGIC_VECTOR(0 to 9);
           z: OUT STD_LOGIC_VECTOR(3 downto 0));
 END bcd_dec;
 
 ARCHITECTURE struct OF bcd_dec IS
-	SHARED VARIABLE zt: UNSIGNED(3 downto 0);
+	SIGNAL zt: UNSIGNED(3 downto 0);
 BEGIN
 	PROCESS (x)
 	BEGIN
 		FOR i IN 0 TO 9 LOOP
 			IF (x(i)='1') THEN 
-			   zt:=to_unsigned(i,4);
+			   zt<=to_unsigned(i,4);
 			END IF;
 		END LOOP;
 	END PROCESS;

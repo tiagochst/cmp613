@@ -2471,7 +2471,7 @@ status open
 \align left
 \begin_inset Graphics
 	filename q4_wave_corrigido.pdf
-	scale 85
+	scale 50
 	BoundingBox 30bp 0bp 595bp 842bp
 
 \end_inset
