@@ -1,0 +1,12 @@
+|latch_d
+enable => q.IN1
+reset => notq.OUTPUTSELECT
+reset => q.OUTPUTSELECT
+reset => q.IN0
+set => q.DATAA
+set => q.IN1
+set => notq.DATAB
+q <= q$latch.DB_MAX_OUTPUT_PORT_TYPE
+notq <= notq$latch.DB_MAX_OUTPUT_PORT_TYPE
+
+
