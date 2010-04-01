@@ -1,5 +1,5 @@
 Flow report for q4
-Wed Mar 31 10:57:00 2010
+Wed Mar 31 16:25:06 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -38,7 +38,7 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Flow Summary                                                                      ;
 +------------------------------------+----------------------------------------------+
-; Flow Status                        ; Successful - Wed Mar 31 10:56:49 2010        ;
+; Flow Status                        ; Successful - Wed Mar 31 16:25:06 2010        ;
 ; Quartus II Version                 ; 9.1 Build 304 01/25/2010 SP 1 SJ Web Edition ;
 ; Revision Name                      ; q4                                           ;
 ; Top-level Entity Name              ; q4                                           ;
@@ -46,11 +46,11 @@ applicable agreement for further details.
 ; Device                             ; EP2C20F484C7                                 ;
 ; Timing Models                      ; Final                                        ;
 ; Met timing requirements            ; Yes                                          ;
-; Total logic elements               ; 5,419 / 18,752 ( 29 % )                      ;
-;     Total combinational functions  ; 5,419 / 18,752 ( 29 % )                      ;
+; Total logic elements               ; 699 / 18,752 ( 4 % )                         ;
+;     Total combinational functions  ; 698 / 18,752 ( 4 % )                         ;
 ;     Dedicated logic registers      ; 29 / 18,752 ( < 1 % )                        ;
 ; Total registers                    ; 29                                           ;
-; Total pins                         ; 45 / 315 ( 14 % )                            ;
+; Total pins                         ; 47 / 315 ( 15 % )                            ;
 ; Total virtual pins                 ; 0                                            ;
 ; Total memory bits                  ; 0 / 239,616 ( 0 % )                          ;
 ; Embedded Multiplier 9-bit elements ; 0 / 52 ( 0 % )                               ;
@@ -63,25 +63,26 @@ applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 03/31/2010 10:54:30 ;
+; Start date & time ; 03/31/2010 16:24:27 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; q4                  ;
 +-------------------+---------------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Flow Non-Default Global Settings                                                                                                                     ;
-+------------------------------------+------------------------------------------------------------------+---------------+-------------+----------------+
-; Assignment Name                    ; Value                                                            ; Default Value ; Entity Name ; Section Id     ;
-+------------------------------------+------------------------------------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID              ; 8796760138612.127004367001860                                    ; --            ; --          ; --             ;
-; MAX_CORE_JUNCTION_TEMP             ; 85                                                               ; --            ; --          ; --             ;
-; MIN_CORE_JUNCTION_TEMP             ; 0                                                                ; --            ; --          ; --             ;
-; MISC_FILE                          ; C:/Documents and Settings/ra082115/Desktop/cmp613/lab2-q4/q4.dpf ; --            ; --          ; --             ;
-; PARTITION_COLOR                    ; 16764057                                                         ; --            ; --          ; Top            ;
-; PARTITION_NETLIST_TYPE             ; SOURCE                                                           ; --            ; --          ; Top            ;
-; USE_GENERATED_PHYSICAL_CONSTRAINTS ; Off                                                              ; --            ; --          ; eda_blast_fpga ;
-+------------------------------------+------------------------------------------------------------------+---------------+-------------+----------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                                                                ;
++------------------------------------+-----------------------------------------------------------------------------+---------------+-------------+----------------+
+; Assignment Name                    ; Value                                                                       ; Default Value ; Entity Name ; Section Id     ;
++------------------------------------+-----------------------------------------------------------------------------+---------------+-------------+----------------+
+; COMPILER_SIGNATURE_ID              ; 129772612393.127006346706140                                                ; --            ; --          ; --             ;
+; MAX_CORE_JUNCTION_TEMP             ; 85                                                                          ; --            ; --          ; --             ;
+; MIN_CORE_JUNCTION_TEMP             ; 0                                                                           ; --            ; --          ; --             ;
+; MISC_FILE                          ; C:/Documents and Settings/ra082115/Desktop/cmp613/lab2-q4/q4.dpf            ; --            ; --          ; --             ;
+; MISC_FILE                          ; C:/Documents and Settings/ra082941/Desktop/lab2q4_7z/lab2-q4/lab2-q4/q4.dpf ; --            ; --          ; --             ;
+; PARTITION_COLOR                    ; 16764057                                                                    ; --            ; --          ; Top            ;
+; PARTITION_NETLIST_TYPE             ; SOURCE                                                                      ; --            ; --          ; Top            ;
+; USE_GENERATED_PHYSICAL_CONSTRAINTS ; Off                                                                         ; --            ; --          ; eda_blast_fpga ;
++------------------------------------+-----------------------------------------------------------------------------+---------------+-------------+----------------+
 
 
 +-----------------------------------------------------------------------------------------------------------------------------+
@@ -89,24 +90,24 @@ applicable agreement for further details.
 +-------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name             ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +-------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis    ; 00:00:52     ; 1.0                     ; 225 MB              ; 00:00:33                           ;
-; Fitter                  ; 00:00:38     ; 1.0                     ; 209 MB              ; 00:00:23                           ;
-; Assembler               ; 00:00:07     ; 1.0                     ; 187 MB              ; 00:00:03                           ;
-; Classic Timing Analyzer ; 00:00:21     ; 1.0                     ; 140 MB              ; 00:00:03                           ;
-; Total                   ; 00:01:58     ; --                      ; --                  ; 00:01:02                           ;
+; Analysis & Synthesis    ; 00:00:12     ; 1.0                     ; 249 MB              ; 00:00:11                           ;
+; Fitter                  ; 00:00:14     ; 1.0                     ; 217 MB              ; 00:00:12                           ;
+; Assembler               ; 00:00:03     ; 1.0                     ; 200 MB              ; 00:00:03                           ;
+; Classic Timing Analyzer ; 00:00:04     ; 1.0                     ; 139 MB              ; 00:00:01                           ;
+; Total                   ; 00:00:33     ; --                      ; --                  ; 00:00:27                           ;
 +-------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
-+---------------------------------------------------------------------------------------+
-; Flow OS Summary                                                                       ;
-+-------------------------+------------------+------------+------------+----------------+
-; Module Name             ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
-+-------------------------+------------------+------------+------------+----------------+
-; Analysis & Synthesis    ; experien-ce7c99  ; Windows XP ; 5.1        ; i686           ;
-; Fitter                  ; experien-ce7c99  ; Windows XP ; 5.1        ; i686           ;
-; Assembler               ; experien-ce7c99  ; Windows XP ; 5.1        ; i686           ;
-; Classic Timing Analyzer ; experien-ce7c99  ; Windows XP ; 5.1        ; i686           ;
-+-------------------------+------------------+------------+------------+----------------+
++------------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                          ;
++-------------------------+------------------+---------------+------------+----------------+
+; Module Name             ; Machine Hostname ; OS Name       ; OS Version ; Processor type ;
++-------------------------+------------------+---------------+------------+----------------+
+; Analysis & Synthesis    ; Tiago-PC         ; Windows Vista ; 6.1        ; i686           ;
+; Fitter                  ; Tiago-PC         ; Windows Vista ; 6.1        ; i686           ;
+; Assembler               ; Tiago-PC         ; Windows Vista ; 6.1        ; i686           ;
+; Classic Timing Analyzer ; Tiago-PC         ; Windows Vista ; 6.1        ; i686           ;
++-------------------------+------------------+---------------+------------+----------------+
 
 
 ------------

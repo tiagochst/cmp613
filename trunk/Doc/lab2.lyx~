@@ -2451,7 +2451,7 @@ Posteriormente realizamos a simulação de soma e subtração para os seguintes
 Na simulação temos como entrada valores de load(usado para carregar valor
  no registrador),mode_tg (muda para próximo estado), run (realiza cálculo
  caso valor seja 1),sw (valor BCD a ser carregado no registrador),já para
- alterar as operaçẽos,quando run é 1 devemos colocar sw[0] igual a 1 para
+ alterar as operações,quando run é 1 devemos colocar sw[0] igual a 1 para
  subtração ou 0 para soma.
 \end_layout
 

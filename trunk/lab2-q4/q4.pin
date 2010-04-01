@@ -465,7 +465,7 @@ GND_PLL4                     : T17       : gnd    :                   :         
 RESERVED_INPUT               : T18       :        :                   :         : 6         :                
 VCCIO6                       : T19       : power  :                   : 3.3V    : 6         :                
 GND                          : T20       : gnd    :                   :         :           :                
-RESERVED_INPUT               : T21       :        :                   :         : 6         :                
+opr_tg                       : T21       : input  : 3.3-V LVTTL       :         : 6         : Y              
 run                          : T22       : input  : 3.3-V LVTTL       :         : 6         : Y              
 RESERVED_INPUT               : U1        :        :                   :         : 1         :                
 RESERVED_INPUT               : U2        :        :                   :         : 1         :                
@@ -553,5 +553,5 @@ RESERVED_INPUT               : Y17       :        :                   :         
 RESERVED_INPUT               : Y18       :        :                   :         : 6         :                
 RESERVED_INPUT               : Y19       :        :                   :         : 6         :                
 RESERVED_INPUT               : Y20       :        :                   :         : 6         :                
-RESERVED_INPUT               : Y21       :        :                   :         : 6         :                
+opr_out                      : Y21       : output : 3.3-V LVTTL       :         : 6         : Y              
 RESERVED_INPUT               : Y22       :        :                   :         : 6         :                

@@ -9,9 +9,9 @@ END reg_mux;
 
 ARCHITECTURE struct OF reg_mux IS
 BEGIN
-	PROCESS (mode_tg)
+	PROCESS (mode_tg, load)
 		--id do registrador a ser LOAD
-		VARIABLE creg: INTEGER :=-1;
+		VARIABLE creg: INTEGER :=0;
 	BEGIN
 		IF (mode_tg'event AND mode_tg='1') THEN
 			creg:=(creg+1) MOD 4;
