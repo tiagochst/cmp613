@@ -48,9 +48,6 @@ set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
 set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
-set_global_assignment -name BDF_FILE conv_7seg.bdf
-set_global_assignment -name VHDL_FILE mod_count.vhd
-set_global_assignment -name VHDL_FILE cons.vhd
 set_global_assignment -name MISC_FILE "C:/Users/Tiago/Desktop/Lab3/Lab3/q4/mod_count/mod_count.dpf"
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
@@ -66,13 +63,19 @@ set_location_assignment PIN_H1 -to seg[3]
 set_location_assignment PIN_F2 -to seg[4]
 set_location_assignment PIN_F1 -to seg[5]
 set_location_assignment PIN_E2 -to seg[6]
-set_location_assignment PIN_V12 -to val[3]
-set_location_assignment PIN_M22 -to val[2]
-set_location_assignment PIN_L21 -to val[1]
-set_location_assignment PIN_L22 -to val[0]
 set_location_assignment PIN_W12 -to dec
 set_location_assignment PIN_U12 -to ld
-set_global_assignment -name VECTOR_WAVEFORM_FILE mod_count.vwf
 set_global_assignment -name SIMULATION_MODE FUNCTIONAL
 set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE mod_count.vwf
+set_global_assignment -name BDF_FILE q4.bdf
+set_global_assignment -name SOURCE_FILE q4.cmp
+set_global_assignment -name BDF_FILE conv_7seg.bdf
+set_global_assignment -name VHDL_FILE mod_count.vhd
+set_global_assignment -name VHDL_FILE cons.vhd
+set_global_assignment -name VECTOR_WAVEFORM_FILE mod_count.vwf
+set_global_assignment -name VHDL_FILE debounce.vhd
+set_location_assignment PIN_L22 -to valor[0]
+set_location_assignment PIN_V12 -to valor[3]
+set_location_assignment PIN_M22 -to valor[2]
+set_location_assignment PIN_L21 -to valor[1]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
