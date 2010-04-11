@@ -14,6 +14,7 @@ architecture behave of four_bit_barrel_shifter is
  SIGNAL d_nshift: STD_LOGIC_VECTOR(1 downto 0);
  SIGNAL d_direction: STD_LOGIC;
  SIGNAL d_number: STD_LOGIC_VECTOR(3 downto 0);
+ SIGNAL clock: STD_LOGIC;
 
 COMPONENT debounce 
 	PORT(pb, clock_100Hz 	: IN	STD_LOGIC;
@@ -22,15 +23,13 @@ END COMPONENT debounce;
 
 COMPONENT div_freq 
 PORT (clk: IN STD_LOGIC;
-	      clk_out: OUT STD_LOGIC);
+	  clk_out: OUT STD_LOGIC);
 END COMPONENT div_freq;
 
 BEGIN
 
 d0: COMPONENT div_freq
       PORT MAP (clk,clock);
-
-
 
 d1: COMPONENT debounce
       PORT MAP (nshift(0),clock,d_nshift(0));
