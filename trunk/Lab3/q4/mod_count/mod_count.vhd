@@ -25,12 +25,6 @@ COMPONENT conv_7seg IS
 	      y6,y5,y4,y3,y2,y1,y0: OUT STD_LOGIC);
 END COMPONENT conv_7seg;
 
-COMPONENT debounce IS
-	PORT(pb, clock_100Hz 	: IN	STD_LOGIC;
-		 pb_debounced		: OUT	STD_LOGIC);
-END COMPONENT debounce;
-
-
 BEGIN
   --divisor de frequencias - 27MHZ em 1.6 Hz
   div: COMPONENT q4
