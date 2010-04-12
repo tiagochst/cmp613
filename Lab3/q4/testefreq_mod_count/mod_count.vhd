@@ -7,11 +7,11 @@ Entity mod_count is
        clk_high: in STD_LOGIC;
        valor:IN STD_LOGIC_VECTOR(0 to 7);
        seg1: OUT STD_LOGIC_VECTOR(0 to 6);
-       seg2: OUT STD_LOGIC_VECTOR(0 to 6));
+       seg2: OUT STD_LOGIC_VECTOR(0 to 6);
+       clk : BUFFER STD_LOGIC);
 End mod_count;
 
 architecture behave of mod_count is
-   Signal clk:STD_LOGIC;
    Signal output: STD_LOGIC_VECTOR(7 downto 0);
    constant zero:integer:=0;
 
@@ -33,18 +33,17 @@ BEGIN
    count_proc: PROCESS(clk,enable,ld,valor)
     Variable count_int: integer range 0 to 255:=0; --contador
     Variable mod_int: integer range 0 to 255:=0;   --guarda valor para loop no relógio
-  
   Begin
-  
-    IF(ld ='1') then 
-      count_int:=0;  
-      mod_int:=to_integer(unsigned(valor));   
-      output <= STD_LOGIC_VECTOR(TO_UNSIGNED(count_int,8));
-    elsif ((clk='1') and (clk'event) and (enable='1') and (mod_int/=zero)) then
-      count_int:= (count_int +1) MOD mod_int;
-      output <= STD_LOGIC_VECTOR(TO_UNSIGNED(count_int,8));
-    end if;
-end process count_proc;
+	IF ((clk='1') and (clk'event)) THEN
+		IF(ld ='1') then 
+		  count_int:=0;  
+		  mod_int:=to_integer(unsigned(valor));   
+		elsif ((enable='1') and (mod_int/=zero)) then
+		  count_int:= (count_int +1) MOD mod_int;
+		end if;
+		output <= STD_LOGIC_VECTOR(TO_UNSIGNED(count_int,8));
+	END IF;
+  End process count_proc;
 
  disp: COMPONENT conv_7seg
 		PORT MAP (output(3), output(2), output(1), output(0), seg1(6), seg1(5),
