@@ -1197,6 +1197,42 @@ name "fig:Simulação-flip-flop-D"
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename q1bwvf.PNG
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação de comparação entre FFD e Latch 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Questão 2
 \end_layout
@@ -2079,6 +2115,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename q4wvf.png
 	scale 50
@@ -2172,7 +2209,7 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Four-bit barrel shifter em VHDL
+Four bit barrel shifter em VHDL
 \end_layout
 
 \end_inset
@@ -2203,7 +2240,7 @@ begin{multicols}{2}
 \size scriptsize
 \begin_inset CommandInset include
 LatexCommand verbatiminput
-filename "four_bit_barrel_shifter.pdf"
+filename "four_bit_barrel_shifter.vhd"
 
 \end_inset
 
@@ -2240,6 +2277,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename q4wvf.png
 	scale 50
