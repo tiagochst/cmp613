@@ -1161,7 +1161,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename /Users/marspeople/UNICAMP/MC613/cmp613/Lab3/Doc/q1wvf.png
+	filename C:/Users/marspeople/UNICAMP/MC613/cmp613/Lab3/Doc/q1wvf.png
 	width 80text%
 
 \end_inset
@@ -1609,7 +1609,11 @@ Usando esse componente, quer-se construir um contador progressivo módulo
 \emph on
 flip-flops JK
 \emph default
- e obter as funções que geram seus os próximos estados, isto é, somam um.
+ e obter as funções que geram seus os próximos estados na subida do 
+\emph on
+clock
+\emph default
+, isto é, somam um.
  Sejam 
 \begin_inset Formula $a_{n}$
 \end_inset
@@ -1631,7 +1635,8 @@ flip-flops JK
 \end_inset
 
  o menos significativo.
- As transições são simples de obter:
+ As transições de um bit dependem apenas dos bits menos significativos e
+ são simples de obter:
 \end_layout
 
 \begin_layout Standard
@@ -1677,6 +1682,8 @@ flip-flop
 \emph default
  Portanto podem ser implementadas pelas portas J e K de forma simplificada,
  veja o código abaixo.
+ Por um raciocínio análogo, foi projetado também um contador regressivo
+ de mesmo módulo.
 \end_layout
 
 \begin_layout Standard
@@ -1821,12 +1828,239 @@ end{multicols}
 
 \end_layout
 
+\begin_layout Standard
+Usando um 
+\emph on
+clock
+\emph default
+ de baixa frequência (
+\begin_inset Formula $\sim1,6Hz$
+\end_inset
+
+) já usado em laboratórios anteriores, os contadores foram colocados na
+ placa com as saídas de cada um ligadas a um display de 7-segmentos.
+ Com a ferramenta de 
+\emph on
+Timing Analyzer 
+\emph default
+da IDE, é possível obter a frequência máxima de operação desse circuito,
+ que foi 
+\begin_inset Formula $clk_{max}=249,69MHz$
+\end_inset
+
+.
+ Para uma base de comparação, foi usado o CI comercial 
+\emph on
+74LS93
+\emph default
+, que possui frequência máxima de operação igual a 
+\begin_inset Formula $42MHz$
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Section
 Questão 3
 \end_layout
 
+\begin_layout Standard
+Um componente de armazenamento mais complexo, mas de grande utilidade é
+ o registrador de deslocamento.
+ Será projetado um com capacidade de carga assíncrona (
+\emph on
+load
+\emph default
+) em paralelo de 4 bits.
+ Além disso, há dois bits para direção do deslocamento (ou nenhuma), dois
+ para entrada de dado serial à esquerda e direita.
+ Sua lógica é baseada em 4 
+\emph on
+flip-flops
+\emph default
+ cuja entrada multiplexada pode ser a saída de um 
+\emph on
+flip-flop
+\emph default
+ vizinho (ou uma entrada serial quando nos extremos), sua própria saída
+ ou a entrada paralela.
+ 
+\end_layout
+
+\begin_layout Standard
+Por questões técnicas no funcionamento do 
+\emph on
+flip-flop
+\emph default
+, a entrada assíncrona só é salva se ocorrer pelo menos uma subida de 
+\emph on
+clock
+\emph default
+ enquanto ela for mantida na entrada.
+\end_layout
+
 \begin_layout Section
 Questão 4
+\end_layout
+
+\begin_layout Standard
+Contadores binários são circuitos digitais que variam os seus estados, sob
+ o comando de um clock, de acordo com uma sequência pré-determinada.
+ São utilizados principalmente para contagens, geração de palavras, divisão
+ de frequências, medição de frequência e tempo.
+\end_layout
+
+\begin_layout Standard
+Desenvolveu-se um contador mod n
+\begin_inset Formula $(n\,\epsilon\, N,0\leq n\leq255)$
+\end_inset
+
+, no qual o valor de n é escolhido através de 8 chaves.Se load valer 1 o
+ valor de n é atualizado de acordo com as 8 chaves.Caso contrário, a cada
+ subida do clock (se o enable for 1) o contador aumentará o valor até que
+ o número seja igual a n, zerando seu valor.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Contador módulo n 8 em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "mod_count.vhd"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Divisor de frequência 24MHz - 1Hz em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "div_freq.vhd"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
