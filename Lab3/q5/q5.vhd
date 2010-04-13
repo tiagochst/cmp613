@@ -6,7 +6,10 @@ ENTITY q5 IS
 	PORT (a, b, s   : IN STD_LOGIC_VECTOR(3 downto 0);
 	      m, cn     : IN STD_LOGIC;
 	      test		: OUT STD_LOGIC;
-	      seg0		: OUT STD_LOGIC_VECTOR(6 downto 0));
+	      seg0		: OUT STD_LOGIC_VECTOR(6 downto 0);
+	      --tmp:
+	      po1, po2, go1, go2, cn4o1, cn4o2, abo1, abo2: OUT STD_LOGIC;
+	      f		   : OUT STD_LOGIC_VECTOR(3 downto 0));
 END q5;
 
 ARCHITECTURE struct OF q5 IS
@@ -53,8 +56,20 @@ BEGIN
               p		=> p2,		f0		=> f2,
               cn4	=> cn4_2,	aeqb	=> ab2);
               
-    test <= '1' WHEN std_match(f1, f2)
+    test <= '1' WHEN (std_match(f1, f2) and ab1 = ab2 and
+                      p1 = p2 and g1 = g2) 
     ELSE '0';
+    
+    po1 <= p1;
+    go1 <= g1;
+    cn4o1 <= cn4_1;
+    abo1 <= ab1;
+    f <= f1;
+    
+    po2 <= p2;
+    go2 <= g2;
+    abo2 <= ab2;
+    cn4o2 <= cn4_2;
     
     s0: COMPONENT conv_7seg
 		PORT MAP (f2,seg0);
