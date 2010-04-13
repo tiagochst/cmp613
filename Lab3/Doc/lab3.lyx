@@ -1904,22 +1904,30 @@ Questão 4
 \end_layout
 
 \begin_layout Standard
-Contadores binários são circuitos digitais que variam os seus estados, sob
+Contadores binários são circuitos digitais que variam os seus estados sob
  o comando de um clock, de acordo com uma sequência pré-determinada.
  São utilizados principalmente para contagens, geração de palavras, divisão
  de frequências, medição de frequência e tempo.
 \end_layout
 
 \begin_layout Standard
-Desenvolveu-se um contador mod n
+Desenvolvemos um contador mod n
 \begin_inset Formula $(n\,\epsilon\, N,0\leq n\leq255)$
 \end_inset
 
-, no qual o valor de n é escolhido através de 8 chaves.Se load valer 1 o
- valor de n é atualizado instantaneamente de acordo com o valor representado
- pelas 8 chaves .Caso contrário, a cada subida do clock (se o enable for
- 1) o contador aumentará o valor até que o número seja igual a n, zerando
- seu valor.
+, no qual o valor de n é escolhido através de 8 chaves.
+ Se load valer '1' o valor de n é atualizado instantaneamente de acordo
+ com o valor representado pelas 8 chaves.
+ Caso contrário, a cada subida do clock (se o enable for '1') o contador
+ aumentará o valor até que o número seja igual a n, zerando seu valor.
+\end_layout
+
+\begin_layout Standard
+Posteriormente, realizamos uma simulação na qual o valor do módulo n inicialemen
+te vale 8,ou seja,a contagem vai de 0 a 7,o que pode ser confirmado na simulação.
+Além disso, sempre que o Load recebe valor '1' independente do clock, o
+ contador zera e o módulo n recebe novo valor.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2064,12 +2072,165 @@ end{multicols}
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename q4wvf.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação do contador módulo n
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Questão 5
 \end_layout
 
 \begin_layout Section
 Questão 6
+\end_layout
+
+\begin_layout Standard
+Projetamos através da linguagem VHDL um circuito Barrel Shifter, no qual
+ podemos deslocar um determinado dado um número arbitrário de bits para
+ direita ou para esquerda, tudo isso feito em um ciclo do clock, uma vez
+ que o Barrel Shifter é um circuito combinacional que não retem estado.
+\end_layout
+
+\begin_layout Standard
+Para implementar o Four Barrel Shifter (saída pode ser deslocada 0,1,2 ou
+ 3 posições para esquerda ou direita) foram necessárias 5 variáveis:
+\end_layout
+
+\begin_layout Itemize
+direction: Se 0, desloca para direita, caso contrário, para esquerda (1
+ toggle).
+\end_layout
+
+\begin_layout Itemize
+nshift: A quantidade de bits a ser deslocada (2 toggles).
+ 
+\end_layout
+
+\begin_layout Itemize
+shift: Variavél nshift convertida em integer.
+ 
+\end_layout
+
+\begin_layout Itemize
+number: O dado a ser deslocado (4 toggles).
+ 
+\end_layout
+
+\begin_layout Itemize
+output: Conjunto de 10 LEDs que apresentam a saída.
+\end_layout
+
+\begin_layout Standard
+O comportamento do circuito foi simulado abaixo e podemos ver que o Barrel
+ Shifter foi implementado com sucesso.
+ Podemos tomar como exemplo o primeiro caso, onde o dado é apresentado sem
+ modificações nos 4 LEDs centrais, uma vez que não há deslocamento.
+ Já no penúltimo caso, temos um deslocamento de 3 bits do número 1101, que
+ é corretamente mostrado nos LEDs da extrema esquerda.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Four-bit barrel shifter em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "four_bit_barrel_shifter.pdf"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2080,7 +2241,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename q4wvf.PNG
+	filename q4wvf.png
 	scale 50
 
 \end_inset
