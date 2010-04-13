@@ -1161,7 +1161,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename C:/Users/marspeople/UNICAMP/MC613/cmp613/Lab3/Doc/q1wvf.png
+	filename q1wvf.png
 	width 80text%
 
 \end_inset
@@ -1916,9 +1916,10 @@ Desenvolveu-se um contador mod n
 \end_inset
 
 , no qual o valor de n é escolhido através de 8 chaves.Se load valer 1 o
- valor de n é atualizado de acordo com as 8 chaves.Caso contrário, a cada
- subida do clock (se o enable for 1) o contador aumentará o valor até que
- o número seja igual a n, zerando seu valor.
+ valor de n é atualizado instantaneamente de acordo com o valor representado
+ pelas 8 chaves .Caso contrário, a cada subida do clock (se o enable for
+ 1) o contador aumentará o valor até que o número seja igual a n, zerando
+ seu valor.
 \end_layout
 
 \begin_layout Standard
