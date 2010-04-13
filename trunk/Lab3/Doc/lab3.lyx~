@@ -1197,6 +1197,42 @@ name "fig:Simulação-flip-flop-D"
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename q1bwvf.PNG
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação de comparação entre FFD e Latch 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Questão 2
 \end_layout
@@ -1924,7 +1960,9 @@ Desenvolvemos um contador mod n
 
 \begin_layout Standard
 Posteriormente, realizamos uma simulação na qual o valor do módulo n inicialemen
-te vale 8,ou seja,a contagem vai de 0 a 7,o que pode ser confirmado na simulação
+te vale 8,ou seja,a contagem vai de 0 a 7,o que pode ser confirmado na simulação.
+Além disso, sempre que o Load recebe valor '1' independente do clock, o
+ contador zera e o módulo n recebe novo valor.
  
 \end_layout
 
