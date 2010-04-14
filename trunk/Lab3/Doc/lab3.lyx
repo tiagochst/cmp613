@@ -1225,10 +1225,6 @@ Simulação de comparação entre FFD e Latch
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -2863,7 +2859,7 @@ Simulação do Registrador de Deslocamento
 
 
 \begin_inset Graphics
-	filename C:/Users/marspeople/UNICAMP/MC613/cmp613/Lab3/Doc/q3sim.png
+	filename q3sim.png
 	width 80text%
 
 \end_inset
@@ -3091,6 +3087,372 @@ Simulação do contador módulo n
 Questão 5
 \end_layout
 
+\begin_layout Standard
+Uma Unidade Lógica e Aritmética (ALU) é um módulo combinacional capaz de
+ realizar diversos tipos de cálculos em operandos de n bits, normalmente
+ incluindo entradas e saídas de 
+\emph on
+carrys
+\emph default
+.
+ Ela é um componente fundamental em um processador, já que devolve o resultado
+ de várias instruções (lógicas e aritméticas).
+ Uma ALU comercial mas já obsoleta é a 74LS181, que realiza 16 diferentes
+ operações lógicas e 16 aritméticas para dois operandos de 4 bits (
+\begin_inset Formula $a(4)$
+\end_inset
+
+ e 
+\begin_inset Formula $b(4)$
+\end_inset
+
+).
+ Possui entradas de modo 
+\begin_inset Formula $s(4)$
+\end_inset
+
+ e 
+\begin_inset Formula $m$
+\end_inset
+
+, entrada e saída de 
+\emph on
+carry
+\emph default
+ 
+\emph on
+ripple 
+\begin_inset Formula $c_{n}$
+\end_inset
+
+ 
+\emph default
+e 
+\begin_inset Formula $c_{n4}$
+\end_inset
+
+ (lógica negativa), saídas de 
+\emph on
+carry look-ahead 
+\begin_inset Formula $p$
+\end_inset
+
+ 
+\emph default
+e
+\emph on
+ 
+\begin_inset Formula $g$
+\end_inset
+
+,
+\emph default
+ uma saída 
+\begin_inset Formula $a_{eq}b$
+\end_inset
+
+, além das saídas de resultado 
+\begin_inset Formula $f(4).$
+\end_inset
+
+ Quer-se implementar um código comportamental em VHDL de um módulo idêntico,
+ isto é, que devolva as mesmas saídas para cada conjunto de entradas.
+ Com isso, será realizado um 
+\emph on
+testbench 
+\emph default
+entre os dois módulos.
+ A tabela de operações está no datasheet, transcrita na Tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Operações-da-ALU"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Operações da ALU 74LS181
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Operações-da-ALU"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename alu.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Estamos interessados apenas na lógica positiva (
+\emph on
+Active HIGH
+\emph default
+).
+ As saídas 
+\begin_inset Formula $f$
+\end_inset
+
+ têm a sua implementação comportamental direta, basta converter os vetores
+ de bits para um número e usar os operandos "or", "+", etc.
+ A entrada 
+\begin_inset Formula $m$
+\end_inset
+
+ apenas determina qual coluna (lógica ou aritmética) está em operação.
+ O 
+\emph on
+carry-in 
+\emph default
+
+\begin_inset Formula $c_{n}$
+\end_inset
+
+ deve ser incluído em 
+\emph on
+
+\begin_inset Formula $f$
+\end_inset
+
+
+\emph default
+ e o 
+\emph on
+carry-out 
+\begin_inset Formula $c_{n4}$
+\end_inset
+
+ 
+\emph default
+indica se a representação excedeu 4 bits - esses 
+\emph on
+carrys
+\emph default
+ só fazem sentido em operações aritmética, logo devem ser ignorados caso
+ contrário.
+ A saída 
+\begin_inset Formula $a_{eq}b$
+\end_inset
+
+ indica se apenas se 
+\begin_inset Formula $f$
+\end_inset
+
+ resultou em "1111".
+ A lógica dos 
+\emph on
+carrys 
+\emph default
+
+\begin_inset Formula $p$
+\end_inset
+
+ e 
+\begin_inset Formula $g$
+\end_inset
+
+ só fazem sentido em poucas operações, e não está muito bem documentada
+ no datasheet, portanto esses dois não foram incluídos no 
+\emph on
+testbench
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Desse modo, o 
+\emph on
+testbench 
+\emph default
+foi realizado com sucesso via simulação (variável 
+\emph on
+test
+\emph default
+ indicando resultados idênticos).
+ Por ser muito extenso, não será transcrito nesse relatório.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\emph on
+Testbench
+\emph default
+ das ALUs em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q5.vhd"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Implementação comportamental da 74LS181 em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "my74181.vhd"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Questão 6
 \end_layout
@@ -3291,6 +3653,15 @@ status open
 
 \begin_layout Plain Layout
 \align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Exemplos
+\end_layout
+
+\end_inset
+
+
 \begin_inset Tabular
 <lyxtabular version="3" rows="10" columns="4">
 <features>
@@ -3685,29 +4056,9 @@ Saída
 
 \end_layout
 
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Exemplos
-\end_layout
-
 \end_inset
 
 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section*
-Conclusão
-\end_layout
-
-\begin_layout Section*
-Conclusão
 \end_layout
 
 \end_body
