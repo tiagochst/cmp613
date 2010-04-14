@@ -43,6 +43,8 @@ BEGIN
     elsif ((clk='1') and (clk'event) and (enable='1') and (mod_int/=zero)) then
       count_int:= (count_int +1) MOD mod_int;
       output <= STD_LOGIC_VECTOR(TO_UNSIGNED(count_int,8));
+	ELSE 			--- Prevents latch inference
+			output <= "XXXXXXXX";		--/
     end if;
 end process count_proc;
 
