@@ -34,7 +34,7 @@ BEGIN
 	PROCESS (a, b, s, m, cn)
 	BEGIN
 		mode: CASE m IS
-		WHEN '0' =>
+		WHEN '0' => --operacoes aritmeticas
 			op_sel0: CASE s IS
 			WHEN "0000" =>
 				f <= a;
@@ -69,7 +69,7 @@ BEGIN
 			WHEN "1111" =>
 				f <= (a + min1);
 			END CASE op_sel0;
-		WHEN '1' =>
+		WHEN '1' => --operacoes logicas
 			op_sel1: CASE s IS
 			WHEN "0000" =>
 				f <= notlast(a);
