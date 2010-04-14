@@ -1876,9 +1876,9 @@ clock
 \emph on
 Timing Analyzer 
 \emph default
-da IDE, é possível obter a frequência máxima de operação desse circuito,
- que foi 
-\begin_inset Formula $clk_{max}=249,69MHz$
+da IDE, é possível obter a frequência máxima de operação do contador (sem
+ display nem divisor de frequência), que foi 
+\begin_inset Formula $clk_{max}=405,02MHz$
 \end_inset
 
 .
@@ -1886,7 +1886,7 @@ da IDE, é possível obter a frequência máxima de operação desse circuito,
 \emph on
 74LS93
 \emph default
-, que possui frequência máxima de operação igual a 
+, que possui frequência máxima de operação muito menor: 
 \begin_inset Formula $42MHz$
 \end_inset
 
@@ -4059,6 +4059,52 @@ Saída
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+Conclusão
+\end_layout
+
+\begin_layout Standard
+Nesse laboratório explorou-se principalmente o desenvolvimento de contadores
+ e 
+\emph on
+flip-flops.
+
+\emph default
+ Dentre eles, desenvolvemos contadores mod 
+\begin_inset Formula $n$
+\end_inset
+
+, contadores progressivos e regressivos, que são utilizados principalmente
+ para contagens, divisão de frequências, medição de frequência e tempo.
+\end_layout
+
+\begin_layout Standard
+Além disso, desenvolvemos FF JK, FF D, latch D, latch SR, registrador de
+ deslocamento com carregamento assíncrono nos FF (usando as entradas 
+\begin_inset Formula $PRE$
+\end_inset
+
+ e 
+\begin_inset Formula $CLR$
+\end_inset
+
+), um 
+\emph on
+four bit barrel shifter 
+\emph default
+e o comportamento de uma ALU, que é um componente fundamental em um processador
+ moderno.
+\end_layout
+
+\begin_layout Standard
+Para o desenvolvimento de grande parte dos projetos foram revistos conceitos
+ como circuitos assíncronos, síncronos e 
+\emph on
+flip-flops
+\emph default
+.
 \end_layout
 
 \end_body
