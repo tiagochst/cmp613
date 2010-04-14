@@ -2157,8 +2157,8 @@ Questão 6
 \begin_layout Standard
 Projetamos através da linguagem VHDL um circuito Barrel Shifter, no qual
  podemos deslocar um determinado dado um número arbitrário de bits para
- direita ou para esquerda, tudo isso feito em um ciclo do clock, uma vez
- que o Barrel Shifter é um circuito combinacional que não retem estado.
+ direita ou para esquerda imediatamente, uma vez que o Barrel Shifter é
+ um circuito combinacional que não retem estado.
 \end_layout
 
 \begin_layout Standard
