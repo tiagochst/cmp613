@@ -98,7 +98,7 @@ Questão 1
 \end_layout
 
 \begin_layout Standard
-A celúla lógica de armazenamento mais simples que existe é o 
+A célula lógica de armazenamento mais simples que existe é o 
 \emph on
 latch
 \emph default
@@ -3103,32 +3103,51 @@ Projetamos através da linguagem VHDL um circuito Barrel Shifter, no qual
 \end_layout
 
 \begin_layout Standard
-Para implementar o Four Barrel Shifter (saída pode ser deslocada 0,1,2 ou
- 3 posições para esquerda ou direita) foram necessárias 5 variáveis:
+Para implementar o Four Barrel Shifter (saída pode ser deslocada 0, 1, 2
+ ou 3 posições para esquerda ou direita) foram necessárias 5 variáveis:
 \end_layout
 
 \begin_layout Itemize
-direction: Se 0, desloca para direita, caso contrário, para esquerda (1
- toggle).
+
+\emph on
+direction:
+\emph default
+ Se 0, desloca para direita, caso contrário, para esquerda (1 toggle).
 \end_layout
 
 \begin_layout Itemize
-nshift: A quantidade de bits a ser deslocada (2 toggles).
+
+\emph on
+nshift:
+\emph default
+ A quantidade de bits a ser deslocada (2 toggles).
  
 \end_layout
 
 \begin_layout Itemize
-shift: Variavél nshift convertida em integer.
+
+\emph on
+shift:
+\emph default
+ Variável nshift convertida em integer.
  
 \end_layout
 
 \begin_layout Itemize
-number: O dado a ser deslocado (4 toggles).
+
+\emph on
+number:
+\emph default
+ O dado a ser deslocado (4 toggles).
  
 \end_layout
 
 \begin_layout Itemize
-output: Conjunto de 10 LEDs que apresentam a saída.
+
+\emph on
+output:
+\emph default
+ Conjunto de 10 LEDs que apresentam a saída.
 \end_layout
 
 \begin_layout Standard
@@ -3154,8 +3173,9 @@ O comportamento do circuito foi simulado abaixo e podemos ver que o Barrel
 \begin_inset Quotes erd
 \end_inset
 
-).Observe que a saída contém dez posições para a correta avaliação de deslcomento
- de bits.
+).
+ Observe que a saída contém dez posições para a correta avaliação de deslocament
+o de bits.
 \end_layout
 
 \begin_layout Standard
@@ -3239,7 +3259,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename q6wvf.PNG
-	scale 50
+	width 80text%
 
 \end_inset
 
@@ -3250,7 +3270,7 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Simulação 
+Simulação
 \end_layout
 
 \end_inset
