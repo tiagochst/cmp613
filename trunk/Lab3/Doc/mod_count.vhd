@@ -12,7 +12,7 @@ Entity mod_count is
 End mod_count;
 
 architecture behave of mod_count is
-   Signal output: STD_LOGIC_VECTOR(7 downto 0);
+   Signal op: STD_LOGIC_VECTOR(7 downto 0);
    constant zero:integer:=0;
 
 COMPONENT div_freq 
@@ -42,16 +42,16 @@ BEGIN
 		elsif ((enable='1') and (mod_int/=zero)) then
 		  count_int:= (count_int +1) MOD mod_int;
 		end if;
-		output <= STD_LOGIC_VECTOR(TO_UNSIGNED(count_int,8));
+		op <= STD_LOGIC_VECTOR(TO_UNSIGNED(count_int,8));
 	END IF;
   End process count_proc;
 
   disp: COMPONENT conv_7seg
-		PORT MAP (output(3), output(2), output(1), output(0), seg1(6), seg1(5),
+		PORT MAP (op(3), op(2), op(1), op(0), seg1(6), seg1(5),
 		          seg1(4), seg1(3), seg1(2), seg1(1), seg1(0));
 
   disp2: COMPONENT conv_7seg
-		PORT MAP (output(7), output(6), output(5), output(4), seg2(6), seg2(5),
+		PORT MAP (op(7), op(6), op(5), op(4), seg2(6), seg2(5),
 		          seg2(4), seg2(3), seg2(2), seg2(1), seg2(0));
 
 end behave;
