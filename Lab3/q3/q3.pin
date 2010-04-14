@@ -357,8 +357,8 @@ GND*                         : L19       :        :                   :         
 VCCIO5                       : L20       : power  :                   : 3.3V    : 5         :                
 x_pl[1]                      : L21       : input  : 3.3-V LVTTL       :         : 5         : Y              
 x_pl[0]                      : L22       : input  : 3.3-V LVTTL       :         : 5         : Y              
-l_sh                         : M1        : input  : 3.3-V LVTTL       :         : 1         : Y              
-r_sh                         : M2        : input  : 3.3-V LVTTL       :         : 1         : Y              
+sh_l                         : M1        : input  : 3.3-V LVTTL       :         : 1         : Y              
+sh_r                         : M2        : input  : 3.3-V LVTTL       :         : 1         : Y              
 VCCIO1                       : M3        : power  :                   : 3.3V    : 1         :                
 GND                          : M4        : gnd    :                   :         :           :                
 GND*                         : M5        :        :                   :         : 1         :                
@@ -477,8 +477,8 @@ VCCA_PLL1                    : U7        : power  :                   : 1.2V    
 GND*                         : U8        :        :                   :         : 8         :                
 GND*                         : U9        :        :                   :         : 8         :                
 GND*                         : U10       :        :                   :         : 8         :                
-x_sr                         : U11       : input  : 3.3-V LVTTL       :         : 8         : Y              
-GND+                         : U12       :        :                   :         : 8         :                
+x_l                          : U11       : input  : 3.3-V LVTTL       :         : 8         : Y              
+x_r                          : U12       : input  : 3.3-V LVTTL       :         : 8         : Y              
 GND*                         : U13       :        :                   :         : 7         :                
 GND*                         : U14       :        :                   :         : 7         :                
 GND*                         : U15       :        :                   :         : 7         :                

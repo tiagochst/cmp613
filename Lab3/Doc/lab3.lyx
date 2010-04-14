@@ -1161,7 +1161,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename ../q1wvf.png
+	filename q1wvf.png
 	width 80text%
 
 \end_inset
@@ -1708,7 +1708,7 @@ Contador progressivo módulo 8 em VHDL
 
 \lang english
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -2753,8 +2753,11 @@ Registrador de Deslocamento em VHDL
 \end_inset
 
 
-\lang english
+\end_layout
 
+\begin_layout Plain Layout
+
+\lang english
 \begin_inset ERT
 status collapsed
 
@@ -2806,7 +2809,38 @@ end{multicols}
 \end_layout
 
 \begin_layout Standard
-!!! INSERIR SIMULACAO CORRETA !!
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação do Registrador de Deslocamento
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename q3sim.png
+	width 80text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
