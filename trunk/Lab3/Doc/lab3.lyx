@@ -2195,8 +2195,26 @@ O comportamento do circuito foi simulado abaixo e podemos ver que o Barrel
  Shifter foi implementado com sucesso.
  Podemos tomar como exemplo o primeiro caso, onde o dado é apresentado sem
  modificações nos 4 LEDs centrais, uma vez que não há deslocamento.
- Já no penúltimo caso, temos um deslocamento de 3 bits do número 1101, que
- é corretamente mostrado nos LEDs da extrema esquerda.
+ Já no penúltimo caso, temos um deslocamento de 3 bits do número 1101 para
+ a esquerda, que é corretamente mostrado nos LEDs da extrema esquerda(entrada
+ = 
+\begin_inset Quotes eld
+\end_inset
+
+1101
+\begin_inset Quotes erd
+\end_inset
+
+ saída 
+\begin_inset Quotes eld
+\end_inset
+
+0001101000 
+\begin_inset Quotes erd
+\end_inset
+
+).Observe que a saída contém dez posições para a correta avaliação de deslcomento
+ de bits.
 \end_layout
 
 \begin_layout Standard
@@ -2296,33 +2314,6 @@ Simulação
 
 \end_inset
 
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Simulação
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
