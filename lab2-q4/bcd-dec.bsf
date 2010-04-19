@@ -1,0 +1,131 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2010 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 64 64 184 256)
+	(text "bcd-dec" (rect 40 0 94 16)(font "Arial" (font_size 10)))
+	(text "inst" (rect 3 181 17 191)(font "Arial" (font_size 6)))
+	(port
+		(pt 120 24)
+		(input)
+		(text "X0" (rect 77 17 92 31)(font "Arial" (font_size 8)))
+		(text "X0" (rect 88 16 103 30)(font "Arial" (font_size 8)))
+		(line (pt 120 24)(pt 104 24)(line_width 1))
+	)
+	(port
+		(pt 120 40)
+		(input)
+		(text "X1" (rect 77 33 92 47)(font "Arial" (font_size 8)))
+		(text "X1" (rect 88 32 103 46)(font "Arial" (font_size 8)))
+		(line (pt 120 40)(pt 104 40)(line_width 1))
+	)
+	(port
+		(pt 120 56)
+		(input)
+		(text "X2" (rect 77 49 92 63)(font "Arial" (font_size 8)))
+		(text "X2" (rect 88 48 103 62)(font "Arial" (font_size 8)))
+		(line (pt 120 56)(pt 104 56)(line_width 1))
+	)
+	(port
+		(pt 120 72)
+		(input)
+		(text "X3" (rect 77 65 92 79)(font "Arial" (font_size 8)))
+		(text "X3" (rect 88 64 103 78)(font "Arial" (font_size 8)))
+		(line (pt 120 72)(pt 104 72)(line_width 1))
+	)
+	(port
+		(pt 120 88)
+		(input)
+		(text "X4" (rect 77 81 92 95)(font "Arial" (font_size 8)))
+		(text "X4" (rect 88 80 103 94)(font "Arial" (font_size 8)))
+		(line (pt 120 88)(pt 104 88)(line_width 1))
+	)
+	(port
+		(pt 120 104)
+		(input)
+		(text "X5" (rect 77 97 92 111)(font "Arial" (font_size 8)))
+		(text "X5" (rect 88 96 103 110)(font "Arial" (font_size 8)))
+		(line (pt 120 104)(pt 104 104)(line_width 1))
+	)
+	(port
+		(pt 120 120)
+		(input)
+		(text "X6" (rect 77 113 92 127)(font "Arial" (font_size 8)))
+		(text "X6" (rect 88 112 103 126)(font "Arial" (font_size 8)))
+		(line (pt 120 120)(pt 104 120)(line_width 1))
+	)
+	(port
+		(pt 120 136)
+		(input)
+		(text "X7" (rect 77 129 92 143)(font "Arial" (font_size 8)))
+		(text "X7" (rect 88 128 103 142)(font "Arial" (font_size 8)))
+		(line (pt 120 136)(pt 104 136)(line_width 1))
+	)
+	(port
+		(pt 120 152)
+		(input)
+		(text "X8" (rect 77 145 92 159)(font "Arial" (font_size 8)))
+		(text "X8" (rect 88 144 103 158)(font "Arial" (font_size 8)))
+		(line (pt 120 152)(pt 104 152)(line_width 1))
+	)
+	(port
+		(pt 120 168)
+		(input)
+		(text "X9" (rect 77 160 92 174)(font "Arial" (font_size 8)))
+		(text "X9" (rect 88 159 103 173)(font "Arial" (font_size 8)))
+		(line (pt 120 168)(pt 104 168)(line_width 1))
+	)
+	(port
+		(pt 0 72)
+		(output)
+		(text "A" (rect 21 65 30 79)(font "Arial" (font_size 8)))
+		(text "A" (rect 21 65 30 79)(font "Arial" (font_size 8)))
+		(line (pt 0 72)(pt 16 72)(line_width 1))
+	)
+	(port
+		(pt 0 88)
+		(output)
+		(text "B" (rect 21 81 29 95)(font "Arial" (font_size 8)))
+		(text "B" (rect 21 81 29 95)(font "Arial" (font_size 8)))
+		(line (pt 0 88)(pt 16 88)(line_width 1))
+	)
+	(port
+		(pt 0 104)
+		(output)
+		(text "C" (rect 21 97 29 111)(font "Arial" (font_size 8)))
+		(text "C" (rect 21 97 29 111)(font "Arial" (font_size 8)))
+		(line (pt 0 104)(pt 16 104)(line_width 1))
+	)
+	(port
+		(pt 0 120)
+		(output)
+		(text "D" (rect 21 113 29 127)(font "Arial" (font_size 8)))
+		(text "D" (rect 21 113 29 127)(font "Arial" (font_size 8)))
+		(line (pt 0 120)(pt 16 120)(line_width 1))
+	)
+	(drawing
+		(text "BCD - DEC" (rect 37 177 97 191)(font "Arial" (font_size 8)))
+		(line (pt 16 16)(pt 104 16)(line_width 1))
+		(line (pt 16 176)(pt 104 176)(line_width 1))
+		(line (pt 16 176)(pt 16 16)(line_width 1))
+		(line (pt 104 176)(pt 104 16)(line_width 1))
+	)
+)
