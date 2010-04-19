@@ -105,10 +105,79 @@ Questão 1
 \begin_layout Standard
 
 \lang brazilian
+Projetamos um contador síncrono, cuja contagem é realizada de acordo com
+ a tabela: 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Q1Função-de-transição"
+
+\end_inset
+
+, e possui um sinal de reset ativo baixo que inicializa o contador com 
+\begin_inset Formula $Q_{c}Q_{b}Q_{a}=001$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\lang brazilian
+Como a saída pode ser representada em binário (
+\begin_inset Formula $Z_{c}Z_{b}Z_{a}$
+\end_inset
+
+), pode-se minimizar a saída através de tabelas de Karnaugh (tabelas: 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Karnaugh-zc"
+
+\end_inset
+
+,
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Karnaugh-zb"
+
+\end_inset
+
+,
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Karnaugh-za"
+
+\end_inset
+
+).
+ A partir da minimização realizada, as saídas Zc Zb Za (dígitos binários
+ de saída) podem ser calculadas utilizando as formulás 1, 2 e 3 respectivamente
+ (código em vdhl: algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:4)Q1Função-de-contagem"
+
+\end_inset
+
+).
+ Posteriormente, a saída foi colocada no display de sete segmentos para
+ uma melhor análise (código em vhdl : algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:4)Q1Contador-síncrono"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+
+\lang brazilian
 \begin_inset Float table
+placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -664,9 +733,10 @@ name "tab:Q1Função-de-transição"
 
 \begin_layout Standard
 \begin_inset Float table
+placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -852,6 +922,13 @@ Karnaugh para para
 \begin_inset Formula $Z_{c}$
 \end_inset
 
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Karnaugh-zc"
+
+\end_inset
+
 
 \end_layout
 
@@ -867,9 +944,10 @@ Karnaugh para para
 
 \begin_layout Standard
 \begin_inset Float table
+placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -1056,6 +1134,13 @@ Karnaugh para
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Karnaugh-zb"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1070,9 +1155,10 @@ Karnaugh para
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -1259,6 +1345,13 @@ Karnaugh para
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Karnaugh-za"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1292,6 +1385,164 @@ Z_{b}=Q_{c}Q_{a}+\overline{Q_{b}}\end{equation}
 \begin_layout LyX-Code
 \begin_inset Formula \begin{equation}
 Z_{a}=\overline{Q_{c}}+\overline{Q_{b}}Q_{a}\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang brazilian
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "cont.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang brazilian
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang brazilian
+4)Função de contagem 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:4)Q1Função-de-contagem"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang brazilian
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q1.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang brazilian
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang brazilian
+4) Contador síncrono - saída no display de 7 segmentos 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:4)Q1Contador-síncrono"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
