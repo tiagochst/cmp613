@@ -28,7 +28,7 @@ HEADER
 range_start 0ps\
 range_end 1.0us\
 width 1\
-names_percentage 25\
+names_percentage 99\
 comments 1\
 grid_lines 1\
 time_bars 1\
@@ -36,8 +36,31 @@ name_every_page 0\
 expand_groups 0\
 print_all 1\
 print_row_height 100";
+	PAGE_SETUP = "header_footer\
+Date: %D\
+%f\
+Project: %j\
+\
+Page %p of %P\
+Revision: %a\
+margin\
+1\
+1\
+1\
+1\
+orientation\
+2\
+paper_size\
+32767\
+paper_source\
+15\
+fit_page_wide\
+1\
+fit_page_tall\
+1\
+";
 	DATA_OFFSET = 0.0;
-	DATA_DURATION = 1000.0;
+	DATA_DURATION = 480.0;
 	SIMULATION_TIME = 1000.0;
 	GRID_PHASE = 0.0;
 	GRID_PERIOD = 10.0;
@@ -111,7 +134,7 @@ TRANSITION_LIST("clk")
 		REPEAT = 1;
 		NODE
 		{
-			REPEAT = 50;
+			REPEAT = 24;
 			LEVEL 0 FOR 10.0;
 			LEVEL 1 FOR 10.0;
 		}
@@ -132,13 +155,8 @@ TRANSITION_LIST("q[2]")
 		LEVEL 0 FOR 80.0;
 		LEVEL 1 FOR 10.0;
 		LEVEL 0 FOR 30.0;
-		NODE
-		{
-			REPEAT = 4;
-			LEVEL 1 FOR 80.0;
-			LEVEL 0 FOR 60.0;
-		}
-		LEVEL 1 FOR 50.0;
+		LEVEL 1 FOR 80.0;
+		LEVEL 0 FOR 10.0;
 	}
 }
 
@@ -168,19 +186,9 @@ TRANSITION_LIST("q[1]")
 			LEVEL 1 FOR 20.0;
 			LEVEL 0 FOR 20.0;
 		}
-		NODE
-		{
-			REPEAT = 4;
-			LEVEL 1 FOR 40.0;
-			NODE
-			{
-				REPEAT = 2;
-				LEVEL 0 FOR 20.0;
-				LEVEL 1 FOR 20.0;
-			}
-			LEVEL 0 FOR 20.0;
-		}
-		LEVEL 1 FOR 30.0;
+		LEVEL 1 FOR 40.0;
+		LEVEL 0 FOR 20.0;
+		LEVEL 1 FOR 10.0;
 	}
 }
 
@@ -192,13 +200,7 @@ TRANSITION_LIST("q[0]")
 		LEVEL 1 FOR 70.0;
 		LEVEL 0 FOR 60.0;
 		LEVEL 1 FOR 300.0;
-		NODE
-		{
-			REPEAT = 4;
-			LEVEL 0 FOR 60.0;
-			LEVEL 1 FOR 80.0;
-		}
-		LEVEL 0 FOR 10.0;
+		LEVEL 0 FOR 50.0;
 	}
 }
 
@@ -214,7 +216,7 @@ TRANSITION_LIST("reset")
 		LEVEL 0 FOR 50.0;
 		LEVEL 1 FOR 40.0;
 		LEVEL 0 FOR 10.0;
-		LEVEL 1 FOR 630.0;
+		LEVEL 1 FOR 110.0;
 	}
 }
 
@@ -274,11 +276,5 @@ DISPLAY_LINE
 	TREE_INDEX = 5;
 	TREE_LEVEL = 1;
 	PARENT = 2;
-}
-
-TIME_BAR
-{
-	TIME = 15275;
-	MASTER = TRUE;
 }
 ;
