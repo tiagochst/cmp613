@@ -33,9 +33,8 @@ BEGIN
 	d1: COMPONENT div_freq
 		PORT MAP (clk_base, 27000000/4, clk_v(1));
 	d2: COMPONENT div_freq
-		PORT MAP (clk_base, 27000000/16, clk_v(2));
-	d3: COMPONENT div_freq
-		PORT MAP (clk_base, 27000000/32, clk_v(3));
+		PORT MAP (clk_base, 27000000/12, clk_v(2));
+	clk_v(3) <= '0';
 		
 	clk <= clk_v(to_integer(unsigned(clk_sel)));
 	
