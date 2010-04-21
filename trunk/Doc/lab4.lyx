@@ -1903,7 +1903,7 @@ reference "fig:Q2 Simulação-cont-mod-mil-prop"
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -2060,7 +2060,7 @@ name "alg:Q2contador_mod_mil"
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -2233,6 +2233,295 @@ name "fig:Q2 Simulação-cont-mod-mil-prop"
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Section
+
+\lang english
+Questão 5
+\end_layout
+
+\begin_layout Standard
+Utilizando os componentes ps2_mouse_test.vhd (top level), mouse_ctrl.vhd e
+ ps2_iobase.vhd (protocolo básico PS/2, pode ser usado no mouse e no teclado),
+ implementou-se na DE1 a comunicação com o mouse, na qual mostrava sua posição
+ no display de 7 segmentos.
+\end_layout
+
+\begin_layout Standard
+A movimentação do mouse altera os valores dos displays, sendo que dois deles
+ representam a posição no eixo y e outro no eixo x (valores de 00 a FF).Um
+ push button foi usado para zerar as cordenadas, ou seja, ao pressionar
+ os displays de sete segmentos passam a mostrar '0000'.E quando ocorre overflow
+ na posição do mouse dois leds vermelhos devem piscar, sendo um responsável
+ pelo overflow no eixo horizontal enquanto o outro na vertical.
+ 
+\end_layout
+
+\begin_layout Standard
+Os botões do mouse (esquerdo, direito, wheel) têm seus valores mostrados
+ em três LEDs verdes, sendo que ao serem pressionados acende cada um o seu
+ respectivo LED.A movimentação do wheel para cima é negativo e para baixo
+ é positivo (representação em complemento de 2 nos 4 primeiros LEDs verdes),
+ quão mais rápido move-se a wheel maior é o módulo do valor.
+\end_layout
+
+\begin_layout Standard
+
+\lang brazilian
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "mvmouse.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang brazilian
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang brazilian
+Movimentação do mouse - mostra posição e botões 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Q5mvmouse"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang brazilian
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+
+\lang brazilian
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "ps2_iobase.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang brazilian
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang brazilian
+Protocolo básico PS/2
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Q5ps2io"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang brazilian
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "mouse_ctrl.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang brazilian
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang brazilian
+Componente de controle do mouse 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Q5mousectrl"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 
 \end_layout
 
