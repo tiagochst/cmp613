@@ -157,7 +157,7 @@ reference "tab:Karnaugh-za"
  (código em vdhl: algoritmo 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "alg:4)Q1Função-de-contagem"
+reference "alg:Q1Função-de-contagem"
 
 \end_inset
 
@@ -166,7 +166,7 @@ reference "alg:4)Q1Função-de-contagem"
  uma melhor análise (código em vhdl : algoritmo 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "alg:4)Q1Contador-síncrono"
+reference "alg:Q1Contador-síncrono"
 
 \end_inset
 
@@ -1636,7 +1636,7 @@ Z_{a}=\overline{Q_{c}}+\overline{Q_{b}}Q_{a}\end{equation}
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -1690,10 +1690,10 @@ end{multicols}
 \begin_layout Plain Layout
 
 \lang brazilian
-4)Função de contagem 
+Função de contagem 
 \begin_inset CommandInset label
 LatexCommand label
-name "alg:4)Q1Função-de-contagem"
+name "alg:Q1Função-de-contagem"
 
 \end_inset
 
@@ -1712,7 +1712,7 @@ name "alg:4)Q1Função-de-contagem"
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -1766,10 +1766,10 @@ end{multicols}
 \begin_layout Plain Layout
 
 \lang brazilian
-4) Contador síncrono - saída no display de 7 segmentos 
+Contador síncrono - saída no display de 7 segmentos 
 \begin_inset CommandInset label
 LatexCommand label
-name "alg:4)Q1Contador-síncrono"
+name "alg:Q1Contador-síncrono"
 
 \end_inset
 
@@ -1794,7 +1794,7 @@ name "alg:4)Q1Contador-síncrono"
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -1825,6 +1825,287 @@ name "fig:Simulação-contador-baseado"
 \end_inset
 
 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 2
+\end_layout
+
+\begin_layout Standard
+Usando 3 CI’s 7490 (algoritmo: 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Q2comp_cont"
+
+\end_inset
+
+), projetamos um contador BCD módulo mil, cuja entrada era composta de um
+ clock, um preset e um reset.
+ Utilizando 4 clocks de diferentes frequências selecionados através de toggles
+ (algoritmo de frequência dependente de varíavel: 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Q2div_freq"
+
+\end_inset
+
+), demonstramos o funcionamento na placa visualizando a contagem em três
+ displays de 7 segmentos ( centena, dezena, unidade).
+ Dois push buttons foram usados para os sinais de clear (display passa a
+ ser '000', contador zerado) e preset (display passa a ser '999').
+\end_layout
+
+\begin_layout Standard
+Para a mudança de valor nos displays de dezena , quando o valor do dígito
+ da unidade atingir o valor '9' alteramos o clock e entrada no componente
+ da dezena para 1 caso contrário ficaria '0' (algoritmo: 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Q2contador_mod_mil"
+
+\end_inset
+
+).O mesmo é feito em relação a centena, sendo que quando a dezena chegar
+ ao valor '9' o clock da centena recebe valor '1'.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\lang brazilian
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q2div_freq.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang brazilian
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang brazilian
+Divisor de frequência variável 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Q2div_freq"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q2.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang brazilian
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang brazilian
+ Contador BCD módulo mil 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Q2contador_mod_mil"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang brazilian
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "bcd_count.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang brazilian
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang brazilian
+ Componente contador BCD 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Q2comp_cont"
+
+\end_inset
+
+ 
 \end_layout
 
 \end_inset
