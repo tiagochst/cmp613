@@ -1861,8 +1861,16 @@ reference "alg:Q2div_freq"
 
 ), demonstramos o funcionamento na placa visualizando a contagem em três
  displays de 7 segmentos ( centena, dezena, unidade).
- Dois push buttons foram usados para os sinais de clear (display passa a
- ser '000', contador zerado) e preset (display passa a ser '999').
+ Dois push buttons foram usados, um para os sinais de clear (display passa
+ a ser '000', contador zerado) e preset (display passa a ser '999'), o comportam
+ento é simulado na figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Q2 Simulação-cont-mod-mil"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -1876,7 +1884,15 @@ reference "alg:Q2contador_mod_mil"
 \end_inset
 
 ).O mesmo é feito em relação a centena, sendo que quando a dezena chegar
- ao valor '9' o clock da centena recebe valor '1'.
+ ao valor '9' o clock da centena recebe valor '1',o comportamento é simulado
+ na figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Q2 Simulação-cont-mod-mil-prop"
+
+\end_inset
+
+.
  
 \end_layout
 
@@ -2106,6 +2122,108 @@ name "alg:Q2comp_cont"
 \end_inset
 
  
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+
+\lang english
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset Graphics
+	filename q2vwf_rst_pre.PNG
+	scale 60
+	BoundingBox 0bp 0bp 1039bp 158bp
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang english
+Simulação contador módulo mil - análise reset e preset 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Q2 Simulação-cont-mod-mil"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+
+\lang english
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset Graphics
+	filename q2vwf_prop.PNG
+	scale 60
+	BoundingBox 0bp 0bp 1039bp 158bp
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang english
+Simulação contador módulo mil - análise de propagação 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Q2 Simulação-cont-mod-mil-prop"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
