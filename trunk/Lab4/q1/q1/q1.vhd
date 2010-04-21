@@ -10,8 +10,9 @@ ARCHITECTURE rtl OF q1 IS
 	SIGNAL clk: 	STD_LOGIC;
 	
 COMPONENT freq_div IS
-	PORT (hi_clk: IN STD_LOGIC;
-	      clk: OUT STD_LOGIC);
+	PORT (clk: IN STD_LOGIC;
+	      ratio: IN INTEGER;
+	      clk_out: OUT STD_LOGIC);
 END COMPONENT freq_div;
 COMPONENT cont IS
 	PORT (clk, reset: IN STD_LOGIC;
@@ -24,7 +25,7 @@ END COMPONENT conv_7seg;
 
 BEGIN
 	fd: COMPONENT freq_div
-		PORT MAP (hi_clk, clk);
+		PORT MAP (hi_clk, 27000000, clk);
 		
 	ct: COMPONENT cont
 		PORT MAP (clk, reset, q);
