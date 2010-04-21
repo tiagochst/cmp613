@@ -1976,7 +1976,7 @@ name "alg:Q2div_freq"
 
 
 \begin_inset Float algorithm
-placement h
+placement H
 wide false
 sideways false
 status open
@@ -2262,16 +2262,17 @@ A movimentação do mouse altera os valores dos displays, sendo que dois deles
 \begin_layout Standard
 Os botões do mouse (esquerdo, direito, wheel) têm seus valores mostrados
  em três LEDs verdes, sendo que ao serem pressionados acende cada um o seu
- respectivo LED.A movimentação do wheel para cima é negativo e para baixo
- é positivo (representação em complemento de 2 nos 4 primeiros LEDs verdes),
- quão mais rápido move-se a wheel maior é o módulo do valor.
+ respectivo LED.
+ A movimentação do wheel para cima é negativo e para baixo é positivo (represent
+ação em complemento de 2 nos 4 primeiros LEDs verdes), quão mais rápido
+ move-se a wheel maior é o módulo do valor.
 \end_layout
 
 \begin_layout Standard
 
 \lang brazilian
 \begin_inset Float algorithm
-placement h
+placement H
 wide false
 sideways false
 status open
@@ -2518,10 +2519,6 @@ name "alg:Q5mousectrl"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 
 \end_layout
 
