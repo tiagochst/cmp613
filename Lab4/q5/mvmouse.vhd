@@ -6,16 +6,16 @@ entity mvmouse IS
 	port
 	(
 		------------------------	Clock Input	 	------------------------
-		CLOCK_24	: 	in	STD_LOGIC_VECTOR (1 downto 0);	--	24 MHz
-		CLOCK_27	:	in	STD_LOGIC_VECTOR (1 downto 0);	--	27 MHz
-		CLOCK_50	: 	in	STD_LOGIC;											--	50 MHz
-		CLOCK_300	: 	out	STD_LOGIC;											--	300 KHz
+		CLOCK_24	: 	in	STD_LOGIC_VECTOR (1 downto 0);		--	24 MHz
+		CLOCK_27	:	in	STD_LOGIC_VECTOR (1 downto 0);		--	27 MHz
+		CLOCK_50	: 	in	STD_LOGIC;							--	50 MHz
+		CLOCK_300	: 	out	STD_LOGIC;							--	300 KHz
 		
 		------------------------	Push Button		------------------------
 		KEY 	:		in	STD_LOGIC_VECTOR (3 downto 0);		--	Pushbutton[3:0]
 
 		------------------------	DPDT Switch		------------------------
-		SW 	:			in	STD_LOGIC_VECTOR (9 downto 0);			--	Toggle Switch[9:0]
+		SW 	:			in	STD_LOGIC_VECTOR (9 downto 0);		--	Toggle Switch[9:0]
 		
 		------------------------	7-SEG Dispaly	------------------------
 		HEX0 	:		out	STD_LOGIC_VECTOR (6 downto 0);		--	Seven Segment Digit 0
@@ -28,13 +28,14 @@ entity mvmouse IS
 		LEDR 	:		out	STD_LOGIC_VECTOR (9 downto 0);		--	LED Red[9:0]
 					
 		------------------------	PS2		--------------------------------
-		PS2_DAT 	:	inout	STD_LOGIC;	--	PS2 Data
-		PS2_CLK		:	inout	STD_LOGIC		--	PS2 Clock
+		PS2_DAT 	:	inout	STD_LOGIC;	                    --	PS2 Data
+		PS2_CLK		:	inout	STD_LOGIC		                --	PS2 Clock
 	);
 end;
 
 architecture struct of mvmouse IS
  
+	-- Display 7 segmentos
     COMPONENT conv_7seg IS
 	  PORT (x: IN STD_LOGIC_VECTOR(3 downto 0);
 	        y: OUT STD_LOGIC_VECTOR(6 downto 0));
