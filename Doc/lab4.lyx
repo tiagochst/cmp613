@@ -17,6 +17,7 @@
 \numberwithin{figure}{section}
 \usepackage{color}
 \usepackage{listings}
+\usepackage{indentfirst}
 
 
 \newcommand*{\titleTMB}{\begingroup \centering \settowidth{\unitlength}{\LARGE MC 613} \vspace*{\baselineskip} {\large\scshape  Grupo 5 - Turma A}\\[\baselineskip] \rule{11.0cm}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} \rule{11.0cm}{0.4pt}\\[\baselineskip] {\LARGE Quarto laboratório }\\[0.2\baselineskip] {\LARGE de Circuitos Digitais}\\[0.2\baselineskip] {\itshape MC 613 - Primeiro Semestre de 2010}\\[0.2\baselineskip] \rule{11.0cm}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} \rule{11.0cm}{1.6pt}\\[\baselineskip] {\large\scshape Professor: Guido Araújo}\par \vfill {\normalsize   \scshape 
@@ -31,7 +32,12 @@ Tiago Chedraoui Silva      & RA: 082941\\
 \usepackage{multicol}
 \end_preamble
 \use_default_options true
-\language portuguese
+\begin_modules
+eqs-within-sections
+figs-within-sections
+tabs-within-sections
+\end_modules
+\language brazilian
 \inputencoding auto
 \font_roman ae
 \font_sans lmss
@@ -43,7 +49,7 @@ Tiago Chedraoui Silva      & RA: 082941\\
 \font_tt_scale 100
 
 \graphics default
-\float_placement h
+\float_placement H
 \paperfontsize default
 \spacing single
 \use_hyperref false
@@ -73,8 +79,6 @@ Tiago Chedraoui Silva      & RA: 082941\\
 \begin_body
 
 \begin_layout Standard
-
-\lang brazilian
 \begin_inset ERT
 status open
 
@@ -100,14 +104,10 @@ end{titlepage} % capa no preambulo document settings
 \end_layout
 
 \begin_layout Section
-
-\lang brazilian
 Questão 1
 \end_layout
 
 \begin_layout Standard
-
-\lang brazilian
 Projetamos um contador síncrono, cuja contagem é realizada de acordo com
  a tabela: 
 \begin_inset CommandInset ref
@@ -124,8 +124,6 @@ reference "tab:Q1Função-de-transição"
 \end_layout
 
 \begin_layout Standard
-
-\lang brazilian
 Como a saída pode ser representada em binário (
 \begin_inset Formula $Z_{c}Z_{b}Z_{a}$
 \end_inset
@@ -174,8 +172,6 @@ reference "alg:Q1Contador-síncrono"
 \end_layout
 
 \begin_layout Standard
-
-\lang brazilian
 Para a simulação (figura 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -187,18 +183,30 @@ reference "fig:Simulação-contador-baseado"
 \end_layout
 
 \begin_layout Standard
-
-\lang brazilian
 \begin_inset Float table
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
+\begin_inset Caption
 
-\lang brazilian
+\begin_layout Plain Layout
+Função de transição
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Q1Função-de-transição"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \begin_inset Tabular
 <lyxtabular version="3" rows="9" columns="6">
 <features>
@@ -213,8 +221,6 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 Qc
 \end_layout
 
@@ -224,8 +230,6 @@ Qc
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 Qb
 \end_layout
 
@@ -235,8 +239,6 @@ Qb
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 Qa
 \end_layout
 
@@ -246,8 +248,6 @@ Qa
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 Zc
 \end_layout
 
@@ -257,8 +257,6 @@ Zc
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 Zb
 \end_layout
 
@@ -268,8 +266,6 @@ Zb
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 Za
 \end_layout
 
@@ -281,8 +277,6 @@ Za
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -292,8 +286,6 @@ Za
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -303,8 +295,6 @@ Za
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -314,8 +304,6 @@ Za
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 x
 \end_layout
 
@@ -325,8 +313,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 x
 \end_layout
 
@@ -336,8 +322,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 x
 \end_layout
 
@@ -349,8 +333,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -360,8 +342,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -371,8 +351,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -382,8 +360,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -393,8 +369,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -404,8 +378,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -417,8 +389,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -428,8 +398,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -439,8 +407,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -450,8 +416,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -461,8 +425,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -472,8 +434,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -485,8 +445,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -496,8 +454,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -507,8 +463,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -518,8 +472,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -529,8 +481,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -540,8 +490,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -553,8 +501,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -564,8 +510,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -575,8 +519,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -586,8 +528,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -597,8 +537,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -608,8 +546,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -621,8 +557,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -632,8 +566,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -643,8 +575,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -654,8 +584,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -665,8 +593,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -676,8 +602,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -689,8 +613,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -700,8 +622,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -711,8 +631,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -722,8 +640,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -733,8 +649,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -744,8 +658,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -757,8 +669,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -768,8 +678,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -779,8 +687,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -790,8 +696,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -801,8 +705,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -812,8 +714,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -821,29 +721,6 @@ x
 </cell>
 </row>
 </lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\lang brazilian
-\begin_inset Caption
-
-\begin_layout Plain Layout
-
-\lang brazilian
-Função de transição
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:Q1Função-de-transição"
-
-\end_inset
-
-
-\end_layout
 
 \end_inset
 
@@ -856,228 +733,17 @@ name "tab:Q1Função-de-transição"
 \end_layout
 
 \begin_layout Standard
-
-\lang english
 \begin_inset Float table
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
-
-\lang english
-\begin_inset Tabular
-<lyxtabular version="3" rows="3" columns="5">
-<features>
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-\begin_inset Formula $\overline{Q_{b}Q_{a}}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-\begin_inset Formula $\overline{Q_{b}}Q_{a}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-\begin_inset Formula $Q_{b}Q_{a}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-\begin_inset Formula $Q_{b}\overline{Q_{a}}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-\begin_inset Formula $\overline{Q_{c}}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-x
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-0
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-\begin_inset Formula $Q_{c}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-1
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\lang english
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang english
 Karnaugh para para 
 \begin_inset Formula $Z_{c}$
 \end_inset
@@ -1095,26 +761,6 @@ name "tab:Karnaugh-zc"
 \end_inset
 
 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-\lang english
-\begin_inset Float table
-placement h
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-
-\lang english
 \begin_inset Tabular
 <lyxtabular version="3" rows="3" columns="5">
 <features>
@@ -1137,8 +783,6 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Formula $\overline{Q_{b}Q_{a}}$
 \end_inset
 
@@ -1151,8 +795,6 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Formula $\overline{Q_{b}}Q_{a}$
 \end_inset
 
@@ -1165,8 +807,6 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Formula $Q_{b}Q_{a}$
 \end_inset
 
@@ -1179,8 +819,6 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Formula $Q_{b}\overline{Q_{a}}$
 \end_inset
 
@@ -1195,8 +833,6 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Formula $\overline{Q_{c}}$
 \end_inset
 
@@ -1209,8 +845,6 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 x
 \end_layout
 
@@ -1220,9 +854,7 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
-1
+0
 \end_layout
 
 \end_inset
@@ -1231,9 +863,7 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
-0
+1
 \end_layout
 
 \end_inset
@@ -1242,8 +872,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -1255,8 +883,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Formula $Q_{c}$
 \end_inset
 
@@ -1269,8 +895,15 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
+0
+\end_layout
 
-\lang english
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 1
 \end_layout
 
@@ -1280,19 +913,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -1302,9 +922,7 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
-0
+1
 \end_layout
 
 \end_inset
@@ -1317,14 +935,23 @@ x
 
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
 
-\lang english
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang english
 Karnaugh para 
 \begin_inset Formula $Z_{b}$
 \end_inset
@@ -1342,26 +969,6 @@ name "tab:Karnaugh-zb"
 \end_inset
 
 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-\lang english
-\begin_inset Float table
-placement H
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-
-\lang english
 \begin_inset Tabular
 <lyxtabular version="3" rows="3" columns="5">
 <features>
@@ -1384,8 +991,6 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Formula $\overline{Q_{b}Q_{a}}$
 \end_inset
 
@@ -1398,8 +1003,6 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Formula $\overline{Q_{b}}Q_{a}$
 \end_inset
 
@@ -1412,8 +1015,6 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Formula $Q_{b}Q_{a}$
 \end_inset
 
@@ -1426,8 +1027,6 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Formula $Q_{b}\overline{Q_{a}}$
 \end_inset
 
@@ -1442,8 +1041,6 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Formula $\overline{Q_{c}}$
 \end_inset
 
@@ -1456,8 +1053,6 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 x
 \end_layout
 
@@ -1467,8 +1062,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -1478,9 +1071,7 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
-1
+0
 \end_layout
 
 \end_inset
@@ -1489,9 +1080,7 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
-1
+0
 \end_layout
 
 \end_inset
@@ -1502,8 +1091,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Formula $Q_{c}$
 \end_inset
 
@@ -1516,19 +1103,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
-0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
 1
 \end_layout
 
@@ -1538,9 +1112,16 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
+1
+\end_layout
 
-\lang english
-0
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
 \end_layout
 
 \end_inset
@@ -1549,8 +1130,6 @@ x
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 0
 \end_layout
 
@@ -1564,14 +1143,23 @@ x
 
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
 
-\lang english
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang english
 Karnaugh para 
 \begin_inset Formula $Z_{a}$
 \end_inset
@@ -1589,6 +1177,178 @@ name "tab:Karnaugh-za"
 \end_inset
 
 
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="5">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overline{Q_{b}Q_{a}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overline{Q_{b}}Q_{a}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Q_{b}Q_{a}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Q_{b}\overline{Q_{a}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overline{Q_{c}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Q_{c}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1597,8 +1357,6 @@ name "tab:Karnaugh-za"
 \end_layout
 
 \begin_layout LyX-Code
-
-\lang english
 \begin_inset Formula \begin{equation}
 Z_{c}=Q_{c}Q_{a}+Q_{c}Q_{b}+Q_{b}Q_{a}\end{equation}
 
@@ -1608,8 +1366,6 @@ Z_{c}=Q_{c}Q_{a}+Q_{c}Q_{b}+Q_{b}Q_{a}\end{equation}
 \end_layout
 
 \begin_layout LyX-Code
-
-\lang english
 \begin_inset Formula \begin{equation}
 Z_{b}=Q_{c}Q_{a}+\overline{Q_{b}}\end{equation}
 
@@ -1619,8 +1375,6 @@ Z_{b}=Q_{c}Q_{a}+\overline{Q_{b}}\end{equation}
 \end_layout
 
 \begin_layout LyX-Code
-
-\lang english
 \begin_inset Formula \begin{equation}
 Z_{a}=\overline{Q_{c}}+\overline{Q_{b}}Q_{a}\end{equation}
 
@@ -1630,8 +1384,6 @@ Z_{a}=\overline{Q_{c}}+\overline{Q_{b}}Q_{a}\end{equation}
 \end_layout
 
 \begin_layout Standard
-
-\lang brazilian
 \begin_inset Float algorithm
 placement h
 wide false
@@ -1639,8 +1391,6 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset ERT
 status collapsed
 
@@ -1655,7 +1405,6 @@ begin{multicols}{2}
 
 
 \size scriptsize
-\lang brazilian
 
 \begin_inset CommandInset include
 LatexCommand verbatiminput
@@ -1665,7 +1414,6 @@ filename "cont.vhd"
 
 
 \size default
-\lang english
 
 \begin_inset ERT
 status collapsed
@@ -1683,13 +1431,9 @@ end{multicols}
 \end_layout
 
 \begin_layout Plain Layout
-
-\lang brazilian
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang brazilian
 Função de contagem 
 \begin_inset CommandInset label
 LatexCommand label
@@ -1715,8 +1459,6 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset ERT
 status collapsed
 
@@ -1731,7 +1473,6 @@ begin{multicols}{2}
 
 
 \size scriptsize
-\lang brazilian
 
 \begin_inset CommandInset include
 LatexCommand verbatiminput
@@ -1741,7 +1482,6 @@ filename "q1.vhd"
 
 
 \size default
-\lang english
 
 \begin_inset ERT
 status collapsed
@@ -1759,13 +1499,9 @@ end{multicols}
 \end_layout
 
 \begin_layout Plain Layout
-
-\lang brazilian
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang brazilian
 Contador síncrono - saída no display de 7 segmentos 
 \begin_inset CommandInset label
 LatexCommand label
@@ -1788,21 +1524,18 @@ name "alg:Q1Contador-síncrono"
 
 \begin_layout Standard
 \align left
-
-\lang english
 \begin_inset Float figure
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Graphics
 	filename q1vwf.PNG
 	scale 60
-	BoundingBox 0bp 0bp 1039bp 158bp
+	BoundingBox 0bp 0bp 1039bp 120bp
+	clip
 
 \end_inset
 
@@ -1810,13 +1543,9 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang english
 Simulação contador baseado em função
 \begin_inset CommandInset label
 LatexCommand label
@@ -1855,7 +1584,7 @@ reference "alg:Q2comp_cont"
  (algoritmo de frequência dependente de varíavel: 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "alg:Q2div_freq"
+reference "alg:freq_div"
 
 \end_inset
 
@@ -1897,17 +1626,13 @@ reference "fig:Q2 Simulação-cont-mod-mil-prop"
 \end_layout
 
 \begin_layout Standard
-
-\lang brazilian
 \begin_inset Float algorithm
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset ERT
 status collapsed
 
@@ -1922,17 +1647,15 @@ begin{multicols}{2}
 
 
 \size scriptsize
-\lang brazilian
 
 \begin_inset CommandInset include
 LatexCommand verbatiminput
-filename "q2div_freq.vhd"
+filename "freq_div.vhd"
 
 \end_inset
 
 
 \size default
-\lang english
 
 \begin_inset ERT
 status collapsed
@@ -1950,17 +1673,13 @@ end{multicols}
 \end_layout
 
 \begin_layout Plain Layout
-
-\lang brazilian
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang brazilian
 Divisor de frequência variável 
 \begin_inset CommandInset label
 LatexCommand label
-name "alg:Q2div_freq"
+name "alg:freq_div"
 
 \end_inset
 
@@ -1982,8 +1701,6 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset ERT
 status collapsed
 
@@ -1998,7 +1715,6 @@ begin{multicols}{2}
 
 
 \size scriptsize
-\lang brazilian
 
 \begin_inset CommandInset include
 LatexCommand verbatiminput
@@ -2008,7 +1724,6 @@ filename "q2.vhd"
 
 
 \size default
-\lang english
 
 \begin_inset ERT
 status collapsed
@@ -2026,13 +1741,9 @@ end{multicols}
 \end_layout
 
 \begin_layout Plain Layout
-
-\lang brazilian
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang brazilian
  Contador BCD módulo mil 
 \begin_inset CommandInset label
 LatexCommand label
@@ -2054,17 +1765,13 @@ name "alg:Q2contador_mod_mil"
 \end_layout
 
 \begin_layout Standard
-
-\lang brazilian
 \begin_inset Float algorithm
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset ERT
 status collapsed
 
@@ -2079,7 +1786,6 @@ begin{multicols}{2}
 
 
 \size scriptsize
-\lang brazilian
 
 \begin_inset CommandInset include
 LatexCommand verbatiminput
@@ -2089,7 +1795,6 @@ filename "bcd_count.vhd"
 
 
 \size default
-\lang english
 
 \begin_inset ERT
 status collapsed
@@ -2107,13 +1812,9 @@ end{multicols}
 \end_layout
 
 \begin_layout Plain Layout
-
-\lang brazilian
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang brazilian
  Componente contador BCD 
 \begin_inset CommandInset label
 LatexCommand label
@@ -2136,21 +1837,18 @@ name "alg:Q2comp_cont"
 
 \begin_layout Standard
 \align left
-
-\lang english
 \begin_inset Float figure
-placement H
+placement h
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Graphics
 	filename q2vwf_rst_pre.PNG
 	scale 60
 	BoundingBox 0bp 0bp 1039bp 158bp
+	clip
 
 \end_inset
 
@@ -2158,14 +1856,12 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang english
 Simulação contador módulo mil - análise reset e preset 
+\lang english
+
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Q2 Simulação-cont-mod-mil"
@@ -2187,8 +1883,6 @@ name "fig:Q2 Simulação-cont-mod-mil"
 
 \begin_layout Standard
 \align left
-
-\lang english
 \begin_inset Float figure
 placement H
 wide false
@@ -2196,8 +1890,6 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Graphics
 	filename q2vwf_prop.PNG
 	scale 60
@@ -2209,13 +1901,9 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang english
 Simulação contador módulo mil - análise de propagação 
 \begin_inset CommandInset label
 LatexCommand label
@@ -2237,8 +1925,666 @@ name "fig:Q2 Simulação-cont-mod-mil-prop"
 \end_layout
 
 \begin_layout Section
+Questão 3
+\end_layout
 
-\lang english
+\begin_layout Standard
+Quer-se obter um divisor de frequência por 6 usando como componente um contador
+ síncrono de 4-bits, modelo 
+\emph on
+74161.
+
+\emph default
+ O 
+\emph on
+clock
+\emph default
+ dividido deve ser simétrico em relação aos níveis LOW e HIGH.
+\end_layout
+
+\begin_layout Standard
+Pelo datasheet do contador, descobriu-se que ele possui entradas assíncronas
+ de 
+\emph on
+load 
+\emph default
+e 
+\emph on
+clear
+\emph default
+ (lógica negativa), além de entradas de modo de contagem (serão mantidas
+ em 
+\emph on
+COUNT
+\emph default
+).
+ O tamanho do ciclo de contagem deve ser 6, portanto basta ativar o 
+\emph on
+clear
+\emph default
+ assíncrono quando as saídas do contador 
+\begin_inset Formula $q_{3}..q_{0}$
+\end_inset
+
+ atingirem esse valor.
+ Além disso, o 
+\emph on
+clock
+\emph default
+ de saída é simplesmente LOW quando o contador estiver em 
+\begin_inset Formula $0\rightarrow2$
+\end_inset
+
+ ou HIGH caso contrário.
+ Esse comportamento pode ser sintetizado pela expressão:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{equation}
+clk=q_{2}+(q_{1}\cdot q_{0})\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Para ser possível avaliar o funcionamento na placa, o 
+\emph on
+clock 
+\emph default
+de 
+\begin_inset Formula $27MHz$
+\end_inset
+
+ foi dividido para 
+\begin_inset Formula $3Hz$
+\end_inset
+
+ (usando divisor já desenvolvido: algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:freq_div"
+
+\end_inset
+
+), com o qual o divisor por 6 deve gerar 
+\begin_inset Formula $0,5Hz$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "freq_div6.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Divisor de frequência por 6 usando o 
+\emph on
+74161
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Divisor-de-freq6"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q3.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Implementação prática do algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Divisor-de-freq6"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename q3vwf.PNG
+	width 100text%
+	BoundingBox 0bp 0bp 1008bp 150bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação do divisor de frequência por 6
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 4
+\end_layout
+
+\begin_layout Standard
+Será projetado e implementado um relógio digital simples na DE1 (vide especifica
+ções do laboratório), usando quatro displays de 7 segmentos para exibição.
+ No seu comportamento estão subentendidos vários contadores síncronos (todos
+ operados a 
+\begin_inset Formula $4Hz$
+\end_inset
+
+, como será explicado adiante), são eles:
+\end_layout
+
+\begin_layout Itemize
+Contador de modo de operação 
+\begin_inset Formula $0\rightarrow4$
+\end_inset
+
+ (um modo de exibição e quatro modos de ajuste de dígitos 
+\begin_inset Formula $m_{0},$
+\end_inset
+
+ 
+\begin_inset Formula $m_{1},$
+\end_inset
+
+ 
+\begin_inset Formula $h_{0}$
+\end_inset
+
+, 
+\begin_inset Formula $h_{1}$
+\end_inset
+
+respectivamente).
+ Seu 
+\emph on
+clock enable
+\emph default
+ é o PB1.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $s_{0}$
+\end_inset
+
+: unidade do segundo (
+\begin_inset Formula $0\rightarrow9$
+\end_inset
+
+), incrementa a cada 
+\begin_inset Formula $1Hz$
+\end_inset
+
+ no modo de exibição.
+ Zerada quando em algum modo de ajuste.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $s_{1}$
+\end_inset
+
+: dezena do segundo (
+\begin_inset Formula $0\rightarrow5$
+\end_inset
+
+).
+ Zerada quando em algum modo de ajuste.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $m_{0}$
+\end_inset
+
+: unidade do minuto (ajustável, 
+\begin_inset Formula $0\rightarrow9$
+\end_inset
+
+).
+ Seu 
+\emph on
+clock enable 
+\emph default
+(bem como nos 3 contadores seguintes) é PB2 quando no modo de ajuste.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $m_{1}$
+\end_inset
+
+: dezena do minuto (ajustável, 
+\begin_inset Formula $0\rightarrow5$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $h_{0}$
+\end_inset
+
+: unidade da hora (ajustável, é 
+\begin_inset Formula $0\rightarrow9$
+\end_inset
+
+ quando 
+\begin_inset Formula $h_{1}$
+\end_inset
+
+ é 
+\begin_inset Formula $0$
+\end_inset
+
+ ou 
+\begin_inset Formula $1$
+\end_inset
+
+,
+\emph on
+ senão
+\emph default
+ é 
+\begin_inset Formula $0\rightarrow3$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $h_{1}$
+\end_inset
+
+: dezena da hora (ajustável, é 
+\begin_inset Formula $0\rightarrow2$
+\end_inset
+
+ quando 
+\begin_inset Formula $h_{1}$
+\end_inset
+
+ é 
+\begin_inset Formula $0\rightarrow3$
+\end_inset
+
+,
+\emph on
+ senão 
+\emph default
+é 
+\begin_inset Formula $0\rightarrow1$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Os 5 últimos contadores acima também têm seu 
+\emph on
+clock enable 
+\emph default
+sendo o carry-out do contador anterior apenas quando no modo de exibição,
+ isto é, o relógio 
+\emph on
+pára de contar
+\emph default
+ quando está sendo ajustado.
+ Todos esses contadores foram implementados com um componente contador 
+\series bold
+cont4
+\series default
+, que possui 4 entradas para o módulo da contagem e uma saída de 
+\emph on
+terminal count 
+\emph default
+(fim da contagem).
+\end_layout
+
+\begin_layout Standard
+Além disso, há o botão PB4 que muda o tipo de exibição, 
+\begin_inset Formula $hh:mm$
+\end_inset
+
+ ou 
+\begin_inset Formula $mm:ss$
+\end_inset
+
+, sendo que deve ser usado o primeiro tipo quando no modo de ajuste.
+ Isso foi implementado com um 
+\emph on
+flip-flop 
+\emph default
+que inverte seu estado tendo o PB4 como 
+\emph on
+clock
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+A fim de obter um circuito síncrono mais robusto e com menos 
+\emph on
+warnings 
+\emph default
+de compilação, foi usado o mesmo 
+\emph on
+clock
+\emph default
+ em todos os contadores.
+ Escolheu-se exatamente 
+\begin_inset Formula $4Hz$
+\end_inset
+
+, uma vez que esta frequência será usada tanto para contar o tempo quanto
+ para operar os botões de ajuste.
+ Para este último fim, 
+\emph on
+
+\begin_inset Formula $1Hz$
+\end_inset
+
+ 
+\emph default
+seria muito lento e pouco responsivo.
+ Entretanto, para realizar a contagem correta de tempo, isto é, de frequência
+ 
+\begin_inset Formula $1Hz$
+\end_inset
+
+, foi necessário usar um 
+\emph on
+clock enable
+\emph default
+ no contador 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+ que ativa em um a cada quatro períodos do 
+\emph on
+clock
+\emph default
+ de 
+\begin_inset Formula $4Hz$
+\end_inset
+
+.
+ Outra característica do circuito é que o dígito no display deve piscar
+ caso esteja sendo ajustado, isto foi implementado anulando em 75% do tempo
+ o sinal que vai pro display aproveitando o último 
+\emph on
+clock enable 
+\emph default
+mencionado.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "cont4.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Contador de 4-bits com parâmetro de contagem em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q4.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Relógio digital ajustável em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
 Questão 5
 \end_layout
 
@@ -2269,8 +2615,6 @@ ação em complemento de 2 nos 4 primeiros LEDs verdes), quão mais rápido
 \end_layout
 
 \begin_layout Standard
-
-\lang brazilian
 \begin_inset Float algorithm
 placement H
 wide false
@@ -2278,8 +2622,6 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset ERT
 status open
 
@@ -2294,7 +2636,6 @@ begin{multicols}{2}
 
 
 \size scriptsize
-\lang brazilian
 
 \begin_inset CommandInset include
 LatexCommand verbatiminput
@@ -2304,7 +2645,6 @@ filename "mvmouse.vhd"
 
 
 \size default
-\lang english
 
 \begin_inset ERT
 status open
@@ -2322,13 +2662,9 @@ end{multicols}
 \end_layout
 
 \begin_layout Plain Layout
-
-\lang brazilian
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang brazilian
 Movimentação do mouse - mostra posição e botões 
 \begin_inset CommandInset label
 LatexCommand label
@@ -2349,15 +2685,11 @@ name "alg:Q5mvmouse"
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\lang brazilian
+\begin_layout Standard
 \begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
-
-\lang brazilian
 \begin_inset Float algorithm
 placement h
 wide false
@@ -2409,13 +2741,9 @@ end{multicols}
 \end_layout
 
 \begin_layout Plain Layout
-
-\lang brazilian
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang brazilian
 Protocolo básico PS/2
 \begin_inset CommandInset label
 LatexCommand label
@@ -2437,8 +2765,6 @@ name "alg:Q5ps2io"
 \end_layout
 
 \begin_layout Plain Layout
-
-\lang brazilian
 \begin_inset Float algorithm
 placement h
 wide false
@@ -2490,13 +2816,9 @@ end{multicols}
 \end_layout
 
 \begin_layout Plain Layout
-
-\lang brazilian
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang brazilian
 Componente de controle do mouse 
 \begin_inset CommandInset label
 LatexCommand label
@@ -2523,8 +2845,6 @@ name "alg:Q5mousectrl"
 \end_layout
 
 \begin_layout Section*
-
-\lang brazilian
 Conclusão
 \end_layout
 
