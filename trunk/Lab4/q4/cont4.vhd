@@ -10,22 +10,24 @@ ENTITY cont4 IS
 END cont4;
 
 ARCHITECTURE rtl OF cont4 IS
-	SIGNAL count: STD_LOGIC_VECTOR(3 downto 0);
+	SIGNAL cont: STD_LOGIC_VECTOR(3 downto 0):="0000";
 BEGIN
 	PROCESS (clk, en, clr) BEGIN
 		IF (clr = '1') THEN
-			count <= "0000";
+			cont <= "0000";
 		ELSIF (clk='1' and clk'event) THEN
-			IF (en = '1') THEN 
-				IF (count + "1" = top) THEN
-					count <= "0000";
+			IF (en = '1') THEN
+				IF (cont + "1" >= top) THEN
+					cont <= "0000";
 				ELSE
-					count <= count + "1";
+					cont <= cont + "1";
 				END IF;
 			END IF;
 		END IF;
 	END PROCESS;
 	
-	cout <= '1' WHEN (count + "1" = top) ELSE '0';
-	q <= count;
+	cout <= '1' WHEN (cont + "1" >= top and en = '1') 
+	ELSE '0';
+
+	q <= cont;
 END rtl;
