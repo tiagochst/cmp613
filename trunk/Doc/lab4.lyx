@@ -109,7 +109,7 @@ Questão 1
 
 \begin_layout Standard
 Projetamos um contador síncrono, cuja contagem é realizada de acordo com
- a tabela: 
+ a tabela 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:Q1Função-de-transição"
@@ -150,9 +150,9 @@ reference "tab:Karnaugh-za"
 \end_inset
 
 ).
- A partir da minimização realizada, as saídas Zc Zb Za (dígitos binários
- de saída) podem ser calculadas utilizando as formulás 1, 2 e 3 respectivamente
- (código em vdhl: algoritmo 
+ A partir da minimização realizada, as saídas (dígitos binários de saída)
+ podem ser calculadas utilizando as formulas 1, 2 e 3 respectivamente (código
+ em vdhl: algoritmo 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "alg:Q1Função-de-contagem"
