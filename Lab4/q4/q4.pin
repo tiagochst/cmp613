@@ -443,7 +443,7 @@ RESERVED_INPUT               : R17       :        :                   :         
 RESERVED_INPUT               : R18       :        :                   :         : 6         :                
 RESERVED_INPUT               : R19       :        :                   :         : 6         :                
 RESERVED_INPUT               : R20       :        :                   :         : 6         :                
-ninc                         : R21       : input  : 3.3-V LVTTL       :         : 6         : Y              
+inc                          : R21       : input  : 3.3-V LVTTL       :         : 6         : Y              
 mode_tg                      : R22       : input  : 3.3-V LVTTL       :         : 6         : Y              
 RESERVED_INPUT               : T1        :        :                   :         : 1         :                
 RESERVED_INPUT               : T2        :        :                   :         : 1         :                

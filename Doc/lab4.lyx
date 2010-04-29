@@ -2203,7 +2203,7 @@ Será projetado e implementado um relógio digital simples na DE1 (vide especifi
 ções do laboratório), usando quatro displays de 7 segmentos para exibição.
  No seu comportamento estão subentendidos vários contadores síncronos (todos
  operados a 
-\begin_inset Formula $4Hz$
+\begin_inset Formula $27MHz$
 \end_inset
 
 , como será explicado adiante), são eles:
@@ -2352,13 +2352,6 @@ clock enable
 \end_layout
 
 \begin_layout Standard
-\begin_inset space \thinspace{}
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 Os 5 últimos contadores acima também têm seu 
 \emph on
 clock enable 
@@ -2412,11 +2405,11 @@ clock
 \emph default
  em todos os contadores.
  Escolheu-se exatamente 
-\begin_inset Formula $4Hz$
+\begin_inset Formula $27MHz$
 \end_inset
 
 , uma vez que esta frequência será usada tanto para contar o tempo quanto
- para operar os botões de ajuste.
+ para atualizar os botões de ajuste.
  Para este último fim, 
 \emph on
 
@@ -2426,7 +2419,25 @@ clock
  
 \emph default
 seria muito lento e pouco responsivo.
- Entretanto, para realizar a contagem correta de tempo, isto é, de frequência
+ Além disso, os botões operados pelo usuário seriam, a princípio, assíncronos
+ em relação ao 
+\emph on
+clock.
+
+\emph default
+ Para contornar isso, o estado do botão é salvo a 
+\begin_inset Formula $27MHz$
+\end_inset
+
+ e a operação do botão é apenas ativada quando na variação 
+\begin_inset Formula $0\rightarrow1$
+\end_inset
+
+ (evita repetições).
+\end_layout
+
+\begin_layout Standard
+Entretanto, para realizar a contagem correta de tempo, isto é, de frequência
  
 \begin_inset Formula $1Hz$
 \end_inset
@@ -2439,22 +2450,39 @@ clock enable
 \begin_inset Formula $s_{0}$
 \end_inset
 
- que ativa em um a cada quatro períodos do 
+ que ativa em apenas um ciclo a cada 
+\emph on
+27 milhões 
+\emph default
+de períodos do 
 \emph on
 clock
 \emph default
- de 
-\begin_inset Formula $4Hz$
+.
+ Isso seria simplesmente um 
+\emph on
+clock 
+\emph default
+de 
+\begin_inset Formula $1Hz$
+\end_inset
+
+ com 
+\emph on
+duty cycle 
+\emph default
+de 
+\begin_inset Formula $1/27000000$
 \end_inset
 
 .
  Outra característica do circuito é que o dígito no display deve piscar
- caso esteja sendo ajustado, isto foi implementado anulando em 75% do tempo
- o sinal que vai pro display aproveitando o último 
-\emph on
-clock enable 
-\emph default
-mencionado.
+ caso esteja sendo ajustado, isto foi implementado com a própria frequência
+ de 
+\begin_inset Formula $27MHz$
+\end_inset
+
+, resultando numa exibição esmaecida de fácil visualização.
 \end_layout
 
 \begin_layout Standard
@@ -2472,6 +2500,43 @@ status open
 
 \backslash
 begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "cont4.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
 \end_layout
 
 \end_inset
@@ -2512,6 +2577,137 @@ Contador de 4-bits com parâmetro de contagem em VHDL
 
 \end_inset
 
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "buff.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Sincronização dos botões de entrada usando máquina de estados
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "freq_div_sp.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Divisor de frequência especial
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 
 \end_layout
 

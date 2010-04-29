@@ -3,7 +3,7 @@ USE ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
 ENTITY cont4 IS
-	PORT (clk, en, clr: IN STD_LOGIC;
+	PORT (clk, en, sclr: IN STD_LOGIC;
 	      top: IN STD_LOGIC_VECTOR(3 downto 0);
 	      q: OUT STD_LOGIC_VECTOR(3 downto 0);
 	      cout: OUT STD_LOGIC);
@@ -12,11 +12,11 @@ END cont4;
 ARCHITECTURE rtl OF cont4 IS
 	SIGNAL cont: STD_LOGIC_VECTOR(3 downto 0):="0000";
 BEGIN
-	PROCESS (clk, en, clr) BEGIN
-		IF (clr = '1') THEN
-			cont <= "0000";
-		ELSIF (clk='1' and clk'event) THEN
-			IF (en = '1') THEN
+	PROCESS (clk, en, sclr) BEGIN
+		IF (clk='1' and clk'event) THEN
+			IF (sclr = '1') THEN
+				cont <= "0000";
+			ELSIF (en = '1') THEN
 				IF (cont + "1" >= top) THEN
 					cont <= "0000";
 				ELSE
