@@ -18,13 +18,13 @@
 #
 # Quartus II
 # Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-# Date created = 22:49:59  May 01, 2010
+# Date created = 21:46:22  May 03, 2010
 #
 # -------------------------------------------------------------------------- #
 
 QUARTUS_VERSION = "9.1"
-DATE = "22:49:59  May 01, 2010"
+DATE = "21:46:22  May 03, 2010"
 
 # Revisions
 
-PROJECT_REVISION = "vga"
+PROJECT_REVISION = "pacman"
