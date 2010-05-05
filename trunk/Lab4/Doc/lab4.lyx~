@@ -1589,7 +1589,7 @@ reference "alg:freq_div"
 \end_inset
 
 ), demonstramos o funcionamento na placa visualizando a contagem em três
- displays de 7 segmentos ( centena, dezena, unidade).
+ displays de 7 segmentos (centena, dezena, unidade).
  Dois push buttons foram usados, um para os sinais de clear (display passa
  a ser '000', contador zerado) e preset (display passa a ser '999'), o comportam
 ento é simulado na figura 
@@ -2613,74 +2613,6 @@ Sincronização dos botões de entrada usando máquina de estados
 
 \begin_layout Standard
 \begin_inset Float algorithm
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{multicols}{2}
-\end_layout
-
-\end_inset
-
-
-\size scriptsize
-
-\begin_inset CommandInset include
-LatexCommand verbatiminput
-filename "freq_div_sp.vhd"
-
-\end_inset
-
-
-\size default
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{multicols}
-\end_layout
-
-\end_inset
-
-
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Divisor de frequência especial
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float algorithm
 placement H
 wide false
 sideways false
@@ -2740,6 +2672,70 @@ Relógio digital ajustável em VHDL
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "freq_div_sp.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Divisor de frequência especial
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 
 \end_layout
 
@@ -3005,6 +3001,41 @@ name "alg:Q5mousectrl"
 
 \begin_layout Section*
 Conclusão
+\end_layout
+
+\begin_layout Standard
+O laboratório presente acerca de contadores síncronos explorou diversos
+ tipos de circuitos.
+ O mais simples foi um contador de 3-bits cuja sequência não é convencional,
+ mas a diferença surge apenas na função de transição do valor (obtida por
+ 
+\emph on
+Karnaugh
+\emph default
+), que não é mais o incremento.
+ Duas questões versaram sobre comportamentos baseados em instanciação de
+ contadores comerciais com várias portas.
+ Estes geralmente têm alguns modos de operação configuráveis: contagem (BCD
+ ou 
+\emph on
+mod 16
+\emph default
+), ociosidade, 
+\emph on
+clear
+\emph default
+ e 
+\emph on
+preset 
+\emph default
+(o conteúdo torna-se o valor máximo do contador).
+ Usando essas configurações apropriadamente, construiu-se um contador módulo
+ mil a partir de 3 contadores com o mesmo 
+\emph on
+clock
+\emph default
+ e também um divisor de frequência por 6.
+ (circuitos complexos como cuja sincronia é crítica
 \end_layout
 
 \end_body
