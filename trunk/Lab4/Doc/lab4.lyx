@@ -1603,18 +1603,50 @@ reference "fig:Q2 Simulação-cont-mod-mil"
 \end_layout
 
 \begin_layout Standard
-Para a mudança de valor nos displays de dezena , quando o valor do dígito
- da unidade atingir o valor '9' alteramos o clock e entrada no componente
- da dezena para 1 caso contrário ficaria '0' (algoritmo: 
+Como esse componente não tem uma entrada de 
+\emph on
+clock enable, 
+\emph default
+tivemos que recorrer ao uso de 
+\emph on
+gated clock
+\emph default
+, isto é, obter o 
+\emph on
+clock 
+\emph default
+do próximo contador através de uma lógica na saída do anterior.
+ Com isso, cada contador opera com um 
+\emph on
+clock 
+\emph default
+diferente, mas para esse caso simples, os atrasos inerentes não prejudicaram
+ o funcionamento do circuito.
+
+\emph on
+ 
+\emph default
+Para a mudança de valor nos displays de dezena, quando o valor do dígito
+ da unidade atingir o valor '9' alteramos o 
+\emph on
+clock
+\emph default
+ e entrada no componente da dezena para 1 caso contrário fica '0' (algoritmo:
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "alg:Q2contador_mod_mil"
 
 \end_inset
 
-).O mesmo é feito em relação a centena, sendo que quando a dezena chegar
- ao valor '9' o clock da centena recebe valor '1',o comportamento é simulado
- na figura 
+).
+ O mesmo é feito em relação a centena, sendo que quando a dezena chegar
+ ao valor '9' o 
+\emph on
+clock
+\emph default
+ da centena recebe valor '1'.
+ O comportamento é simulado na figura 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Q2 Simulação-cont-mod-mil-prop"
@@ -2550,69 +2582,6 @@ Contador de 4-bits com parâmetro de contagem em VHDL
 
 \begin_layout Standard
 \begin_inset Float algorithm
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{multicols}{2}
-\end_layout
-
-\end_inset
-
-
-\size scriptsize
-
-\begin_inset CommandInset include
-LatexCommand verbatiminput
-filename "buff.vhd"
-
-\end_inset
-
-
-\size default
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{multicols}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Sincronização dos botões de entrada usando máquina de estados
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float algorithm
 placement H
 wide false
 sideways false
@@ -2663,6 +2632,69 @@ end{multicols}
 
 \begin_layout Plain Layout
 Relógio digital ajustável em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "buff.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Sincronização dos botões de entrada usando máquina de estados
 \end_layout
 
 \end_inset
@@ -2754,9 +2786,10 @@ Utilizando os componentes ps2_mouse_test.vhd (top level), mouse_ctrl.vhd e
 A movimentação do mouse altera os valores dos displays, sendo que dois deles
  representam a posição no eixo y e outro no eixo x (valores de 00 a FF).Um
  push button foi usado para zerar as cordenadas, ou seja, ao pressionar
- os displays de sete segmentos passam a mostrar '0000'.E quando ocorre overflow
- na posição do mouse dois leds vermelhos devem piscar, sendo um responsável
- pelo overflow no eixo horizontal enquanto o outro na vertical.
+ os displays de sete segmentos passam a mostrar '0000'.
+ E quando ocorre overflow na posição do mouse dois leds vermelhos devem
+ piscar, sendo um responsável pelo overflow no eixo horizontal enquanto
+ o outro na vertical.
  
 \end_layout
 
@@ -3013,7 +3046,11 @@ O laboratório presente acerca de contadores síncronos explorou diversos
 Karnaugh
 \emph default
 ), que não é mais o incremento.
- Duas questões versaram sobre comportamentos baseados em instanciação de
+ 
+\end_layout
+
+\begin_layout Standard
+Duas questões versaram sobre comportamentos baseados em instanciação de
  contadores comerciais com várias portas.
  Estes geralmente têm alguns modos de operação configuráveis: contagem (BCD
  ou 
@@ -3030,12 +3067,44 @@ preset
 \emph default
 (o conteúdo torna-se o valor máximo do contador).
  Usando essas configurações apropriadamente, construiu-se um contador módulo
- mil a partir de 3 contadores com o mesmo 
+ mil a partir de 3 contadores e 
+\emph on
+gated clock 
+\emph default
+e também um divisor de frequência por 6, que é simplesmente um contador
+ com 6 estágios e o 
 \emph on
 clock
 \emph default
- e também um divisor de frequência por 6.
- (...) (circuitos complexos como cuja sincronia é crítica
+ deriva das suas saídas.
+\end_layout
+
+\begin_layout Standard
+Na questão 4, projetou-se um relógio digital de forma totalmente síncrona
+ pois, dada a complexidade do circuito, é mais seguro fazer todo ele síncrono
+ usando apenas um clock, que não deve ser do tipo 
+\emph on
+gated 
+\emph default
+ou 
+\emph on
+ripple.
+
+\emph default
+ Assim, usando uma frequência alta, foi possível amostrar a entrada assíncrona
+ dos botões e, através de uma máquina de estados, produzir um sinal síncrono
+ e preciso pro botão.
+ Isso evitou vários 
+\emph on
+glitches 
+\emph default
+e warnings de compilação.
+\end_layout
+
+\begin_layout Standard
+Adicionalmente, na questão 5 exploramos o uso de uma porta PS/2 da placa
+ para implementar a interface de comunicação de um mouse cujos vários sinais
+ foram avaliados nos leds e displays da placa.
 \end_layout
 
 \end_body
