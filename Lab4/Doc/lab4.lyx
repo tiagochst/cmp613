@@ -180,6 +180,7 @@ reference "fig:Simulação-contador-baseado"
 \end_inset
 
 ), fizemos a análise da contagem e zeragem.
+ Tempo máximo de propagação: 4.872 ns
 \end_layout
 
 \begin_layout Standard
@@ -1654,7 +1655,7 @@ reference "fig:Q2 Simulação-cont-mod-mil-prop"
 \end_inset
 
 .
- 
+ Tempo máximo de propagação: 15.627 ns
 \end_layout
 
 \begin_layout Standard
@@ -2045,6 +2046,7 @@ reference "alg:freq_div"
 \end_inset
 
 .
+ Tempo máximo de propagação: 5.004 ns
 \end_layout
 
 \begin_layout Standard
@@ -2515,6 +2517,7 @@ de
 \end_inset
 
 , resultando numa exibição esmaecida de fácil visualização.
+ Tempo máximo de propagação: 11.812 ns
 \end_layout
 
 \begin_layout Standard
@@ -2800,6 +2803,7 @@ Os botões do mouse (esquerdo, direito, wheel) têm seus valores mostrados
  A movimentação do wheel para cima é negativo e para baixo é positivo (represent
 ação em complemento de 2 nos 4 primeiros LEDs verdes), quão mais rápido
  move-se a wheel maior é o módulo do valor.
+ Tempo máximo de propagação: 14.046 ns
 \end_layout
 
 \begin_layout Standard
