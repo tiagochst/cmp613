@@ -27,8 +27,6 @@ PACKAGE pac_defs IS
 	--Fator de divisão do clock de 27MHz, usada para atualização do
 	--estado do jogo ("velocidade de execução")
 	CONSTANT DIV_FACT: INTEGER := 270000;
-
-	--O cenário do jogo eh inicializado com todas as moedas e as paredes
-	--As moedas vão sendo removidas dessa estrutura de acordo com o jogo
-	--O pacman e os fantasmas são desenhados separadamente sob essa tela
+	
+	--type direc is std_logic_vector(0 to 1); --vertical, horizontal
 END pac_defs;
