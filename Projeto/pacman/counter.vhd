@@ -17,7 +17,7 @@ BEGIN
 			cont <= 0;
 		elsif (clk'event and clk = '1') THEN	-- rising clock edge
 			IF (en = '1') THEN
-				IF (cont = max) THEN		    -- conta de 0 a 127 (128 colunas)
+				IF (cont = max) THEN
 					cont <= 0;
 				ELSE
 					cont <= cont + 1; 

@@ -27,7 +27,7 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL col_rstn : STD_LOGIC;                    -- reset do contador de colunas
     SIGNAL col_enable : STD_LOGIC;                  -- enable do contador de colunas
     SIGNAL line_rstn : STD_LOGIC;                   -- reset do contador de linhas
-    SIGNAL line_enable : STD_LOGIC;                 -- enable do contador de linhas
+    SIGNAL line_enable, line_inc : STD_LOGIC;       -- enable do contador de linhas
     SIGNAL fim_escrita : STD_LOGIC;                 -- '1' quando um quadro terminou de ser
                                                     -- escrito na memória de vídeo
 
@@ -48,7 +48,10 @@ ARCHITECTURE comportamento of pacman is
 	      q: OUT INTEGER);
 	END COMPONENT counter;
 	
-	SIGNAL mapa: tab := (
+	--O cenário do jogo eh inicializado com todas as moedas e as paredes
+	--As moedas vão sendo removidas dessa estrutura de acordo com o jogo
+	--O pacman e os fantasmas são desenhados separadamente sob essa tela
+	CONSTANT mapa: tab := (
 	"                                                                                                                                ",
 	"                                                                                                                                ",
 	" 1111111111111111111111111111111111111111   1111111111111111111111111111111111111111                                            ",
@@ -175,14 +178,19 @@ BEGIN
 		PORT MAP (clk 	=> clk27M,
 		          rstn 	=> col_rstn,
 		          en	=> col_enable,
-				  max	=> SCR_HGT,
+				  max	=> SCR_WDT-1,
 				  q		=> col);
+    
+    -- o contador de linha só incrementa quando o contador de colunas
+    -- chegou ao fim
+    line_inc <= '1' WHEN (line_enable='1' and col = SCR_WDT-1)
+    ELSE       '0';
 				  
 	conta_linha: COMPONENT counter
 		PORT MAP (clk 	=> clk27M,
 		          rstn 	=> line_rstn,
-		          en	=> line_enable,
-				  max	=> SCR_WDT,
+		          en	=> line_inc,
+				  max	=> SCR_HGT-1,
 				  q		=> line);
     
 
@@ -265,6 +273,7 @@ BEGIN
     ELSE     COLORS(2) WHEN mapa(line,col) = '2'
     ELSE     COLORS(3) WHEN mapa(line,col) = '3'
     ELSE     COLORS(0);
+    pixel_bit <= '1';
 
     addr  <= col + (SCR_WDT * line); -- O endereço de memória a ser escrito
 
