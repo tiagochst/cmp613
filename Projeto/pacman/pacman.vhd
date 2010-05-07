@@ -5,7 +5,7 @@ USE work.PAC_DEFS.all;
 
 ENTITY pacman is
   PORT (
-    clk27M, reset_button      : in  STD_LOGIC;    
+    clk27M, reset_button      : in  STD_LOGIC;
     red, green, blue          : out STD_LOGIC_vector(3 downto 0);
     hsync, vsync              : out STD_LOGIC);
 END pacman;
@@ -18,7 +18,6 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL addr : INTEGER 
                   range 0 to SCR_HGT*SCR_WDT-1;     -- ENDereco mem. vga
     SIGNAL pixel : color3;                          -- valor de cor do pixel
-    SIGNAL pixel_bit : STD_LOGIC;                   -- um bit do vetor acima
 
     -- Sinais dos contadores de linhas e colunas utilizados para percorrer
     -- as posições da memória de vídeo (pixels) no momento de construir um quadro.
@@ -35,6 +34,10 @@ ARCHITECTURE comportamento of pacman is
     type estado_t is (show_splash, inicio, constroi_quadro, atualiza);
     SIGNAL estado: estado_t := show_splash;
     SIGNAL pr_estado: estado_t := show_splash;
+    
+    -- Sinais de desenho em overlay sobre o cenário do jogo
+    SIGNAL overlay: STD_LOGIC;
+    SIGNAL ovl_color: color3;
 
     -- Sinais para um contador utilizado para atrasar 
     -- a frequência da atualização
@@ -47,11 +50,15 @@ ARCHITECTURE comportamento of pacman is
 	      max: IN INTEGER;
 	      q: OUT INTEGER);
 	END COMPONENT counter;
+    
+    -- Sinais de controle da lógica do jogo
+    SIGNAL got_coin: STD_LOGIC;                     -- informa se obteve moeda no ultimo movimento
+    SIGNAL key_pac_esq, key_pac_dir: STD_LOGIC := '0';     -- sinais síncronos do cursor do usuário
 	
-	--O cenário do jogo eh inicializado com todas as moedas e as paredes
+	--O cenário do jogo é inicializado com todas as moedas e as paredes
 	--As moedas vão sendo removidas dessa estrutura de acordo com o jogo
 	--O pacman e os fantasmas são desenhados separadamente sob essa tela
-	CONSTANT mapa: tab := (
+	SIGNAL mapa: tab := (
 	"                                                                                                                                ",
 	"                                                                                                                                ",
 	" 1111111111111111111111111111111111111111   1111111111111111111111111111111111111111                                            ",
@@ -184,7 +191,7 @@ BEGIN
     -- o contador de linha só incrementa quando o contador de colunas
     -- chegou ao fim
     line_inc <= '1' WHEN (line_enable='1' and col = SCR_WDT-1)
-    ELSE       '0';
+    ELSE        '0';
 				  
 	conta_linha: COMPONENT counter
 		PORT MAP (clk 	=> clk27M,
@@ -196,84 +203,85 @@ BEGIN
 
     -- podemos avançar para o próximo estado?
     fim_escrita <= '1' when (line = SCR_HGT-1) and (col = SCR_WDT-1)
-                   ELSE '0'; 
-
-    -----------------------------------------------------------------------------
-    -- Abaixo estão PROCESSos relacionados com a atualização da posição da
-    -- bola. Todos são controlados por sinais de enable de modo que a posição
-    -- só é de fato atualizada quando o controle (uma máquina de estados)
-    -- solicitar.
-    -----------------------------------------------------------------------------
-
-    -- purpose: Este PROCESSo irá atualizar a coluna atual da bola,
-    --          alterando sua posição no próximo quadro a ser desenhado.
+                   ELSE '0';
+    
+    -- purpose: Este processo irá atualizar a posicão do pacman e definir
+    --          suas ações no jogo. Além disso, gera os sinais necessários
+    --          para seu desenho. 
     -- type   : sequential
-    -- inputs : clk27M, rstn
-    -- outputs: pos_x
-    --  p_atualiza_pos_x: PROCESS (clk27M, rstn)
-    --    type direcao_t is (direita, esquerda);
-    --    VARIABLE direcao : direcao_t := direita;
-    --  BEGIN  -- PROCESS p_atualiza_pos_x
-    --    IF rstn = '0' THEN                  -- asynchronous reset (active low)
-    --      pos_x <= 0;
-    --    elsif clk27M'event and clk27M = '1' THEN  -- rising clock edge
-    --      IF atualiza_pos_x = '1' THEN
-    --        IF direcao = direita THEN         
-    --          IF pos_x = 127 THEN
-    --            direcao := esquerda;  
-    --          ELSE
-    --            pos_x <= pos_x + 1;
-    --          END IF;        
-    --        ELSE  -- se a direcao é esquerda
-    --          IF pos_x = 0 THEN
-    --            direcao := direita;
-    --          ELSE
-    --            pos_x <= pos_x - 1;
-    --          END IF;
-    --        END IF;
-    --      END IF;
-    --    END IF;
-    --  END PROCESS p_atualiza_pos_x;
-    --
-    --  -- purpose: Este PROCESSo irá atualizar a linha atual da bola,
-    --  --          alterando sua posição no próximo quadro a ser desenhado.
-    --  -- type   : sequential
-    --  -- inputs : clk27M, rstn
-    --  -- outputs: pos_y
-    --  p_atualiza_pos_y: PROCESS (clk27M, rstn)
-    --    type direcao_t is (desce, sobe);
-    --    VARIABLE direcao : direcao_t := desce;
-    --  BEGIN  -- PROCESS p_atualiza_pos_x
-    --    IF rstn = '0' THEN                  -- asynchronous reset (active low)
-    --      pos_y <= 0;
-    --    elsif clk27M'event and clk27M = '1' THEN  -- rising clock edge
-    --      IF atualiza_pos_y = '1' THEN
-    --        IF direcao = desce THEN         
-    --          IF pos_y = 95 THEN
-    --            direcao := sobe;  
-    --          ELSE
-    --            pos_y <= pos_y + 1;
-    --          END IF;        
-    --        ELSE  -- se a direcao é para subir
-    --          IF pos_y = 0 THEN
-    --            direcao := desce;
-    --          ELSE
-    --            pos_y <= pos_y - 1;
-    --          END IF;
-    --        END IF;
-    --      END IF;
-    --    END IF;
-    --  END PROCESS p_atualiza_pos_y;
+    -- inputs : clk27M, rstn, mapa, key_pac_dir, key_pac_esq
+    -- outputs: mapa, got_coin / overlay, ovl_color (desenho)
+    p_atualiza_pacman: PROCESS (clk27M, rstn, mapa, key_pac_dir, key_pac_esq, line, col)
+        VARIABLE pos_x: INTEGER range 0 to TAB_LEN-1 := PAC_START_X;        
+        VARIABLE pos_y: INTEGER range 0 to TAB_LEN-1 := PAC_START_Y;
+        VARIABLE cur_dir: INTEGER range 0 to 3 := 3;
+        VARIABLE pac_cel, pac_dir, pac_esq: tab_sym;
+        
+        VARIABLE x_offset, y_offset: INTEGER range -TAB_LEN to TAB_LEN;
+    BEGIN
+        --calcula qual seriam as proximas celulas visitadas pelo pacman
+        pac_cel := mapa(pos_y + DIRS(cur_dir)(1), 
+                        pos_x + DIRS(cur_dir)(0));
+        pac_dir := mapa(pos_y + DIRS((cur_dir+1) MOD 4)(1),
+		                pos_x + DIRS((cur_dir+1) MOD 4)(0));
+		pac_esq := mapa(pos_y + DIRS((cur_dir+3) MOD 4)(1),
+		                pos_x + DIRS((cur_dir+3) MOD 4)(0));
+		                				
+        IF (rstn = '0') THEN
+            pos_x := PAC_START_X;
+            pos_y := PAC_START_Y;
+            --cur_dir := 3; --inicializa direcao para esquerda
+        ELSIF (clk27M'event and clk27M = '1') THEN
+            IF (estado = atualiza) THEN
+                IF (pac_cel = '.' or pac_cel = '1') THEN --atualiza posicao
+                    pos_x := pos_x + DIRS(cur_dir)(1);
+                    pos_y := pos_y + DIRS(cur_dir)(0);
+                END IF;
+                
+                IF (pac_cel = '1') THEN --checa se obteve moeda
+                    mapa(pos_y, pos_x) <= '.';
+                    got_coin <= '1';
+                ELSE
+                    got_coin <= '0';
+                END IF;
+                
+                IF (key_pac_dir = '0' and pac_dir = '.') THEN --atualiza direcao
+                    cur_dir := (cur_dir+1) MOD 4;
+                ELSIF (key_pac_esq = '0' and pac_esq = '.') THEN
+                    cur_dir := (cur_dir+3) MOD 4;
+                END IF;
+            END IF;
+        END IF;
+        
+        --Sinais para desenho do pacman na tela
+        y_offset := line-pos_y+2;
+        x_offset := col-pos_x+2;
+        
+        IF (clk27M'event and clk27M = '1') THEN
+            IF (x_offset>=0 and x_offset<5 and 
+                y_offset>=0 and y_offset<5) THEN
+                
+                overlay <= '1';  --desenha camada sobre o cenario
+                IF (PAC_BITMAPS(cur_dir)(x_offset, y_offset) = '1') THEN
+                    ovl_color <= "110"; --amarelo
+                ELSE
+					ovl_color <= "000"; --cor de fundo
+                END IF;
+            ELSE
+                overlay <= '0';
+            END IF;
+        END IF;
+    END PROCESS;
 
     -----------------------------------------------------------------------------
     -- Brilho do pixel
     -----------------------------------------------------------------------------
 
-    pixel <= COLORS(1) WHEN mapa(line,col) = '1'
+    pixel <= ovl_color WHEN overlay = '1'
+    ELSE     COLORS(1) WHEN mapa(line,col) = '1'
     ELSE     COLORS(2) WHEN mapa(line,col) = '2'
     ELSE     COLORS(3) WHEN mapa(line,col) = '3'
     ELSE     COLORS(0);
-    pixel_bit <= '1';
 
     addr  <= col + (SCR_WDT * line); -- O endereço de memória a ser escrito
 

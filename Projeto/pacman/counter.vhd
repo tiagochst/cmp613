@@ -9,7 +9,7 @@ ENTITY counter IS
 END counter;
 
 ARCHITECTURE rtl OF counter IS
-	SIGNAL cont: INTEGER;
+	SIGNAL cont: INTEGER := 0;
 BEGIN
 	PROCESS (clk, rstn)
 	BEGIN	
