@@ -1,5 +1,5 @@
 Classic Timing Analyzer report for rand_dice
-Thu May 06 23:59:53 2010
+Fri May 07 00:06:41 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -170,7 +170,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 Info: *******************************************************************
 Info: Running Quartus II Classic Timing Analyzer
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Thu May 06 23:59:53 2010
+    Info: Processing started: Fri May 07 00:06:40 2010
 Info: Command: quartus_tan --read_settings_files=off --write_settings_files=off rand_dice -c rand_dice --timing_analysis_only
 Warning: Found pins functioning as undefined clocks and/or memory enables
     Info: Assuming node "clk" is an undefined clock
@@ -219,8 +219,8 @@ Info: Longest tpd from source pin "ld" to destination pin "seg[5]" is 12.041 ns
     Info: Total interconnect delay = 8.149 ns ( 67.68 % )
 Info: Quartus II Classic Timing Analyzer was successful. 0 errors, 1 warning
     Info: Peak virtual memory: 147 megabytes
-    Info: Processing ended: Thu May 06 23:59:53 2010
-    Info: Elapsed time: 00:00:00
+    Info: Processing ended: Fri May 07 00:06:41 2010
+    Info: Elapsed time: 00:00:01
     Info: Total CPU time (on all processors): 00:00:01
 
 

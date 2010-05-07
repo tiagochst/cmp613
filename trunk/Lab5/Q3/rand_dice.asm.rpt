@@ -1,5 +1,5 @@
 Assembler report for rand_dice
-Thu May 06 23:59:51 2010
+Fri May 07 00:06:39 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -38,7 +38,7 @@ applicable agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Thu May 06 23:59:51 2010 ;
+; Assembler Status      ; Successful - Fri May 07 00:06:39 2010 ;
 ; Revision Name         ; rand_dice                             ;
 ; Top-level Entity Name ; rand_dice                             ;
 ; Family                ; Cyclone II                            ;
@@ -117,14 +117,14 @@ applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus II Assembler
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Thu May 06 23:59:49 2010
+    Info: Processing started: Fri May 07 00:06:36 2010
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off rand_dice -c rand_dice
 Info: Writing out detailed assembly data for power analysis
 Info: Assembler is generating device programming files
 Info: Quartus II Assembler was successful. 0 errors, 0 warnings
     Info: Peak virtual memory: 199 megabytes
-    Info: Processing ended: Thu May 06 23:59:51 2010
-    Info: Elapsed time: 00:00:02
+    Info: Processing ended: Fri May 07 00:06:39 2010
+    Info: Elapsed time: 00:00:03
     Info: Total CPU time (on all processors): 00:00:03
 
 

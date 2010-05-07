@@ -64,5 +64,5 @@ set_location_assignment PIN_F2 -to seg[4]
 set_location_assignment PIN_F1 -to seg[5]
 set_location_assignment PIN_E2 -to seg[6]
 set_global_assignment -name MISC_FILE "C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q3/rand_dice.dpf"
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name VECTOR_WAVEFORM_FILE rand_dice.vwf
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
