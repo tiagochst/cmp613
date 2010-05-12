@@ -45,17 +45,12 @@ set_global_assignment -name LAST_QUARTUS_VERSION "9.1 SP1"
 set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_blast_fpga
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
-set_global_assignment -name BDF_FILE conv_7seg.bdf
-set_global_assignment -name SOURCE_FILE conv_7seg.cmp
-set_global_assignment -name VHDL_FILE rand_dice.vhd
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
 set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
-set_global_assignment -name VHDL_FILE cnt6.vhdl
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
 set_location_assignment PIN_D12 -to clk
-set_location_assignment PIN_R22 -to ld
 set_location_assignment PIN_J2 -to seg[0]
 set_location_assignment PIN_J1 -to seg[1]
 set_location_assignment PIN_H2 -to seg[2]
@@ -64,5 +59,16 @@ set_location_assignment PIN_F2 -to seg[4]
 set_location_assignment PIN_F1 -to seg[5]
 set_location_assignment PIN_E2 -to seg[6]
 set_global_assignment -name MISC_FILE "C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q3/rand_dice.dpf"
+set_global_assignment -name VHDL_FILE buff.vhd
+set_global_assignment -name BDF_FILE conv_7seg.bdf
+set_global_assignment -name SOURCE_FILE conv_7seg.cmp
+set_global_assignment -name VHDL_FILE rand_dice.vhd
+set_global_assignment -name VHDL_FILE cnt6.vhdl
 set_global_assignment -name VECTOR_WAVEFORM_FILE rand_dice.vwf
+set_location_assignment PIN_R22 -to n_ld
+set_global_assignment -name FMAX_REQUIREMENT "27 MHz" -section_id clk
+set_instance_assignment -name CLOCK_SETTINGS clk -to clk
+set_global_assignment -name USE_CONFIGURATION_DEVICE ON
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
+set_global_assignment -name RESERVE_ASDO_AFTER_CONFIGURATION "AS INPUT TRI-STATED"
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

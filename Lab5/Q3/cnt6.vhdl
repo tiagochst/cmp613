@@ -15,7 +15,7 @@ signal cont: std_logic_vector(2 downto 0):="001";
 BEGIN
 	PROCESS (clk) BEGIN
 		IF (clk='1' and clk'event) THEN
-				IF (cont + "1" >= 6) THEN
+				IF (cont + "1" > 6) THEN
 					cont <= "001";
 				ELSE
 					cont <= cont + "1";

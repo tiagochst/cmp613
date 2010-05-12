@@ -16,7 +16,7 @@ BEGIN
 	PROCESS (clk) BEGIN
 		IF (clk='1' and clk'event) THEN
 				IF (cont + "1" >= 6) THEN
-					cont <= "0001";
+					cont <= "001";
 				ELSE
 					cont <= cont + "1";
 				END IF;
