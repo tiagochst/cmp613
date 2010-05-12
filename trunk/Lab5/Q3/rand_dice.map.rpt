@@ -1,5 +1,5 @@
 Analysis & Synthesis report for rand_dice
-Fri May 07 00:06:24 2010
+Wed May 12 14:38:53 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -41,15 +41,15 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                      ;
 +------------------------------------+----------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Fri May 07 00:06:24 2010        ;
+; Analysis & Synthesis Status        ; Successful - Wed May 12 14:38:53 2010        ;
 ; Quartus II Version                 ; 9.1 Build 304 01/25/2010 SP 1 SJ Web Edition ;
 ; Revision Name                      ; rand_dice                                    ;
 ; Top-level Entity Name              ; rand_dice                                    ;
 ; Family                             ; Cyclone II                                   ;
-; Total logic elements               ; 10                                           ;
-;     Total combinational functions  ; 10                                           ;
-;     Dedicated logic registers      ; 3                                            ;
-; Total registers                    ; 3                                            ;
+; Total logic elements               ; 15                                           ;
+;     Total combinational functions  ; 13                                           ;
+;     Dedicated logic registers      ; 7                                            ;
+; Total registers                    ; 7                                            ;
 ; Total pins                         ; 9                                            ;
 ; Total virtual pins                 ; 0                                            ;
 ; Total memory bits                  ; 0                                            ;
@@ -153,6 +153,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------------+-----------------+------------------------------------+--------------------------------------------------------------+
 ; File Name with User-Entered Path ; Used in Netlist ; File Type                          ; File Name with Absolute Path                                 ;
 +----------------------------------+-----------------+------------------------------------+--------------------------------------------------------------+
+; buff.vhd                         ; yes             ; User VHDL File                     ; C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q3/buff.vhd       ;
 ; conv_7seg.bdf                    ; yes             ; User Block Diagram/Schematic File  ; C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q3/conv_7seg.bdf  ;
 ; rand_dice.vhd                    ; yes             ; User VHDL File                     ; C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q3/rand_dice.vhd  ;
 ; cnt6.vhdl                        ; yes             ; User VHDL File                     ; C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q3/cnt6.vhdl      ;
@@ -160,33 +161,33 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------------+-----------------+------------------------------------+--------------------------------------------------------------+
 
 
-+----------------------------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary                    ;
-+---------------------------------------------+------------------+
-; Resource                                    ; Usage            ;
-+---------------------------------------------+------------------+
-; Estimated Total logic elements              ; 10               ;
-;                                             ;                  ;
-; Total combinational functions               ; 10               ;
-; Logic element usage by number of LUT inputs ;                  ;
-;     -- 4 input functions                    ; 7                ;
-;     -- 3 input functions                    ; 3                ;
-;     -- <=2 input functions                  ; 0                ;
-;                                             ;                  ;
-; Logic elements by mode                      ;                  ;
-;     -- normal mode                          ; 10               ;
-;     -- arithmetic mode                      ; 0                ;
-;                                             ;                  ;
-; Total registers                             ; 3                ;
-;     -- Dedicated logic registers            ; 3                ;
-;     -- I/O registers                        ; 0                ;
-;                                             ;                  ;
-; I/O pins                                    ; 9                ;
-; Maximum fan-out node                        ; cnt6:cnt|cont[2] ;
-; Maximum fan-out                             ; 10               ;
-; Total fan-out                               ; 50               ;
-; Average fan-out                             ; 2.27             ;
-+---------------------------------------------+------------------+
++---------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary             ;
++---------------------------------------------+-----------+
+; Resource                                    ; Usage     ;
++---------------------------------------------+-----------+
+; Estimated Total logic elements              ; 15        ;
+;                                             ;           ;
+; Total combinational functions               ; 13        ;
+; Logic element usage by number of LUT inputs ;           ;
+;     -- 4 input functions                    ; 0         ;
+;     -- 3 input functions                    ; 9         ;
+;     -- <=2 input functions                  ; 4         ;
+;                                             ;           ;
+; Logic elements by mode                      ;           ;
+;     -- normal mode                          ; 13        ;
+;     -- arithmetic mode                      ; 0         ;
+;                                             ;           ;
+; Total registers                             ; 7         ;
+;     -- Dedicated logic registers            ; 7         ;
+;     -- I/O registers                        ; 0         ;
+;                                             ;           ;
+; I/O pins                                    ; 9         ;
+; Maximum fan-out node                        ; output[0] ;
+; Maximum fan-out                             ; 7         ;
+; Total fan-out                               ; 56        ;
+; Average fan-out                             ; 1.93      ;
++---------------------------------------------+-----------+
 
 
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -194,7 +195,8 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------+--------------+
 ; Compilation Hierarchy Node ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                 ; Library Name ;
 +----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------+--------------+
-; |rand_dice                 ; 10 (0)            ; 3 (0)        ; 0           ; 0            ; 0       ; 0         ; 9    ; 0            ; |rand_dice                          ; work         ;
+; |rand_dice                 ; 13 (1)            ; 7 (3)        ; 0           ; 0            ; 0       ; 0         ; 9    ; 0            ; |rand_dice                          ; work         ;
+;    |buff:bf|               ; 2 (2)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |rand_dice|buff:bf                  ;              ;
 ;    |cnt6:cnt|              ; 3 (3)             ; 3 (3)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |rand_dice|cnt6:cnt                 ;              ;
 ;    |conv_7seg:s0|          ; 7 (6)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |rand_dice|conv_7seg:s0             ;              ;
 ;       |16dmux:inst|        ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |rand_dice|conv_7seg:s0|16dmux:inst ;              ;
@@ -207,12 +209,12 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 3     ;
+; Total registers                              ; 7     ;
 ; Number of registers using Synchronous Clear  ; 0     ;
 ; Number of registers using Synchronous Load   ; 0     ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 0     ;
+; Number of registers using Clock Enable       ; 3     ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -222,7 +224,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------------------------------+---------+
 ; Inverted Register                      ; Fan out ;
 +----------------------------------------+---------+
-; cnt6:cnt|cont[0]                       ; 10      ;
+; cnt6:cnt|cont[0]                       ; 4       ;
 ; Total number of inverted registers = 1 ;         ;
 +----------------------------------------+---------+
 
@@ -233,8 +235,11 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus II Analysis & Synthesis
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Fri May 07 00:06:21 2010
+    Info: Processing started: Wed May 12 14:38:50 2010
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off rand_dice -c rand_dice
+Info: Found 2 design units, including 1 entities, in source file buff.vhd
+    Info: Found design unit 1: buff-rtl
+    Info: Found entity 1: buff
 Info: Found 1 design units, including 1 entities, in source file conv_7seg.bdf
     Info: Found entity 1: conv_7seg
 Info: Found 2 design units, including 1 entities, in source file rand_dice.vhd
@@ -245,16 +250,17 @@ Info: Found 2 design units, including 1 entities, in source file cnt6.vhdl
     Info: Found entity 1: cnt6
 Info: Elaborating entity "rand_dice" for the top level hierarchy
 Info: Elaborating entity "cnt6" for hierarchy "cnt6:cnt"
+Info: Elaborating entity "buff" for hierarchy "buff:bf"
 Info: Elaborating entity "conv_7seg" for hierarchy "conv_7seg:s0"
 Info: Elaborating entity "16dmux" for hierarchy "conv_7seg:s0|16dmux:inst"
 Info: Elaborated megafunction instantiation "conv_7seg:s0|16dmux:inst"
-Info: Implemented 19 device resources after synthesis - the final resource count might be different
+Info: Implemented 24 device resources after synthesis - the final resource count might be different
     Info: Implemented 2 input pins
     Info: Implemented 7 output pins
-    Info: Implemented 10 logic cells
+    Info: Implemented 15 logic cells
 Info: Quartus II Analysis & Synthesis was successful. 0 errors, 0 warnings
     Info: Peak virtual memory: 211 megabytes
-    Info: Processing ended: Fri May 07 00:06:24 2010
+    Info: Processing ended: Wed May 12 14:38:53 2010
     Info: Elapsed time: 00:00:03
     Info: Total CPU time (on all processors): 00:00:04
 
