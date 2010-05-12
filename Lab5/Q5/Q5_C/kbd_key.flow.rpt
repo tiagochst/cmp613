@@ -1,5 +1,5 @@
 Flow report for kbd_key
-Wed May 12 16:05:45 2010
+Wed May 12 17:30:42 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -38,7 +38,7 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Flow Summary                                                                      ;
 +------------------------------------+----------------------------------------------+
-; Flow Status                        ; Successful - Wed May 12 16:05:45 2010        ;
+; Flow Status                        ; Successful - Wed May 12 17:30:42 2010        ;
 ; Quartus II Version                 ; 9.1 Build 304 01/25/2010 SP 1 SJ Web Edition ;
 ; Revision Name                      ; kbd_key                                      ;
 ; Top-level Entity Name              ; kbd_key                                      ;
@@ -46,11 +46,11 @@ applicable agreement for further details.
 ; Device                             ; EP2C20F484C7                                 ;
 ; Timing Models                      ; Final                                        ;
 ; Met timing requirements            ; No                                           ;
-; Total logic elements               ; 307 / 18,752 ( 2 % )                         ;
-;     Total combinational functions  ; 306 / 18,752 ( 2 % )                         ;
-;     Dedicated logic registers      ; 131 / 18,752 ( < 1 % )                       ;
-; Total registers                    ; 131                                          ;
-; Total pins                         ; 46 / 315 ( 15 % )                            ;
+; Total logic elements               ; 335 / 18,752 ( 2 % )                         ;
+;     Total combinational functions  ; 307 / 18,752 ( 2 % )                         ;
+;     Dedicated logic registers      ; 160 / 18,752 ( < 1 % )                       ;
+; Total registers                    ; 160                                          ;
+; Total pins                         ; 67 / 315 ( 21 % )                            ;
 ; Total virtual pins                 ; 0                                            ;
 ; Total memory bits                  ; 0 / 239,616 ( 0 % )                          ;
 ; Embedded Multiplier 9-bit elements ; 0 / 52 ( 0 % )                               ;
@@ -63,7 +63,7 @@ applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 05/12/2010 16:05:21 ;
+; Start date & time ; 05/12/2010 17:30:19 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; kbd_key             ;
 +-------------------+---------------------+
@@ -74,10 +74,11 @@ applicable agreement for further details.
 +------------------------------------+----------------------------------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                    ; Value                                                          ; Default Value ; Entity Name ; Section Id     ;
 +------------------------------------+----------------------------------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID              ; 129772612393.127369112000180                                   ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID              ; 129772612393.127369621901636                                   ; --            ; --          ; --             ;
 ; MAX_CORE_JUNCTION_TEMP             ; 85                                                             ; --            ; --          ; --             ;
 ; MIN_CORE_JUNCTION_TEMP             ; 0                                                              ; --            ; --          ; --             ;
 ; MISC_FILE                          ; C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_B/kbd_key.dpf ; --            ; --          ; --             ;
+; MISC_FILE                          ; C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_C/kbd_key.dpf ; --            ; --          ; --             ;
 ; PARTITION_COLOR                    ; 16764057                                                       ; --            ; --          ; Top            ;
 ; PARTITION_NETLIST_TYPE             ; SOURCE                                                         ; --            ; --          ; Top            ;
 ; USE_GENERATED_PHYSICAL_CONSTRAINTS ; Off                                                            ; --            ; --          ; eda_blast_fpga ;
@@ -89,11 +90,11 @@ applicable agreement for further details.
 +-------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name             ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +-------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis    ; 00:00:06     ; 1.0                     ; 211 MB              ; 00:00:07                           ;
+; Analysis & Synthesis    ; 00:00:06     ; 1.0                     ; 212 MB              ; 00:00:08                           ;
 ; Fitter                  ; 00:00:10     ; 1.0                     ; 216 MB              ; 00:00:12                           ;
 ; Assembler               ; 00:00:03     ; 1.0                     ; 200 MB              ; 00:00:03                           ;
 ; Classic Timing Analyzer ; 00:00:01     ; 1.0                     ; 135 MB              ; 00:00:01                           ;
-; Total                   ; 00:00:20     ; --                      ; --                  ; 00:00:23                           ;
+; Total                   ; 00:00:20     ; --                      ; --                  ; 00:00:24                           ;
 +-------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

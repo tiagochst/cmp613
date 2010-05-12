@@ -45,18 +45,12 @@ set_global_assignment -name LAST_QUARTUS_VERSION "9.1 SP1"
 set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_blast_fpga
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
-set_global_assignment -name BDF_FILE ../componentes/conv_7seg.bdf
-set_global_assignment -name SOURCE_FILE ../componentes/conv_7seg.cmp
-set_global_assignment -name VHDL_FILE ../componentes/kbdex_ctrl.vhd
-set_global_assignment -name VHDL_FILE ../componentes/ps2_iobase.vhd
-set_global_assignment -name VHDL_FILE alfa_char.vhd
-set_global_assignment -name VHDL_FILE kbd_key.vhd
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
 set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
 set_global_assignment -name USE_CONFIGURATION_DEVICE ON
-set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS OUTPUT DRIVING GROUND"
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
 set_global_assignment -name RESERVE_ASDO_AFTER_CONFIGURATION "AS INPUT TRI-STATED"
 set_location_assignment PIN_B12 -to CLOCK_24[0]
@@ -106,5 +100,34 @@ set_location_assignment PIN_M22 -to SW[7]
 set_location_assignment PIN_L21 -to SW[8]
 set_location_assignment PIN_L22 -to SW[9]
 set_global_assignment -name MISC_FILE "C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_B/kbd_key.dpf"
-set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-STATED"
+set_global_assignment -name VHDL_FILE buff.vhd
+set_global_assignment -name BDF_FILE ../componentes/conv_7seg.bdf
+set_global_assignment -name SOURCE_FILE ../componentes/conv_7seg.cmp
+set_global_assignment -name VHDL_FILE ../componentes/kbdex_ctrl.vhd
+set_global_assignment -name VHDL_FILE ../componentes/ps2_iobase.vhd
+set_global_assignment -name VHDL_FILE alfa_char.vhd
+set_global_assignment -name VHDL_FILE kbd_key.vhd
+set_global_assignment -name VHDL_FILE disp_rool.vhd
+set_location_assignment PIN_E1 -to HEX1[0]
+set_location_assignment PIN_H6 -to HEX1[1]
+set_location_assignment PIN_H5 -to HEX1[2]
+set_location_assignment PIN_H4 -to HEX1[3]
+set_location_assignment PIN_G3 -to HEX1[4]
+set_location_assignment PIN_D2 -to HEX1[5]
+set_location_assignment PIN_D1 -to HEX1[6]
+set_location_assignment PIN_G5 -to HEX2[0]
+set_location_assignment PIN_G6 -to HEX2[1]
+set_location_assignment PIN_C2 -to HEX2[2]
+set_location_assignment PIN_C1 -to HEX2[3]
+set_location_assignment PIN_E3 -to HEX2[4]
+set_location_assignment PIN_E4 -to HEX2[5]
+set_location_assignment PIN_D3 -to HEX2[6]
+set_location_assignment PIN_F4 -to HEX3[0]
+set_location_assignment PIN_D5 -to HEX3[1]
+set_location_assignment PIN_D6 -to HEX3[2]
+set_location_assignment PIN_J4 -to HEX3[3]
+set_location_assignment PIN_L8 -to HEX3[4]
+set_location_assignment PIN_F3 -to HEX3[5]
+set_location_assignment PIN_D4 -to HEX3[6]
+set_global_assignment -name MISC_FILE "C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_C/kbd_key.dpf"
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
