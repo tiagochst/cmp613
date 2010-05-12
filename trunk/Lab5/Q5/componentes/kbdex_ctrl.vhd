@@ -85,7 +85,7 @@ architecture rtl of kbdex_ctrl is
 	);
 
 	-- State machine signals
-	signal state, nstate	:	statename;
+	signal state, nstate	:	statename ;
 	signal sigfetch, sigfetched, sigext0,
 				 sigrelease, sigselect, sigclear :	std_logic;
 
@@ -103,8 +103,8 @@ architecture rtl of kbdex_ctrl is
 
 	-- Lights control
 	signal hdata				:	std_logic_vector( 7 downto 0);
-	signal sigsend, sigsendrdy, sigsending,
-				 siguplights	:	std_logic;
+	signal sigsend, sigsendrdy, sigsending:	std_logic;
+			signal	 siguplights	:	std_logic;
 	
 	-- PS2 output signals
 	signal ps2_dataout	:	std_logic_vector(7 downto 0);

@@ -1,5 +1,5 @@
 Assembler report for kbd_key
-Wed May 12 16:05:43 2010
+Wed May 12 17:30:40 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -10,8 +10,8 @@ Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
   2. Assembler Summary
   3. Assembler Settings
   4. Assembler Generated Files
-  5. Assembler Device Options: C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_B/kbd_key.sof
-  6. Assembler Device Options: C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_B/kbd_key.pof
+  5. Assembler Device Options: C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_C/kbd_key.sof
+  6. Assembler Device Options: C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_C/kbd_key.pof
   7. Assembler Messages
 
 
@@ -38,7 +38,7 @@ applicable agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Wed May 12 16:05:43 2010 ;
+; Assembler Status      ; Successful - Wed May 12 17:30:40 2010 ;
 ; Revision Name         ; kbd_key                               ;
 ; Top-level Entity Name ; kbd_key                               ;
 ; Family                ; Cyclone II                            ;
@@ -83,30 +83,30 @@ applicable agreement for further details.
 +----------------------------------------------------------------+
 ; File Name                                                      ;
 +----------------------------------------------------------------+
-; C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_B/kbd_key.sof ;
-; C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_B/kbd_key.pof ;
+; C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_C/kbd_key.sof ;
+; C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_C/kbd_key.pof ;
 +----------------------------------------------------------------+
 
 
 +------------------------------------------------------------------------------------------+
-; Assembler Device Options: C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_B/kbd_key.sof ;
+; Assembler Device Options: C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_C/kbd_key.sof ;
 +----------------+-------------------------------------------------------------------------+
 ; Option         ; Setting                                                                 ;
 +----------------+-------------------------------------------------------------------------+
 ; Device         ; EP2C20F484C7                                                            ;
 ; JTAG usercode  ; 0xFFFFFFFF                                                              ;
-; Checksum       ; 0x001DB38C                                                              ;
+; Checksum       ; 0x001EEF94                                                              ;
 +----------------+-------------------------------------------------------------------------+
 
 
 +------------------------------------------------------------------------------------------+
-; Assembler Device Options: C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_B/kbd_key.pof ;
+; Assembler Device Options: C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_C/kbd_key.pof ;
 +--------------------+---------------------------------------------------------------------+
 ; Option             ; Setting                                                             ;
 +--------------------+---------------------------------------------------------------------+
 ; Device             ; EPCS16                                                              ;
 ; JTAG usercode      ; 0x00000000                                                          ;
-; Checksum           ; 0x1DD3D3B0                                                          ;
+; Checksum           ; 0x1DD06260                                                          ;
 ; Compression Ratio  ; 3                                                                   ;
 +--------------------+---------------------------------------------------------------------+
 
@@ -117,13 +117,13 @@ applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus II Assembler
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Wed May 12 16:05:40 2010
+    Info: Processing started: Wed May 12 17:30:37 2010
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off kbd_key -c kbd_key
 Info: Writing out detailed assembly data for power analysis
 Info: Assembler is generating device programming files
 Info: Quartus II Assembler was successful. 0 errors, 0 warnings
     Info: Peak virtual memory: 200 megabytes
-    Info: Processing ended: Wed May 12 16:05:43 2010
+    Info: Processing ended: Wed May 12 17:30:40 2010
     Info: Elapsed time: 00:00:03
     Info: Total CPU time (on all processors): 00:00:03
 
