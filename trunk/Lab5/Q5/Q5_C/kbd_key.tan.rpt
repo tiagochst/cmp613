@@ -1,5 +1,5 @@
 Classic Timing Analyzer report for kbd_key
-Thu May 13 13:41:23 2010
+Thu May 13 13:56:37 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -47,10 +47,10 @@ applicable agreement for further details.
 ; Type                         ; Slack                                    ; Required Time ; Actual Time                                    ; From                                               ; To                                               ; From Clock  ; To Clock    ; Failed Paths ;
 +------------------------------+------------------------------------------+---------------+------------------------------------------------+----------------------------------------------------+--------------------------------------------------+-------------+-------------+--------------+
 ; Worst-case tsu               ; N/A                                      ; None          ; 7.357 ns                                       ; KEY[0]                                             ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK             ; --          ; CLOCK_24[0] ; 0            ;
-; Worst-case tco               ; N/A                                      ; None          ; 14.185 ns                                      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; PS2_DAT                                          ; CLOCK_24[0] ; --          ; 0            ;
+; Worst-case tco               ; N/A                                      ; None          ; 14.186 ns                                      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; PS2_DAT                                          ; CLOCK_24[0] ; --          ; 0            ;
 ; Worst-case tpd               ; N/A                                      ; None          ; 13.792 ns                                      ; KEY[0]                                             ; PS2_DAT                                          ; --          ; --          ; 0            ;
-; Worst-case th                ; N/A                                      ; None          ; -0.265 ns                                      ; PS2_DAT                                            ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6] ; --          ; CLOCK_24[0] ; 0            ;
-; Clock Setup: 'CLOCK_24[0]'   ; N/A                                      ; None          ; 129.03 MHz ( period = 7.750 ns )               ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK             ; CLOCK_24[0] ; CLOCK_24[0] ; 0            ;
+; Worst-case th                ; N/A                                      ; None          ; -0.266 ns                                      ; PS2_DAT                                            ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6] ; --          ; CLOCK_24[0] ; 0            ;
+; Clock Setup: 'CLOCK_24[0]'   ; N/A                                      ; None          ; 129.02 MHz ( period = 7.751 ns )               ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK             ; CLOCK_24[0] ; CLOCK_24[0] ; 0            ;
 ; Clock Setup: 'CLOCK_27[0]'   ; N/A                                      ; None          ; Restricted to 380.08 MHz ( period = 2.631 ns ) ; disp_roll:display|buff:bf|state                    ; disp_roll:display|key0[5]                        ; CLOCK_27[0] ; CLOCK_27[0] ; 0            ;
 ; Clock Hold: 'CLOCK_24[0]'    ; Not operational: Clock Skew > Data Delay ; None          ; N/A                                            ; kbdex_ctrl:kbd_ctrl|hdata[7]                       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[7] ; CLOCK_24[0] ; CLOCK_24[0] ; 8            ;
 ; Total number of failed paths ;                                          ;               ;                                                ;                                                    ;                                                  ;             ;             ; 8            ;
@@ -118,20 +118,20 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +-----------------------------------------+-----------------------------------------------------+----------------------------------------------------+--------------------------------------------------------+-------------+-------------+-----------------------------+---------------------------+-------------------------+
 ; Slack                                   ; Actual fmax (period)                                ; From                                               ; To                                                     ; From Clock  ; To Clock    ; Required Setup Relationship ; Required Longest P2P Time ; Actual Longest P2P Time ;
 +-----------------------------------------+-----------------------------------------------------+----------------------------------------------------+--------------------------------------------------------+-------------+-------------+-----------------------------+---------------------------+-------------------------+
-; N/A                                     ; 129.03 MHz ( period = 7.750 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 3.127 ns                ;
-; N/A                                     ; 129.08 MHz ( period = 7.747 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                  ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 3.124 ns                ;
-; N/A                                     ; 132.40 MHz ( period = 7.553 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[1]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
-; N/A                                     ; 132.40 MHz ( period = 7.553 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[0]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
-; N/A                                     ; 132.40 MHz ( period = 7.553 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[10]      ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
-; N/A                                     ; 132.40 MHz ( period = 7.553 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[9]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
-; N/A                                     ; 132.40 MHz ( period = 7.553 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[6]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
-; N/A                                     ; 132.40 MHz ( period = 7.553 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[5]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
-; N/A                                     ; 132.40 MHz ( period = 7.553 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[11]      ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
-; N/A                                     ; 132.40 MHz ( period = 7.553 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[2]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
-; N/A                                     ; 132.40 MHz ( period = 7.553 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[3]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
-; N/A                                     ; 132.40 MHz ( period = 7.553 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[4]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
-; N/A                                     ; 132.40 MHz ( period = 7.553 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[7]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
-; N/A                                     ; 132.40 MHz ( period = 7.553 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[8]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
+; N/A                                     ; 129.02 MHz ( period = 7.751 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 3.127 ns                ;
+; N/A                                     ; 129.07 MHz ( period = 7.748 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                  ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 3.124 ns                ;
+; N/A                                     ; 132.38 MHz ( period = 7.554 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[1]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
+; N/A                                     ; 132.38 MHz ( period = 7.554 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[0]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
+; N/A                                     ; 132.38 MHz ( period = 7.554 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[10]      ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
+; N/A                                     ; 132.38 MHz ( period = 7.554 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[9]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
+; N/A                                     ; 132.38 MHz ( period = 7.554 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[6]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
+; N/A                                     ; 132.38 MHz ( period = 7.554 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[5]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
+; N/A                                     ; 132.38 MHz ( period = 7.554 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[11]      ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
+; N/A                                     ; 132.38 MHz ( period = 7.554 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[2]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
+; N/A                                     ; 132.38 MHz ( period = 7.554 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[3]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
+; N/A                                     ; 132.38 MHz ( period = 7.554 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[4]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
+; N/A                                     ; 132.38 MHz ( period = 7.554 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[7]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
+; N/A                                     ; 132.38 MHz ( period = 7.554 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[8]       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.933 ns                ;
 ; N/A                                     ; 136.80 MHz ( period = 7.310 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[1]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                 ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.814 ns                ;
 ; N/A                                     ; 137.08 MHz ( period = 7.295 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[0]                   ; kbdex_ctrl:kbd_ctrl|key2code[13]                       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 7.056 ns                ;
 ; N/A                                     ; 137.08 MHz ( period = 7.295 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[0]                   ; kbdex_ctrl:kbd_ctrl|key2code[0]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 7.056 ns                ;
@@ -157,7 +157,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; N/A                                     ; 139.57 MHz ( period = 7.165 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[4]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                 ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.669 ns                ;
 ; N/A                                     ; 140.33 MHz ( period = 7.126 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.630 ns                ;
 ; N/A                                     ; 140.59 MHz ( period = 7.113 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[5]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.617 ns                ;
-; N/A                                     ; 141.08 MHz ( period = 7.088 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                 ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.465 ns                ;
+; N/A                                     ; 141.06 MHz ( period = 7.089 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                 ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.465 ns                ;
 ; N/A                                     ; 141.36 MHz ( period = 7.074 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[4]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.578 ns                ;
 ; N/A                                     ; 141.44 MHz ( period = 7.070 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[2]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                 ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.574 ns                ;
 ; N/A                                     ; 143.29 MHz ( period = 6.979 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[2]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.483 ns                ;
@@ -168,8 +168,8 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; N/A                                     ; 146.50 MHz ( period = 6.826 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[1]   ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                     ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.330 ns                ;
 ; N/A                                     ; 146.56 MHz ( period = 6.823 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.327 ns                ;
 ; N/A                                     ; 146.61 MHz ( period = 6.821 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                 ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.325 ns                ;
-; N/A                                     ; 147.12 MHz ( period = 6.797 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.SEND                      ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.174 ns                ;
-; N/A                                     ; 147.17 MHz ( period = 6.795 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.SENDVAL                   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.172 ns                ;
+; N/A                                     ; 147.10 MHz ( period = 6.798 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.SEND                      ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.174 ns                ;
+; N/A                                     ; 147.15 MHz ( period = 6.796 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.SENDVAL                   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.172 ns                ;
 ; N/A                                     ; 147.30 MHz ( period = 6.789 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[6]                   ; kbdex_ctrl:kbd_ctrl|key2code[13]                       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.550 ns                ;
 ; N/A                                     ; 147.30 MHz ( period = 6.789 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[6]                   ; kbdex_ctrl:kbd_ctrl|key2code[0]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.550 ns                ;
 ; N/A                                     ; 147.30 MHz ( period = 6.789 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[6]                   ; kbdex_ctrl:kbd_ctrl|key2code[6]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.550 ns                ;
@@ -178,16 +178,16 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; N/A                                     ; 147.30 MHz ( period = 6.789 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[6]                   ; kbdex_ctrl:kbd_ctrl|key2code[2]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.550 ns                ;
 ; N/A                                     ; 147.30 MHz ( period = 6.789 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[6]                   ; kbdex_ctrl:kbd_ctrl|key2code[4]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.550 ns                ;
 ; N/A                                     ; 147.30 MHz ( period = 6.789 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[6]                   ; kbdex_ctrl:kbd_ctrl|key2code[5]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.550 ns                ;
-; N/A                                     ; 147.51 MHz ( period = 6.779 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.156 ns                ;
-; N/A                                     ; 147.62 MHz ( period = 6.774 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[17]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
-; N/A                                     ; 147.62 MHz ( period = 6.774 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[18]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
-; N/A                                     ; 147.62 MHz ( period = 6.774 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[16]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
-; N/A                                     ; 147.62 MHz ( period = 6.774 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[15]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
-; N/A                                     ; 147.62 MHz ( period = 6.774 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[12]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
-; N/A                                     ; 147.62 MHz ( period = 6.774 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[14]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
-; N/A                                     ; 147.62 MHz ( period = 6.774 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[13]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
-; N/A                                     ; 147.62 MHz ( period = 6.774 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[11]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
-; N/A                                     ; 147.62 MHz ( period = 6.774 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[10]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
+; N/A                                     ; 147.49 MHz ( period = 6.780 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.156 ns                ;
+; N/A                                     ; 147.60 MHz ( period = 6.775 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[17]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
+; N/A                                     ; 147.60 MHz ( period = 6.775 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[18]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
+; N/A                                     ; 147.60 MHz ( period = 6.775 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[16]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
+; N/A                                     ; 147.60 MHz ( period = 6.775 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[15]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
+; N/A                                     ; 147.60 MHz ( period = 6.775 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[12]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
+; N/A                                     ; 147.60 MHz ( period = 6.775 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[14]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
+; N/A                                     ; 147.60 MHz ( period = 6.775 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[13]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
+; N/A                                     ; 147.60 MHz ( period = 6.775 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[11]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
+; N/A                                     ; 147.60 MHz ( period = 6.775 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[10]   ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.153 ns                ;
 ; N/A                                     ; 147.69 MHz ( period = 6.771 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[7]                    ; kbdex_ctrl:kbd_ctrl|key2code[13]                       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.538 ns                ;
 ; N/A                                     ; 147.69 MHz ( period = 6.771 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[7]                    ; kbdex_ctrl:kbd_ctrl|key2code[0]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.538 ns                ;
 ; N/A                                     ; 147.69 MHz ( period = 6.771 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[7]                    ; kbdex_ctrl:kbd_ctrl|key2code[6]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.538 ns                ;
@@ -249,15 +249,15 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; N/A                                     ; 150.76 MHz ( period = 6.633 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[4]                   ; kbdex_ctrl:kbd_ctrl|key0code[0]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.388 ns                ;
 ; N/A                                     ; 151.84 MHz ( period = 6.586 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[2]   ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                     ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 2.090 ns                ;
 ; N/A                                     ; 154.49 MHz ( period = 6.473 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[7]   ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                     ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.977 ns                ;
-; N/A                                     ; 155.06 MHz ( period = 6.449 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[5]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
-; N/A                                     ; 155.06 MHz ( period = 6.449 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[6]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
-; N/A                                     ; 155.06 MHz ( period = 6.449 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[7]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
-; N/A                                     ; 155.06 MHz ( period = 6.449 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[4]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
-; N/A                                     ; 155.06 MHz ( period = 6.449 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[2]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
-; N/A                                     ; 155.06 MHz ( period = 6.449 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[1]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
-; N/A                                     ; 155.06 MHz ( period = 6.449 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[3]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
-; N/A                                     ; 155.06 MHz ( period = 6.449 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[8]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
-; N/A                                     ; 155.06 MHz ( period = 6.449 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[9]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
+; N/A                                     ; 155.04 MHz ( period = 6.450 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[5]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
+; N/A                                     ; 155.04 MHz ( period = 6.450 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[6]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
+; N/A                                     ; 155.04 MHz ( period = 6.450 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[7]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
+; N/A                                     ; 155.04 MHz ( period = 6.450 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[4]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
+; N/A                                     ; 155.04 MHz ( period = 6.450 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[2]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
+; N/A                                     ; 155.04 MHz ( period = 6.450 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[1]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
+; N/A                                     ; 155.04 MHz ( period = 6.450 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[3]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
+; N/A                                     ; 155.04 MHz ( period = 6.450 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[8]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
+; N/A                                     ; 155.04 MHz ( period = 6.450 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[9]    ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.826 ns                ;
 ; N/A                                     ; 155.06 MHz ( period = 6.449 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[1]                   ; kbdex_ctrl:kbd_ctrl|key2code[13]                       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.210 ns                ;
 ; N/A                                     ; 155.06 MHz ( period = 6.449 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[1]                   ; kbdex_ctrl:kbd_ctrl|key2code[0]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.210 ns                ;
 ; N/A                                     ; 155.06 MHz ( period = 6.449 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[1]                   ; kbdex_ctrl:kbd_ctrl|key2code[6]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.210 ns                ;
@@ -304,10 +304,10 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; N/A                                     ; 157.36 MHz ( period = 6.355 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[7]                    ; kbdex_ctrl:kbd_ctrl|key2code[2]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.116 ns                ;
 ; N/A                                     ; 157.36 MHz ( period = 6.355 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[7]                    ; kbdex_ctrl:kbd_ctrl|key2code[4]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.116 ns                ;
 ; N/A                                     ; 157.36 MHz ( period = 6.355 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[7]                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.116 ns                ;
-; N/A                                     ; 157.53 MHz ( period = 6.348 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkreleased ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.727 ns                ;
-; N/A                                     ; 157.53 MHz ( period = 6.348 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkheld     ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.727 ns                ;
+; N/A                                     ; 157.51 MHz ( period = 6.349 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkreleased ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.727 ns                ;
+; N/A                                     ; 157.51 MHz ( period = 6.349 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkheld     ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.727 ns                ;
 ; N/A                                     ; 157.80 MHz ( period = 6.337 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]   ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                     ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.841 ns                ;
-; N/A                                     ; 157.98 MHz ( period = 6.330 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_clk~en     ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.710 ns                ;
+; N/A                                     ; 157.95 MHz ( period = 6.331 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_clk~en     ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 1.710 ns                ;
 ; N/A                                     ; 158.40 MHz ( period = 6.313 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[1]                    ; kbdex_ctrl:kbd_ctrl|key2code[13]                       ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.080 ns                ;
 ; N/A                                     ; 158.40 MHz ( period = 6.313 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[1]                    ; kbdex_ctrl:kbd_ctrl|key2code[0]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.080 ns                ;
 ; N/A                                     ; 158.40 MHz ( period = 6.313 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[1]                    ; kbdex_ctrl:kbd_ctrl|key2code[6]                        ; CLOCK_24[0] ; CLOCK_24[0] ; None                        ; None                      ; 6.080 ns                ;
@@ -410,12 +410,12 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; N/A   ; None         ; 5.228 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[0]          ; CLOCK_24[0] ;
 ; N/A   ; None         ; 5.228 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[0]          ; CLOCK_24[0] ;
 ; N/A   ; None         ; 5.061 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger         ; CLOCK_24[0] ;
-; N/A   ; None         ; 4.945 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[7]          ; CLOCK_24[0] ;
-; N/A   ; None         ; 4.944 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[5]          ; CLOCK_24[0] ;
-; N/A   ; None         ; 4.943 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[3]          ; CLOCK_24[0] ;
+; N/A   ; None         ; 4.946 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[7]          ; CLOCK_24[0] ;
+; N/A   ; None         ; 4.945 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[5]          ; CLOCK_24[0] ;
+; N/A   ; None         ; 4.944 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[3]          ; CLOCK_24[0] ;
 ; N/A   ; None         ; 4.926 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[4]          ; CLOCK_24[0] ;
-; N/A   ; None         ; 4.918 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[2]          ; CLOCK_24[0] ;
-; N/A   ; None         ; 4.889 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[0]          ; CLOCK_24[0] ;
+; N/A   ; None         ; 4.919 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[2]          ; CLOCK_24[0] ;
+; N/A   ; None         ; 4.890 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[0]          ; CLOCK_24[0] ;
 ; N/A   ; None         ; 4.875 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[5]          ; CLOCK_24[0] ;
 ; N/A   ; None         ; 4.875 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[7]          ; CLOCK_24[0] ;
 ; N/A   ; None         ; 4.875 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[6]          ; CLOCK_24[0] ;
@@ -438,31 +438,31 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; N/A   ; None         ; 4.867 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|state.IDLE                             ; CLOCK_24[0] ;
 ; N/A   ; None         ; 4.867 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|state.RELEASE                          ; CLOCK_24[0] ;
 ; N/A   ; None         ; 4.867 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|state.EXT1                             ; CLOCK_24[0] ;
-; N/A   ; None         ; 4.777 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[7]          ; CLOCK_24[0] ;
-; N/A   ; None         ; 4.776 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[3]          ; CLOCK_24[0] ;
+; N/A   ; None         ; 4.778 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[7]          ; CLOCK_24[0] ;
+; N/A   ; None         ; 4.777 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[3]          ; CLOCK_24[0] ;
+; N/A   ; None         ; 4.775 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[6]          ; CLOCK_24[0] ;
 ; N/A   ; None         ; 4.775 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[1]          ; CLOCK_24[0] ;
-; N/A   ; None         ; 4.774 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[6]          ; CLOCK_24[0] ;
-; N/A   ; None         ; 4.773 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[5]          ; CLOCK_24[0] ;
+; N/A   ; None         ; 4.774 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[5]          ; CLOCK_24[0] ;
 ; N/A   ; None         ; 4.737 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[0]          ; CLOCK_24[0] ;
-; N/A   ; None         ; 4.628 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[6]          ; CLOCK_24[0] ;
-; N/A   ; None         ; 4.627 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[4]          ; CLOCK_24[0] ;
-; N/A   ; None         ; 4.627 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[1]          ; CLOCK_24[0] ;
+; N/A   ; None         ; 4.629 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[6]          ; CLOCK_24[0] ;
+; N/A   ; None         ; 4.628 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[4]          ; CLOCK_24[0] ;
+; N/A   ; None         ; 4.628 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[1]          ; CLOCK_24[0] ;
 ; N/A   ; None         ; 4.623 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[2]          ; CLOCK_24[0] ;
 ; N/A   ; None         ; 4.483 ns   ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|parchecked         ; CLOCK_24[0] ;
 ; N/A   ; None         ; 4.225 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger         ; CLOCK_24[0] ;
-; N/A   ; None         ; 2.560 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                       ; CLOCK_24[0] ;
-; N/A   ; None         ; 2.557 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                      ; CLOCK_24[0] ;
-; N/A   ; None         ; 2.262 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                        ; CLOCK_24[0] ;
-; N/A   ; None         ; 2.256 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                     ; CLOCK_24[0] ;
-; N/A   ; None         ; 1.779 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                         ; CLOCK_24[0] ;
+; N/A   ; None         ; 2.561 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                       ; CLOCK_24[0] ;
+; N/A   ; None         ; 2.558 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                      ; CLOCK_24[0] ;
+; N/A   ; None         ; 2.263 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                        ; CLOCK_24[0] ;
+; N/A   ; None         ; 2.257 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                     ; CLOCK_24[0] ;
+; N/A   ; None         ; 1.780 ns   ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                         ; CLOCK_24[0] ;
 ; N/A   ; None         ; 0.527 ns   ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[2]           ; CLOCK_24[0] ;
 ; N/A   ; None         ; 0.526 ns   ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[1]           ; CLOCK_24[0] ;
 ; N/A   ; None         ; 0.526 ns   ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]           ; CLOCK_24[0] ;
 ; N/A   ; None         ; 0.524 ns   ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[7]           ; CLOCK_24[0] ;
-; N/A   ; None         ; 0.522 ns   ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]           ; CLOCK_24[0] ;
+; N/A   ; None         ; 0.523 ns   ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]           ; CLOCK_24[0] ;
 ; N/A   ; None         ; 0.518 ns   ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[5]           ; CLOCK_24[0] ;
-; N/A   ; None         ; 0.515 ns   ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[4]           ; CLOCK_24[0] ;
-; N/A   ; None         ; 0.513 ns   ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]           ; CLOCK_24[0] ;
+; N/A   ; None         ; 0.516 ns   ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[4]           ; CLOCK_24[0] ;
+; N/A   ; None         ; 0.514 ns   ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]           ; CLOCK_24[0] ;
 +-------+--------------+------------+---------+------------------------------------------------------------+-------------+
 
 
@@ -471,7 +471,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +-------+--------------+------------+--------------------------------------------------------------+---------+-------------+
 ; Slack ; Required tco ; Actual tco ; From                                                         ; To      ; From Clock  ;
 +-------+--------------+------------+--------------------------------------------------------------+---------+-------------+
-; N/A   ; None         ; 14.185 ns  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending           ; PS2_DAT ; CLOCK_24[0] ;
+; N/A   ; None         ; 14.186 ns  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending           ; PS2_DAT ; CLOCK_24[0] ;
 ; N/A   ; None         ; 13.420 ns  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~en_emulated ; PS2_DAT ; CLOCK_24[0] ;
 ; N/A   ; None         ; 13.117 ns  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~reg0        ; PS2_DAT ; CLOCK_24[0] ;
 ; N/A   ; None         ; 9.943 ns   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkheld           ; PS2_DAT ; CLOCK_24[0] ;
@@ -524,32 +524,32 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------+-------------+-----------+---------+------------------------------------------------------------+-------------+
 ; Minimum Slack ; Required th ; Actual th ; From    ; To                                                         ; To Clock    ;
 +---------------+-------------+-----------+---------+------------------------------------------------------------+-------------+
-; N/A           ; None        ; -0.265 ns ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]           ; CLOCK_24[0] ;
-; N/A           ; None        ; -0.267 ns ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[4]           ; CLOCK_24[0] ;
+; N/A           ; None        ; -0.266 ns ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]           ; CLOCK_24[0] ;
+; N/A           ; None        ; -0.268 ns ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[4]           ; CLOCK_24[0] ;
 ; N/A           ; None        ; -0.270 ns ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[5]           ; CLOCK_24[0] ;
-; N/A           ; None        ; -0.274 ns ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]           ; CLOCK_24[0] ;
+; N/A           ; None        ; -0.275 ns ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]           ; CLOCK_24[0] ;
 ; N/A           ; None        ; -0.276 ns ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[7]           ; CLOCK_24[0] ;
 ; N/A           ; None        ; -0.278 ns ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[1]           ; CLOCK_24[0] ;
 ; N/A           ; None        ; -0.278 ns ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]           ; CLOCK_24[0] ;
 ; N/A           ; None        ; -0.279 ns ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[2]           ; CLOCK_24[0] ;
-; N/A           ; None        ; -1.531 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                         ; CLOCK_24[0] ;
-; N/A           ; None        ; -2.008 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                     ; CLOCK_24[0] ;
-; N/A           ; None        ; -2.014 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                        ; CLOCK_24[0] ;
-; N/A           ; None        ; -2.309 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                      ; CLOCK_24[0] ;
-; N/A           ; None        ; -2.312 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                       ; CLOCK_24[0] ;
+; N/A           ; None        ; -1.532 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                         ; CLOCK_24[0] ;
+; N/A           ; None        ; -2.009 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                     ; CLOCK_24[0] ;
+; N/A           ; None        ; -2.015 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                        ; CLOCK_24[0] ;
+; N/A           ; None        ; -2.310 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                      ; CLOCK_24[0] ;
+; N/A           ; None        ; -2.313 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                       ; CLOCK_24[0] ;
 ; N/A           ; None        ; -3.501 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger         ; CLOCK_24[0] ;
 ; N/A           ; None        ; -4.235 ns ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|parchecked         ; CLOCK_24[0] ;
 ; N/A           ; None        ; -4.305 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger         ; CLOCK_24[0] ;
 ; N/A           ; None        ; -4.375 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[2]          ; CLOCK_24[0] ;
-; N/A           ; None        ; -4.379 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[4]          ; CLOCK_24[0] ;
-; N/A           ; None        ; -4.379 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[1]          ; CLOCK_24[0] ;
-; N/A           ; None        ; -4.380 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[6]          ; CLOCK_24[0] ;
+; N/A           ; None        ; -4.380 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[4]          ; CLOCK_24[0] ;
+; N/A           ; None        ; -4.380 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[1]          ; CLOCK_24[0] ;
+; N/A           ; None        ; -4.381 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[6]          ; CLOCK_24[0] ;
 ; N/A           ; None        ; -4.489 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[0]          ; CLOCK_24[0] ;
-; N/A           ; None        ; -4.525 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[5]          ; CLOCK_24[0] ;
-; N/A           ; None        ; -4.526 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[6]          ; CLOCK_24[0] ;
+; N/A           ; None        ; -4.526 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[5]          ; CLOCK_24[0] ;
+; N/A           ; None        ; -4.527 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[6]          ; CLOCK_24[0] ;
 ; N/A           ; None        ; -4.527 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[1]          ; CLOCK_24[0] ;
-; N/A           ; None        ; -4.528 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[3]          ; CLOCK_24[0] ;
-; N/A           ; None        ; -4.529 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[7]          ; CLOCK_24[0] ;
+; N/A           ; None        ; -4.529 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[3]          ; CLOCK_24[0] ;
+; N/A           ; None        ; -4.530 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[7]          ; CLOCK_24[0] ;
 ; N/A           ; None        ; -4.619 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|state.CLRDP                            ; CLOCK_24[0] ;
 ; N/A           ; None        ; -4.619 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|state.CODE                             ; CLOCK_24[0] ;
 ; N/A           ; None        ; -4.619 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|state.FETCH                            ; CLOCK_24[0] ;
@@ -572,12 +572,12 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; N/A           ; None        ; -4.627 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[3]          ; CLOCK_24[0] ;
 ; N/A           ; None        ; -4.627 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[2]          ; CLOCK_24[0] ;
 ; N/A           ; None        ; -4.627 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[1]          ; CLOCK_24[0] ;
-; N/A           ; None        ; -4.641 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[0]          ; CLOCK_24[0] ;
-; N/A           ; None        ; -4.670 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[2]          ; CLOCK_24[0] ;
+; N/A           ; None        ; -4.642 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[0]          ; CLOCK_24[0] ;
+; N/A           ; None        ; -4.671 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[2]          ; CLOCK_24[0] ;
 ; N/A           ; None        ; -4.678 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[4]          ; CLOCK_24[0] ;
-; N/A           ; None        ; -4.695 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[3]          ; CLOCK_24[0] ;
-; N/A           ; None        ; -4.696 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[5]          ; CLOCK_24[0] ;
-; N/A           ; None        ; -4.697 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[7]          ; CLOCK_24[0] ;
+; N/A           ; None        ; -4.696 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[3]          ; CLOCK_24[0] ;
+; N/A           ; None        ; -4.697 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[5]          ; CLOCK_24[0] ;
+; N/A           ; None        ; -4.698 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[7]          ; CLOCK_24[0] ;
 ; N/A           ; None        ; -4.980 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[0]          ; CLOCK_24[0] ;
 ; N/A           ; None        ; -4.980 ns ; KEY[1]  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[0]          ; CLOCK_24[0] ;
 ; N/A           ; None        ; -5.140 ns ; KEY[0]  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~_emulated ; CLOCK_24[0] ;
@@ -596,8 +596,59 @@ Parallel compilation was disabled, but you have multiple processors available. E
 Info: *******************************************************************
 Info: Running Quartus II Classic Timing Analyzer
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Thu May 13 13:41:23 2010
-Info: Command: quartus_tan --read_settings_files=off --write_settings_files=off kbd_key -c kbd_key --timing_analysis_only
+    Info: Processing started: Thu May 13 13:56:35 2010
+Info: Command: quartus_tan --read_settings_files=on --write_settings_files=off kbd_key -c kbd_key --speed=7
+Info: Started post-fitting delay annotation
+Warning: Found 48 output pins without output pin load capacitance assignment
+    Info: Pin "PS2_DAT" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "PS2_CLK" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX0[0]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX0[1]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX0[2]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX0[3]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX0[4]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX0[5]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX0[6]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX1[0]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX1[1]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX1[2]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX1[3]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX1[4]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX1[5]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX1[6]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX2[0]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX2[1]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX2[2]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX2[3]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX2[4]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX2[5]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX2[6]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX3[0]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX3[1]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX3[2]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX3[3]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX3[4]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX3[5]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "HEX3[6]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDG[0]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDG[1]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDG[2]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDG[3]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDG[4]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDG[5]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDG[6]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDG[7]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDR[0]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDR[1]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDR[2]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDR[3]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDR[4]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDR[5]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDR[6]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDR[7]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDR[8]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "LEDR[9]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+Info: Delay annotation completed successfully
 Warning: Timing Analysis is analyzing one or more combinational loops as latches
     Warning: Node "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~latch" is a latch
     Warning: Node "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~enlatch" is a latch
@@ -613,7 +664,7 @@ Warning: Found 4 node(s) in clock paths which may be acting as ripple and/or gat
     Info: Detected gated clock "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|odata_rdy" as buffer
     Info: Detected ripple clock "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger" as buffer
     Info: Detected ripple clock "kbdex_ctrl:kbd_ctrl|sigsend" as buffer
-Info: Clock "CLOCK_24[0]" has Internal fmax of 129.03 MHz between source register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending" and destination register "kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK" (period= 7.75 ns)
+Info: Clock "CLOCK_24[0]" has Internal fmax of 129.02 MHz between source register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending" and destination register "kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK" (period= 7.751 ns)
     Info: + Longest register to register delay is 3.127 ns
         Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = LCFF_X33_Y16_N27; Fanout = 12; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending'
         Info: 2: + IC(0.386 ns) + CELL(0.178 ns) = 0.564 ns; Loc. = LCCOMB_X33_Y16_N22; Fanout = 7; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|TOPS2~0'
@@ -624,20 +675,20 @@ Info: Clock "CLOCK_24[0]" has Internal fmax of 129.03 MHz between source registe
         Info: 7: + IC(0.000 ns) + CELL(0.096 ns) = 3.127 ns; Loc. = LCFF_X36_Y16_N5; Fanout = 4; REG Node = 'kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK'
         Info: Total cell delay = 0.985 ns ( 31.50 % )
         Info: Total interconnect delay = 2.142 ns ( 68.50 % )
-    Info: - Smallest clock skew is -4.384 ns
+    Info: - Smallest clock skew is -4.385 ns
         Info: + Shortest clock path from clock "CLOCK_24[0]" to destination register is 2.855 ns
             Info: 1: + IC(0.000 ns) + CELL(1.026 ns) = 1.026 ns; Loc. = PIN_B12; Fanout = 3; CLK Node = 'CLOCK_24[0]'
             Info: 2: + IC(0.238 ns) + CELL(0.000 ns) = 1.264 ns; Loc. = CLKCTRL_G10; Fanout = 106; COMB Node = 'CLOCK_24[0]~clkctrl'
             Info: 3: + IC(0.989 ns) + CELL(0.602 ns) = 2.855 ns; Loc. = LCFF_X36_Y16_N5; Fanout = 4; REG Node = 'kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK'
             Info: Total cell delay = 1.628 ns ( 57.02 % )
             Info: Total interconnect delay = 1.227 ns ( 42.98 % )
-        Info: - Longest clock path from clock "CLOCK_24[0]" to source register is 7.239 ns
+        Info: - Longest clock path from clock "CLOCK_24[0]" to source register is 7.240 ns
             Info: 1: + IC(0.000 ns) + CELL(1.026 ns) = 1.026 ns; Loc. = PIN_B12; Fanout = 3; CLK Node = 'CLOCK_24[0]'
-            Info: 2: + IC(1.726 ns) + CELL(0.879 ns) = 3.631 ns; Loc. = LCFF_X36_Y16_N7; Fanout = 1; REG Node = 'kbdex_ctrl:kbd_ctrl|sigsend'
-            Info: 3: + IC(2.021 ns) + CELL(0.000 ns) = 5.652 ns; Loc. = CLKCTRL_G7; Fanout = 2; COMB Node = 'kbdex_ctrl:kbd_ctrl|sigsend~clkctrl'
-            Info: 4: + IC(0.985 ns) + CELL(0.602 ns) = 7.239 ns; Loc. = LCFF_X33_Y16_N27; Fanout = 12; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending'
+            Info: 2: + IC(1.727 ns) + CELL(0.879 ns) = 3.632 ns; Loc. = LCFF_X36_Y16_N7; Fanout = 1; REG Node = 'kbdex_ctrl:kbd_ctrl|sigsend'
+            Info: 3: + IC(2.021 ns) + CELL(0.000 ns) = 5.653 ns; Loc. = CLKCTRL_G7; Fanout = 2; COMB Node = 'kbdex_ctrl:kbd_ctrl|sigsend~clkctrl'
+            Info: 4: + IC(0.985 ns) + CELL(0.602 ns) = 7.240 ns; Loc. = LCFF_X33_Y16_N27; Fanout = 12; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending'
             Info: Total cell delay = 2.507 ns ( 34.63 % )
-            Info: Total interconnect delay = 4.732 ns ( 65.37 % )
+            Info: Total interconnect delay = 4.733 ns ( 65.37 % )
     Info: + Micro clock to output delay of source is 0.277 ns
     Info: + Micro setup delay of destination is -0.038 ns
 Info: Clock "CLOCK_27[0]" Internal fmax is restricted to 380.08 MHz between source register "disp_roll:display|buff:bf|state" and destination register "disp_roll:display|key0[4]"
@@ -665,15 +716,15 @@ Info: Clock "CLOCK_27[0]" Internal fmax is restricted to 380.08 MHz between sour
         Info: + Micro setup delay of destination is -0.038 ns
 Info: No valid register-to-register data paths exist for clock "KEY[1]"
 Warning: Circuit may not operate. Detected 8 non-operational path(s) clocked by clock "CLOCK_24[0]" with clock skew larger than data delay. See Compilation Report for details.
-Info: Found hold time violation between source  pin or register "kbdex_ctrl:kbd_ctrl|hdata[7]" and destination pin or register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[7]" for clock "CLOCK_24[0]" (Hold time is 3.392 ns)
-    Info: + Largest clock skew is 4.385 ns
-        Info: + Longest clock path from clock "CLOCK_24[0]" to destination register is 7.238 ns
+Info: Found hold time violation between source  pin or register "kbdex_ctrl:kbd_ctrl|hdata[7]" and destination pin or register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[7]" for clock "CLOCK_24[0]" (Hold time is 3.393 ns)
+    Info: + Largest clock skew is 4.386 ns
+        Info: + Longest clock path from clock "CLOCK_24[0]" to destination register is 7.239 ns
             Info: 1: + IC(0.000 ns) + CELL(1.026 ns) = 1.026 ns; Loc. = PIN_B12; Fanout = 3; CLK Node = 'CLOCK_24[0]'
-            Info: 2: + IC(1.726 ns) + CELL(0.879 ns) = 3.631 ns; Loc. = LCFF_X36_Y16_N7; Fanout = 1; REG Node = 'kbdex_ctrl:kbd_ctrl|sigsend'
-            Info: 3: + IC(2.021 ns) + CELL(0.000 ns) = 5.652 ns; Loc. = CLKCTRL_G7; Fanout = 2; COMB Node = 'kbdex_ctrl:kbd_ctrl|sigsend~clkctrl'
-            Info: 4: + IC(0.984 ns) + CELL(0.602 ns) = 7.238 ns; Loc. = LCFF_X32_Y16_N27; Fanout = 1; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[7]'
-            Info: Total cell delay = 2.507 ns ( 34.64 % )
-            Info: Total interconnect delay = 4.731 ns ( 65.36 % )
+            Info: 2: + IC(1.727 ns) + CELL(0.879 ns) = 3.632 ns; Loc. = LCFF_X36_Y16_N7; Fanout = 1; REG Node = 'kbdex_ctrl:kbd_ctrl|sigsend'
+            Info: 3: + IC(2.021 ns) + CELL(0.000 ns) = 5.653 ns; Loc. = CLKCTRL_G7; Fanout = 2; COMB Node = 'kbdex_ctrl:kbd_ctrl|sigsend~clkctrl'
+            Info: 4: + IC(0.984 ns) + CELL(0.602 ns) = 7.239 ns; Loc. = LCFF_X32_Y16_N27; Fanout = 1; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[7]'
+            Info: Total cell delay = 2.507 ns ( 34.63 % )
+            Info: Total interconnect delay = 4.732 ns ( 65.37 % )
         Info: - Shortest clock path from clock "CLOCK_24[0]" to source register is 2.853 ns
             Info: 1: + IC(0.000 ns) + CELL(1.026 ns) = 1.026 ns; Loc. = PIN_B12; Fanout = 3; CLK Node = 'CLOCK_24[0]'
             Info: 2: + IC(0.238 ns) + CELL(0.000 ns) = 1.264 ns; Loc. = CLKCTRL_G10; Fanout = 106; COMB Node = 'CLOCK_24[0]~clkctrl'
@@ -705,14 +756,14 @@ Info: tsu for register "kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK" (data pin = "KEY[0
         Info: 3: + IC(0.989 ns) + CELL(0.602 ns) = 2.855 ns; Loc. = LCFF_X36_Y16_N5; Fanout = 4; REG Node = 'kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK'
         Info: Total cell delay = 1.628 ns ( 57.02 % )
         Info: Total interconnect delay = 1.227 ns ( 42.98 % )
-Info: tco from clock "CLOCK_24[0]" to destination pin "PS2_DAT" through register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending" is 14.185 ns
-    Info: + Longest clock path from clock "CLOCK_24[0]" to source register is 7.239 ns
+Info: tco from clock "CLOCK_24[0]" to destination pin "PS2_DAT" through register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending" is 14.186 ns
+    Info: + Longest clock path from clock "CLOCK_24[0]" to source register is 7.240 ns
         Info: 1: + IC(0.000 ns) + CELL(1.026 ns) = 1.026 ns; Loc. = PIN_B12; Fanout = 3; CLK Node = 'CLOCK_24[0]'
-        Info: 2: + IC(1.726 ns) + CELL(0.879 ns) = 3.631 ns; Loc. = LCFF_X36_Y16_N7; Fanout = 1; REG Node = 'kbdex_ctrl:kbd_ctrl|sigsend'
-        Info: 3: + IC(2.021 ns) + CELL(0.000 ns) = 5.652 ns; Loc. = CLKCTRL_G7; Fanout = 2; COMB Node = 'kbdex_ctrl:kbd_ctrl|sigsend~clkctrl'
-        Info: 4: + IC(0.985 ns) + CELL(0.602 ns) = 7.239 ns; Loc. = LCFF_X33_Y16_N27; Fanout = 12; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending'
+        Info: 2: + IC(1.727 ns) + CELL(0.879 ns) = 3.632 ns; Loc. = LCFF_X36_Y16_N7; Fanout = 1; REG Node = 'kbdex_ctrl:kbd_ctrl|sigsend'
+        Info: 3: + IC(2.021 ns) + CELL(0.000 ns) = 5.653 ns; Loc. = CLKCTRL_G7; Fanout = 2; COMB Node = 'kbdex_ctrl:kbd_ctrl|sigsend~clkctrl'
+        Info: 4: + IC(0.985 ns) + CELL(0.602 ns) = 7.240 ns; Loc. = LCFF_X33_Y16_N27; Fanout = 12; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending'
         Info: Total cell delay = 2.507 ns ( 34.63 % )
-        Info: Total interconnect delay = 4.732 ns ( 65.37 % )
+        Info: Total interconnect delay = 4.733 ns ( 65.37 % )
     Info: + Micro clock to output delay of source is 0.277 ns
     Info: + Longest register to pin delay is 6.669 ns
         Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = LCFF_X33_Y16_N27; Fanout = 12; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending'
@@ -728,7 +779,7 @@ Info: Longest tpd from source pin "KEY[0]" to destination pin "PS2_DAT" is 13.79
     Info: 4: + IC(2.196 ns) + CELL(3.067 ns) = 13.792 ns; Loc. = PIN_J14; Fanout = 0; PIN Node = 'PS2_DAT'
     Info: Total cell delay = 4.781 ns ( 34.67 % )
     Info: Total interconnect delay = 9.011 ns ( 65.33 % )
-Info: th for register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]" (data pin = "PS2_DAT", clock pin = "CLOCK_24[0]") is -0.265 ns
+Info: th for register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]" (data pin = "PS2_DAT", clock pin = "CLOCK_24[0]") is -0.266 ns
     Info: + Longest clock path from clock "CLOCK_24[0]" to destination register is 7.112 ns
         Info: 1: + IC(0.000 ns) + CELL(1.026 ns) = 1.026 ns; Loc. = PIN_B12; Fanout = 3; CLK Node = 'CLOCK_24[0]'
         Info: 2: + IC(1.833 ns) + CELL(0.879 ns) = 3.738 ns; Loc. = LCFF_X37_Y13_N21; Fanout = 3; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger'
@@ -737,17 +788,17 @@ Info: th for register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]" (data p
         Info: Total cell delay = 2.507 ns ( 35.25 % )
         Info: Total interconnect delay = 4.605 ns ( 64.75 % )
     Info: + Micro hold delay of destination is 0.286 ns
-    Info: - Shortest pin to register delay is 7.663 ns
+    Info: - Shortest pin to register delay is 7.664 ns
         Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = PIN_J14; Fanout = 1; PIN Node = 'PS2_DAT'
         Info: 2: + IC(0.000 ns) + CELL(0.853 ns) = 0.853 ns; Loc. = IOC_X42_Y27_N3; Fanout = 9; COMB Node = 'PS2_DAT~0'
-        Info: 3: + IC(6.169 ns) + CELL(0.545 ns) = 7.567 ns; Loc. = LCCOMB_X37_Y16_N22; Fanout = 1; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]~7'
-        Info: 4: + IC(0.000 ns) + CELL(0.096 ns) = 7.663 ns; Loc. = LCFF_X37_Y16_N23; Fanout = 4; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]'
-        Info: Total cell delay = 1.494 ns ( 19.50 % )
-        Info: Total interconnect delay = 6.169 ns ( 80.50 % )
-Info: Quartus II Classic Timing Analyzer was successful. 0 errors, 9 warnings
-    Info: Peak virtual memory: 149 megabytes
-    Info: Processing ended: Thu May 13 13:41:24 2010
-    Info: Elapsed time: 00:00:01
-    Info: Total CPU time (on all processors): 00:00:01
+        Info: 3: + IC(6.170 ns) + CELL(0.545 ns) = 7.568 ns; Loc. = LCCOMB_X37_Y16_N22; Fanout = 1; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]~7'
+        Info: 4: + IC(0.000 ns) + CELL(0.096 ns) = 7.664 ns; Loc. = LCFF_X37_Y16_N23; Fanout = 4; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]'
+        Info: Total cell delay = 1.494 ns ( 19.49 % )
+        Info: Total interconnect delay = 6.170 ns ( 80.51 % )
+Info: Quartus II Classic Timing Analyzer was successful. 0 errors, 10 warnings
+    Info: Peak virtual memory: 166 megabytes
+    Info: Processing ended: Thu May 13 13:56:37 2010
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:02
 
 

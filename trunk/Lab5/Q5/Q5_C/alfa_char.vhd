@@ -9,7 +9,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 --entrada: codigo proveniente do teclado
---saída: representacao em um display de sete segmentos
+--saida: representacao em um display de sete segmentos
 entity alfa_char is 
 port( code: IN STD_LOGIC_VECTOR(15 downto 0);
       alfa_code: OUT STD_LOGIC_VECTOR(6 downto 0));
