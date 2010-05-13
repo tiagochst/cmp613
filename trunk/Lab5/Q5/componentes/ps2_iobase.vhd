@@ -153,7 +153,7 @@ begin
 	end process;
 	
 	-- PS2 clock control
-	process(clk, sigsendend, resetn)
+	process(clk, sigsendend, resetn,sigsending)
 		constant US100CNT : integer := clkfreq / 10;
 		
 		variable count : integer range 0 to US100CNT + 101;

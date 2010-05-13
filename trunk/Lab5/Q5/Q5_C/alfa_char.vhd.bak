@@ -47,7 +47,7 @@ begin
 	    when x"003a" =>
 		  alfa_code <= "0000110"; --M (codificado deitado "E")
 	    when x"0031" =>
-		  alfa_code <= "0101011"; --N (codificado n)
+		  alfa_code <= "0101011"; --N ("n")
 	    when x"0044" =>
 		  alfa_code <= "1000000"; --O
 	    when x"004d" =>
@@ -59,7 +59,7 @@ begin
 	    when x"001b" =>
 		  alfa_code <= "0010010"; --S
 	    when x"002c" =>
-		  alfa_code <= "0000111"; --T (codificado deitado "|--")
+		  alfa_code <= "0000111"; --T ("t")
 	    when x"003c" =>
 		  alfa_code <= "1000001"; --U
 	    when x"002a" =>

@@ -1,5 +1,5 @@
 Fitter report for kbd_key
-Thu May 13 17:13:36 2010
+Thu May 13 17:35:15 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -62,15 +62,15 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Fitter Summary                                                                    ;
 +------------------------------------+----------------------------------------------+
-; Fitter Status                      ; Successful - Thu May 13 17:13:36 2010        ;
+; Fitter Status                      ; Successful - Thu May 13 17:35:15 2010        ;
 ; Quartus II Version                 ; 9.1 Build 304 01/25/2010 SP 1 SJ Web Edition ;
 ; Revision Name                      ; kbd_key                                      ;
 ; Top-level Entity Name              ; kbd_key                                      ;
 ; Family                             ; Cyclone II                                   ;
 ; Device                             ; EP2C20F484C7                                 ;
 ; Timing Models                      ; Final                                        ;
-; Total logic elements               ; 320 / 18,752 ( 2 % )                         ;
-;     Total combinational functions  ; 291 / 18,752 ( 2 % )                         ;
+; Total logic elements               ; 324 / 18,752 ( 2 % )                         ;
+;     Total combinational functions  ; 298 / 18,752 ( 2 % )                         ;
 ;     Dedicated logic registers      ; 160 / 18,752 ( < 1 % )                       ;
 ; Total registers                    ; 160                                          ;
 ; Total pins                         ; 35 / 315 ( 11 % )                            ;
@@ -152,8 +152,8 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; Type                    ; Value              ;
 +-------------------------+--------------------+
 ; Placement               ;                    ;
-;     -- Requested        ; 0 / 498 ( 0.00 % ) ;
-;     -- Achieved         ; 0 / 498 ( 0.00 % ) ;
+;     -- Requested        ; 0 / 505 ( 0.00 % ) ;
+;     -- Achieved         ; 0 / 505 ( 0.00 % ) ;
 ;                         ;                    ;
 ; Routing (by Connection) ;                    ;
 ;     -- Requested        ; 0 / 0 ( 0.00 % )   ;
@@ -175,7 +175,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------+---------+-------------------+-------------------------+-------------------+
 ; Partition Name ; # Nodes ; # Preserved Nodes ; Preservation Level Used ; Netlist Type Used ;
 +----------------+---------+-------------------+-------------------------+-------------------+
-; Top            ; 498     ; 0                 ; N/A                     ; Source File       ;
+; Top            ; 505     ; 0                 ; N/A                     ; Source File       ;
 +----------------+---------+-------------------+-------------------------+-------------------+
 
 
@@ -190,26 +190,26 @@ The pin-out file can be found in C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q
 +---------------------------------------------+------------------------+
 ; Resource                                    ; Usage                  ;
 +---------------------------------------------+------------------------+
-; Total logic elements                        ; 320 / 18,752 ( 2 % )   ;
-;     -- Combinational with no register       ; 160                    ;
-;     -- Register only                        ; 29                     ;
-;     -- Combinational with a register        ; 131                    ;
+; Total logic elements                        ; 324 / 18,752 ( 2 % )   ;
+;     -- Combinational with no register       ; 164                    ;
+;     -- Register only                        ; 26                     ;
+;     -- Combinational with a register        ; 134                    ;
 ;                                             ;                        ;
 ; Logic element usage by number of LUT inputs ;                        ;
-;     -- 4 input functions                    ; 152                    ;
-;     -- 3 input functions                    ; 63                     ;
-;     -- <=2 input functions                  ; 76                     ;
-;     -- Register only                        ; 29                     ;
+;     -- 4 input functions                    ; 158                    ;
+;     -- 3 input functions                    ; 62                     ;
+;     -- <=2 input functions                  ; 78                     ;
+;     -- Register only                        ; 26                     ;
 ;                                             ;                        ;
 ; Logic elements by mode                      ;                        ;
-;     -- normal mode                          ; 249                    ;
+;     -- normal mode                          ; 256                    ;
 ;     -- arithmetic mode                      ; 42                     ;
 ;                                             ;                        ;
 ; Total registers*                            ; 160 / 19,649 ( < 1 % ) ;
 ;     -- Dedicated logic registers            ; 160 / 18,752 ( < 1 % ) ;
 ;     -- I/O registers                        ; 0 / 897 ( 0 % )        ;
 ;                                             ;                        ;
-; Total LABs:  partially or completely used   ; 27 / 1,172 ( 2 % )     ;
+; Total LABs:  partially or completely used   ; 31 / 1,172 ( 3 % )     ;
 ; User inserted logic elements                ; 0                      ;
 ; Virtual pins                                ; 0                      ;
 ; I/O pins                                    ; 35 / 315 ( 11 % )      ;
@@ -230,8 +230,8 @@ The pin-out file can be found in C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q
 ; Maximum fan-out                             ; 135                    ;
 ; Highest non-global fan-out signal           ; KEY                    ;
 ; Highest non-global fan-out                  ; 49                     ;
-; Total fan-out                               ; 1576                   ;
-; Average fan-out                             ; 3.03                   ;
+; Total fan-out                               ; 1598                   ;
+; Average fan-out                             ; 3.05                   ;
 +---------------------------------------------+------------------------+
 *  Register count does not include registers inside RAM blocks or DSP blocks.
 
@@ -847,12 +847,12 @@ Note: User assignments will override these defaults. The user specified values a
 +-----------------------------+-------------+---------------------------+---------------+-------------+------+--------------+---------+-----------+------+--------------+--------------+-------------------+------------------+--------------------------------------------------+--------------+
 ; Compilation Hierarchy Node  ; Logic Cells ; Dedicated Logic Registers ; I/O Registers ; Memory Bits ; M4Ks ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; LUT-Only LCs ; Register-Only LCs ; LUT/Register LCs ; Full Hierarchy Name                              ; Library Name ;
 +-----------------------------+-------------+---------------------------+---------------+-------------+------+--------------+---------+-----------+------+--------------+--------------+-------------------+------------------+--------------------------------------------------+--------------+
-; |kbd_key                    ; 320 (0)     ; 160 (0)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 35   ; 0            ; 160 (0)      ; 29 (0)            ; 131 (0)          ; |kbd_key                                         ; work         ;
-;    |alfa_char:code|         ; 71 (71)     ; 0 (0)                     ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 55 (55)      ; 0 (0)             ; 16 (16)          ; |kbd_key|alfa_char:code                          ;              ;
+; |kbd_key                    ; 324 (0)     ; 160 (0)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 35   ; 0            ; 164 (0)      ; 26 (0)            ; 134 (0)          ; |kbd_key                                         ; work         ;
+;    |alfa_char:code|         ; 77 (77)     ; 0 (0)                     ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 62 (62)      ; 0 (0)             ; 15 (15)          ; |kbd_key|alfa_char:code                          ;              ;
 ;    |disp_roll:display|      ; 29 (28)     ; 29 (28)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 0 (0)        ; 21 (21)           ; 8 (7)            ; |kbd_key|disp_roll:display                       ;              ;
 ;       |buff:bf|             ; 1 (1)       ; 1 (1)                     ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 0 (0)        ; 0 (0)             ; 1 (1)            ; |kbd_key|disp_roll:display|buff:bf               ;              ;
-;    |kbdex_ctrl:kbd_ctrl|    ; 236 (115)   ; 131 (57)                  ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 105 (58)     ; 8 (7)             ; 123 (50)         ; |kbd_key|kbdex_ctrl:kbd_ctrl                     ;              ;
-;       |ps2_iobase:ps2_ctrl| ; 121 (121)   ; 74 (74)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 47 (47)      ; 1 (1)             ; 73 (73)          ; |kbd_key|kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl ;              ;
+;    |kbdex_ctrl:kbd_ctrl|    ; 233 (112)   ; 131 (57)                  ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 102 (55)     ; 5 (5)             ; 126 (52)         ; |kbd_key|kbdex_ctrl:kbd_ctrl                     ;              ;
+;       |ps2_iobase:ps2_ctrl| ; 121 (121)   ; 74 (74)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 47 (47)      ; 0 (0)             ; 74 (74)          ; |kbd_key|kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl ;              ;
 +-----------------------------+-------------+---------------------------+---------------+-------------+------+--------------+---------+-----------+------+--------------+--------------+-------------------+------------------+--------------------------------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -909,8 +909,8 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[5]~0         ; 0                 ; 6       ;
 ;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[1]~1         ; 0                 ; 6       ;
 ;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]~2         ; 0                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[2]~3         ; 0                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]~4         ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]~3         ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[2]~4         ; 0                 ; 6       ;
 ;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[4]~5         ; 0                 ; 6       ;
 ;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[7]~6         ; 0                 ; 6       ;
 ;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]~7         ; 0                 ; 6       ;
@@ -935,55 +935,55 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger~0       ; 0                 ; 6       ;
 ; CLOCK_24                                                          ;                   ;         ;
 ; KEY                                                               ;                   ;         ;
-;      - kbdex_ctrl:kbd_ctrl|key_on[0]                              ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|key_on[1]                              ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|key_on[2]                              ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[5]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[6]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[7]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[5]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[6]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[7]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[4]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[4]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[3]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[3]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[2]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[2]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[1]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[1]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[0]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[0]          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|fetchdata[5]                           ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|fetchdata[1]                           ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|fetchdata[0]                           ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|fetchdata[2]                           ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|fetchdata[3]                           ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|fetchdata[4]                           ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|fetchdata[7]                           ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|fetchdata[6]                           ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|KEY0~0                                 ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|sigsending                             ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|process_0~0                            ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|KEY1~4                                 ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|KEY2~7                                 ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|process_4~0                            ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                         ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger         ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|process_2~0        ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|TOPS2~0            ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|FROMPS2~1          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                      ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|sigsend                                ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|process_13~0                           ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|cmdstate.SENDVAL                       ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|cmdstate.SEND                          ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                       ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                     ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                        ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~head_lut  ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~clear_lut ; 1                 ; 6       ;
-;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~latch     ; 1                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|key_on[0]                              ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|key_on[1]                              ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|key_on[2]                              ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[5]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[6]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[7]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[5]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[6]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[7]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[4]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[4]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[3]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[3]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[2]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[2]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[1]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[1]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[0]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[0]          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|fetchdata[5]                           ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|fetchdata[1]                           ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|fetchdata[0]                           ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|fetchdata[3]                           ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|fetchdata[2]                           ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|fetchdata[4]                           ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|fetchdata[7]                           ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|fetchdata[6]                           ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|sigsending                             ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|process_0~0                            ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|KEY1~4                                 ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|KEY2~7                                 ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|process_4~0                            ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                         ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger         ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|process_2~0        ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|TOPS2~0            ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|FROMPS2~1          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                      ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|sigsend                                ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|process_13~0                           ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|cmdstate.SENDVAL                       ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|cmdstate.SEND                          ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                       ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                     ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                        ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~head_lut  ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~clear_lut ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|KEY0~5                                 ; 0                 ; 6       ;
+;      - kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~latch     ; 0                 ; 6       ;
 +-------------------------------------------------------------------+-------------------+---------+
 
 
@@ -996,33 +996,33 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; CLOCK_24                                                     ; PIN_B12            ; 135     ; Clock         ; yes    ; Global Clock         ; GCLK10           ; --                        ;
 ; KEY                                                          ; PIN_T21            ; 49      ; Async. clear  ; no     ; --                   ; --               ; --                        ;
 ; PS2_CLK~0                                                    ; PIN_H15            ; 17      ; Sync. clear   ; no     ; --                   ; --               ; --                        ;
-; disp_roll:display|buff:bf|q~0                                ; LCCOMB_X1_Y21_N6   ; 28      ; Clock enable  ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|KEY0~3                                   ; LCCOMB_X37_Y23_N16 ; 9       ; Async. clear  ; yes    ; Global Clock         ; GCLK7            ; --                        ;
-; kbdex_ctrl:kbd_ctrl|KEY1~4                                   ; LCCOMB_X34_Y19_N18 ; 9       ; Async. clear  ; yes    ; Global Clock         ; GCLK5            ; --                        ;
-; kbdex_ctrl:kbd_ctrl|KEY2~7                                   ; LCCOMB_X34_Y19_N20 ; 9       ; Async. clear  ; yes    ; Global Clock         ; GCLK4            ; --                        ;
-; kbdex_ctrl:kbd_ctrl|key0en~0                                 ; LCCOMB_X35_Y23_N6  ; 9       ; Clock enable  ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|key1en~0                                 ; LCCOMB_X34_Y24_N26 ; 9       ; Clock enable  ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|key2en~2                                 ; LCCOMB_X34_Y24_N4  ; 9       ; Clock enable  ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|process_0~0                              ; LCCOMB_X34_Y19_N16 ; 8       ; Async. clear  ; yes    ; Global Clock         ; GCLK15           ; --                        ;
-; kbdex_ctrl:kbd_ctrl|process_13~0                             ; LCCOMB_X37_Y22_N28 ; 1       ; Async. clear  ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|FROMPS2~1            ; LCCOMB_X22_Y15_N8  ; 32      ; Async. clear  ; yes    ; Global Clock         ; GCLK12           ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|TOPS2~1              ; LCCOMB_X24_Y14_N22 ; 4       ; Clock enable  ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[11]~32         ; LCCOMB_X24_Y14_N26 ; 12      ; Clock enable  ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[18]~54      ; LCCOMB_X24_Y14_N18 ; 18      ; Clock enable  ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|parchecked           ; LCFF_X36_Y20_N3    ; 6       ; Clock         ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|process_2~0          ; LCCOMB_X23_Y15_N2  ; 17      ; Async. clear  ; yes    ; Global Clock         ; GCLK9            ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~3           ; LCCOMB_X24_Y14_N2  ; 2       ; Clock enable  ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~enclear_lut ; LCCOMB_X22_Y15_N6  ; 1       ; Async. clear  ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~enhead_lut  ; LCCOMB_X22_Y15_N26 ; 1       ; Output enable ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~clear_lut   ; LCCOMB_X22_Y15_N28 ; 1       ; Async. clear  ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkheld           ; LCFF_X24_Y14_N11   ; 5       ; Async. clear  ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsendend~0         ; LCCOMB_X22_Y15_N2  ; 5       ; Async. clear  ; yes    ; Global Clock         ; GCLK2            ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending           ; LCFF_X24_Y16_N17   ; 12      ; Clock enable  ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger           ; LCFF_X23_Y15_N1    ; 3       ; Clock         ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger           ; LCFF_X23_Y15_N1    ; 19      ; Clock         ; yes    ; Global Clock         ; GCLK3            ; --                        ;
-; kbdex_ctrl:kbd_ctrl|sigsend                                  ; LCFF_X35_Y19_N17   ; 2       ; Clock         ; yes    ; Global Clock         ; GCLK6            ; --                        ;
-; kbdex_ctrl:kbd_ctrl|state.CLRDP                              ; LCFF_X37_Y22_N3    ; 5       ; Clock enable  ; no     ; --                   ; --               ; --                        ;
-; kbdex_ctrl:kbd_ctrl|state.FETCH                              ; LCFF_X37_Y22_N25   ; 9       ; Clock enable  ; no     ; --                   ; --               ; --                        ;
+; disp_roll:display|buff:bf|q~0                                ; LCCOMB_X45_Y18_N8  ; 28      ; Clock enable  ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|KEY0~4                                   ; LCCOMB_X44_Y18_N16 ; 9       ; Async. clear  ; yes    ; Global Clock         ; GCLK14           ; --                        ;
+; kbdex_ctrl:kbd_ctrl|KEY1~4                                   ; LCCOMB_X44_Y18_N8  ; 9       ; Async. clear  ; yes    ; Global Clock         ; GCLK7            ; --                        ;
+; kbdex_ctrl:kbd_ctrl|KEY2~7                                   ; LCCOMB_X44_Y18_N22 ; 9       ; Async. clear  ; yes    ; Global Clock         ; GCLK4            ; --                        ;
+; kbdex_ctrl:kbd_ctrl|key0en~0                                 ; LCCOMB_X44_Y19_N18 ; 9       ; Clock enable  ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|key1en~0                                 ; LCCOMB_X44_Y19_N12 ; 9       ; Clock enable  ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|key2en~2                                 ; LCCOMB_X44_Y19_N6  ; 9       ; Clock enable  ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|process_0~0                              ; LCCOMB_X31_Y23_N8  ; 8       ; Async. clear  ; yes    ; Global Clock         ; GCLK1            ; --                        ;
+; kbdex_ctrl:kbd_ctrl|process_13~0                             ; LCCOMB_X40_Y19_N28 ; 1       ; Async. clear  ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|FROMPS2~1            ; LCCOMB_X38_Y14_N16 ; 32      ; Async. clear  ; yes    ; Global Clock         ; GCLK15           ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|TOPS2~1              ; LCCOMB_X38_Y14_N12 ; 4       ; Clock enable  ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[11]~32         ; LCCOMB_X35_Y12_N4  ; 12      ; Clock enable  ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[18]~54      ; LCCOMB_X35_Y12_N22 ; 18      ; Clock enable  ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|parchecked           ; LCFF_X36_Y22_N17   ; 6       ; Clock         ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|process_2~0          ; LCCOMB_X38_Y14_N6  ; 17      ; Async. clear  ; yes    ; Global Clock         ; GCLK12           ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~3           ; LCCOMB_X38_Y14_N10 ; 2       ; Clock enable  ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~enclear_lut ; LCCOMB_X38_Y14_N4  ; 1       ; Async. clear  ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~enhead_lut  ; LCCOMB_X38_Y14_N28 ; 1       ; Output enable ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~clear_lut   ; LCCOMB_X38_Y14_N20 ; 1       ; Async. clear  ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkheld           ; LCFF_X35_Y14_N25   ; 5       ; Async. clear  ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsendend~0         ; LCCOMB_X38_Y14_N18 ; 5       ; Async. clear  ; yes    ; Global Clock         ; GCLK11           ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending           ; LCFF_X35_Y12_N17   ; 12      ; Clock enable  ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger           ; LCFF_X36_Y22_N29   ; 3       ; Clock         ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger           ; LCFF_X36_Y22_N29   ; 19      ; Clock         ; yes    ; Global Clock         ; GCLK9            ; --                        ;
+; kbdex_ctrl:kbd_ctrl|sigsend                                  ; LCFF_X27_Y24_N1    ; 2       ; Clock         ; yes    ; Global Clock         ; GCLK8            ; --                        ;
+; kbdex_ctrl:kbd_ctrl|state.CLRDP                              ; LCFF_X44_Y18_N1    ; 5       ; Clock enable  ; no     ; --                   ; --               ; --                        ;
+; kbdex_ctrl:kbd_ctrl|state.FETCH                              ; LCFF_X40_Y19_N15   ; 9       ; Clock enable  ; no     ; --                   ; --               ; --                        ;
 +--------------------------------------------------------------+--------------------+---------+---------------+--------+----------------------+------------------+---------------------------+
 
 
@@ -1032,15 +1032,15 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Name                                                 ; Location           ; Fan-Out ; Global Resource Used ; Global Line Name ; Enable Signal Source Name ;
 +------------------------------------------------------+--------------------+---------+----------------------+------------------+---------------------------+
 ; CLOCK_24                                             ; PIN_B12            ; 135     ; Global Clock         ; GCLK10           ; --                        ;
-; kbdex_ctrl:kbd_ctrl|KEY0~3                           ; LCCOMB_X37_Y23_N16 ; 9       ; Global Clock         ; GCLK7            ; --                        ;
-; kbdex_ctrl:kbd_ctrl|KEY1~4                           ; LCCOMB_X34_Y19_N18 ; 9       ; Global Clock         ; GCLK5            ; --                        ;
-; kbdex_ctrl:kbd_ctrl|KEY2~7                           ; LCCOMB_X34_Y19_N20 ; 9       ; Global Clock         ; GCLK4            ; --                        ;
-; kbdex_ctrl:kbd_ctrl|process_0~0                      ; LCCOMB_X34_Y19_N16 ; 8       ; Global Clock         ; GCLK15           ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|FROMPS2~1    ; LCCOMB_X22_Y15_N8  ; 32      ; Global Clock         ; GCLK12           ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|process_2~0  ; LCCOMB_X23_Y15_N2  ; 17      ; Global Clock         ; GCLK9            ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsendend~0 ; LCCOMB_X22_Y15_N2  ; 5       ; Global Clock         ; GCLK2            ; --                        ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger   ; LCFF_X23_Y15_N1    ; 19      ; Global Clock         ; GCLK3            ; --                        ;
-; kbdex_ctrl:kbd_ctrl|sigsend                          ; LCFF_X35_Y19_N17   ; 2       ; Global Clock         ; GCLK6            ; --                        ;
+; kbdex_ctrl:kbd_ctrl|KEY0~4                           ; LCCOMB_X44_Y18_N16 ; 9       ; Global Clock         ; GCLK14           ; --                        ;
+; kbdex_ctrl:kbd_ctrl|KEY1~4                           ; LCCOMB_X44_Y18_N8  ; 9       ; Global Clock         ; GCLK7            ; --                        ;
+; kbdex_ctrl:kbd_ctrl|KEY2~7                           ; LCCOMB_X44_Y18_N22 ; 9       ; Global Clock         ; GCLK4            ; --                        ;
+; kbdex_ctrl:kbd_ctrl|process_0~0                      ; LCCOMB_X31_Y23_N8  ; 8       ; Global Clock         ; GCLK1            ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|FROMPS2~1    ; LCCOMB_X38_Y14_N16 ; 32      ; Global Clock         ; GCLK15           ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|process_2~0  ; LCCOMB_X38_Y14_N6  ; 17      ; Global Clock         ; GCLK12           ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsendend~0 ; LCCOMB_X38_Y14_N18 ; 5       ; Global Clock         ; GCLK11           ; --                        ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger   ; LCFF_X36_Y22_N29   ; 19      ; Global Clock         ; GCLK9            ; --                        ;
+; kbdex_ctrl:kbd_ctrl|sigsend                          ; LCFF_X27_Y24_N1    ; 2       ; Global Clock         ; GCLK8            ; --                        ;
 +------------------------------------------------------+--------------------+---------+----------------------+------------------+---------------------------+
 
 
@@ -1052,21 +1052,26 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; KEY                                                       ; 49      ;
 ; disp_roll:display|buff:bf|q~0                             ; 28      ;
 ; kbdex_ctrl:kbd_ctrl|key0code[3]                           ; 28      ;
-; kbdex_ctrl:kbd_ctrl|key0code[1]                           ; 22      ;
-; kbdex_ctrl:kbd_ctrl|key0code[0]                           ; 21      ;
-; kbdex_ctrl:kbd_ctrl|key0code[4]                           ; 20      ;
+; kbdex_ctrl:kbd_ctrl|key0code[4]                           ; 21      ;
+; kbdex_ctrl:kbd_ctrl|key0code[0]                           ; 20      ;
+; kbdex_ctrl:kbd_ctrl|key0code[1]                           ; 19      ;
 ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[18]~54   ; 18      ;
 ; PS2_CLK~0                                                 ; 17      ;
-; kbdex_ctrl:kbd_ctrl|key0code[2]                           ; 17      ;
 ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[0] ; 15      ;
+; kbdex_ctrl:kbd_ctrl|key0code[2]                           ; 15      ;
 ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[1] ; 14      ;
 ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[2] ; 14      ;
 ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[11]~32      ; 12      ;
 ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending        ; 12      ;
 ; kbdex_ctrl:kbd_ctrl|fetchdata[4]                          ; 11      ;
 ; kbdex_ctrl:kbd_ctrl|fetchdata[0]                          ; 11      ;
+; alfa_char:code|Equal1~0                                   ; 11      ;
+; kbdex_ctrl:kbd_ctrl|key0code[13]                          ; 10      ;
 ; PS2_DAT~0                                                 ; 9       ;
 ; kbdex_ctrl:kbd_ctrl|selE0                                 ; 9       ;
+; alfa_char:code|Equal3~2                                   ; 9       ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[0]   ; 9       ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[1]   ; 9       ;
 ; kbdex_ctrl:kbd_ctrl|state.FETCH                           ; 9       ;
 ; kbdex_ctrl:kbd_ctrl|key2en~2                              ; 9       ;
 ; kbdex_ctrl:kbd_ctrl|key1en~0                              ; 9       ;
@@ -1076,29 +1081,24 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                          ; 9       ;
 ; kbdex_ctrl:kbd_ctrl|fetchdata[1]                          ; 9       ;
 ; kbdex_ctrl:kbd_ctrl|fetchdata[5]                          ; 9       ;
-; alfa_char:code|Equal1~2                                   ; 9       ;
-; kbdex_ctrl:kbd_ctrl|key0code[13]                          ; 9       ;
 ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|Decoder0~0        ; 8       ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[0]   ; 8       ;
 ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[2]   ; 8       ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[1]   ; 8       ;
 ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                          ; 8       ;
 ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|TOPS2~0           ; 7       ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[3]   ; 7       ;
-; alfa_char:code|WideNor0~16                                ; 7       ;
-; alfa_char:code|Equal16~0                                  ; 7       ;
+; alfa_char:code|Equal15~0                                  ; 7       ;
+; kbdex_ctrl:kbd_ctrl|Equal17~0                             ; 7       ;
+; alfa_char:code|Equal4~2                                   ; 7       ;
 ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~head_lut ; 6       ;
 ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|parchecked        ; 6       ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[3]   ; 6       ;
 ; kbdex_ctrl:kbd_ctrl|key1code[6]                           ; 6       ;
-; alfa_char:code|Equal4~0                                   ; 6       ;
-; alfa_char:code|Equal3~0                                   ; 6       ;
-; alfa_char:code|Equal1~4                                   ; 6       ;
+; alfa_char:code|Equal16~0                                  ; 6       ;
+; alfa_char:code|Equal1~2                                   ; 6       ;
 ; kbdex_ctrl:kbd_ctrl|key0code[6]                           ; 6       ;
 ; kbdex_ctrl:kbd_ctrl|relbt                                 ; 5       ;
 ; kbdex_ctrl:kbd_ctrl|selbt                                 ; 5       ;
 ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                    ; 5       ;
 ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[3] ; 5       ;
-; kbdex_ctrl:kbd_ctrl|state.DECODE                          ; 5       ;
 +-----------------------------------------------------------+---------+
 
 
@@ -1107,159 +1107,164 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------------------+------------------------+
 ; Interconnect Resource Type ; Usage                  ;
 +----------------------------+------------------------+
-; Block interconnects        ; 420 / 54,004 ( < 1 % ) ;
-; C16 interconnects          ; 12 / 2,100 ( < 1 % )   ;
-; C4 interconnects           ; 285 / 36,000 ( < 1 % ) ;
-; Direct links               ; 79 / 54,004 ( < 1 % )  ;
+; Block interconnects        ; 446 / 54,004 ( < 1 % ) ;
+; C16 interconnects          ; 7 / 2,100 ( < 1 % )    ;
+; C4 interconnects           ; 315 / 36,000 ( < 1 % ) ;
+; Direct links               ; 64 / 54,004 ( < 1 % )  ;
 ; Global clocks              ; 10 / 16 ( 63 % )       ;
-; Local interconnects        ; 219 / 18,752 ( 1 % )   ;
-; R24 interconnects          ; 30 / 1,900 ( 2 % )     ;
-; R4 interconnects           ; 322 / 46,920 ( < 1 % ) ;
+; Local interconnects        ; 212 / 18,752 ( 1 % )   ;
+; R24 interconnects          ; 10 / 1,900 ( < 1 % )   ;
+; R4 interconnects           ; 367 / 46,920 ( < 1 % ) ;
 +----------------------------+------------------------+
 
 
 +----------------------------------------------------------------------------+
 ; LAB Logic Elements                                                         ;
 +---------------------------------------------+------------------------------+
-; Number of Logic Elements  (Average = 11.85) ; Number of LABs  (Total = 27) ;
+; Number of Logic Elements  (Average = 10.45) ; Number of LABs  (Total = 31) ;
 +---------------------------------------------+------------------------------+
-; 1                                           ; 4                            ;
-; 2                                           ; 1                            ;
+; 1                                           ; 3                            ;
+; 2                                           ; 3                            ;
 ; 3                                           ; 1                            ;
-; 4                                           ; 0                            ;
-; 5                                           ; 1                            ;
+; 4                                           ; 1                            ;
+; 5                                           ; 2                            ;
 ; 6                                           ; 0                            ;
 ; 7                                           ; 0                            ;
-; 8                                           ; 0                            ;
-; 9                                           ; 0                            ;
-; 10                                          ; 1                            ;
-; 11                                          ; 1                            ;
+; 8                                           ; 2                            ;
+; 9                                           ; 1                            ;
+; 10                                          ; 2                            ;
+; 11                                          ; 0                            ;
 ; 12                                          ; 0                            ;
 ; 13                                          ; 1                            ;
 ; 14                                          ; 0                            ;
 ; 15                                          ; 0                            ;
-; 16                                          ; 17                           ;
+; 16                                          ; 15                           ;
 +---------------------------------------------+------------------------------+
 
 
 +-------------------------------------------------------------------+
 ; LAB-wide Signals                                                  ;
 +------------------------------------+------------------------------+
-; LAB-wide Signals  (Average = 2.07) ; Number of LABs  (Total = 27) ;
+; LAB-wide Signals  (Average = 2.23) ; Number of LABs  (Total = 31) ;
 +------------------------------------+------------------------------+
-; 1 Async. clear                     ; 14                           ;
-; 1 Clock                            ; 17                           ;
-; 1 Clock enable                     ; 10                           ;
+; 1 Async. clear                     ; 15                           ;
+; 1 Clock                            ; 25                           ;
+; 1 Clock enable                     ; 13                           ;
 ; 1 Sync. clear                      ; 2                            ;
-; 2 Async. clears                    ; 4                            ;
+; 2 Async. clears                    ; 7                            ;
 ; 2 Clock enables                    ; 3                            ;
-; 2 Clocks                           ; 6                            ;
+; 2 Clocks                           ; 4                            ;
 +------------------------------------+------------------------------+
 
 
 +-----------------------------------------------------------------------------+
 ; LAB Signals Sourced                                                         ;
 +----------------------------------------------+------------------------------+
-; Number of Signals Sourced  (Average = 17.48) ; Number of LABs  (Total = 27) ;
+; Number of Signals Sourced  (Average = 15.35) ; Number of LABs  (Total = 31) ;
 +----------------------------------------------+------------------------------+
 ; 0                                            ; 0                            ;
-; 1                                            ; 3                            ;
-; 2                                            ; 2                            ;
-; 3                                            ; 0                            ;
-; 4                                            ; 1                            ;
+; 1                                            ; 0                            ;
+; 2                                            ; 4                            ;
+; 3                                            ; 1                            ;
+; 4                                            ; 2                            ;
 ; 5                                            ; 0                            ;
 ; 6                                            ; 0                            ;
 ; 7                                            ; 0                            ;
-; 8                                            ; 0                            ;
-; 9                                            ; 0                            ;
+; 8                                            ; 1                            ;
+; 9                                            ; 1                            ;
 ; 10                                           ; 1                            ;
 ; 11                                           ; 0                            ;
 ; 12                                           ; 0                            ;
 ; 13                                           ; 0                            ;
 ; 14                                           ; 0                            ;
 ; 15                                           ; 0                            ;
-; 16                                           ; 1                            ;
-; 17                                           ; 0                            ;
-; 18                                           ; 0                            ;
-; 19                                           ; 4                            ;
-; 20                                           ; 2                            ;
-; 21                                           ; 4                            ;
-; 22                                           ; 0                            ;
-; 23                                           ; 1                            ;
-; 24                                           ; 0                            ;
-; 25                                           ; 3                            ;
+; 16                                           ; 2                            ;
+; 17                                           ; 1                            ;
+; 18                                           ; 7                            ;
+; 19                                           ; 0                            ;
+; 20                                           ; 4                            ;
+; 21                                           ; 1                            ;
+; 22                                           ; 1                            ;
+; 23                                           ; 0                            ;
+; 24                                           ; 2                            ;
+; 25                                           ; 0                            ;
 ; 26                                           ; 1                            ;
-; 27                                           ; 1                            ;
-; 28                                           ; 3                            ;
+; 27                                           ; 0                            ;
+; 28                                           ; 0                            ;
+; 29                                           ; 2                            ;
 +----------------------------------------------+------------------------------+
 
 
 +--------------------------------------------------------------------------------+
 ; LAB Signals Sourced Out                                                        ;
 +-------------------------------------------------+------------------------------+
-; Number of Signals Sourced Out  (Average = 8.52) ; Number of LABs  (Total = 27) ;
+; Number of Signals Sourced Out  (Average = 8.23) ; Number of LABs  (Total = 31) ;
 +-------------------------------------------------+------------------------------+
 ; 0                                               ; 0                            ;
-; 1                                               ; 4                            ;
-; 2                                               ; 1                            ;
-; 3                                               ; 2                            ;
-; 4                                               ; 1                            ;
+; 1                                               ; 2                            ;
+; 2                                               ; 3                            ;
+; 3                                               ; 4                            ;
+; 4                                               ; 2                            ;
 ; 5                                               ; 2                            ;
-; 6                                               ; 2                            ;
-; 7                                               ; 3                            ;
+; 6                                               ; 0                            ;
+; 7                                               ; 2                            ;
 ; 8                                               ; 1                            ;
-; 9                                               ; 0                            ;
-; 10                                              ; 1                            ;
+; 9                                               ; 4                            ;
+; 10                                              ; 4                            ;
 ; 11                                              ; 0                            ;
-; 12                                              ; 4                            ;
+; 12                                              ; 1                            ;
 ; 13                                              ; 0                            ;
-; 14                                              ; 1                            ;
-; 15                                              ; 0                            ;
+; 14                                              ; 0                            ;
+; 15                                              ; 1                            ;
 ; 16                                              ; 1                            ;
-; 17                                              ; 0                            ;
-; 18                                              ; 3                            ;
+; 17                                              ; 1                            ;
+; 18                                              ; 2                            ;
 ; 19                                              ; 0                            ;
 ; 20                                              ; 0                            ;
-; 21                                              ; 1                            ;
+; 21                                              ; 0                            ;
+; 22                                              ; 0                            ;
+; 23                                              ; 1                            ;
 +-------------------------------------------------+------------------------------+
 
 
 +-----------------------------------------------------------------------------+
 ; LAB Distinct Inputs                                                         ;
 +----------------------------------------------+------------------------------+
-; Number of Distinct Inputs  (Average = 13.30) ; Number of LABs  (Total = 27) ;
+; Number of Distinct Inputs  (Average = 12.97) ; Number of LABs  (Total = 31) ;
 +----------------------------------------------+------------------------------+
 ; 0                                            ; 0                            ;
 ; 1                                            ; 0                            ;
-; 2                                            ; 2                            ;
+; 2                                            ; 1                            ;
 ; 3                                            ; 2                            ;
-; 4                                            ; 3                            ;
-; 5                                            ; 0                            ;
-; 6                                            ; 1                            ;
-; 7                                            ; 3                            ;
+; 4                                            ; 6                            ;
+; 5                                            ; 1                            ;
+; 6                                            ; 4                            ;
+; 7                                            ; 0                            ;
 ; 8                                            ; 1                            ;
 ; 9                                            ; 1                            ;
-; 10                                           ; 0                            ;
-; 11                                           ; 0                            ;
+; 10                                           ; 1                            ;
+; 11                                           ; 1                            ;
 ; 12                                           ; 1                            ;
 ; 13                                           ; 0                            ;
-; 14                                           ; 3                            ;
-; 15                                           ; 0                            ;
-; 16                                           ; 1                            ;
+; 14                                           ; 0                            ;
+; 15                                           ; 1                            ;
+; 16                                           ; 0                            ;
 ; 17                                           ; 0                            ;
-; 18                                           ; 0                            ;
+; 18                                           ; 1                            ;
 ; 19                                           ; 0                            ;
-; 20                                           ; 1                            ;
-; 21                                           ; 0                            ;
-; 22                                           ; 3                            ;
+; 20                                           ; 0                            ;
+; 21                                           ; 1                            ;
+; 22                                           ; 2                            ;
 ; 23                                           ; 0                            ;
-; 24                                           ; 2                            ;
-; 25                                           ; 0                            ;
-; 26                                           ; 0                            ;
-; 27                                           ; 0                            ;
-; 28                                           ; 0                            ;
-; 29                                           ; 1                            ;
-; 30                                           ; 2                            ;
+; 24                                           ; 1                            ;
+; 25                                           ; 1                            ;
+; 26                                           ; 1                            ;
+; 27                                           ; 1                            ;
+; 28                                           ; 1                            ;
+; 29                                           ; 0                            ;
+; 30                                           ; 0                            ;
+; 31                                           ; 1                            ;
+; 32                                           ; 1                            ;
 +----------------------------------------------+------------------------------+
 
 
@@ -1305,7 +1310,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus II Fitter
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Thu May 13 17:13:26 2010
+    Info: Processing started: Thu May 13 17:35:06 2010
 Info: Command: quartus_fit --read_settings_files=off --write_settings_files=off kbd_key -c kbd_key
 Info: Selected device EP2C20F484C7 for design "kbd_key"
 Info: Low junction temperature is 0 degrees C
@@ -1321,7 +1326,7 @@ Info: Fitter converted 3 user pins into dedicated programming pins
     Info: Pin ~nCSO~ is reserved at location C3
     Info: Pin ~LVDS91p/nCEO~ is reserved at location W20
 Info: Timing-driven compilation is using the Classic Timing Analyzer
-Info: Timing requirements not specified -- quality metrics such as performance and power consumption may be sacrificed to reduce compilation time.
+Info: Detected fmax, tsu, tco, and/or tpd requirements -- optimizing circuit to achieve only the specified requirements
 Info: Automatically promoted node CLOCK_24 (placed in PIN B12 (CLK8, LVDSCLK4n, Input))
     Info: Automatically promoted destinations to use location or clock signal Global Clock CLKCTRL_G10
     Info: Following destination nodes may be non-global or may not use global or regional clocks
@@ -1338,7 +1343,7 @@ Info: Automatically promoted node kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|FROMPS
     Info: Automatically promoted destinations to use location or clock signal Global Clock
 Info: Automatically promoted node kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|process_2~0 
     Info: Automatically promoted destinations to use location or clock signal Global Clock
-Info: Automatically promoted node kbdex_ctrl:kbd_ctrl|KEY0~3 
+Info: Automatically promoted node kbdex_ctrl:kbd_ctrl|KEY0~4 
     Info: Automatically promoted destinations to use location or clock signal Global Clock
 Info: Automatically promoted node kbdex_ctrl:kbd_ctrl|KEY1~4 
     Info: Automatically promoted destinations to use location or clock signal Global Clock
@@ -1357,25 +1362,23 @@ Extra Info: Moving registers into I/O cells, Multiplier Blocks, and RAM blocks t
 Extra Info: Finished moving registers into I/O cells, Multiplier Blocks, and RAM blocks
 Info: Finished register packing
     Extra Info: No registers were packed into other blocks
-Info: Fitter preparation operations ending: elapsed time is 00:00:01
+Info: Fitter preparation operations ending: elapsed time is 00:00:00
 Info: Fitter placement preparation operations beginning
 Info: Fitter placement preparation operations ending: elapsed time is 00:00:00
 Info: Fitter placement operations beginning
 Info: Fitter placement was successful
 Info: Fitter placement operations ending: elapsed time is 00:00:01
-Info: Estimated most critical path is register to register delay of 5.569 ns
-    Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = LAB_X24_Y16; Fanout = 12; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending'
-    Info: 2: + IC(1.135 ns) + CELL(0.178 ns) = 1.313 ns; Loc. = LAB_X23_Y15; Fanout = 7; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|TOPS2~0'
-    Info: 3: + IC(0.498 ns) + CELL(0.177 ns) = 1.988 ns; Loc. = LAB_X23_Y15; Fanout = 6; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~head_lut'
-    Info: 4: + IC(1.811 ns) + CELL(0.322 ns) = 4.121 ns; Loc. = LAB_X35_Y19; Fanout = 1; COMB Node = 'kbdex_ctrl:kbd_ctrl|Selector10~1'
-    Info: 5: + IC(0.498 ns) + CELL(0.178 ns) = 4.797 ns; Loc. = LAB_X35_Y19; Fanout = 2; COMB Node = 'kbdex_ctrl:kbd_ctrl|Selector10~2'
-    Info: 6: + IC(0.354 ns) + CELL(0.322 ns) = 5.473 ns; Loc. = LAB_X35_Y19; Fanout = 1; COMB Node = 'kbdex_ctrl:kbd_ctrl|Selector10~4'
-    Info: 7: + IC(0.000 ns) + CELL(0.096 ns) = 5.569 ns; Loc. = LAB_X35_Y19; Fanout = 4; REG Node = 'kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK'
-    Info: Total cell delay = 1.273 ns ( 22.86 % )
-    Info: Total interconnect delay = 4.296 ns ( 77.14 % )
+Info: Estimated most critical path is register to register delay of 4.237 ns
+    Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = LAB_X42_Y23; Fanout = 4; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]'
+    Info: 2: + IC(1.150 ns) + CELL(0.178 ns) = 1.328 ns; Loc. = LAB_X42_Y20; Fanout = 3; COMB Node = 'kbdex_ctrl:kbd_ctrl|Equal21~0'
+    Info: 3: + IC(1.815 ns) + CELL(0.322 ns) = 3.465 ns; Loc. = LAB_X27_Y24; Fanout = 1; COMB Node = 'kbdex_ctrl:kbd_ctrl|Selector11~1'
+    Info: 4: + IC(0.131 ns) + CELL(0.545 ns) = 4.141 ns; Loc. = LAB_X27_Y24; Fanout = 1; COMB Node = 'kbdex_ctrl:kbd_ctrl|Selector11~2'
+    Info: 5: + IC(0.000 ns) + CELL(0.096 ns) = 4.237 ns; Loc. = LAB_X27_Y24; Fanout = 5; REG Node = 'kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS'
+    Info: Total cell delay = 1.141 ns ( 26.93 % )
+    Info: Total interconnect delay = 3.096 ns ( 73.07 % )
 Info: Fitter routing operations beginning
 Info: Average interconnect usage is 0% of the available device resources
-    Info: Peak interconnect usage is 2% of the available device resources in the region that extends from location X25_Y14 to location X37_Y27
+    Info: Peak interconnect usage is 3% of the available device resources in the region that extends from location X38_Y14 to location X50_Y27
 Info: Fitter routing operations ending: elapsed time is 00:00:01
 Info: The Fitter performed an Auto Fit compilation.  Optimizations were skipped to reduce compilation time.
     Info: Optimizations that may affect the design's routability were skipped
@@ -1418,7 +1421,7 @@ Warning: Found 33 output pins without output pin load capacitance assignment
 Info: Delay annotation completed successfully
 Info: Quartus II Fitter was successful. 0 errors, 2 warnings
     Info: Peak virtual memory: 239 megabytes
-    Info: Processing ended: Thu May 13 17:13:36 2010
+    Info: Processing ended: Thu May 13 17:35:16 2010
     Info: Elapsed time: 00:00:10
     Info: Total CPU time (on all processors): 00:00:10
 
