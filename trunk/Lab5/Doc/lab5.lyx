@@ -107,8 +107,616 @@ end{titlepage} % capa no preambulo document settings
 Questão 1
 \end_layout
 
+\begin_layout Standard
+O medidor de tempo de reação proposto consiste de uma lógica de vários estágios,
+ alguns que terminam após um certo intervalo de tempo (aleatório) ou após
+ o usuário apertar um botão.
+ Esse comportamento foi implementado usando uma máquina de estados (síncrona
+ a 
+\begin_inset Formula $27MHz$
+\end_inset
+
+) e contadores de vários bits para contagem de tempo.
+ Um contador fica ativado o tempo todo e é usado para geração (simples)
+ de números aleatórios no intervalo 
+\begin_inset Formula $0\rightarrow27000000$
+\end_inset
+
+ (contagem até 1 segundo) e o outro é ativado para medição dos atrasos (até
+ 2 segundos) envolvidos no circuito.
+ Os estados, na ordem em que ocorrem em uma execução normal, são os seguintes
+ :
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+get_rand:
+\series default
+ Amostra o conteúdo do contador aleatório somando um segundo para obter
+ um tempo aletório usado na espera.
+ Inicia a contagem desse tempo.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+delay: 
+\series default
+O circuito permanece nesse estado até a espera esgotar; quando isso ocorre,
+ inicia a contagem do tempo de reação e avança o estado.
+ Os 
+\emph on
+displays
+\emph default
+ ficam apagados.
+ Se o usuário apertar o 
+\emph on
+PB2
+\emph default
+ antes do fim da espera, entra-se no estado 
+\series bold
+error
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+wait_b2:
+\series default
+ O circuito permanece nesse estado até o usuário reagir apertando 
+\emph on
+PB2
+\emph default
+.
+ Os 
+\emph on
+displays
+\emph default
+ ficam acesos.
+ Se, ao invés, 
+\emph on
+PB1 
+\emph default
+for pressionado ou o usuário demorar mais que 1 segundo para reagir, entra-se
+ no estado 
+\series bold
+error
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+result:
+\series default
+ Pára a contagem do tempo de reação e exibe-o nos 
+\emph on
+displays
+\emph default
+ em centésimos de segundo.
+ Aguarda 
+\emph on
+PB1
+\emph default
+ para reiniciar o processo no estado 
+\series bold
+get_rand
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+error: 
+\series default
+Exibe código de erro nos 
+\emph on
+displays 
+\emph default
+e aguarda 
+\emph on
+PB1 
+\emph default
+para reiniciar o processo no estado 
+\series bold
+get_rand
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+Como no laboratório do "relógio digital", os sinais dos 
+\emph on
+push buttons
+\emph default
+ foram tratados para serem síncronos e eliminar repetição da operação (
+\emph on
+i.e.
+ 
+\emph default
+sensibilidade à variação 
+\begin_inset Formula $0\rightarrow1$
+\end_inset
+
+) no estado do botão.
+ Veja o algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:\"Bufferização\"-dos-push"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "buff.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+"Bufferização" dos 
+\emph on
+push buttons 
+\emph default
+em VHDL
+\emph on
+
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:\"Bufferização\"-dos-push"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "reacao.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Medidor de reação com máquina de estados em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "cont_int.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Contador síncrono de conteúdo inteiro em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Questão 2
+\end_layout
+
+\begin_layout Standard
+Este somador/subtrator serial síncrono tem um comportamento baseado em sinais
+ de controle e sua operação leva um ciclo constante de 8 pulsos de 
+\emph on
+clocks 
+\emph default
+(um por bit) para ser concluída.
+ É fácil modificar o número de bits do somador para 
+\emph on
+n 
+\emph default
+bits, basta mudar o número de estágios e de bits do registrador de deslocamento.
+ No entanto, o número de ciclos de 
+\emph on
+clock
+\emph default
+ até o resultado ficar pronto será 
+\emph on
+n
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Em modo 
+\series bold
+idle
+\series default
+, os bits resultantes da operação são mostrados na saída e a saída de 
+\emph on
+strobe
+\emph default
+ está ativada, indicando prontidão.
+ A saída 
+\emph on
+overflow
+\emph default
+ indica se ocorreu estouro na última operação realizada.
+ A cada subida do 
+\emph on
+clock
+\emph default
+, é verificado o sinal de entrada 
+\emph on
+lsb
+\emph default
+, que indica se os operandos estão prontos para serem recebidos.
+ Em caso positivo, o sinal seletor de operação (
+\begin_inset Formula $1$
+\end_inset
+
+ para soma, 
+\begin_inset Formula $0$
+\end_inset
+
+ para subtração) é armazenado em FF para evitar que ele varie durante a
+ operação e o modo torna-se 
+\series bold
+run
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+O modo 
+\series bold
+run
+\series default
+ compreende oito estágios sequenciais; em cada um, é implementado um 
+\emph on
+full-adder
+\emph default
+ ou 
+\emph on
+full-subtractor 
+\emph default
+(dependendo da operação) para os bits de entrada 
+\begin_inset Formula $x_{a}$
+\end_inset
+
+ e 
+\begin_inset Formula $x_{b}$
+\end_inset
+
+ e o 
+\emph on
+carry 
+\emph default
+ou 
+\emph on
+borrow
+\emph default
+ anterior.
+ O resultado entra no registrador de deslocamento e o próximo 
+\emph on
+carry
+\emph default
+ é
+\emph on
+ 
+\emph default
+armazenado.
+ Ao final, o estado volta para 
+\series bold
+idle 
+\series default
+e o último 
+\emph on
+carry 
+\emph default
+representa o overflow.
+\end_layout
+
+\begin_layout Standard
+A entrada assíncrona 
+\emph on
+rstn
+\emph default
+ é útil para reinicializar o circuito no modo 
+\series bold
+idle
+\series default
+ quando o mesmo estiver em algum estágio de 
+\series bold
+run
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+A simulação foi feita usando os seguintes exemplos:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \[
+11010100_{2}+10011111_{2}=01110011_{2}(overflow)\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \[
+10101010_{2}-00001101_{2}=10011101_{2}(sem\: overflow)\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename sim_somsub.PNG
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação do somador/subtrator serial
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "somsub.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Somador/subtrator serial com sinais de controle em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -412,6 +1020,74 @@ begin{multicols}{2}
 \size scriptsize
 \begin_inset CommandInset include
 LatexCommand verbatiminput
+filename "rand_dice.vhd"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Top level - dado aleatório
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:buff-1-2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand verbatiminput
 filename "cnt6.vhdl"
 
 \end_inset
@@ -456,15 +1132,59 @@ name "alg:cnt6"
 
 \end_layout
 
+\begin_layout Section
+Questão 4
+\end_layout
+
+\begin_layout Standard
+O código de 
+\emph on
+Hamming
+\emph default
+ para correção de erro é bastante útil em transmissão de dados nas quais
+ há risco de adulteração em um dos bits.
+ Nesse caso, há 4 bits de dados e 3 bits extras são usados para garantir
+ a recuperação da informação em caso de falha em no máximo um dos bits (o
+ que inclui os próprios bits de codificação).
+ Portanto, há oito estados de erro recuperável possíveis (nenhum erro ou
+ erro em um dos bits); os três bits (
+\begin_inset Formula $2^{3}$
+\end_inset
+
+) codificam essas possibilidades.
+ Note que o resultado da recuperação é inesperado em caso de dois ou mais
+ erros, sendo impossível inclusive atestar essa condição.
+ 
+\end_layout
+
+\begin_layout Standard
+Em resumo, cada bit do código de 
+\emph on
+Hamming
+\emph default
+ representa a paridade de um conjunto pré-determinado de bits da sequência.
+ Na decodificação, se a paridade indicada por esses bits for inválida, é
+ possível determinar unicamente qual é o bit defeituoso (supondo que haja
+ apenas um) e reproduzir os dados corrigidos.
+\end_layout
+
+\begin_layout Standard
+A implementação feita apresenta um codificador, cuja saídas podem receber
+ adulterações propositais que servirão de entrada para o decodificador que
+ "tentará" reparar o erro.
+ Os dados originais e corrigidos serão observados nos leds.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Float algorithm
+placement H
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -476,23 +1196,19 @@ begin{multicols}{2}
 \end_inset
 
 
-\end_layout
-
-\begin_layout Plain Layout
-
 \size scriptsize
+
 \begin_inset CommandInset include
 LatexCommand verbatiminput
-filename "rand_dice.vhd"
+filename "hamming_enc.vhd"
 
 \end_inset
 
 
-\end_layout
+\size default
 
-\begin_layout Plain Layout
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -504,17 +1220,17 @@ end{multicols}
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Top level - dado aleatório
-\begin_inset CommandInset label
-LatexCommand label
-name "alg:buff-1-2"
-
-\end_inset
-
-
+Codificador de código de 
+\emph on
+Hamming
+\emph default
+ em VHDL
 \end_layout
 
 \end_inset
@@ -527,8 +1243,140 @@ name "alg:buff-1-2"
 
 \end_layout
 
-\begin_layout Section
-Questão 4
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "hamming_dec.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Decodificador de código de 
+\emph on
+Hamming
+\emph default
+ em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q4.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Top-level de inserção de erro em 
+\emph on
+Hamming
+\emph default
+ em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -570,6 +1418,77 @@ Utilizando a implementação de decodificação, tranformou-se os displays em
  uma tela dinâmica, alterando os valores quando novas teclas fossem digitadas
  (valores antigos eram rolados para o display da esquerda).
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "alfa_char.vhd"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Decodificador teclado
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Deco_char-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1360,80 +2279,6 @@ name "tab:Cod-teclas"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float algorithm
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{multicols}{2}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\size scriptsize
-\begin_inset CommandInset include
-LatexCommand verbatiminput
-filename "alfa_char.vhd"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{multicols}
-\end_layout
-
-\end_inset
-
-
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Decodificador teclado
-\begin_inset CommandInset label
-LatexCommand label
-name "alg:Deco_char-1"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float algorithm
 wide false
 sideways false

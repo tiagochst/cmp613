@@ -69,6 +69,7 @@ BEGIN
 	PROCESS (hi_clk, rstn, b1, b2)
 	BEGIN
 		IF (rstn = '0') THEN
+			delay_en <= '0';
 			state <= result;
 		ELSIF (rising_edge(hi_clk)) THEN
 			CASE state IS
@@ -78,31 +79,37 @@ BEGIN
 					delay_en <= '1';
 					state <= delay;
 					
-				WHEN delay =>
+				WHEN delay => 
 					IF (delay_cnt = delay_amt) THEN
 						delay_rst <= '1'; --inicia contagem de reação 
 						state <= wait_b2;
 					ELSE
 						delay_rst <= '0';
 					END IF;
+					
+					IF (b2 = '1') THEN
+						state <= error;
+					END IF;
+
 					delay_en <= '1';
 					
 				WHEN wait_b2 =>
 					delay_rst <= '0';
 					
-					IF (b2 = '1') THEN
-						delay_en <= '0'; --pára contagem de tempo de reação
+					IF (b2 = '1') THEN --reação do usuário 
 						state <= result;
 					ELSIF (b1 = '1') THEN --botão inválido!
 						state <= error;
-					ELSIF (delay_cnt >= CLK_VAL) THEN --timeout de reação
+					ELSIF (delay_cnt = CLK_VAL) THEN --timeout de reação
 						state <= error;
 					END IF;
 				WHEN result =>
+					delay_en <= '0';  --pára contagem de tempo de reação
 					IF (b1 = '1') THEN --reinicia ciclo
 						state <= get_rand;
 					END IF;
 				WHEN error =>
+					delay_rst <= '1';
 					IF (b1 = '1') THEN --reinicia ciclo
 						state <= get_rand;
 					END IF;
@@ -112,8 +119,8 @@ BEGIN
 	
 	--Saída do contador de delay convertida em centésimos de seg.
 	delta <= 100*delay_cnt/CLK_VAL;
-	cs0 <= std_logic_vector(to_unsigned((delta/10) MOD 10, 4));
-	cs1 <= std_logic_vector(to_unsigned(delta*10 MOD 10, 4));
+	cs0 <= std_logic_vector(to_unsigned(delta MOD 10, 4));
+	cs1 <= std_logic_vector(to_unsigned((delta/10) MOD 10, 4));
 
 	-- Saídas de estados da Máquina de Moore
 	PROCESS (state, seg_cs0, seg_cs1)
@@ -129,8 +136,8 @@ BEGIN
 				seg0 <= seg_cs0;
 				seg1 <= seg_cs1;
 			WHEN error =>
-				seg0 <= "0110000";
-				seg1 <= "0110000";
+				seg0 <= "0000110";
+				seg1 <= "0000110";
 		END CASE;
 	END PROCESS;
 END behav;
