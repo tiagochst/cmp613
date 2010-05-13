@@ -1,5 +1,5 @@
 Classic Timing Analyzer report for rand_dice
-Wed May 12 14:39:09 2010
+Thu May 13 13:56:54 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -209,8 +209,18 @@ Parallel compilation was disabled, but you have multiple processors available. E
 Info: *******************************************************************
 Info: Running Quartus II Classic Timing Analyzer
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Wed May 12 14:39:08 2010
-Info: Command: quartus_tan --read_settings_files=off --write_settings_files=off rand_dice -c rand_dice --timing_analysis_only
+    Info: Processing started: Thu May 13 13:56:53 2010
+Info: Command: quartus_tan --read_settings_files=on --write_settings_files=off rand_dice -c rand_dice --speed=7
+Info: Started post-fitting delay annotation
+Warning: Found 7 output pins without output pin load capacitance assignment
+    Info: Pin "seg[0]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "seg[1]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "seg[2]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "seg[3]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "seg[4]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "seg[5]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+    Info: Pin "seg[6]" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
+Info: Delay annotation completed successfully
 Info: Slack time is 34.958 ns for clock "clk" between source register "buff:bf|state" and destination register "output[1]"
     Info: Fmax is restricted to 380.08 MHz due to tcl and tch limits
     Info: + Largest register to register requirement is 36.798 ns
@@ -316,10 +326,10 @@ Info: th for register "buff:bf|state" (data pin = "n_ld", clock pin = "clk") is 
         Info: Total cell delay = 1.137 ns ( 14.00 % )
         Info: Total interconnect delay = 6.985 ns ( 86.00 % )
 Info: All timing requirements were met for slow timing model timing analysis. See Report window for more details.
-Info: Quartus II Classic Timing Analyzer was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 147 megabytes
-    Info: Processing ended: Wed May 12 14:39:09 2010
-    Info: Elapsed time: 00:00:01
-    Info: Total CPU time (on all processors): 00:00:01
+Info: Quartus II Classic Timing Analyzer was successful. 0 errors, 1 warning
+    Info: Peak virtual memory: 164 megabytes
+    Info: Processing ended: Thu May 13 13:56:55 2010
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:02
 
 
