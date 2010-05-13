@@ -1,18 +1,19 @@
+--
 --  decodifica o caractere pressionado
 --           no display
 --  para caracteres alfanumericos. 
 --
---entrada: codigo proveniente do teclado 
---saida: representacao em um display de sete segmentos 
 
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-Entity alfa_char IS port(
-      code: IN STD_LOGIC_VECTOR(15 downto 0);
+--entrada: codigo proveniente do teclado
+--saida: representacao em um display de sete segmentos
+entity alfa_char is 
+port( code: IN STD_LOGIC_VECTOR(15 downto 0);
       alfa_code: OUT STD_LOGIC_VECTOR(6 downto 0));
-END ENTITY alfa_char;
+end entity alfa_char;
 
 architecture rtl of alfa_char is
 begin
@@ -46,7 +47,7 @@ begin
 	    when x"003a" =>
 		  alfa_code <= "0000110"; --M (codificado deitado "E")
 	    when x"0031" =>
-		  alfa_code <= "0101011"; --N (codificado n)
+		  alfa_code <= "0101011"; --N ("n")
 	    when x"0044" =>
 		  alfa_code <= "1000000"; --O
 	    when x"004d" =>
@@ -58,7 +59,7 @@ begin
 	    when x"001b" =>
 		  alfa_code <= "0010010"; --S
 	    when x"002c" =>
-		  alfa_code <= "0001111"; --T (codificado deitado "|--")
+		  alfa_code <= "0000111"; --T ("t")
 	    when x"003c" =>
 		  alfa_code <= "1000001"; --U
 	    when x"002a" =>
@@ -92,7 +93,7 @@ begin
 	    when x"0046" =>
 		  alfa_code <= "0011000"; --9
 	    when others =>
-		  alfa_code <= "1111111";  --Apaga leds
+		  alfa_code <="1111111";  --Apaga leds
       end case;
   end process;
 END rtl;
