@@ -62,11 +62,13 @@ architecture struct of kbd_key is
 		);
 	END component;
 		
-	signal CLOCKHZ, resetn : std_logic;
+	signal CLOCKHZ: std_logic:='1';
+	signal resetn : std_logic:='0';
+	
 	signal key0 : std_logic_vector(15 downto 0);
 	signal alfa_code : std_logic_vector(3 downto 0);
     signal new_key : STD_LOGIC_VECTOR(6 downto 0);
-	signal lights, key_on		: std_logic_vector( 2 downto 0);
+	signal lights, key_on		: std_logic_vector( 2 downto 0):="000";
 
 BEGIN 
 	resetn <= KEY(0);
