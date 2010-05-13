@@ -38,15 +38,13 @@ BEGIN
           END IF;
         
         WHEN run =>
-          FOR i IN 0 TO 6 LOOP --deslocamento das saídas
-            res(i+1) <= res(i);
-          END LOOP;
-        
+          res(6 downto 0) <= res(7 downto 1); 
+                  
           IF (opr = '1') THEN --full adder
-            res(0) <= xa xor xb xor cin;
+            res(7) <= xa xor xb xor cin;
             cin <= (xa and xb) or (cin and (xa xor xb));
           ELSE                --full subtractor (cin é borrow)
-            res(0) <= xa xor xb xor cin;
+            res(7) <= xa xor xb xor cin;
             cin <= (not xa and xb) or (cin and not (xa xor xb));
           END IF;
           
