@@ -1,7 +1,15 @@
+--
+--  decodifica o caractere pressionado
+--           no display
+--  para caracteres alfanuméricos. 
+--
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+--entrada: código proveniente do teclado
+--saída: representação em um display de sete segmentos
 entity alfa_char is 
 port( code: IN STD_LOGIC_VECTOR(15 downto 0);
       alfa_code: OUT STD_LOGIC_VECTOR(6 downto 0));
@@ -11,11 +19,7 @@ architecture rtl of alfa_char is
 begin
    process(code)
       begin
--- All choice expressions in a VHDL case statement must be constant
--- and unique.	Also, the case statement must be complete, or it must
--- include an others clause. 
       case (code) is
-	  -- Sequential Statement(s)
 	    when x"001c" =>
 		  alfa_code <= "0001000"; --A
 	    when x"0032" =>
@@ -41,9 +45,9 @@ begin
 	    when x"004b" =>
 		  alfa_code <= "1000111"; --L
 	    when x"003a" =>
-		  alfa_code <= "0000110"; --M
+		  alfa_code <= "0000110"; --M (codificado deitado "E")
 	    when x"0031" =>
-		  alfa_code <= "0001110"; --N
+		  alfa_code <= "0101011"; --N (codificado n)
 	    when x"0044" =>
 		  alfa_code <= "1000000"; --O
 	    when x"004d" =>
@@ -51,11 +55,11 @@ begin
 	    when x"0015" =>
 		  alfa_code <= "0011000"; --Q
 	    when x"002d" =>
-		  alfa_code <= "0101011"; --R
+		  alfa_code <= "0101111"; --R 
 	    when x"001b" =>
 		  alfa_code <= "0010010"; --S
 	    when x"002c" =>
-		  alfa_code <= "0001111"; --T
+		  alfa_code <= "0001111"; --T (codificado deitado "|--")
 	    when x"003c" =>
 		  alfa_code <= "1000001"; --U
 	    when x"002a" =>
@@ -69,27 +73,27 @@ begin
 	    when x"001a" =>
 		  alfa_code <= "0100100"; --Z
 	    when x"0045" =>
-		  alfa_code <= "1000000";
+		  alfa_code <= "1000000"; --0
 	    when x"0016" =>
-		  alfa_code <= "1111001";
+		  alfa_code <= "1111001"; --1
 	    when x"001e" =>
-		  alfa_code <= "0100100";
+		  alfa_code <= "0100100"; --2
 	    when x"0026" =>
-		  alfa_code <= "0110000";
+		  alfa_code <= "0110000"; --3
 	    when x"0025" =>
-		  alfa_code <= "0011001";
+		  alfa_code <= "0011001"; --4
 	    when x"002e" =>
-		  alfa_code <= "0010010";
+		  alfa_code <= "0010010"; --5
 	    when x"0036" =>
-		  alfa_code <= "0000010";
+		  alfa_code <= "0000010"; --6
 	    when x"003d" =>
-		  alfa_code <= "1111000";
+		  alfa_code <= "1111000"; --7
 	    when x"003e" =>
-		  alfa_code <= "0000000";
+		  alfa_code <= "0000000"; --8
 	    when x"0046" =>
-		  alfa_code <= "0011000";
+		  alfa_code <= "0011000"; --9
 	    when others =>
-		  alfa_code <="1111111";
+		  alfa_code <="1111111";  --Apaga leds
       end case;
   end process;
 END rtl;
