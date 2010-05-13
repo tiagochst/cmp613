@@ -16,7 +16,7 @@ ARCHITECTURE rtl of disp_roll IS
 
   COMPONENT buff IS
     PORT (clk, d: IN STD_LOGIC;
-	      q: OUT STD_LOGIC);
+        q: OUT STD_LOGIC);
   END COMPONENT buff;
 
 BEGIN

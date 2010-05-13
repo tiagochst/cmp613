@@ -34,10 +34,10 @@ BEGIN
         PORT MAP (clk,aux);
 
   bf: COMPONENT buff
-      	PORT MAP (clk, not n_ld, ld);
+        PORT MAP (clk, not n_ld, ld);
 
   PROCESS(ld,clk) BEGIN
-	IF(clk'event and clk = '1') then
+  IF(clk'event and clk = '1') then
           IF(ld = '1') then
             output<=aux ;
           END IF;
