@@ -1,5 +1,5 @@
 Analysis & Synthesis report for kbd_key
-Thu May 13 17:13:25 2010
+Thu May 13 17:35:04 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -50,13 +50,13 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                      ;
 +------------------------------------+----------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Thu May 13 17:13:25 2010        ;
+; Analysis & Synthesis Status        ; Successful - Thu May 13 17:35:04 2010        ;
 ; Quartus II Version                 ; 9.1 Build 304 01/25/2010 SP 1 SJ Web Edition ;
 ; Revision Name                      ; kbd_key                                      ;
 ; Top-level Entity Name              ; kbd_key                                      ;
 ; Family                             ; Cyclone II                                   ;
-; Total logic elements               ; 351                                          ;
-;     Total combinational functions  ; 289                                          ;
+; Total logic elements               ; 358                                          ;
+;     Total combinational functions  ; 296                                          ;
 ;     Dedicated logic registers      ; 160                                          ;
 ; Total registers                    ; 160                                          ;
 ; Total pins                         ; 35                                           ;
@@ -176,16 +176,16 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------+----------+
 ; Resource                                    ; Usage    ;
 +---------------------------------------------+----------+
-; Estimated Total logic elements              ; 351      ;
+; Estimated Total logic elements              ; 358      ;
 ;                                             ;          ;
-; Total combinational functions               ; 289      ;
+; Total combinational functions               ; 296      ;
 ; Logic element usage by number of LUT inputs ;          ;
-;     -- 4 input functions                    ; 152      ;
-;     -- 3 input functions                    ; 63       ;
-;     -- <=2 input functions                  ; 74       ;
+;     -- 4 input functions                    ; 158      ;
+;     -- 3 input functions                    ; 62       ;
+;     -- <=2 input functions                  ; 76       ;
 ;                                             ;          ;
 ; Logic elements by mode                      ;          ;
-;     -- normal mode                          ; 247      ;
+;     -- normal mode                          ; 254      ;
 ;     -- arithmetic mode                      ; 42       ;
 ;                                             ;          ;
 ; Total registers                             ; 160      ;
@@ -195,7 +195,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; I/O pins                                    ; 35       ;
 ; Maximum fan-out node                        ; CLOCK_24 ;
 ; Maximum fan-out                             ; 137      ;
-; Total fan-out                               ; 1543     ;
+; Total fan-out                               ; 1568     ;
 ; Average fan-out                             ; 3.19     ;
 +---------------------------------------------+----------+
 
@@ -205,12 +205,12 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +-----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------+--------------+
 ; Compilation Hierarchy Node  ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                              ; Library Name ;
 +-----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------+--------------+
-; |kbd_key                    ; 289 (0)           ; 160 (0)      ; 0           ; 0            ; 0       ; 0         ; 35   ; 0            ; |kbd_key                                         ; work         ;
-;    |alfa_char:code|         ; 71 (71)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |kbd_key|alfa_char:code                          ;              ;
+; |kbd_key                    ; 296 (0)           ; 160 (0)      ; 0           ; 0            ; 0       ; 0         ; 35   ; 0            ; |kbd_key                                         ; work         ;
+;    |alfa_char:code|         ; 77 (77)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |kbd_key|alfa_char:code                          ;              ;
 ;    |disp_roll:display|      ; 1 (0)             ; 29 (28)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |kbd_key|disp_roll:display                       ;              ;
 ;       |buff:bf|             ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |kbd_key|disp_roll:display|buff:bf               ;              ;
-;    |kbdex_ctrl:kbd_ctrl|    ; 217 (98)          ; 131 (57)     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |kbd_key|kbdex_ctrl:kbd_ctrl                     ;              ;
-;       |ps2_iobase:ps2_ctrl| ; 119 (119)         ; 74 (74)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |kbd_key|kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl ;              ;
+;    |kbdex_ctrl:kbd_ctrl|    ; 218 (98)          ; 131 (57)     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |kbd_key|kbdex_ctrl:kbd_ctrl                     ;              ;
+;       |ps2_iobase:ps2_ctrl| ; 120 (120)         ; 74 (74)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |kbd_key|kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl ;              ;
 +-----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -261,32 +261,29 @@ Encoding Type:  One-Hot
 Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
 
 
-+------------------------------------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                                                     ;
-+-------------------------------------------------------+----------------------------------------------------------------+
-; Register name                                         ; Reason for Removal                                             ;
-+-------------------------------------------------------+----------------------------------------------------------------+
-; kbdex_ctrl:kbd_ctrl|key2code[8..12]                   ; Stuck at GND due to stuck port data_in                         ;
-; kbdex_ctrl:kbd_ctrl|hdata[4]                          ; Stuck at GND due to stuck port data_in                         ;
-; kbdex_ctrl:kbd_ctrl|key1code[8..12]                   ; Stuck at GND due to stuck port data_in                         ;
-; kbdex_ctrl:kbd_ctrl|key0code[8..12]                   ; Stuck at GND due to stuck port data_in                         ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[4]      ; Stuck at GND due to stuck port data_in                         ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_clk~reg0  ; Stuck at GND due to stuck port data_in                         ;
-; kbdex_ctrl:kbd_ctrl|key2code[14..15]                  ; Merged with kbdex_ctrl:kbd_ctrl|key2code[13]                   ;
-; kbdex_ctrl:kbd_ctrl|key1code[14..15]                  ; Merged with kbdex_ctrl:kbd_ctrl|key1code[13]                   ;
-; kbdex_ctrl:kbd_ctrl|key0code[14..15]                  ; Merged with kbdex_ctrl:kbd_ctrl|key0code[13]                   ;
-; kbdex_ctrl:kbd_ctrl|laststate[0..2]                   ; Stuck at GND due to stuck port data_in                         ;
-; kbdex_ctrl:kbd_ctrl|siguplights                       ; Stuck at GND due to stuck port data_in                         ;
-; kbdex_ctrl:kbd_ctrl|hdata[2]                          ; Stuck at VCC due to stuck port data_in                         ;
-; kbdex_ctrl:kbd_ctrl|hdata[1]                          ; Stuck at GND due to stuck port data_in                         ;
-; kbdex_ctrl:kbd_ctrl|hdata[0]                          ; Stuck at VCC due to stuck port data_in                         ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[1]      ; Stuck at GND due to stuck port data_in                         ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[0]      ; Merged with kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[2]   ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[2]      ; Merged with kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ;
-; kbdex_ctrl:kbd_ctrl|hdata[3,5..6]                     ; Merged with kbdex_ctrl:kbd_ctrl|hdata[7]                       ;
-; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[3,5..6] ; Merged with kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[7]   ;
-; Total Number of Removed Registers = 40                ;                                                                ;
-+-------------------------------------------------------+----------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                                        ;
++------------------------------------------------------------+--------------------------------------------------------------+
+; Register name                                              ; Reason for Removal                                           ;
++------------------------------------------------------------+--------------------------------------------------------------+
+; kbdex_ctrl:kbd_ctrl|key2code[8..12]                        ; Stuck at GND due to stuck port data_in                       ;
+; kbdex_ctrl:kbd_ctrl|laststate[1..2]                        ; Stuck at GND due to stuck port data_in                       ;
+; kbdex_ctrl:kbd_ctrl|hdata[4]                               ; Stuck at GND due to stuck port data_in                       ;
+; kbdex_ctrl:kbd_ctrl|laststate[0]                           ; Stuck at GND due to stuck port data_in                       ;
+; kbdex_ctrl:kbd_ctrl|key1code[8..12]                        ; Stuck at GND due to stuck port data_in                       ;
+; kbdex_ctrl:kbd_ctrl|key0code[8..12]                        ; Stuck at GND due to stuck port data_in                       ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[4]           ; Stuck at GND due to stuck port data_in                       ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_clk~reg0       ; Stuck at GND due to stuck port data_in                       ;
+; kbdex_ctrl:kbd_ctrl|key2code[14..15]                       ; Merged with kbdex_ctrl:kbd_ctrl|key2code[13]                 ;
+; kbdex_ctrl:kbd_ctrl|key1code[14..15]                       ; Merged with kbdex_ctrl:kbd_ctrl|key1code[13]                 ;
+; kbdex_ctrl:kbd_ctrl|key0code[14..15]                       ; Merged with kbdex_ctrl:kbd_ctrl|key0code[13]                 ;
+; kbdex_ctrl:kbd_ctrl|siguplights                            ; Stuck at GND due to stuck port data_in                       ;
+; kbdex_ctrl:kbd_ctrl|hdata[1]                               ; Stuck at GND due to stuck port data_in                       ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[1]           ; Stuck at GND due to stuck port data_in                       ;
+; kbdex_ctrl:kbd_ctrl|hdata[0,2..3,5..6]                     ; Merged with kbdex_ctrl:kbd_ctrl|hdata[7]                     ;
+; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[0,2..3,5..6] ; Merged with kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[7] ;
+; Total Number of Removed Registers = 40                     ;                                                              ;
++------------------------------------------------------------+--------------------------------------------------------------+
 
 
 +-------------------------------------------------------------------------------------------------------------+
@@ -393,6 +390,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Port             ; Type   ; Severity ; Details                                                                             ;
 +------------------+--------+----------+-------------------------------------------------------------------------------------+
 ; en               ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; lights           ; Input  ; Info     ; Stuck at GND                                                                        ;
 ; key_code[47..16] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
 +------------------+--------+----------+-------------------------------------------------------------------------------------+
 
@@ -403,7 +401,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II Analysis & Synthesis
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Thu May 13 17:13:19 2010
+    Info: Processing started: Thu May 13 17:34:57 2010
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off kbd_key -c kbd_key
 Info: Found 2 design units, including 1 entities, in source file disp_roll.vhd
     Info: Found design unit 1: disp_roll-rtl
@@ -426,63 +424,32 @@ Info: Found 2 design units, including 1 entities, in source file kbd_key.vhd
     Info: Found design unit 1: kbd_key-struct
     Info: Found entity 1: kbd_key
 Info: Elaborating entity "kbd_key" for the top level hierarchy
-Warning (10541): VHDL Signal Declaration warning at kbd_key.vhd(57): used implicit default value for signal "lights" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10540): VHDL Signal Declaration warning at kbd_key.vhd(57): used explicit default value for signal "lights" because signal was never assigned a value
 Info: Elaborating entity "alfa_char" for hierarchy "alfa_char:code"
 Info: Elaborating entity "disp_roll" for hierarchy "disp_roll:display"
 Info: Elaborating entity "buff" for hierarchy "disp_roll:display|buff:bf"
 Info: Elaborating entity "kbdex_ctrl" for hierarchy "kbdex_ctrl:kbd_ctrl"
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(125): signal "en" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(148): signal "fetchdata" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(150): signal "fetchdata" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(152): signal "fetchdata" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(203): signal "sigfetch" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
 Warning (10631): VHDL Process Statement warning at kbdex_ctrl.vhd(212): inferring latch(es) for signal or variable "selE0", which holds its previous value in one or more paths through the process
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(237): signal "key0en" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(247): signal "key1en" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(257): signal "key2en" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
 Warning (10631): VHDL Process Statement warning at kbdex_ctrl.vhd(266): inferring latch(es) for signal or variable "relbt", which holds its previous value in one or more paths through the process
 Warning (10631): VHDL Process Statement warning at kbdex_ctrl.vhd(276): inferring latch(es) for signal or variable "selbt", which holds its previous value in one or more paths through the process
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(293): signal "datacode" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(293): signal "key0code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(293): signal "key1code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(294): signal "datacode" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(294): signal "key2code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(295): signal "key0code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(297): signal "key1code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(299): signal "key2code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(306): signal "datacode" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(307): signal "key0code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(309): signal "key1code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(311): signal "key2code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(314): signal "datacode" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(315): signal "key0code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(317): signal "key1code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(319): signal "key2code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(324): signal "key0code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(324): signal "datacode" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(326): signal "key1code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(326): signal "datacode" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(328): signal "key2code" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10492): VHDL Process Statement warning at kbdex_ctrl.vhd(328): signal "datacode" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
 Info (10041): Inferred latch for "selbt" at kbdex_ctrl.vhd(276)
 Info (10041): Inferred latch for "relbt" at kbdex_ctrl.vhd(266)
 Info (10041): Inferred latch for "selE0" at kbdex_ctrl.vhd(212)
 Info: Elaborating entity "ps2_iobase" for hierarchy "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl"
-Warning (10492): VHDL Process Statement warning at ps2_iobase.vhd(161): signal "sigsending" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
 Info: Registers with preset signals will power-up high
 Info: DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
 Warning: Presettable and clearable registers converted to equivalent circuits with latches. Registers power-up to an undefined state, and DEVCLRn places the registers in an undefined state.
     Warning (13310): Register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~en" is converted into an equivalent circuit using register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~en_emulated" and latch "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~enlatch"
     Warning (13310): Register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy" is converted into an equivalent circuit using register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~_emulated" and latch "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~latch"
-Info: Implemented 390 device resources after synthesis - the final resource count might be different
+Info: Implemented 397 device resources after synthesis - the final resource count might be different
     Info: Implemented 2 input pins
     Info: Implemented 31 output pins
     Info: Implemented 2 bidirectional pins
-    Info: Implemented 355 logic cells
-Info: Quartus II Analysis & Synthesis was successful. 0 errors, 38 warnings
+    Info: Implemented 362 logic cells
+Info: Quartus II Analysis & Synthesis was successful. 0 errors, 7 warnings
     Info: Peak virtual memory: 212 megabytes
-    Info: Processing ended: Thu May 13 17:13:25 2010
-    Info: Elapsed time: 00:00:06
+    Info: Processing ended: Thu May 13 17:35:04 2010
+    Info: Elapsed time: 00:00:07
     Info: Total CPU time (on all processors): 00:00:06
 
 

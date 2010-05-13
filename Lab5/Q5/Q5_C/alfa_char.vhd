@@ -49,7 +49,7 @@ begin
 	    when x"0031" =>
 		  alfa_code <= "0101011"; --N ("n")
 	    when x"0044" =>
-		  alfa_code <= "1000000"; --O
+		  alfa_code <= "1100011"; --O
 	    when x"004d" =>
 		  alfa_code <= "0001100"; --P
 	    when x"0015" =>

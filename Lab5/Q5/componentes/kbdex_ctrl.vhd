@@ -119,7 +119,7 @@ begin
 	ps2_code <= unsigned(ps2_dataout);
 
 	-- State cicle
-	process(clk, resetn, sigsending)
+	process(clk, resetn, sigsending,en)
 	begin
 		-- Change state on falling edge of ps2_clk
 		if(rising_edge(clk) and en = '1') then
@@ -131,7 +131,7 @@ begin
 	end process;
 
 	-- Select next state
-	process(state, newdata)
+	process(state, newdata,fetchdata)
 	begin
 		case state is
 			when IDLE		=>
@@ -198,7 +198,7 @@ begin
 	end process;
 
 	-- Fetched signal register
-	process(clk, resetn)
+	process(clk, resetn,sigfetch)
 	begin
 		if(rising_edge(clk) and sigfetch = '1') then
 			fetchdata <= ps2_code;
@@ -232,7 +232,7 @@ begin
 	datacode <= upperdata & fetchdata;
 
 	-- Keys registers
-	KEY0 : process(clk, key0clearn, resetn)
+	KEY0 : process(clk, key0clearn, resetn, key0en)
 	begin
 		if(rising_edge(clk) and key0en = '1') then
 			key0code <= datacode;
@@ -242,7 +242,7 @@ begin
 		end if;
 	end process;
 
-	KEY1 : process(clk, key1clearn, resetn)
+	KEY1 : process(clk, key1clearn, resetn,key1en)
 	begin
 		if(rising_edge(clk) and key1en = '1') then
 			key1code <= datacode;
@@ -252,7 +252,7 @@ begin
 		end if;
 	end process;
 
-	KEY2 : process(clk, key2clearn, resetn)
+	KEY2 : process(clk, key2clearn, resetn,key2en)
 	begin
 		if(rising_edge(clk) and key2en = '1') then
 			key2code <= datacode;
@@ -283,7 +283,7 @@ begin
 	end process;
 
 	-- Key replacement and clear selector
-	SELECTOR : process(relbt, selbt)
+	SELECTOR : process(relbt, selbt,datacode,key0code,key1code,key2code)
 	begin
 		key0en <= '0'; key1en <= '0'; key2en <= '0';
 		key0clearn <= '1'; key1clearn <= '1'; key2clearn <= '1';
