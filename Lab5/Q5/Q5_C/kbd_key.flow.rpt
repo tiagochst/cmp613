@@ -1,5 +1,5 @@
 Flow report for kbd_key
-Thu May 13 13:56:37 2010
+Thu May 13 16:29:05 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -38,7 +38,7 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Flow Summary                                                                      ;
 +------------------------------------+----------------------------------------------+
-; Flow Status                        ; Successful - Thu May 13 13:56:37 2010        ;
+; Flow Status                        ; Successful - Thu May 13 16:29:05 2010        ;
 ; Quartus II Version                 ; 9.1 Build 304 01/25/2010 SP 1 SJ Web Edition ;
 ; Revision Name                      ; kbd_key                                      ;
 ; Top-level Entity Name              ; kbd_key                                      ;
@@ -46,8 +46,8 @@ applicable agreement for further details.
 ; Device                             ; EP2C20F484C7                                 ;
 ; Timing Models                      ; Final                                        ;
 ; Met timing requirements            ; No                                           ;
-; Total logic elements               ; 344 / 18,752 ( 2 % )                         ;
-;     Total combinational functions  ; 318 / 18,752 ( 2 % )                         ;
+; Total logic elements               ; 336 / 18,752 ( 2 % )                         ;
+;     Total combinational functions  ; 310 / 18,752 ( 2 % )                         ;
 ;     Dedicated logic registers      ; 160 / 18,752 ( < 1 % )                       ;
 ; Total registers                    ; 160                                          ;
 ; Total pins                         ; 67 / 315 ( 21 % )                            ;
@@ -63,7 +63,7 @@ applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 05/13/2010 13:55:26 ;
+; Start date & time ; 05/13/2010 16:28:36 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; kbd_key             ;
 +-------------------+---------------------+
@@ -74,7 +74,7 @@ applicable agreement for further details.
 +------------------------------------+----------------------------------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                    ; Value                                                          ; Default Value ; Entity Name ; Section Id     ;
 +------------------------------------+----------------------------------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID              ; 129772612393.127376972503576                                   ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID              ; 129772612393.127377891502148                                   ; --            ; --          ; --             ;
 ; MAX_CORE_JUNCTION_TEMP             ; 85                                                             ; --            ; --          ; --             ;
 ; MIN_CORE_JUNCTION_TEMP             ; 0                                                              ; --            ; --          ; --             ;
 ; MISC_FILE                          ; C:/Users/Tiago/Desktop/mc613/Projetos/Lab5/Q5/Q5_B/kbd_key.dpf ; --            ; --          ; --             ;
@@ -90,12 +90,11 @@ applicable agreement for further details.
 +-------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name             ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +-------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis    ; 00:00:05     ; 1.0                     ; 212 MB              ; 00:00:05                           ;
-; Fitter                  ; 00:00:10     ; 1.0                     ; 216 MB              ; 00:00:09                           ;
-; Assembler               ; 00:00:03     ; 1.0                     ; 200 MB              ; 00:00:03                           ;
+; Analysis & Synthesis    ; 00:00:08     ; 1.0                     ; 212 MB              ; 00:00:06                           ;
+; Fitter                  ; 00:00:11     ; 1.0                     ; 216 MB              ; 00:00:10                           ;
+; Assembler               ; 00:00:04     ; 1.0                     ; 200 MB              ; 00:00:04                           ;
 ; Classic Timing Analyzer ; 00:00:01     ; 1.0                     ; 135 MB              ; 00:00:01                           ;
-; Classic Timing Analyzer ; 00:00:03     ; 1.0                     ; 166 MB              ; 00:00:02                           ;
-; Total                   ; 00:00:22     ; --                      ; --                  ; 00:00:20                           ;
+; Total                   ; 00:00:24     ; --                      ; --                  ; 00:00:21                           ;
 +-------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -108,7 +107,6 @@ applicable agreement for further details.
 ; Fitter                  ; Tiago-PC         ; Windows Vista ; 6.1        ; i686           ;
 ; Assembler               ; Tiago-PC         ; Windows Vista ; 6.1        ; i686           ;
 ; Classic Timing Analyzer ; Tiago-PC         ; Windows Vista ; 6.1        ; i686           ;
-; Classic Timing Analyzer ; Tiago-PC         ; Windows Vista ; 6.1        ; i686           ;
 +-------------------------+------------------+---------------+------------+----------------+
 
 
@@ -119,7 +117,6 @@ quartus_map --read_settings_files=on --write_settings_files=off kbd_key -c kbd_k
 quartus_fit --read_settings_files=off --write_settings_files=off kbd_key -c kbd_key
 quartus_asm --read_settings_files=off --write_settings_files=off kbd_key -c kbd_key
 quartus_tan --read_settings_files=off --write_settings_files=off kbd_key -c kbd_key --timing_analysis_only
-quartus_tan --read_settings_files=on --write_settings_files=off kbd_key -c kbd_key --speed=7
 
 
 
