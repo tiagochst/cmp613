@@ -47,7 +47,7 @@ architecture rtl of ps2_iobase is
 begin
 	-- Trigger for state change to eliminate noise
 	process(clk, ps2_clk, en, resetn)
-		variable fcount, rcount : integer range CLKSSTABLE downto 0;
+		variable fcount, rcount : integer range CLKSSTABLE downto 0:=0;
 	begin
 		if(rising_edge(clk) and en = '1') then
 			-- Falling edge noise
