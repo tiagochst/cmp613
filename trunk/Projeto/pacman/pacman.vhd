@@ -214,31 +214,40 @@ BEGIN
     p_atualiza_pacman: PROCESS (clk27M, rstn, mapa, key_pac_dir, key_pac_esq, line, col)
         VARIABLE pos_x: INTEGER range 0 to TAB_LEN-1 := PAC_START_X;        
         VARIABLE pos_y: INTEGER range 0 to TAB_LEN-1 := PAC_START_Y;
-        VARIABLE cur_dir: INTEGER range 0 to 3 := 3;
+        VARIABLE cur_dir, esq_dir, dir_dir: INTEGER range 0 to 3 := 3;
         VARIABLE pac_cel, pac_dir, pac_esq: tab_sym;
-        
         VARIABLE x_offset, y_offset: INTEGER range -TAB_LEN to TAB_LEN;
     BEGIN
+		IF (cur_dir = 3)
+		THEN dir_dir := 0;
+		ELSE dir_dir := cur_dir + 1;
+		END IF;
+		
+		IF (cur_dir = 0)
+		THEN esq_dir := 3;
+		ELSE esq_dir := cur_dir - 1;
+		END IF;
+        
         --calcula qual seriam as proximas celulas visitadas pelo pacman
-        pac_cel := mapa(pos_y + DIRS(cur_dir)(1), 
-                        pos_x + DIRS(cur_dir)(0));
-        pac_dir := mapa(pos_y + DIRS((cur_dir+1) MOD 4)(1),
-		                pos_x + DIRS((cur_dir+1) MOD 4)(0));
-		pac_esq := mapa(pos_y + DIRS((cur_dir+3) MOD 4)(1),
-		                pos_x + DIRS((cur_dir+3) MOD 4)(0));
+        pac_cel := mapa(pos_y + DIRS(cur_dir)(0), 
+                        pos_x + DIRS(cur_dir)(1));
+    	pac_dir := mapa(pos_y + DIRS(dir_dir)(1),
+		                pos_x + DIRS(dir_dir)(0));
+		pac_esq := mapa(pos_y + DIRS(esq_dir)(1),
+		                pos_x + DIRS(esq_dir)(0));
 		                				
         IF (rstn = '0') THEN
             pos_x := PAC_START_X;
             pos_y := PAC_START_Y;
-            --cur_dir := 3; --inicializa direcao para esquerda
+            cur_dir := 1; --inicializa direcao para direita
         ELSIF (clk27M'event and clk27M = '1') THEN
             IF (estado = atualiza) THEN
-                IF (pac_cel = '.' or pac_cel = '1') THEN --atualiza posicao
+                IF (pac_cel = '.' or pac_cel = '2') THEN --atualiza posicao
                     pos_x := pos_x + DIRS(cur_dir)(1);
                     pos_y := pos_y + DIRS(cur_dir)(0);
                 END IF;
                 
-                IF (pac_cel = '1') THEN --checa se obteve moeda
+                IF (pac_cel = '2') THEN --checa se obteve moeda
                     mapa(pos_y, pos_x) <= '.';
                     got_coin <= '1';
                 ELSE
@@ -246,9 +255,9 @@ BEGIN
                 END IF;
                 
                 IF (key_pac_dir = '0' and pac_dir = '.') THEN --atualiza direcao
-                    cur_dir := (cur_dir+1) MOD 4;
+                    cur_dir := dir_dir;
                 ELSIF (key_pac_esq = '0' and pac_esq = '.') THEN
-                    cur_dir := (cur_dir+3) MOD 4;
+                    cur_dir := esq_dir;
                 END IF;
             END IF;
         END IF;
@@ -262,7 +271,7 @@ BEGIN
                 y_offset>=0 and y_offset<5) THEN
                 
                 overlay <= '1';  --desenha camada sobre o cenario
-                IF (PAC_BITMAPS(cur_dir)(x_offset, y_offset) = '1') THEN
+                IF (PAC_BITMAPS(cur_dir)(y_offset, x_offset) = '1') THEN
                     ovl_color <= "110"; --amarelo
                 ELSE
 					ovl_color <= "000"; --cor de fundo
