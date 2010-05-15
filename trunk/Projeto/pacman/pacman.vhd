@@ -29,11 +29,13 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL line_enable, line_inc : STD_LOGIC;       -- enable do contador de linhas
     SIGNAL fim_escrita : STD_LOGIC;                 -- '1' quando um quadro terminou de ser
                                                     -- escrito na memória de vídeo
+    SIGNAL fim_memarea : STD_LOGIC;					-- término da leitura de mem_area
 
     -- Especificação dos tipos e sinais da máquina de estados de controle
-    type estado_t is (show_splash, inicio, constroi_quadro, atualiza);
-    SIGNAL estado: estado_t := show_splash;
-    SIGNAL pr_estado: estado_t := show_splash;
+    TYPE estado_t is (SHOW_SPLASH, INICIO, CONSTROI_QUADRO,
+                      MEMORIA_RD, ATUALIZA_LOGICA, MEMORIA_WR);
+    SIGNAL estado: estado_t := SHOW_SPLASH;
+    SIGNAL pr_estado: estado_t := SHOW_SPLASH;
     
     -- Sinais de desenho em overlay sobre o cenário do jogo
     SIGNAL overlay: STD_LOGIC;
@@ -45,117 +47,35 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL timer : STD_LOGIC;                       -- vale '1' quando o contador chegar ao fim
     SIGNAL timer_rstn, timer_enable : STD_LOGIC;
     
+    SIGNAL mem_area: tab_sym_3x3;
+    SIGNAL mem_line: INTEGER range 0 to SCR_HGT-1;
+    SIGNAL mem_col: INTEGER range 0 to SCR_WDT-1;
+    SIGNAL mem_we: STD_LOGIC;
+    SIGNAL mem_write_cel, mem_read_cel: tab_sym;
+    
     COMPONENT counter IS
 	PORT (clk, rstn, en: IN STD_LOGIC;
 	      max: IN INTEGER;
 	      q: OUT INTEGER);
 	END COMPONENT counter;
-    
+	
+	COMPONENT mem_mapa IS
+	PORT (clk: IN STD_LOGIC;
+		  y_cor: IN INTEGER range 0 to SCR_HGT - 1;
+		  x_cor: IN INTEGER range 0 to SCR_WDT - 1;
+		  data: IN tab_sym;
+		  we: IN STD_LOGIC;
+		  q: OUT tab_sym);
+	END COMPONENT mem_mapa;
+
+    -----------------------------------------------------------------------------
     -- Sinais de controle da lógica do jogo
+    -----------------------------------------------------------------------------
     SIGNAL got_coin: STD_LOGIC;                     -- informa se obteve moeda no ultimo movimento
     SIGNAL key_pac_esq, key_pac_dir: STD_LOGIC := '0';     -- sinais síncronos do cursor do usuário
-	
-	--O cenário do jogo é inicializado com todas as moedas e as paredes
-	--As moedas vão sendo removidas dessa estrutura de acordo com o jogo
-	--O pacman e os fantasmas são desenhados separadamente sob essa tela
-	SIGNAL mapa: tab := (
-	"                                                                                                                                ",
-	"                                                                                                                                ",
-	" 1111111111111111111111111111111111111111   1111111111111111111111111111111111111111                                            ",
-	" 1                                      1   1                                      1                                            ",
-	" 1                                      1   1                                      1                                            ",
-	" 1  2..2..2..2..2..2..2..2..2..2..2..2  1   1  2..2..2..2..2..2..2..2..2..2..2..2  1                                            ",
-	" 1  .              .                 .  1   1  .                 .              .  1                                            ",
-	" 1  .              .                 .  1   1  .                 .              .  1                                            ",
-	" 1  2  1111111111  2  1111111111111  2  1   1  2  1111111111111  2  1111111111  2  1                                            ",
-	" 1  .  1        1  .  1           1  .  1   1  .  1           1  .  1        1  .  1                                            ",
-	" 1  .  1        1  .  1           1  .  1   1  .  1           1  .  1        1  .  1                                            ",
-	" 1  2  1        1  2  1           1  2  1   1  2  1           1  2  1        1  2  1                                            ",
-	" 1  .  1        1  .  1           1  .  1   1  .  1           1  .  1        1  .  1                                            ",
-	" 1  .  1        1  .  1           1  .  1   1  .  1           1  .  1        1  .  1                                            ",
-	" 1  2  1111111111  2  1111111111111  2  11111  2  1111111111111  2  1111111111  2  1                                            ",
-	" 1  .              .                 .         .                 .              .  1                                            ",
-	" 1  .              .                 .         .                 .              .  1                                            ",
-	" 1  2..2..2..2..2..2..2..2..2..2..2..2..2...2..2..2..2..2..2..2..2..2..2..2..2..2  1                                            ",
-	" 1  .              .        .                           .        .              .  1                                            ",
-	" 1  .              .        .                           .        .              .  1                                            ",
-	" 1  2  1111111111  2  1111  2  11111111111111111111111  2  1111  2  1111111111  2  1                                            ",
-	" 1  .  1        1  .  1  1  .  1                     1  .  1  1  .  1        1  .  1                                            ",
-	" 1  .  1        1  .  1  1  .  1                     1  .  1  1  .  1        1  .  1                                            ",
-	" 1  2  1111111111  2  1  1  2  1111111111   1111111111  2  1  1  2  1111111111  2  1                                            ",
-	" 1  .              .  1  1  .           1   1           .  1  1  .              .  1                                            ",
-	" 1  .              .  1  1  .           1   1           .  1  1  .              .  1                                            ",
-	" 1  2..2..2..2..2..2  1  1  2..2..2..2  1   1  2..2..2..2  1  1  2..2..2..2..2..2  1                                            ",
-	" 1                 .  1  1           .  1   1  .           1  1  .                 1                                            ",
-	" 1                 .  1  1           .  1   1  .           1  1  .                 1                                            ",
-	" 1111111111111111  2  1  1111111111  .  1   1  .  1111111111  1  2  1111111111111111                                            ",
-	"                1  .  1           1  .  1   1  .  1           1  .  1                                                           ",
-	"                1  .  1           1  .  1   1  .  1           1  .  1                                                           ",
-	"                1  2  1  1111111111  .  11111  .  1111111111  1  2  1                                                           ",
-	"                1  .  1  1           .         .           1  1  .  1                                                           ",
-	"                1  .  1  1           .         .           1  1  .  1                                                           ",
-	"                1  2  1  1  .............................  1  1  2  1                                                           ",
-	"                1  .  1  1  .                           .  1  1  .  1                                                           ",
-	"                1  .  1  1  .                           .  1  1  .  1                                                           ",
-	"                1  2  1  1  .  111111111     111111111  .  1  1  2  1                                                           ",
-	"                1  .  1  1  .  1       1333331       1  .  1  1  .  1                                                           ",
-	"                1  .  1  1  .  1       1     1       1  .  1  1  .  1                                                           ",
-	" 1111111111111111  2  1111  .  1  111111     111111  1  .  1111  2  1111111111111111                                            ",
-	"                   .        .  1  1               1  1  .        .                                                              ",
-	"                   .        .  1  1               1  1  .        .                                                              ",
-	" ..................2.........  1  1               1  1  .........2..................                                            ",
-	"                   .        .  1  1               1  1  .        .                                                              ",
-	"                   .        .  1  1               1  1  .        .                                                              ",
-	" 1111111111111111  2  1111  .  1  11111111111111111  1  .  1111  2  1111111111111111                                            ",
-	"                1  .  1  1  .  1                     1  .  1  1  .  1                                                           ",
-	"                1  .  1  1  .  1                     1  .  1  1  .  1                                                           ",
-	"                1  2  1  1  .  11111111111111111111111  .  1  1  2  1                                                           ",
-	"                1  .  1  1  .                           .  1  1  .  1                                                           ",
-	"                1  .  1  1  .                           .  1  1  .  1                                                           ",
-	"                1  2  1  1  .............................  1  1  2  1                                                           ",
-	"                1  .  1  1  .                           .  1  1  .  1                                                           ",
-	"                1  .  1  1  .                           .  1  1  .  1                                                           ",
-	"                1  2  1  1  .  11111111111111111111111  .  1  1  2  1                                                           ",
-	"                1  .  1  1  .  1                     1  .  1  1  .  1                                                           ",
-	"                1  .  1  1  .  1                     1  .  1  1  .  1                                                           ",
-	" 1111111111111111  2  1111  .  1111111111   1111111111  .  1111  2  1111111111111111                                            ",
-	" 1                 .        .           1   1           .        .                 1                                            ",
-	" 1                 .        .           1   1           .        .                 1                                            ",
-	" 1  2..2..2..2..2..2..2..2..2..2..2..2  1   1  2..2..2..2..2..2..2..2..2..2..2..2  1                                            ",
-	" 1  .              .                 .  1   1  .                 .              .  1                                            ",
-	" 1  .              .                 .  1   1  .                 .              .  1                                            ",
-	" 1  2  1111111111  2  1111111111111  2  1   1  2  1111111111111  2  1111111111  2  1                                            ",
-	" 1  .  1        1  .  1           1  .  1   1  .  1           1  .  1        1  .  1                                            ",
-	" 1  .  1        1  .  1           1  .  1   1  .  1           1  .  1        1  .  1                                            ",
-	" 1  2  1111111  1  2  1111111111111  2  11111  2  1111111111111  2  1  1111111  2  1                                            ",
-	" 1  .        1  1  .                 .         .                 .  1  1        .  1                                            ",
-	" 1  .        1  1  .                 .         .                 .  1  1        .  1                                            ",
-	" 1  2..2..2  1  1  2..2..2..2..2..2..2.........2..2..2..2..2..2..2  1  1  2..2..2  1                                            ",
-	" 1        .  1  1  .        .                           .        .  1  1  .        1                                            ",
-	" 1        .  1  1  .        .                           .        .  1  1  .        1                                            ",
-	" 1111111  2  1  1  2  1111  2  11111111111111111111111  2  1111  2  1  1  2  1111111                                            ",
-	"       1  .  1  1  .  1  1  .  1                     1  .  1  1  .  1  1  .  1                                                  ",
-	"       1  .  1  1  .  1  1  .  1                     1  .  1  1  .  1  1  .  1                                                  ",
-	" 1111111  2  1111  2  1  1  2  1111111111   1111111111  2  1  1  2  1111  2  1111111                                            ",
-	" 1        .        .  1  1  .           1   1           .  1  1  .        .        1                                            ",
-	" 1        .        .  1  1  .           1   1           .  1  1  .        .        1                                            ",
-	" 1  2..2..2..2..2..2  1  1  2..2..2..2  1   1  2..2..2..2  1  1  2..2..2..2..2..2  1                                            ",
-	" 1  .                 1  1           .  1   1  .           1  1                 .  1                                            ",
-	" 1  .                 1  1           .  1   1  .           1  1                 .  1                                            ",
-	" 1  2  1111111111111111  1111111111  2  1   1  2  1111111111  1111111111111111  2  1                                            ",
-	" 1  .  1                          1  .  1   1  .  1                          1  .  1                                            ",
-	" 1  .  1                          1  .  1   1  .  1                          1  .  1                                            ",
-	" 1  2  1111111111111111111111111111  2  11111  2  1111111111111111111111111111  2  1                                            ",
-	" 1  .                                .         .                                .  1                                            ",
-	" 1  .                                .         .                                .  1                                            ",
-	" 1  2..2..2..2..2..2..2..2..2..2..2..2..2...2..2..2..2..2..2..2..2..2..2..2..2..2  1                                            ",
-	" 1                                                                                 1                                            ",
-	" 1                                                                                 1                                            ",
-	" 11111111111111111111111111111111111111111111111111111111111111111111111111111111111                                            ",
-	"                                                                                                                                ",
-	"                                                                                                                                ",
-	"                                                                                                                                "
-	);
+    SIGNAL pac_pos_x: INTEGER range 0 to TAB_LEN-1 := PAC_START_X;
+    SIGNAL pac_pos_y: INTEGER range 0 to TAB_LEN-1 := PAC_START_Y;
+    SIGNAL pac_cur_dir: INTEGER range 0 to 3:= 1;
     
 BEGIN
     -- Controlador VGA (resolução 128 colunas por 96 linhas)
@@ -200,78 +120,116 @@ BEGIN
 				  max	=> SCR_HGT-1,
 				  q		=> line);
     
-
     -- podemos avançar para o próximo estado?
-    fim_escrita <= '1' when (line = SCR_HGT-1) and (col = SCR_WDT-1)
+    fim_escrita <= '1' WHEN (line = SCR_HGT-1) and (col = SCR_WDT-1)
                    ELSE '0';
-    
-    -- purpose: Este processo irá atualizar a posicão do pacman e definir
-    --          suas ações no jogo. Além disso, gera os sinais necessários
-    --          para seu desenho. 
+                   
+    fim_memarea <= '1' WHEN (line = 2) and (col = 2)
+				  ELSE '0';
+				  
+	-----------------------------------------------------------------------------
+    -- Controladores da RAM que armazena o mapa atual
+    -----------------------------------------------------------------------------
+				  
+	ram_mapa: COMPONENT mem_mapa
+		PORT MAP (clk 	=> clk27M,
+		          y_cor	=> mem_line, x_cor => mem_col,
+		          data => mem_write_cel, 
+		          we => (mem_we and got_coin),
+		          q => mem_read_cel);
+		          
+	mem_line <= pac_pos_y WHEN (estado = ATUALIZA_LOGICA)
+                ELSE line;
+    mem_col  <= pac_pos_x WHEN (estado = ATUALIZA_LOGICA)
+                ELSE col;
+    mem_we   <= '1' WHEN (estado = MEMORIA_WR)
+				ELSE '0';
+	
+	-- purpose: Preenche a matriz 3x3 mem_area no estado MEMORIA_RD
     -- type   : sequential
-    -- inputs : clk27M, rstn, mapa, key_pac_dir, key_pac_esq
-    -- outputs: mapa, got_coin / overlay, ovl_color (desenho)
-    p_atualiza_pacman: PROCESS (clk27M, rstn, mapa, key_pac_dir, key_pac_esq, line, col)
-        VARIABLE pos_x: INTEGER range 0 to TAB_LEN-1 := PAC_START_X;        
-        VARIABLE pos_y: INTEGER range 0 to TAB_LEN-1 := PAC_START_Y;
-        VARIABLE cur_dir, esq_dir, dir_dir: INTEGER range 0 to 3 := 3;
-        VARIABLE pac_cel, pac_dir, pac_esq: tab_sym;
-        VARIABLE x_offset, y_offset: INTEGER range -TAB_LEN to TAB_LEN;
+    -- inputs : clk27M, rstn, mem_area, line, col, estado
+    -- outputs: mem_area
+    p_fill_memarea: PROCESS (clk27M, rstn, line, col)
+	BEGIN
+		IF (clk27M'event and clk27M='1') THEN
+			IF (estado = MEMORIA_RD) THEN
+				mem_area(line-1, col-1) <= mem_read_cel;
+			END IF;
+		END IF;
+	END PROCESS; 
+
+    -- purpose: Este processo irá atualizar a posicão do pacman e definir
+    --          suas ações no jogo. Opera nos estados atualiza*
+    -- type   : sequential
+    -- inputs : clk27M, rstn, mem_area, key_pac_dir, key_pac_esq
+    --          pac_cur_dir, pac_pos_x, pac_pos_y
+    -- outputs: pac_cur_dir, pac_pos_x, pac_pos_y, got_coin
+    p_atualiza_pacman: PROCESS (clk27M, rstn, key_pac_dir, key_pac_esq, mem_area,
+	                            pac_pos_x, pac_pos_y, pac_cur_dir)
+        VARIABLE esq_dir, dir_dir: INTEGER range 0 to 3 := 3;
+        VARIABLE nxt_cel, dir_cel, esq_cel: tab_sym;
     BEGIN
-		IF (cur_dir = 3)
+		IF (pac_cur_dir = 3)
 		THEN dir_dir := 0;
-		ELSE dir_dir := cur_dir + 1;
+		ELSE dir_dir := pac_cur_dir + 1;
 		END IF;
 		
-		IF (cur_dir = 0)
+		IF (pac_cur_dir = 0)
 		THEN esq_dir := 3;
-		ELSE esq_dir := cur_dir - 1;
+		ELSE esq_dir := pac_cur_dir - 1;
 		END IF;
-        
-        --calcula qual seriam as proximas celulas visitadas pelo pacman
-        pac_cel := mapa(pos_y + DIRS(cur_dir)(0), 
-                        pos_x + DIRS(cur_dir)(1));
-    	pac_dir := mapa(pos_y + DIRS(dir_dir)(1),
-		                pos_x + DIRS(dir_dir)(0));
-		pac_esq := mapa(pos_y + DIRS(esq_dir)(1),
-		                pos_x + DIRS(esq_dir)(0));
-		                				
+		
+		--calcula qual seriam as proximas celulas visitadas pelo pacman
+		nxt_cel := mem_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1));
+		dir_cel := mem_area(DIRS(dir_dir)(0), DIRS(dir_dir)(1));
+		esq_cel := mem_area(DIRS(esq_dir)(0), DIRS(esq_dir)(1));
+		        
         IF (rstn = '0') THEN
-            pos_x := PAC_START_X;
-            pos_y := PAC_START_Y;
-            cur_dir := 1; --inicializa direcao para direita
+            pac_pos_x <= PAC_START_X;
+            pac_pos_y <= PAC_START_Y;
+            pac_cur_dir <= 1; --inicializa direcao para direita
         ELSIF (clk27M'event and clk27M = '1') THEN
-            IF (estado = atualiza) THEN
-                IF (pac_cel = '.' or pac_cel = '2') THEN --atualiza posicao
-                    pos_x := pos_x + DIRS(cur_dir)(1);
-                    pos_y := pos_y + DIRS(cur_dir)(0);
+            IF (estado = ATUALIZA_LOGICA) THEN
+                IF (nxt_cel = '.' or nxt_cel = '2') THEN --atualiza posicao
+                    pac_pos_x <= pac_pos_x + DIRS(pac_cur_dir)(1);
+                    pac_pos_y <= pac_pos_y + DIRS(pac_cur_dir)(0);
                 END IF;
                 
-                IF (pac_cel = '2') THEN --checa se obteve moeda
-                    mapa(pos_y, pos_x) <= '.';
+                IF (nxt_cel = '2') THEN --checa se obteve moeda                    
                     got_coin <= '1';
+                    mem_write_cel <= ' ';
                 ELSE
                     got_coin <= '0';
                 END IF;
                 
-                IF (key_pac_dir = '0' and pac_dir = '.') THEN --atualiza direcao
-                    cur_dir := dir_dir;
-                ELSIF (key_pac_esq = '0' and pac_esq = '.') THEN
-                    cur_dir := esq_dir;
+                --atualizar direcao do pacman
+                IF (key_pac_dir = '1' and dir_cel = '.') THEN 
+                    pac_cur_dir <= dir_dir;
+                ELSIF (key_pac_esq = '1' and esq_cel = '.') THEN
+                    pac_cur_dir <= esq_dir;
                 END IF;
             END IF;
         END IF;
-        
-        --Sinais para desenho do pacman na tela
-        y_offset := line-pos_y+2;
-        x_offset := col-pos_x+2;
+	END PROCESS;
+	
+	-- purpose: Processo para que gera sinais de desenho de 
+	--			overlay (ie, sobre o fundo) do pacman e dos fantasmas 
+    -- type   : sequential
+    -- inputs : pac_cur_dir, pac_pos_x, pac_pos_y
+    -- outputs: overlay, ovl_color
+	des_overlay: PROCESS (clk27M, pac_pos_x, pac_pos_y, pac_cur_dir, line, col)
+		VARIABLE x_offset, y_offset: INTEGER range -TAB_LEN to TAB_LEN;
+    BEGIN
+        --Sinais para desenho do pacman na tela durante CONSTROI_QUADRO
+        y_offset := line - pac_pos_y + 2;
+        x_offset := col - pac_pos_x + 2;
         
         IF (clk27M'event and clk27M = '1') THEN
             IF (x_offset>=0 and x_offset<5 and 
                 y_offset>=0 and y_offset<5) THEN
                 
                 overlay <= '1';  --desenha camada sobre o cenario
-                IF (PAC_BITMAPS(cur_dir)(y_offset, x_offset) = '1') THEN
+                IF (PAC_BITMAPS(pac_cur_dir)(y_offset, x_offset) = '1') THEN
                     ovl_color <= "110"; --amarelo
                 ELSE
 					ovl_color <= "000"; --cor de fundo
@@ -287,9 +245,9 @@ BEGIN
     -----------------------------------------------------------------------------
 
     pixel <= ovl_color WHEN overlay = '1'
-    ELSE     COLORS(1) WHEN mapa(line,col) = '1'
-    ELSE     COLORS(2) WHEN mapa(line,col) = '2'
-    ELSE     COLORS(3) WHEN mapa(line,col) = '3'
+    ELSE     COLORS(1) WHEN mem_area(0,0) = '1'
+    ELSE     COLORS(2) WHEN mem_area(0,0) = '2'
+    ELSE     COLORS(3) WHEN mem_area(0,0) = '3'
     ELSE     COLORS(0);
 
     addr  <= col + (SCR_WDT * line); -- O endereço de memória a ser escrito
@@ -305,13 +263,13 @@ BEGIN
     -- inputs : estado, fim_escrita, timer
     -- outputs: pr_estado, atualiza_pos_x, atualiza_pos_y, line_rstn,
     --          line_enable, col_rstn, col_enable, we, timer_enable, timer_rstn
-    logica_mealy: PROCESS (estado, fim_escrita, timer)
+    logica_mealy: PROCESS (estado, fim_escrita, fim_memarea, timer)
     BEGIN
         case estado is
-        when inicio  => IF timer = '1' THEN              
-                            pr_estado <= constroi_quadro;
+        when INICIO  => IF timer = '1' THEN              
+                            pr_estado <= CONSTROI_QUADRO;
                         ELSE
-                            pr_estado <= inicio;
+                            pr_estado <= INICIO;
                         END IF;
                         line_rstn      <= '0';  -- reset é active low!
                         line_enable    <= '0';
@@ -321,29 +279,51 @@ BEGIN
                         timer_rstn     <= '1';  -- reset é active low!
                         timer_enable   <= '1';
 
-        when constroi_quadro => IF fim_escrita = '1' THEN
-                            pr_estado <= atualiza;
+        when CONSTROI_QUADRO => IF (fim_escrita = '1') THEN
+                            pr_estado <= MEMORIA_RD;
                         ELSE
-                            pr_estado <= constroi_quadro;
+                            pr_estado <= CONSTROI_QUADRO;
                         END IF;
                         line_rstn      <= '1';
                         line_enable    <= '1';
                         col_rstn       <= '1';
                         col_enable     <= '1';
                         we             <= '1';
-                        timer_rstn     <= '0'; 
+                        timer_rstn     <= '0';
                         timer_enable   <= '0';
 
-        when atualiza => pr_estado <= inicio;
+        when MEMORIA_RD => IF (fim_memarea = '1') THEN
+							pr_estado <= ATUALIZA_LOGICA;
+						ELSE
+							pr_estado <= MEMORIA_RD;
+						END IF;
                         line_rstn      <= '1';
+                        line_enable    <= '1';
+                        col_rstn       <= '1';
+                        col_enable     <= '1';
+                        we             <= '0';
+                        timer_rstn     <= '0';
+                        timer_enable   <= '0';
+                        
+        when ATUALIZA_LOGICA => pr_estado <= MEMORIA_WR;
+						line_rstn      <= '1';
                         line_enable    <= '0';
                         col_rstn       <= '1';
                         col_enable     <= '0';
                         we             <= '0';
-                        timer_rstn     <= '0'; 
+                        timer_rstn     <= '0';
                         timer_enable   <= '0';
-
-        when others  => pr_estado <= inicio;
+      
+        when MEMORIA_WR => pr_estado <= INICIO;
+						line_rstn      <= '1';
+                        line_enable    <= '0';
+                        col_rstn       <= '1';
+                        col_enable     <= '0';
+                        we             <= '0';
+                        timer_rstn     <= '0';
+                        timer_enable   <= '0';
+                        
+		when others  => pr_estado <= INICIO;
                         line_rstn      <= '1';
                         line_enable    <= '0';
                         col_rstn       <= '1';
@@ -361,7 +341,7 @@ BEGIN
     seq_fsm: PROCESS (clk27M, rstn)
     BEGIN  -- PROCESS seq_fsm
         IF rstn = '0' THEN                  -- asynchronous reset (active low)
-            estado <= inicio;
+            estado <= INICIO;
         elsif clk27M'event and clk27M = '1' THEN  -- rising clock edge
             estado <= pr_estado;
         END IF;
