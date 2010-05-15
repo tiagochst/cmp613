@@ -67,6 +67,10 @@ set_location_assignment PIN_C9 -to red[1]
 set_location_assignment PIN_D9 -to red[0]
 set_location_assignment PIN_R22 -to reset_button
 set_location_assignment PIN_B11 -to vsync
+set_global_assignment -name VHDL_FILE kbd/kbd_key.vhd
+set_global_assignment -name VHDL_FILE kbd/kbdex_ctrl.vhd
+set_global_assignment -name VHDL_FILE kbd/player_dir.vhd
+set_global_assignment -name VHDL_FILE kbd/ps2_iobase.vhd
 set_global_assignment -name MIF_FILE vga_mem.mif
 set_global_assignment -name VHDL_FILE counter.vhd
 set_global_assignment -name VHDL_FILE pacman.vhd
