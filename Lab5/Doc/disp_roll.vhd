@@ -12,7 +12,8 @@ END ENTITY disp_roll;
 
 ARCHITECTURE rtl of disp_roll IS
   SIGNAL ld:STD_LOGIC; -- tecla pressionada?
-  SIGNAL key,key0,key1,key2,key3: STD_LOGIC_VECTOR(6 downto 0):= "1111111";
+  SIGNAL key,key0,key1,key2,
+         key3: STD_LOGIC_VECTOR(6 downto 0):= "1111111";
 
   COMPONENT buff IS
     PORT (clk, d: IN STD_LOGIC;

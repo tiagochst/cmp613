@@ -621,10 +621,6 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset Graphics
 	filename sim_somsub.PNG
 	width 100text%
@@ -643,10 +639,6 @@ Simulação do somador/subtrator serial
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -724,9 +716,17 @@ Questão 3
 \end_layout
 
 \begin_layout Standard
-Projetamos, usando VHDL, um dado eletrônico que mostre aleatoriamente valores
- de 1 a 6 no display de 7 segmentos sempre que se pressionar um push button.Para
- isso criamos um contador de 1 a 6 incrementado por um clock de alta frequência.
+Projetamos, usando VHDL, um dado eletrônico que mostra aleatoriamente valores
+ de 1 a 6 no display de 7 segmentos sempre que se pressionar um 
+\emph on
+push button
+\emph default
+.
+ Isso prescindiu de alguma forma para obter um número aleatório.
+ Para isso, a solução (simples) usada foi criar um contador de 1 a 6 alimentado
+ por um clock de alta frequência.
+ Cada vez que o usuário pressiona o botão, é registrado um evento de amostragem
+ do contador a ser realizado em seguida.
 \end_layout
 
 \begin_layout Standard
@@ -738,10 +738,10 @@ reference "tab:Frequência-dos-valores"
 
 \end_inset
 
-.Esperavasse uma frequência próxima a 16,67% , que não foi alcançada por
- nenhuma face.
- Em média os valores chegaram a ser aleatórios, contudo o valor 1 teve uma
- frequência um pouco maior que o esperado.
+.
+ Esperava-se uma frequência próxima a 16,67%.
+ Em média, os valores podem ser considerados aleatórios, contudo, o valor
+ 1 teve uma frequência um pouco maior que o esperado.
  
 \end_layout
 
@@ -1142,10 +1142,10 @@ O código de
 Hamming
 \emph default
  para correção de erro é bastante útil em transmissão de dados nas quais
- há risco de adulteração em um dos bits.
+ há risco (pequeno) de adulteração em um dos bits.
  Nesse caso, há 4 bits de dados e 3 bits extras são usados para garantir
  a recuperação da informação em caso de falha em no máximo um dos bits (o
- que inclui os próprios bits de codificação).
+ que inclui os próprios 3 bits de codificação).
  Portanto, há oito estados de erro recuperável possíveis (nenhum erro ou
  erro em um dos bits); os três bits (
 \begin_inset Formula $2^{3}$
@@ -1170,9 +1170,10 @@ Hamming
 
 \begin_layout Standard
 A implementação feita apresenta um codificador, cuja saídas podem receber
- adulterações propositais que servirão de entrada para o decodificador que
+ adulterações propositais que comporão a entrada para o decodificador que
  "tentará" reparar o erro.
- Os dados originais e corrigidos serão observados nos leds.
+ Os dados originais já com os bits de codificação e as saídas corrigidas
+ serão observados nos leds.
 \end_layout
 
 \begin_layout Standard
@@ -1391,7 +1392,7 @@ O objetivo central de projeto é propiciar a interação entre teclado e placa
 
 \begin_layout Standard
 Inicialmente, identificamos os valores das teclas de A até Z e de 0 até
- 9 através da utilização dos 4 displays da placa (ver tabela
+ 9 através da utilização dos 4 displays da placa (ver tabela 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:Cod-teclas"
@@ -1405,18 +1406,20 @@ reference "tab:Cod-teclas"
 Posteriormente, implementamos um código de tradução (ver algoritmo 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "alg:disp_roll"
+reference "alg:Deco_char-1"
 
 \end_inset
 
-), no qual, utilizando o display de sete segmentos, mostramos a tecla decodifica
-da.
+), no qual, utilizando o display de sete segmentos, mostramos um desenho
+ representativo da tecla decodificada.
+ Note que, devido a simplicidade do display, algumas letras não puderam
+ ser representadas muito bem e outras ficaram com desenhos iguais.
 \end_layout
 
 \begin_layout Standard
 Utilizando a implementação de decodificação, tranformou-se os displays em
- uma tela dinâmica, alterando os valores quando novas teclas fossem digitadas
- (valores antigos eram rolados para o display da esquerda).
+ uma "tela dinâmica", deslocando os valores registrados quando novas teclas
+ fossem digitadas (valores antigos eram transferidos para o display da esquerda).
  
 \end_layout
 
@@ -1471,7 +1474,7 @@ end{multicols}
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Decodificador teclado
+Códigos de tradução do teclado
 \begin_inset CommandInset label
 LatexCommand label
 name "alg:Deco_char-1"
@@ -2376,77 +2379,6 @@ begin{multicols}{2}
 \size scriptsize
 \begin_inset CommandInset include
 LatexCommand verbatiminput
-filename "buff.vhd"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{multicols}
-\end_layout
-
-\end_inset
-
-
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Sincronização dos botões de entrada usando máquina de estados
-\begin_inset CommandInset label
-LatexCommand label
-name "alg:buff"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float algorithm
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{multicols}{2}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\size scriptsize
-\begin_inset CommandInset include
-LatexCommand verbatiminput
 filename "kbd_key_q5c.vhd"
 
 \end_inset
@@ -2493,6 +2425,42 @@ name "alg:buff-1"
 
 \begin_layout Section*
 Conclusão
+\end_layout
+
+\begin_layout Standard
+Esse laboratório versou sobre circuitos de aplicações diversas, portanto
+ não há conclusões gerais a serem feitas.
+ No entanto, algumas considerações interessantes podem ser listadas.
+\end_layout
+
+\begin_layout Standard
+O medidor do tempo de reação da 1ª questão envolveu uma máquina com vários
+ estados, cujas transições não eram sempre instantâneas, mas de certo intervalo
+ de tempo.
+ Isso exigiu contadores de vários bits para contar de um a dois segundos.
+ Para obter o tempo do contador em centésimos de segundo, foram usadas operações
+ de divisão ("/") e módulo ("%") em VHDL, o que se mostrou dispendioso no
+ número de células lógicas, porém com uma implementação mais simples.
+\end_layout
+
+\begin_layout Standard
+Nessa mesma questão e na 3ª, foi necessário o desenvolvimento de um gerador
+ de números aleatórios.
+ Foi usado simples um contador operado em alta frequência mas que pareceu
+ adequado às necessidades, afinal a distribuição de frequências para o lançament
+o de um dado mostrou-se bem comportada.
+\end_layout
+
+\begin_layout Standard
+Na 2ª questão explorou-se novamente um componente aritmético mas, nesse
+ caso, operado por sinais de controle e em vários ciclos de 
+\emph on
+clock.
+ 
+\emph default
+A 4ª questão foi simples mas com uma temática importante de correção de
+ erros: uma codificação que permite recuperação integral dos dados em caso
+ de adulteração de um dos bits.
 \end_layout
 
 \end_body
