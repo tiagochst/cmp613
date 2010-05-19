@@ -19,6 +19,7 @@ ARCHITECTURE behav OF somsub IS
   SIGNAL cin: STD_LOGIC; --carry ou borrow
   SIGNAL opr: STD_LOGIC; --modo de operação amostrado
                          --no início da conta
+  SIGNAL last_xa, last_xb: STD_LOGIC;
 BEGIN
 
   -- Transições da Máquina de Estados
@@ -49,6 +50,8 @@ BEGIN
           END IF;
           
           IF (run_bit = 7) THEN --termino do calculo
+            last_xa <= xa;
+            last_xb <= xb xor (not opr); --xb c/ sinal de soma
             state <= idle;
           ELSE
             run_bit <= run_bit + 1;
@@ -64,7 +67,8 @@ BEGIN
   BEGIN
     CASE (state) IS
       WHEN idle =>
-        ovf <= cin;
+        ovf <= (res(7) and not last_xa and not last_xb) or 
+               (not res(7) and last_xa and last_xb);
         stb <= '1';
       WHEN run =>
         ovf <= '0';

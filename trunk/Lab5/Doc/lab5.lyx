@@ -569,11 +569,20 @@ armazenado.
 \series bold
 idle 
 \series default
-e o último 
+e são armazenados os últimos bits 
+\begin_inset Formula $x_{a}$
+\end_inset
+
+ e 
+\begin_inset Formula $x_{b}$
+\end_inset
+
+ para cálculo dos casos de 
 \emph on
-carry 
+overflow
 \emph default
-representa o overflow.
+ para complemento de 2: dois positivos somando um negativo ou dois negativos
+ somando um negativo.
 \end_layout
 
 \begin_layout Standard
