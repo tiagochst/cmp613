@@ -1,0 +1,81 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2010 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 0 0 224 160)
+	(text "ram_init" (rect 89 -1 143 15)(font "Arial" (font_size 10)))
+	(text "inst" (rect 8 144 25 156)(font "Arial" ))
+	(port
+		(pt 0 48)
+		(input)
+		(text "init" (rect 0 0 15 14)(font "Arial" (font_size 8)))
+		(text "init" (rect 4 35 19 48)(font "Arial" (font_size 8)))
+		(line (pt 0 48)(pt 48 48)(line_width 1))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "clock" (rect 0 0 29 14)(font "Arial" (font_size 8)))
+		(text "clock" (rect 4 51 27 64)(font "Arial" (font_size 8)))
+		(line (pt 0 64)(pt 48 64)(line_width 1))
+	)
+	(port
+		(pt 224 48)
+		(output)
+		(text "dataout[3..0]" (rect 0 0 70 14)(font "Arial" (font_size 8)))
+		(text "dataout[3..0]" (rect 161 35 221 48)(font "Arial" (font_size 8)))
+		(line (pt 224 48)(pt 112 48)(line_width 3))
+	)
+	(port
+		(pt 224 64)
+		(output)
+		(text "ram_address[13..0]" (rect 0 0 110 14)(font "Arial" (font_size 8)))
+		(text "ram_address[13..0]" (rect 127 51 216 64)(font "Arial" (font_size 8)))
+		(line (pt 224 64)(pt 112 64)(line_width 3))
+	)
+	(port
+		(pt 224 80)
+		(output)
+		(text "ram_wren" (rect 0 0 59 14)(font "Arial" (font_size 8)))
+		(text "ram_wren" (rect 171 67 217 80)(font "Arial" (font_size 8)))
+		(line (pt 224 80)(pt 112 80)(line_width 1))
+	)
+	(port
+		(pt 224 96)
+		(output)
+		(text "init_busy" (rect 0 0 50 14)(font "Arial" (font_size 8)))
+		(text "init_busy" (rect 178 83 220 96)(font "Arial" (font_size 8)))
+		(line (pt 224 96)(pt 112 96)(line_width 1))
+	)
+	(drawing
+		(text "Initialization mode: Init data file" (rect 94 113 224 125)(font "Arial" ))
+		(text "Init data file: pacman.mif" (rect 118 129 224 141)(font "Arial" ))
+		(text "Number of words: 12288" (rect 121 145 224 157)(font "Arial" ))
+		(line (pt 48 32)(pt 112 32)(line_width 1))
+		(line (pt 112 32)(pt 112 112)(line_width 1))
+		(line (pt 48 112)(pt 112 112)(line_width 1))
+		(line (pt 48 32)(pt 48 112)(line_width 1))
+		(line (pt 0 0)(pt 224 0)(line_width 1))
+		(line (pt 224 0)(pt 224 160)(line_width 1))
+		(line (pt 0 160)(pt 224 160)(line_width 1))
+		(line (pt 0 0)(pt 0 160)(line_width 1))
+	)
+)
