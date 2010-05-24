@@ -211,6 +211,11 @@ begin  -- comportamento
   -- o pixel é preto.
   
   atualiza_cor: PROCESS (clk27M, rstn, cor)
+    type direcao_t_x is (direita, esquerda);
+    type direcao_t_y is (desce,cima);
+    variable direcao_x : direcao_t_x := direita;
+    variable direcao_y : direcao_t_y := desce;
+
 	VARIABLE nxt_cor: UNSIGNED(2 downto 0);
   BEGIN
 	IF (cor = "111") THEN
@@ -222,13 +227,27 @@ begin  -- comportamento
     IF (rstn = '0') THEN
        cor <= "001";
     ELSIF (clk27M'event and clk27M = '1') THEN
-		IF (atualiza_pos_x = '1') THEN
-			IF (pos_x = 0 or pos_x = 127) THEN
-				cor <= nxt_cor;
+		IF (atualiza_pos_y = '1' ) THEN
+			IF (pos_y = 0 and direcao_y = cima) THEN
+				direcao_y := desce;
+				IF(pos_x /= 127 and pos_x /= 0)THEN
+					cor <= nxt_cor;
+				END IF;
+			ELSIF (pos_y = 95 and direcao_y = desce) THEN
+				direcao_y := cima;
+				IF(pos_x /= 127 and pos_x /= 0)THEN
+					cor <= nxt_cor;
+				END IF;
 			END IF;
-		ELSIF (atualiza_pos_y = '1') THEN
-			IF (pos_y = 0 or pos_y = 95) THEN
+		END IF;
+	
+		IF (atualiza_pos_x = '1') THEN
+			IF (pos_x = 0 and direcao_x = esquerda ) THEN
 				cor <= nxt_cor;
+				direcao_x:=direita;
+			ELSIF (pos_x = 127 and direcao_x = direita) THEN
+				cor <= nxt_cor;
+				direcao_x := esquerda;
 			END IF;
 		END IF;
 	END IF;
