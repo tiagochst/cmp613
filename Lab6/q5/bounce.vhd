@@ -354,7 +354,9 @@ begin  -- comportamento
   -- outputs: estado
   seq_fsm: process (clk27M, rstn)
   begin  -- process seq_fsm
-    if rstn = '0' then                  -- asynchronous reset (active low)
+    if reset_button ='0' then
+      estado <= apaga_quadro;
+    elsif rstn = '0' then                  -- asynchronous reset (active low)
       estado <= show_splash;
     elsif clk27M'event and clk27M = '1' then  -- rising clock edge
       estado <= proximo_estado;
@@ -414,6 +416,11 @@ begin  -- comportamento
       rstn <= temp;
       temp := reset_button;      
     end if;
-  end process build_rstn;
+ end process build_rstn;
 
 end comportamento;
+
+--erase_screen: process (clk27M,reset_button)
+
+--end process erase_screen;
+  
