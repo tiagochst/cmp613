@@ -152,6 +152,7 @@ begin  -- comportamento
     variable direcao : direcao_t := direita;
   begin  -- process p_atualiza_pos_x
     if rstn = '0' then                  -- asynchronous reset (active low)
+	  direcao := direita;
       pos_x <= 0;
     elsif clk27M'event and clk27M = '1' then  -- rising clock edge
       if atualiza_pos_x = '1' then
@@ -182,6 +183,7 @@ begin  -- comportamento
     variable direcao : direcao_t := desce;
   begin  -- process p_atualiza_pos_x
     if rstn = '0' then                  -- asynchronous reset (active low)
+      direcao:=desce;
       pos_y <= 0;
     elsif clk27M'event and clk27M = '1' then  -- rising clock edge
       if atualiza_pos_y = '1' then
@@ -226,6 +228,8 @@ begin  -- comportamento
   
     IF (rstn = '0') THEN
        cor <= "001";
+       direcao_y := desce;
+       direcao_x := direita; 
     ELSIF (clk27M'event and clk27M = '1') THEN
 		IF (atualiza_pos_y = '1' ) THEN
 			IF (pos_y = 0 and direcao_y = cima) THEN
@@ -279,8 +283,8 @@ begin  -- comportamento
   begin  -- process logica_mealy
     case estado is
       when apaga_quadro => if fim_escrita = '1' then
-                               proximo_estado <= inicio;
-                             else
+                             proximo_estado <= inicio;
+                            else
                                proximo_estado <= apaga_quadro;
                              end if;
                              atualiza_pos_x <= '0';
@@ -292,6 +296,7 @@ begin  -- comportamento
                              we             <= '1';
                              timer_rstn     <= '0'; 
                              timer_enable   <= '0';
+
                              
       when inicio         => if timer = '1' then              
                                proximo_estado <= constroi_quadro;
@@ -352,7 +357,7 @@ begin  -- comportamento
   -- type   : sequential
   -- inputs : clk27M, rstn, proximo_estado
   -- outputs: estado
-  seq_fsm: process (clk27M, rstn)
+  seq_fsm: process (clk27M, rstn,reset_button)
   begin  -- process seq_fsm
     if reset_button ='0' then
       estado <= apaga_quadro;
@@ -419,8 +424,3 @@ begin  -- comportamento
  end process build_rstn;
 
 end comportamento;
-
---erase_screen: process (clk27M,reset_button)
-
---end process erase_screen;
-  
