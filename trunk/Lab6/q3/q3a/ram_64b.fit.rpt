@@ -1,5 +1,5 @@
 Fitter report for ram_64b
-Thu May 27 18:37:38 2010
+Thu May 27 18:43:49 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -61,7 +61,7 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Fitter Summary                                                                    ;
 +------------------------------------+----------------------------------------------+
-; Fitter Status                      ; Successful - Thu May 27 18:37:38 2010        ;
+; Fitter Status                      ; Successful - Thu May 27 18:43:49 2010        ;
 ; Quartus II Version                 ; 9.1 Build 304 01/25/2010 SP 1 SJ Web Edition ;
 ; Revision Name                      ; ram_64b                                      ;
 ; Top-level Entity Name              ; ram_64B                                      ;
@@ -1113,7 +1113,7 @@ Note: Fitter may spread logical memories into multiple blocks to improve timing.
 Info: *******************************************************************
 Info: Running Quartus II Fitter
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Thu May 27 18:37:30 2010
+    Info: Processing started: Thu May 27 18:43:41 2010
 Info: Command: quartus_fit --read_settings_files=off --write_settings_files=off ram_64b -c ram_64b
 Info: Selected device EP2C20F484C7 for design "ram_64b"
 Info: Low junction temperature is 0 degrees C
@@ -1214,7 +1214,7 @@ Info: Design uses memory blocks. Violating setup or hold times of memory block a
 Warning: The Reserve All Unused Pins setting has not been specified, and will default to 'As output driving ground'.
 Info: Quartus II Fitter was successful. 0 errors, 4 warnings
     Info: Peak virtual memory: 215 megabytes
-    Info: Processing ended: Thu May 27 18:37:38 2010
+    Info: Processing ended: Thu May 27 18:43:49 2010
     Info: Elapsed time: 00:00:08
     Info: Total CPU time (on all processors): 00:00:09
 
