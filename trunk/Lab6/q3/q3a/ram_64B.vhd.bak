@@ -67,7 +67,7 @@ END PROCESS;
 --END PROCESS;
 
 	cpm_ram_inst : cpm_ram PORT MAP (
-		clk,data_sig,address_sig,rden_sig,address_sig,wren_sig,
+		clock_sig,data_sig,address_sig,rden_sig,address_sig,wren_sig,
 		output
 	);
 
