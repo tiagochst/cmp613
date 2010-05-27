@@ -1,5 +1,5 @@
 Analysis & Synthesis report for ram_64b
-Wed May 26 17:38:33 2010
+Wed May 26 23:24:13 2010
 Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
 
 
@@ -13,12 +13,13 @@ Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
   5. Analysis & Synthesis Source Files Read
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
-  8. General Register Statistics
-  9. Source assignments for newram:newram_inst|altsyncram:altsyncram_component|altsyncram_3sa1:auto_generated
- 10. Parameter Settings for User Entity Instance: newram:newram_inst|altsyncram:altsyncram_component
- 11. altsyncram Parameter Settings by Entity Instance
- 12. Port Connectivity Checks: "newram:newram_inst"
- 13. Analysis & Synthesis Messages
+  8. Analysis & Synthesis RAM Summary
+  9. General Register Statistics
+ 10. Source assignments for newram:newram_inst|altsyncram:altsyncram_component|altsyncram_3sa1:auto_generated
+ 11. Parameter Settings for User Entity Instance: newram:newram_inst|altsyncram:altsyncram_component
+ 12. altsyncram Parameter Settings by Entity Instance
+ 13. Port Connectivity Checks: "newram:newram_inst"
+ 14. Analysis & Synthesis Messages
 
 
 
@@ -44,7 +45,7 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                      ;
 +------------------------------------+----------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed May 26 17:38:32 2010        ;
+; Analysis & Synthesis Status        ; Successful - Wed May 26 23:24:13 2010        ;
 ; Quartus II Version                 ; 9.1 Build 304 01/25/2010 SP 1 SJ Web Edition ;
 ; Revision Name                      ; ram_64b                                      ;
 ; Top-level Entity Name              ; ram_64B                                      ;
@@ -53,9 +54,9 @@ applicable agreement for further details.
 ;     Total combinational functions  ; 0                                            ;
 ;     Dedicated logic registers      ; 0                                            ;
 ; Total registers                    ; 0                                            ;
-; Total pins                         ; 32                                           ;
+; Total pins                         ; 26                                           ;
 ; Total virtual pins                 ; 0                                            ;
-; Total memory bits                  ; 0                                            ;
+; Total memory bits                  ; 512                                          ;
 ; Embedded Multiplier 9-bit elements ; 0                                            ;
 ; Total PLLs                         ; 0                                            ;
 +------------------------------------+----------------------------------------------+
@@ -183,18 +184,35 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;     -- Dedicated logic registers            ; 0     ;
 ;     -- I/O registers                        ; 0     ;
 ;                                             ;       ;
-; I/O pins                                    ; 32    ;
+; I/O pins                                    ; 26    ;
+; Total memory bits                           ; 512   ;
+; Maximum fan-out node                        ; wren  ;
+; Maximum fan-out                             ; 8     ;
+; Total fan-out                               ; 80    ;
+; Average fan-out                             ; 2.35  ;
 +---------------------------------------------+-------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                         ;
-+----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+--------------+
-; Compilation Hierarchy Node ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name ; Library Name ;
-+----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+--------------+
-; |ram_64B                   ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 32   ; 0            ; |ram_64B            ; work         ;
-+----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+--------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                               ;
++-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------+--------------+
+; Compilation Hierarchy Node                ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                        ; Library Name ;
++-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------+--------------+
+; |ram_64B                                  ; 0 (0)             ; 0 (0)        ; 512         ; 0            ; 0       ; 0         ; 26   ; 0            ; |ram_64B                                                                                   ; work         ;
+;    |newram:newram_inst|                   ; 0 (0)             ; 0 (0)        ; 512         ; 0            ; 0       ; 0         ; 0    ; 0            ; |ram_64B|newram:newram_inst                                                                ;              ;
+;       |altsyncram:altsyncram_component|   ; 0 (0)             ; 0 (0)        ; 512         ; 0            ; 0       ; 0         ; 0    ; 0            ; |ram_64B|newram:newram_inst|altsyncram:altsyncram_component                                ;              ;
+;          |altsyncram_3sa1:auto_generated| ; 0 (0)             ; 0 (0)        ; 512         ; 0            ; 0       ; 0         ; 0    ; 0            ; |ram_64B|newram:newram_inst|altsyncram:altsyncram_component|altsyncram_3sa1:auto_generated ;              ;
++-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis RAM Summary                                                                                                                                                            ;
++----------------------------------------------------------------------------------------------+------+-------------+--------------+--------------+--------------+--------------+------+------+
+; Name                                                                                         ; Type ; Mode        ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size ; MIF  ;
++----------------------------------------------------------------------------------------------+------+-------------+--------------+--------------+--------------+--------------+------+------+
+; newram:newram_inst|altsyncram:altsyncram_component|altsyncram_3sa1:auto_generated|ALTSYNCRAM ; AUTO ; Single Port ; 64           ; 8            ; --           ; --           ; 512  ; None ;
++----------------------------------------------------------------------------------------------+------+-------------+--------------+--------------+--------------+--------------+------+------+
 
 
 +------------------------------------------------------+
@@ -300,13 +318,13 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------------------------------------+----------------------------------------------------+
 
 
-+----------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "newram:newram_inst"                                                                 ;
-+------+--------+----------+-------------------------------------------------------------------------------------+
-; Port ; Type   ; Severity ; Details                                                                             ;
-+------+--------+----------+-------------------------------------------------------------------------------------+
-; q    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-+------+--------+----------+-------------------------------------------------------------------------------------+
++------------------------------------------------+
+; Port Connectivity Checks: "newram:newram_inst" ;
++-------+-------+----------+---------------------+
+; Port  ; Type  ; Severity ; Details             ;
++-------+-------+----------+---------------------+
+; clken ; Input ; Info     ; Stuck at VCC        ;
++-------+-------+----------+---------------------+
 
 
 +-------------------------------+
@@ -315,10 +333,8 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II Analysis & Synthesis
     Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
-    Info: Processing started: Wed May 26 17:38:29 2010
+    Info: Processing started: Wed May 26 23:24:10 2010
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off ram_64b -c ram_64b
-Info: Found 1 design units, including 1 entities, in source file /users/tiago/desktop/mc613/projetos/lab6/q3/componentes/conv_7seg.bdf
-    Info: Found entity 1: conv_7seg
 Info: Found 2 design units, including 1 entities, in source file ram_64b.vhd
     Info: Found design unit 1: ram_64B-behav
     Info: Found entity 1: ram_64B
@@ -326,13 +342,11 @@ Info: Found 2 design units, including 1 entities, in source file newram.vhd
     Info: Found design unit 1: newram-SYN
     Info: Found entity 1: newram
 Info: Elaborating entity "ram_64b" for the top level hierarchy
-Warning (10541): VHDL Signal Declaration warning at ram_64B.vhd(9): used implicit default value for signal "output" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
-Warning (10541): VHDL Signal Declaration warning at ram_64B.vhd(13): used implicit default value for signal "outen" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
-Warning (10541): VHDL Signal Declaration warning at ram_64B.vhd(18): used implicit default value for signal "address_sig" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
-Warning (10541): VHDL Signal Declaration warning at ram_64B.vhd(19): used implicit default value for signal "clock_sig" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
-Warning (10541): VHDL Signal Declaration warning at ram_64B.vhd(21): used implicit default value for signal "data_sig" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
-Warning (10541): VHDL Signal Declaration warning at ram_64B.vhd(22): used implicit default value for signal "wren_sig" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
-Warning (10036): Verilog HDL or VHDL warning at ram_64B.vhd(23): object "q_sig" assigned a value but never read
+Warning (10036): Verilog HDL or VHDL warning at ram_64B.vhd(19): object "address_sig" assigned a value but never read
+Warning (10036): Verilog HDL or VHDL warning at ram_64B.vhd(21): object "clken_sig" assigned a value but never read
+Warning (10036): Verilog HDL or VHDL warning at ram_64B.vhd(22): object "data_sig" assigned a value but never read
+Warning (10036): Verilog HDL or VHDL warning at ram_64B.vhd(23): object "wren_sig" assigned a value but never read
+Warning (10541): VHDL Signal Declaration warning at ram_64B.vhd(24): used implicit default value for signal "output_sig" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
 Info: Elaborating entity "newram" for hierarchy "newram:newram_inst"
 Info: Elaborating entity "altsyncram" for hierarchy "newram:newram_inst|altsyncram:altsyncram_component"
 Info: Elaborated megafunction instantiation "newram:newram_inst|altsyncram:altsyncram_component"
@@ -353,57 +367,17 @@ Info: Instantiated megafunction "newram:newram_inst|altsyncram:altsyncram_compon
 Info: Found 1 design units, including 1 entities, in source file db/altsyncram_3sa1.tdf
     Info: Found entity 1: altsyncram_3sa1
 Info: Elaborating entity "altsyncram_3sa1" for hierarchy "newram:newram_inst|altsyncram:altsyncram_component|altsyncram_3sa1:auto_generated"
-Warning: Synthesized away the following node(s):
-    Warning: Synthesized away the following RAM node(s):
-        Warning (14320): Synthesized away node "newram:newram_inst|altsyncram:altsyncram_component|altsyncram_3sa1:auto_generated|q_a[0]"
-        Warning (14320): Synthesized away node "newram:newram_inst|altsyncram:altsyncram_component|altsyncram_3sa1:auto_generated|q_a[1]"
-        Warning (14320): Synthesized away node "newram:newram_inst|altsyncram:altsyncram_component|altsyncram_3sa1:auto_generated|q_a[2]"
-        Warning (14320): Synthesized away node "newram:newram_inst|altsyncram:altsyncram_component|altsyncram_3sa1:auto_generated|q_a[3]"
-        Warning (14320): Synthesized away node "newram:newram_inst|altsyncram:altsyncram_component|altsyncram_3sa1:auto_generated|q_a[4]"
-        Warning (14320): Synthesized away node "newram:newram_inst|altsyncram:altsyncram_component|altsyncram_3sa1:auto_generated|q_a[5]"
-        Warning (14320): Synthesized away node "newram:newram_inst|altsyncram:altsyncram_component|altsyncram_3sa1:auto_generated|q_a[6]"
-        Warning (14320): Synthesized away node "newram:newram_inst|altsyncram:altsyncram_component|altsyncram_3sa1:auto_generated|q_a[7]"
-Warning: Output pins are stuck at VCC or GND
-    Warning (13410): Pin "output[0]" is stuck at GND
-    Warning (13410): Pin "output[1]" is stuck at GND
-    Warning (13410): Pin "output[2]" is stuck at GND
-    Warning (13410): Pin "output[3]" is stuck at GND
-    Warning (13410): Pin "output[4]" is stuck at GND
-    Warning (13410): Pin "output[5]" is stuck at GND
-    Warning (13410): Pin "output[6]" is stuck at GND
-    Warning (13410): Pin "output[7]" is stuck at GND
-    Warning (13410): Pin "outen[0]" is stuck at GND
-    Warning (13410): Pin "outen[1]" is stuck at GND
-    Warning (13410): Pin "outen[2]" is stuck at GND
-    Warning (13410): Pin "outen[3]" is stuck at GND
-    Warning (13410): Pin "outen[4]" is stuck at GND
-    Warning (13410): Pin "outen[5]" is stuck at GND
-    Warning (13410): Pin "outen[6]" is stuck at GND
-    Warning (13410): Pin "outen[7]" is stuck at GND
-Warning: Design contains 16 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "input[0]"
-    Warning (15610): No output dependent on input pin "input[1]"
-    Warning (15610): No output dependent on input pin "input[2]"
-    Warning (15610): No output dependent on input pin "input[3]"
-    Warning (15610): No output dependent on input pin "input[4]"
-    Warning (15610): No output dependent on input pin "input[5]"
-    Warning (15610): No output dependent on input pin "input[6]"
-    Warning (15610): No output dependent on input pin "input[7]"
-    Warning (15610): No output dependent on input pin "address[0]"
-    Warning (15610): No output dependent on input pin "address[1]"
-    Warning (15610): No output dependent on input pin "address[2]"
-    Warning (15610): No output dependent on input pin "address[3]"
-    Warning (15610): No output dependent on input pin "address[4]"
-    Warning (15610): No output dependent on input pin "address[5]"
-    Warning (15610): No output dependent on input pin "wren"
+Warning: Design contains 2 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "chipen"
-Info: Implemented 32 device resources after synthesis - the final resource count might be different
-    Info: Implemented 16 input pins
-    Info: Implemented 16 output pins
-Info: Quartus II Analysis & Synthesis was successful. 0 errors, 51 warnings
+    Warning (15610): No output dependent on input pin "outen"
+Info: Implemented 34 device resources after synthesis - the final resource count might be different
+    Info: Implemented 18 input pins
+    Info: Implemented 8 output pins
+    Info: Implemented 8 RAM segments
+Info: Quartus II Analysis & Synthesis was successful. 0 errors, 8 warnings
     Info: Peak virtual memory: 218 megabytes
-    Info: Processing ended: Wed May 26 17:38:33 2010
-    Info: Elapsed time: 00:00:04
+    Info: Processing ended: Wed May 26 23:24:13 2010
+    Info: Elapsed time: 00:00:03
     Info: Total CPU time (on all processors): 00:00:04
 
 

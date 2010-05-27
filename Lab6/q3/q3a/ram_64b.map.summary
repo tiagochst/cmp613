@@ -1,4 +1,4 @@
-Analysis & Synthesis Status : Successful - Wed May 26 17:38:32 2010
+Analysis & Synthesis Status : Successful - Wed May 26 23:24:13 2010
 Quartus II Version : 9.1 Build 304 01/25/2010 SP 1 SJ Web Edition
 Revision Name : ram_64b
 Top-level Entity Name : ram_64B
@@ -7,8 +7,8 @@ Total logic elements : 0
     Total combinational functions : 0
     Dedicated logic registers : 0
 Total registers : 0
-Total pins : 32
+Total pins : 26
 Total virtual pins : 0
-Total memory bits : 0
+Total memory bits : 512
 Embedded Multiplier 9-bit elements : 0
 Total PLLs : 0
