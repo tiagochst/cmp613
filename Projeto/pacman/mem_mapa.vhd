@@ -1,154 +1,40 @@
-LIBRARY ieee;
-USE ieee.std_logic_1164.all;
-USE ieee.numeric_std.all;
-USE work.PAC_DEFS.all;
+library ieee;
+use ieee.std_logic_1164.all;
 
-ENTITY mem_mapa IS
-	PORT 
-	(
-		clk		: IN STD_LOGIC;
-		y_cor	: IN INTEGER range 0 to SCR_HGT - 1;
-		x_cor	: IN INTEGER range 0 to SCR_WDT - 1;
-		data	: IN tab_sym;
-		we		: IN STD_LOGIC := '1';
-		q		: OUT tab_sym
-	);
-END mem_mapa;
+entity single_clock_ram is
+  generic (
+    MEMSIZE : natural);  
+  port (
+    clk                         : in  std_logic;  -- support different clocks
+    data_in                     : in  std_logic_vector(2 downto 0);
+    raddr, waddr                : in  integer range 0 to MEMSIZE - 1;  
+    we                          : in  std_logic;  -- write enable
+    data_out                    : out std_logic_vector(2 downto 0));
+end single_clock_ram;
 
-ARCHITECTURE rtl OF mem_mapa IS
-	-- Build a 2-D array type FOR the RAM
-	TYPE memory_t is array(SCR_HGT*SCR_WDT-1 downto 0) of tab_sym;
+architecture behav of single_clock_ram is
+  -- we only want to address (store) MEMSIZE elements 
+  subtype addr is integer range 0 to MEMSIZE - 1;
+  type mem is array (addr) of std_logic_vector(2 downto 0);
+  signal ram_block : mem;
+  -- we don't care with read after write behavior (whether ram reads
+  -- old or new data in the same cycle).
+  attribute ramstyle : string;
+  attribute ramstyle of single_clock_ram : entity is "no_rw_check";
+  attribute ram_init_file : string;
+  attribute ram_init_file of ram_block : signal is "pacman.mif";
 
-	FUNCTION init_ram
-		RETURN memory_t is 
-		variable tmp : memory_t := (others =>' ');
-	BEGIN 
-		--O cenário do jogo é inicializado com todas as moedas e as paredes
-		--As moedas vão sendo removidas dessa estrutura de acordo com o jogo
-		--O pacman e os fantasmas são desenhados separadamente sob essa tela
-		tmp := (
-	"                                                                                                                                "&
-	"                                                                                                                                "&
-	" 1111111111111111111111111111111111111111   1111111111111111111111111111111111111111                                            "&
-	" 1                                      1   1                                      1                                            "&
-	" 1                                      1   1                                      1                                            "& 
-	" 1  2..2..2..2..2..2..2..2..2..2..2..2  1   1  2..2..2..2..2..2..2..2..2..2..2..2  1                                            "&
-	" 1  .              .                 .  1   1  .                 .              .  1                                            "& 
-	" 1  .              .                 .  1   1  .                 .              .  1                                            "&
-	" 1  2  1111111111  2  1111111111111  2  1   1  2  1111111111111  2  1111111111  2  1                                            "& 
-	" 1  .  1        1  .  1           1  .  1   1  .  1           1  .  1        1  .  1                                            "& 
-	" 1  .  1        1  .  1           1  .  1   1  .  1           1  .  1        1  .  1                                            "& 
-	" 1  2  1        1  2  1           1  2  1   1  2  1           1  2  1        1  2  1                                            "& 
-	" 1  .  1        1  .  1           1  .  1   1  .  1           1  .  1        1  .  1                                            "& 
-	" 1  .  1        1  .  1           1  .  1   1  .  1           1  .  1        1  .  1                                            "& 
-	" 1  2  1111111111  2  1111111111111  2  11111  2  1111111111111  2  1111111111  2  1                                            "& 
-	" 1  .              .                 .         .                 .              .  1                                            "& 
-	" 1  .              .                 .         .                 .              .  1                                            "& 
-	" 1  2..2..2..2..2..2..2..2..2..2..2..2..2...2..2..2..2..2..2..2..2..2..2..2..2..2  1                                            "& 
-	" 1  .              .        .                           .        .              .  1                                            "& 
-	" 1  .              .        .                           .        .              .  1                                            "& 
-	" 1  2  1111111111  2  1111  2  11111111111111111111111  2  1111  2  1111111111  2  1                                            "& 
-	" 1  .  1        1  .  1  1  .  1                     1  .  1  1  .  1        1  .  1                                            "& 
-	" 1  .  1        1  .  1  1  .  1                     1  .  1  1  .  1        1  .  1                                            "& 
-	" 1  2  1111111111  2  1  1  2  1111111111   1111111111  2  1  1  2  1111111111  2  1                                            "& 
-	" 1  .              .  1  1  .           1   1           .  1  1  .              .  1                                            "& 
-	" 1  .              .  1  1  .           1   1           .  1  1  .              .  1                                            "& 
-	" 1  2..2..2..2..2..2  1  1  2..2..2..2  1   1  2..2..2..2  1  1  2..2..2..2..2..2  1                                            "& 
-	" 1                 .  1  1           .  1   1  .           1  1  .                 1                                            "& 
-	" 1                 .  1  1           .  1   1  .           1  1  .                 1                                            "& 
-	" 1111111111111111  2  1  1111111111  .  1   1  .  1111111111  1  2  1111111111111111                                            "& 
-	"                1  .  1           1  .  1   1  .  1           1  .  1                                                           "& 
-	"                1  .  1           1  .  1   1  .  1           1  .  1                                                           "& 
-	"                1  2  1  1111111111  .  11111  .  1111111111  1  2  1                                                           "& 
-	"                1  .  1  1           .         .           1  1  .  1                                                           "& 
-	"                1  .  1  1           .         .           1  1  .  1                                                           "& 
-	"                1  2  1  1  .............................  1  1  2  1                                                           "& 
-	"                1  .  1  1  .                           .  1  1  .  1                                                           "& 
-	"                1  .  1  1  .                           .  1  1  .  1                                                           "& 
-	"                1  2  1  1  .  111111111     111111111  .  1  1  2  1                                                           "& 
-	"                1  .  1  1  .  1       1333331       1  .  1  1  .  1                                                           "& 
-	"                1  .  1  1  .  1       1     1       1  .  1  1  .  1                                                           "& 
-	" 1111111111111111  2  1111  .  1  111111     111111  1  .  1111  2  1111111111111111                                            "& 
-	"                   .        .  1  1               1  1  .        .                                                              "& 
-	"                   .        .  1  1               1  1  .        .                                                              "& 
-	" ..................2.........  1  1               1  1  .........2..................                                            "& 
-	"                   .        .  1  1               1  1  .        .                                                              "& 
-	"                   .        .  1  1               1  1  .        .                                                              "& 
-	" 1111111111111111  2  1111  .  1  11111111111111111  1  .  1111  2  1111111111111111                                            "& 
-	"                1  .  1  1  .  1                     1  .  1  1  .  1                                                           "& 
-	"                1  .  1  1  .  1                     1  .  1  1  .  1                                                           "& 
-	"                1  2  1  1  .  11111111111111111111111  .  1  1  2  1                                                           "& 
-	"                1  .  1  1  .                           .  1  1  .  1                                                           "& 
-	"                1  .  1  1  .                           .  1  1  .  1                                                           "& 
-	"                1  2  1  1  .............................  1  1  2  1                                                           "& 
-	"                1  .  1  1  .                           .  1  1  .  1                                                           "& 
-	"                1  .  1  1  .                           .  1  1  .  1                                                           "& 
-	"                1  2  1  1  .  11111111111111111111111  .  1  1  2  1                                                           "& 
-	"                1  .  1  1  .  1                     1  .  1  1  .  1                                                           "& 
-	"                1  .  1  1  .  1                     1  .  1  1  .  1                                                           "& 
-	" 1111111111111111  2  1111  .  1111111111   1111111111  .  1111  2  1111111111111111                                            "& 
-	" 1                 .        .           1   1           .        .                 1                                            "& 
-	" 1                 .        .           1   1           .        .                 1                                            "& 
-	" 1  2..2..2..2..2..2..2..2..2..2..2..2  1   1  2..2..2..2..2..2..2..2..2..2..2..2  1                                            "& 
-	" 1  .              .                 .  1   1  .                 .              .  1                                            "& 
-	" 1  .              .                 .  1   1  .                 .              .  1                                            "& 
-	" 1  2  1111111111  2  1111111111111  2  1   1  2  1111111111111  2  1111111111  2  1                                            "& 
-	" 1  .  1        1  .  1           1  .  1   1  .  1           1  .  1        1  .  1                                            "& 
-	" 1  .  1        1  .  1           1  .  1   1  .  1           1  .  1        1  .  1                                            "& 
-	" 1  2  1111111  1  2  1111111111111  2  11111  2  1111111111111  2  1  1111111  2  1                                            "& 
-	" 1  .        1  1  .                 .         .                 .  1  1        .  1                                            "& 
-	" 1  .        1  1  .                 .         .                 .  1  1        .  1                                            "& 
-	" 1  2..2..2  1  1  2..2..2..2..2..2..2.........2..2..2..2..2..2..2  1  1  2..2..2  1                                            "& 
-	" 1        .  1  1  .        .                           .        .  1  1  .        1                                            "& 
-	" 1        .  1  1  .        .                           .        .  1  1  .        1                                            "& 
-	" 1111111  2  1  1  2  1111  2  11111111111111111111111  2  1111  2  1  1  2  1111111                                            "& 
-	"       1  .  1  1  .  1  1  .  1                     1  .  1  1  .  1  1  .  1                                                  "& 
-	"       1  .  1  1  .  1  1  .  1                     1  .  1  1  .  1  1  .  1                                                  "& 
-	" 1111111  2  1111  2  1  1  2  1111111111   1111111111  2  1  1  2  1111  2  1111111                                            "& 
-	" 1        .        .  1  1  .           1   1           .  1  1  .        .        1                                            "& 
-	" 1        .        .  1  1  .           1   1           .  1  1  .        .        1                                            "& 
-	" 1  2..2..2..2..2..2  1  1  2..2..2..2  1   1  2..2..2..2  1  1  2..2..2..2..2..2  1                                            "& 
-	" 1  .                 1  1           .  1   1  .           1  1                 .  1                                            "& 
-	" 1  .                 1  1           .  1   1  .           1  1                 .  1                                            "& 
-	" 1  2  1111111111111111  1111111111  2  1   1  2  1111111111  1111111111111111  2  1                                            "& 
-	" 1  .  1                          1  .  1   1  .  1                          1  .  1                                            "& 
-	" 1  .  1                          1  .  1   1  .  1                          1  .  1                                            "& 
-	" 1  2  1111111111111111111111111111  2  11111  2  1111111111111111111111111111  2  1                                            "& 
-	" 1  .                                .         .                                .  1                                            "& 
-	" 1  .                                .         .                                .  1                                            "& 
-	" 1  2..2..2..2..2..2..2..2..2..2..2..2..2...2..2..2..2..2..2..2..2..2..2..2..2..2  1                                            "& 
-	" 1                                                                                 1                                            "& 
-	" 1                                                                                 1                                            "& 
-	" 11111111111111111111111111111111111111111111111111111111111111111111111111111111111                                            "& 
-	"                                                                                                                                "& 
-	"                                                                                                                                "& 
-	"                                                                                                                                "
-	);
-		RETURN tmp;
-	END init_ram;	 
+begin  -- behav
 
-	-- Declare the RAM SIGNAL and specify a default value.	Quartus II
-	-- will create a memory initialization file (.mif) based on the 
-	-- default value.
-	SIGNAL ram : memory_t := init_ram;
+  process (clk)
+  begin  -- process write
+    if clk'event and clk = '1' then  -- rising clock edge
+      if (we = '1') then
+        ram_block(waddr) <= data_in;
+      end if;
+      
+      data_out <= ram_block(raddr);
+    end if;
+  end process write;
 
-	-- Register to hold the address for (y,x) coordinates
-	SIGNAL addr_reg, addr : INTEGER range 0 to SCR_HGT*SCR_WDT-1;
-
-BEGIN
-	PROCESS(clk, y_cor, x_cor)
-	BEGIN
-		addr <= y_cor*SCR_WDT + x_cor;
-		
-		IF(rising_edge(clk)) THEN
-			IF(we = '1') THEN
-				ram(addr) <= data;
-			END IF;
-
-			-- Register the address FOR reading
-			addr_reg <= addr;
-		END IF;
-	END PROCESS;
-
-	q <= ram(addr_reg);
-END rtl;
+end behav;

@@ -7,7 +7,9 @@ ENTITY pacman is
   PORT (
     clk27M, reset_button      : in  STD_LOGIC;
     red, green, blue          : out STD_LOGIC_vector(3 downto 0);
-    hsync, vsync              : out STD_LOGIC);
+    hsync, vsync              : out STD_LOGIC;
+    pb0, pb1                  : in STD_LOGIC
+    );
 END pacman;
 
 ARCHITECTURE comportamento of pacman is
@@ -17,7 +19,8 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL we : STD_LOGIC;                          -- write enable ('1' p/ escrita)
     SIGNAL addr : INTEGER 
                   range 0 to SCR_HGT*SCR_WDT-1;     -- ENDereco mem. vga
-    SIGNAL pixel : color3;                          -- valor de cor do pixel
+    SIGNAL block_in, block_out : block3;            -- dados trocados com a mem. vga
+    SIGNAL vga_block_out: block3;
 
     -- Sinais dos contadores de linhas e colunas utilizados para percorrer
     -- as posições da memória de vídeo (pixels) no momento de construir um quadro.
@@ -32,14 +35,14 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL fim_memarea : STD_LOGIC;					-- término da leitura de mem_area
 
     -- Especificação dos tipos e sinais da máquina de estados de controle
-    TYPE estado_t is (SHOW_SPLASH, INICIO, CONSTROI_QUADRO,
-                      MEMORIA_RD, ATUALIZA_LOGICA, MEMORIA_WR);
+    TYPE estado_t is (SHOW_SPLASH, CARREGA_MAPA, INICIO_JOGO, PERCORRE_QUADRO,
+                      ATUALIZA_LOGICA, MEMORIA_WR);
     SIGNAL estado: estado_t := SHOW_SPLASH;
     SIGNAL pr_estado: estado_t := SHOW_SPLASH;
     
     -- Sinais de desenho em overlay sobre o cenário do jogo
     SIGNAL overlay: STD_LOGIC;
-    SIGNAL ovl_color: color3;
+    SIGNAL ovl_in: block3;
 
     -- Sinais para um contador utilizado para atrasar 
     -- a frequência da atualização
@@ -48,34 +51,24 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL timer_rstn, timer_enable : STD_LOGIC;
     
     SIGNAL mem_area: tab_sym_3x3;
-    SIGNAL mem_line: INTEGER range 0 to SCR_HGT-1;
-    SIGNAL mem_col: INTEGER range 0 to SCR_WDT-1;
-    SIGNAL mem_we: STD_LOGIC;
-    SIGNAL mem_write_cel, mem_read_cel: tab_sym;
+	SIGNAL code: tab_sym;
     
     COMPONENT counter IS
 	PORT (clk, rstn, en: IN STD_LOGIC;
 	      max: IN INTEGER;
 	      q: OUT INTEGER);
 	END COMPONENT counter;
-	
-	COMPONENT mem_mapa IS
-	PORT (clk: IN STD_LOGIC;
-		  y_cor: IN INTEGER range 0 to SCR_HGT - 1;
-		  x_cor: IN INTEGER range 0 to SCR_WDT - 1;
-		  data: IN tab_sym;
-		  we: IN STD_LOGIC;
-		  q: OUT tab_sym);
-	END COMPONENT mem_mapa;
 
     -----------------------------------------------------------------------------
     -- Sinais de controle da lógica do jogo
     -----------------------------------------------------------------------------
     SIGNAL got_coin: STD_LOGIC;                     -- informa se obteve moeda no ultimo movimento
-    SIGNAL key_pac_esq, key_pac_dir: STD_LOGIC := '0';     -- sinais síncronos do cursor do usuário
+    SIGNAL key_pac_esq, key_pac_dir: STD_LOGIC;     -- sinais síncronos do cursor do usuário
     SIGNAL pac_pos_x: INTEGER range 0 to TAB_LEN-1 := PAC_START_X;
     SIGNAL pac_pos_y: INTEGER range 0 to TAB_LEN-1 := PAC_START_Y;
     SIGNAL pac_cur_dir: INTEGER range 0 to 3:= 1;
+    SIGNAL esq_dir, dir_dir: INTEGER range 0 to 3 := 3;
+	SIGNAL nxt_cel, dir_cel, esq_cel: tab_sym;
     
 BEGIN
     -- Controlador VGA (resolução 128 colunas por 96 linhas)
@@ -87,15 +80,20 @@ BEGIN
     vga_controller: entity work.vgacon port map (
         clk27M       => clk27M,
         rstn         => '1',
-        red          => red,
-        green        => green,
-        blue         => blue,
+        vga_block    => vga_block_out,
+        data_block   => block_out,
         hsync        => hsync,
         vsync        => vsync,
         write_clk    => clk27M,
         write_enable => we,
         write_addr   => addr,
-        data_in      => pixel);
+        data_in      => block_in,
+        ovl_in       => ovl_in,
+        ovl_we       => overlay);		
+        
+    red   <= RED_CMP(to_integer(unsigned(vga_block_out)));
+	green <= GRN_CMP(to_integer(unsigned(vga_block_out)));
+	blue  <= BLU_CMP(to_integer(unsigned(vga_block_out)));
 
     -----------------------------------------------------------------------------
     -- Contadores de varredura da tela
@@ -123,134 +121,150 @@ BEGIN
     -- podemos avançar para o próximo estado?
     fim_escrita <= '1' WHEN (line = SCR_HGT-1) and (col = SCR_WDT-1)
                    ELSE '0';
-                   
+    
     fim_memarea <= '1' WHEN (line = 2) and (col = 2)
 				  ELSE '0';
 				  
-	-----------------------------------------------------------------------------
-    -- Controladores da RAM que armazena o mapa atual
-    -----------------------------------------------------------------------------
-				  
-	ram_mapa: COMPONENT mem_mapa
-		PORT MAP (clk 	=> clk27M,
-		          y_cor	=> mem_line, x_cor => mem_col,
-		          data => mem_write_cel, 
-		          we => (mem_we and got_coin),
-		          q => mem_read_cel);
-		          
-	mem_line <= pac_pos_y WHEN (estado = ATUALIZA_LOGICA)
-                ELSE line;
-    mem_col  <= pac_pos_x WHEN (estado = ATUALIZA_LOGICA)
-                ELSE col;
-    mem_we   <= '1' WHEN (estado = MEMORIA_WR)
-				ELSE '0';
+	PROCESS (block_out)
+	BEGIN
+		CASE block_out IS
+			WHEN "000"  => code <= ' ';
+			WHEN "001"  => code <= '.';
+			WHEN "010"  => code <= '1';
+			WHEN "011"  => code <= '2';
+			WHEN "100"  => code <= '3';
+			WHEN OTHERS => code <= ' '; 
+		END CASE;
+	END PROCESS;
 	
 	-- purpose: Preenche a matriz 3x3 mem_area no estado MEMORIA_RD
     -- type   : sequential
     -- inputs : clk27M, rstn, mem_area, line, col, estado
     -- outputs: mem_area
-    p_fill_memarea: PROCESS (clk27M, rstn, line, col)
+    p_fill_memarea: PROCESS (clk27M)
+		VARIABLE x_offset, y_offset: INTEGER range -TAB_LEN to TAB_LEN;
 	BEGIN
 		IF (clk27M'event and clk27M='1') THEN
-			IF (estado = MEMORIA_RD) THEN
-				mem_area(line-1, col-1) <= mem_read_cel;
+			IF (estado = PERCORRE_QUADRO) THEN
+				--Leitura atrasada devido ao ciclo de clock da ram
+				y_offset := line - pac_pos_y;
+				x_offset := col - pac_pos_x;
+				IF (x_offset >=0 and x_offset <=2 and y_offset >=-1 and y_offset<=1) THEN
+					mem_area(y_offset, x_offset-1) <= code;
+				END IF;
 			END IF;
 		END IF;
-	END PROCESS; 
+	END PROCESS;
+	
+	--Calcula possíveis parâmetros envolvidos no próximo movimento
+	--do pacman
+	PROCESS (pac_cur_dir, dir_dir, esq_dir, mem_area)
+	BEGIN
+		IF (pac_cur_dir = 3)
+		THEN dir_dir <= 0;
+		ELSE dir_dir <= pac_cur_dir + 1;
+		END IF;
+		
+		IF (pac_cur_dir = 0)
+		THEN esq_dir <= 3;
+		ELSE esq_dir <= pac_cur_dir - 1;
+		END IF;
+		
+		--calcula qual seriam as proximas celulas visitadas pelo pacman
+		nxt_cel <= mem_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1));
+		dir_cel <= mem_area(DIRS(dir_dir)(0),
+		                    DIRS(dir_dir)(1));
+		esq_cel <= mem_area(DIRS(esq_dir)(0),
+		                    DIRS(esq_dir)(1));
+	END PROCESS;
 
     -- purpose: Este processo irá atualizar a posicão do pacman e definir
-    --          suas ações no jogo. Opera nos estados atualiza*
+    --          suas ações no jogo. Opera no estado ATUALIZA_LOGICA
     -- type   : sequential
     -- inputs : clk27M, rstn, mem_area, key_pac_dir, key_pac_esq
     --          pac_cur_dir, pac_pos_x, pac_pos_y
     -- outputs: pac_cur_dir, pac_pos_x, pac_pos_y, got_coin
-    p_atualiza_pacman: PROCESS (clk27M, rstn, key_pac_dir, key_pac_esq, mem_area,
-	                            pac_pos_x, pac_pos_y, pac_cur_dir)
-        VARIABLE esq_dir, dir_dir: INTEGER range 0 to 3 := 3;
-        VARIABLE nxt_cel, dir_cel, esq_cel: tab_sym;
+    p_atualiza_pacman: PROCESS (clk27M, rstn)
+		VARIABLE pb0_old, pb1_old: STD_LOGIC;
+		VARIABLE nxt_move: STD_LOGIC_VECTOR(1 downto 0);
     BEGIN
-		IF (pac_cur_dir = 3)
-		THEN dir_dir := 0;
-		ELSE dir_dir := pac_cur_dir + 1;
-		END IF;
-		
-		IF (pac_cur_dir = 0)
-		THEN esq_dir := 3;
-		ELSE esq_dir := pac_cur_dir - 1;
-		END IF;
-		
-		--calcula qual seriam as proximas celulas visitadas pelo pacman
-		nxt_cel := mem_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1));
-		dir_cel := mem_area(DIRS(dir_dir)(0), DIRS(dir_dir)(1));
-		esq_cel := mem_area(DIRS(esq_dir)(0), DIRS(esq_dir)(1));
-		        
         IF (rstn = '0') THEN
             pac_pos_x <= PAC_START_X;
             pac_pos_y <= PAC_START_Y;
-            pac_cur_dir <= 1; --inicializa direcao para direita
+			pac_cur_dir <= 1; --inicializa direcao para direita
         ELSIF (clk27M'event and clk27M = '1') THEN
             IF (estado = ATUALIZA_LOGICA) THEN
-                IF (nxt_cel = '.' or nxt_cel = '2') THEN --atualiza posicao
+				IF (pb0 = '0' and pb0_old = '1') THEN
+					nxt_move := "01"; --direita
+				ELSIF (pb1 = '0' and pb1_old = '1') THEN
+					nxt_move := "10"; --esquerda
+				END IF;
+				
+				IF (nxt_move = "01" and dir_cel = '.') THEN
+					pac_cur_dir <= dir_dir;
+					nxt_move := "00";
+				ELSIF (nxt_move = "10" and esq_cel = '.') THEN
+					pac_cur_dir <= esq_dir;
+					nxt_move := "00";
+                ELSIF (nxt_cel = '.' or nxt_cel = '2') THEN --atualiza posicao
                     pac_pos_x <= pac_pos_x + DIRS(pac_cur_dir)(1);
                     pac_pos_y <= pac_pos_y + DIRS(pac_cur_dir)(0);
                 END IF;
                 
                 IF (nxt_cel = '2') THEN --checa se obteve moeda                    
                     got_coin <= '1';
-                    mem_write_cel <= ' ';
                 ELSE
                     got_coin <= '0';
                 END IF;
-                
-                --atualizar direcao do pacman
-                IF (key_pac_dir = '1' and dir_cel = '.') THEN 
-                    pac_cur_dir <= dir_dir;
-                ELSIF (key_pac_esq = '1' and esq_cel = '.') THEN
-                    pac_cur_dir <= esq_dir;
-                END IF;
+                pb0_old := pb0;
+				pb1_old := pb1;
             END IF;
         END IF;
 	END PROCESS;
 	
 	-- purpose: Processo para que gera sinais de desenho de 
 	--			overlay (ie, sobre o fundo) do pacman e dos fantasmas 
-    -- type   : sequential
-    -- inputs : pac_cur_dir, pac_pos_x, pac_pos_y
-    -- outputs: overlay, ovl_color
-	des_overlay: PROCESS (clk27M, pac_pos_x, pac_pos_y, pac_cur_dir, line, col)
+    -- type   : combinational
+    des_overlay: PROCESS (pac_pos_x, pac_pos_y, pac_cur_dir, estado, line, col)
 		VARIABLE x_offset, y_offset: INTEGER range -TAB_LEN to TAB_LEN;
     BEGIN
-        --Sinais para desenho do pacman na tela durante CONSTROI_QUADRO
+        --Sinais para desenho do pacman na tela durante PERCORRE_QUADRO
         y_offset := line - pac_pos_y + 2;
         x_offset := col - pac_pos_x + 2;
         
-        IF (clk27M'event and clk27M = '1') THEN
-            IF (x_offset>=0 and x_offset<5 and 
-                y_offset>=0 and y_offset<5) THEN
-                
-                overlay <= '1';  --desenha camada sobre o cenario
-                IF (PAC_BITMAPS(pac_cur_dir)(y_offset, x_offset) = '1') THEN
-                    ovl_color <= "110"; --amarelo
-                ELSE
-					ovl_color <= "000"; --cor de fundo
-                END IF;
-            ELSE
-                overlay <= '0';
-            END IF;
-        END IF;
+        if (pac_pos_y = line and pac_pos_x = col) THEN
+			ovl_in <= "101";
+		ELSE
+			ovl_in <= "000";
+		END IF;
+        
+		IF (x_offset>=0 and x_offset<5 and 
+			y_offset>=0 and y_offset<5) THEN                
+			IF (PAC_BITMAPS(pac_cur_dir)(y_offset, x_offset) = '1') THEN
+				ovl_in <= "101";
+			ELSE
+				ovl_in <= "000";
+			END IF;
+		ELSE
+			ovl_in <= "000";
+		END IF;
     END PROCESS;
 
-    -----------------------------------------------------------------------------
-    -- Brilho do pixel
-    -----------------------------------------------------------------------------
-
-    pixel <= ovl_color WHEN overlay = '1'
-    ELSE     COLORS(1) WHEN mem_area(0,0) = '1'
-    ELSE     COLORS(2) WHEN mem_area(0,0) = '2'
-    ELSE     COLORS(3) WHEN mem_area(0,0) = '3'
-    ELSE     COLORS(0);
-
-    addr  <= col + (SCR_WDT * line); -- O endereço de memória a ser escrito
+    -- Define dado que entra na ram
+	def_block_in: PROCESS (estado, addr)
+	BEGIN
+		IF (estado = CARREGA_MAPA) THEN
+			CASE MAPA_INICIAL(addr) IS
+				WHEN ' '    => block_in <= "000";
+				WHEN '.'    => block_in <= "001";
+				WHEN '1' 	=> block_in <= "010";
+				WHEN '2'    => block_in <= "011";
+				WHEN '3'	=> block_in <= "100";
+			END CASE;
+		ELSE	 
+			block_in <= "001";
+		END IF;
+	END PROCESS;
 
     -----------------------------------------------------------------------------
     -- Processos que definem a FSM (finite state machine), nossa máquina
@@ -260,16 +274,32 @@ BEGIN
     -- purpose: Esta é a lógica combinacional que calcula sinais de saída a partir
     --          do estado atual e alguns sinais de entrada (Máquina de Mealy).
     -- type   : combinational
-    -- inputs : estado, fim_escrita, timer
+    -- inputs : estado, fim_escrita, timer, col, line, pac_pos_x, pac_pos_y
     -- outputs: pr_estado, atualiza_pos_x, atualiza_pos_y, line_rstn,
     --          line_enable, col_rstn, col_enable, we, timer_enable, timer_rstn
-    logica_mealy: PROCESS (estado, fim_escrita, fim_memarea, timer)
+    logica_mealy: PROCESS (estado, fim_escrita, fim_memarea, timer, 
+                           col, line, pac_pos_x, pac_pos_y, got_coin)
     BEGIN
         case estado is
-        when INICIO  => IF timer = '1' THEN              
-                            pr_estado <= CONSTROI_QUADRO;
+        when CARREGA_MAPA  => IF (fim_escrita = '1') THEN
+							pr_estado <= INICIO_JOGO;
+						ELSE
+							pr_estado <= CARREGA_MAPA;
+						END IF;
+						line_rstn      <= '1';
+                        line_enable    <= '1';
+                        col_rstn       <= '1';
+                        col_enable     <= '1';
+                        we             <= '1';
+                        timer_rstn     <= '0';
+                        timer_enable   <= '0';
+                        addr           <= col + SCR_WDT*line;
+                        overlay         <= '0';
+                        
+        when INICIO_JOGO  => IF timer = '1' THEN              
+                            pr_estado <= PERCORRE_QUADRO;
                         ELSE
-                            pr_estado <= INICIO;
+                            pr_estado <= INICIO_JOGO;
                         END IF;
                         line_rstn      <= '0';  -- reset é active low!
                         line_enable    <= '0';
@@ -278,25 +308,14 @@ BEGIN
                         we             <= '0';
                         timer_rstn     <= '1';  -- reset é active low!
                         timer_enable   <= '1';
+                        addr           <= 0;
+                        overlay         <= '0';
 
-        when CONSTROI_QUADRO => IF (fim_escrita = '1') THEN
-                            pr_estado <= MEMORIA_RD;
+        when PERCORRE_QUADRO => IF (fim_escrita = '1') THEN
+                            pr_estado <= ATUALIZA_LOGICA;
                         ELSE
-                            pr_estado <= CONSTROI_QUADRO;
+                            pr_estado <= PERCORRE_QUADRO;
                         END IF;
-                        line_rstn      <= '1';
-                        line_enable    <= '1';
-                        col_rstn       <= '1';
-                        col_enable     <= '1';
-                        we             <= '1';
-                        timer_rstn     <= '0';
-                        timer_enable   <= '0';
-
-        when MEMORIA_RD => IF (fim_memarea = '1') THEN
-							pr_estado <= ATUALIZA_LOGICA;
-						ELSE
-							pr_estado <= MEMORIA_RD;
-						END IF;
                         line_rstn      <= '1';
                         line_enable    <= '1';
                         col_rstn       <= '1';
@@ -304,6 +323,8 @@ BEGIN
                         we             <= '0';
                         timer_rstn     <= '0';
                         timer_enable   <= '0';
+                        addr           <= col + SCR_WDT*line;
+                        overlay         <= '1';
                         
         when ATUALIZA_LOGICA => pr_estado <= MEMORIA_WR;
 						line_rstn      <= '1';
@@ -313,24 +334,30 @@ BEGIN
                         we             <= '0';
                         timer_rstn     <= '0';
                         timer_enable   <= '0';
+                        addr		   <= 0;
+                        overlay         <= '0';
       
-        when MEMORIA_WR => pr_estado <= INICIO;
-						line_rstn      <= '1';
+        when MEMORIA_WR => pr_estado <= INICIO_JOGO;
+						line_rstn      <= '0';
                         line_enable    <= '0';
-                        col_rstn       <= '1';
+                        col_rstn       <= '0';
                         col_enable     <= '0';
-                        we             <= '0';
+                        we             <= got_coin; 
                         timer_rstn     <= '0';
                         timer_enable   <= '0';
+                        addr		   <= pac_pos_x + SCR_WDT * pac_pos_y;
+                        overlay         <= '0';
                         
-		when others  => pr_estado <= INICIO;
-                        line_rstn      <= '1';
+		when others  => pr_estado <= CARREGA_MAPA;
+                        line_rstn      <= '0';
                         line_enable    <= '0';
-                        col_rstn       <= '1';
+                        col_rstn       <= '0';
                         col_enable     <= '0';
                         we             <= '0';
                         timer_rstn     <= '1'; 
                         timer_enable   <= '0';
+                        addr           <= 0;
+                        overlay         <= '0';
         END case;
     END PROCESS logica_mealy;
 
@@ -341,7 +368,7 @@ BEGIN
     seq_fsm: PROCESS (clk27M, rstn)
     BEGIN  -- PROCESS seq_fsm
         IF rstn = '0' THEN                  -- asynchronous reset (active low)
-            estado <= INICIO;
+            estado <= SHOW_SPLASH;
         elsif clk27M'event and clk27M = '1' THEN  -- rising clock edge
             estado <= pr_estado;
         END IF;
@@ -375,7 +402,7 @@ BEGIN
     BEGIN  -- PROCESS build_rstn
         IF clk27M'event and clk27M = '1' THEN  -- rising clock edge
             rstn <= temp;
-            temp := reset_button;      
+            temp := reset_button;     
         END IF;
     END PROCESS build_rstn;
     

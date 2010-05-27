@@ -87,8 +87,11 @@ entity vgacon is
                                   NUM_HORZ_PIXELS * NUM_VERT_PIXELS - 1;
     data_in                   : in  std_logic_vector(2 downto 0);
     vga_clk                   : buffer std_logic;       -- Ideally 25.175 MHz
-    red, green, blue          : out std_logic_vector(3 downto 0);
-    hsync, vsync              : out std_logic);
+    vga_block                 : out std_logic_vector(2 downto 0); --at 25.2 MHz
+    data_block                : out std_logic_vector(2 downto 0); --at 27 MHz
+    hsync, vsync              : out std_logic;
+    ovl_in                    : in std_logic_vector(2 downto 0);
+    ovl_we                    : in std_logic);
 end vgacon;
 
 architecture behav of vgacon is
@@ -101,7 +104,7 @@ architecture behav of vgacon is
   -- We only want to address HORZ*VERT pixels in memory
   signal read_addr : integer range 0 to NUM_HORZ_PIXELS * NUM_VERT_PIXELS - 1;
   signal h_drawarea, v_drawarea, drawarea : std_logic;
-  signal data_out : std_logic_vector(2 downto 0);
+  signal vga_data_out, vga_ovl_data_out	  : std_logic_vector(2 downto 0);
 begin  -- behav
 
   -- This is our PLL (Phase Locked Loop) to divide the DE1 27 MHz
@@ -111,7 +114,7 @@ begin  -- behav
   -- This is our dual clock RAM. We use our VGA clock to read contents from
   -- memory (pixel color value). The user of this module may use any clock
   -- to write contents to this memory, modifying pixels individually.
-  vgamem : work.dual_clock_ram
+  vgamem0 : work.dual_clock_ram
   generic map (
     MEMSIZE => NUM_HORZ_PIXELS * NUM_VERT_PIXELS)
   port map (
@@ -120,8 +123,20 @@ begin  -- behav
     read_address   => read_addr,
     write_address  => write_addr,
     data_in        => data_in,
-    data_out       => data_out,
+    rdata_out      => vga_data_out,
+    wdata_out      => data_block,
     we             => write_enable);
+  vgamem1 : work.dual_clock_ram
+  generic map (
+    MEMSIZE => NUM_HORZ_PIXELS * NUM_VERT_PIXELS)
+  port map (
+    read_clk       => vga_clk,
+    write_clk      => write_clk,
+    read_address   => read_addr,
+    write_address  => write_addr,
+    data_in        => ovl_in,
+    rdata_out      => vga_ovl_data_out,
+    we             => ovl_we);
 
   -- purpose: Increments the current horizontal position counter
   -- type   : sequential
@@ -224,10 +239,19 @@ begin  -- behav
   -- Build color signals based on memory output and "drawarea" signal
   -- (if we are not in the drawable area of 640x480, must deassert all
   --  color signals).
-  red   <= (others => data_out(2) and drawarea);
-  green <= (others => data_out(1) and drawarea);
-  blue  <= (others => data_out(0) and drawarea);
-
+  --MODIFICADO--------------
+  PROCESS (vga_data_out, vga_ovl_data_out, drawarea)
+  BEGIN
+    IF (drawarea = '1') THEN
+	  IF (vga_ovl_data_out /= "000") THEN
+        vga_block <= vga_ovl_data_out;
+      ELSE
+        vga_block <= vga_data_out;
+      END IF;
+    ELSE
+      vga_block <= (others => '0');
+    END IF;  
+  END PROCESS;    
 end behav;
 
 
@@ -252,7 +276,7 @@ entity dual_clock_ram is
     data_in                     : in  std_logic_vector(2 downto 0);
     write_address, read_address : in  integer range 0 to MEMSIZE - 1;  
     we                          : in  std_logic;  -- write enable
-    data_out                    : out std_logic_vector(2 downto 0));
+    rdata_out, wdata_out        : out std_logic_vector(2 downto 0));
 
 end dual_clock_ram;
 
@@ -277,11 +301,11 @@ begin  -- behav
   read: process (read_clk)
   begin  -- process read
     if read_clk'event and read_clk = '1' then  -- rising clock edge
-      data_out <= ram_block(read_address);      
+      rdata_out <= ram_block(read_address);      
     end if;
   end process read;
 
-  -- purpose: Writes data to RAM
+  -- purpose: Reads/Writes data to RAM
   -- type   : sequential
   -- inputs : write_clk, write_address
   -- outputs: ram_block
@@ -290,7 +314,8 @@ begin  -- behav
     if write_clk'event and write_clk = '1' then  -- rising clock edge
       if we = '1' then
         ram_block(write_address) <= data_in;
-      end if;      
+      end if;
+      wdata_out <= ram_block(write_address);
     end if;
   end process write;
 
