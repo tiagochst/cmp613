@@ -39,10 +39,10 @@ END COMPONENT ram1p;
 
 
 BEGIN
---write
 PROCESS(clk,wren,rden,chipen)
  BEGIN
 		IF(chipen = '1') THEN
+			--write
 			IF(wren='1' and rden ='0') THEN
 				wren_sig <= '1';
 				rden_sig <= '0';
@@ -59,7 +59,7 @@ PROCESS(clk,wren,rden,chipen)
 		END IF;
 END PROCESS;
 
-PROCESS(q_sig) BEGIN
+PROCESS(q_sig,chipen) BEGIN
 		IF(chipen = '1') THEN
 			output<=q_sig;
 		ELSE
@@ -71,6 +71,5 @@ END PROCESS;
 ram1p_inst : ram1p PORT MAP (
 		clk,input,address,rden_sig,address,wren_sig,q_sig
 	);
-
 END behav;
 
