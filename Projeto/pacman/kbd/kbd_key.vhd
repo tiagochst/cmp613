@@ -13,7 +13,7 @@ ENTITY kbd_key IS
     PS2_DAT : inout STD_LOGIC;                      --   PS2 Data
     PS2_CLK : inout STD_LOGIC;	                    --   PS2 Clock
     ---------------------------Players direction -----------------------
-    p1_dir,p2_dir: OUT STD_LOGIC_VECTOR(1 downto 0)
+    p1_dir,p2_dir: OUT STD_LOGIC_VECTOR(2 downto 0)
     );
 END;
 
@@ -21,7 +21,7 @@ architecture struct of kbd_key is
 
    COMPONENT player_dir is 
       port( code: IN STD_LOGIC_VECTOR(47 downto 0);
-            p1_dir,p2_dir: OUT STD_LOGIC_VECTOR(1 downto 0));
+            p1_dir,p2_dir: OUT STD_LOGIC_VECTOR(2 downto 0));
       END COMPONENT player_dir;
 
   component kbdex_ctrl
