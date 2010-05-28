@@ -65,7 +65,7 @@ PROCESS(q_sig,chipen) BEGIN
 		IF(chipen = '1') THEN
 			output<=q_sig;
 		ELSE
-			output<= (others=>'Z');
+			output<= (others=>'0');
 		END IF;
 END PROCESS;
 

@@ -70,7 +70,7 @@ PROCESS(q_sig,chipen) BEGIN
 END PROCESS;
 
 
-ram1p : ram1p PORT MAP (
+ramp : ram1p PORT MAP (
 		clk,input,address,rden_sig,address,wren_sig,q_sig
 	);
 END behav;
