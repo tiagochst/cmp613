@@ -68,4 +68,7 @@ set_location_assignment PIN_Y18 -to shreg[6]
 set_location_assignment PIN_U18 -to shreg[7]
 set_global_assignment -name FMAX_REQUIREMENT "27 MHz" -section_id clk
 set_instance_assignment -name CLOCK_SETTINGS clk -to clk
+set_global_assignment -name VECTOR_WAVEFORM_FILE pat_shift.vwf
+set_global_assignment -name SIMULATION_MODE FUNCTIONAL
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE pat_shift.vwf
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

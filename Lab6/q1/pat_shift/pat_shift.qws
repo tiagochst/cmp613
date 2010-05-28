@@ -12,7 +12,7 @@ ptn_Child6=Document-5
 [ProjectWorkspace.Frames.ChildFrames.Document-0]
 ptn_Child1=ViewFrame-0
 [ProjectWorkspace.Frames.ChildFrames.Document-0.ViewFrame-0]
-DocPathName=word_detect.vhd
+DocPathName=pat_shift.vhd
 DocumentCLSID={ca385d57-a4c7-11d1-a098-0020affa43f2}
 IsChildFrameDetached=False
 IsActiveChildFrame=False
@@ -22,12 +22,12 @@ AFC_IN_REPORT=False
 [ProjectWorkspace.Frames.ChildFrames.Document-1]
 ptn_Child1=ViewFrame-0
 [ProjectWorkspace.Frames.ChildFrames.Document-1.ViewFrame-0]
-DocPathName=word_detect.vwf
+DocPathName=pat_shift.vwf
 DocumentCLSID={4a9ed22a-e60b-11d1-a0bd-0020affa43f2}
 IsChildFrameDetached=False
 IsActiveChildFrame=False
 ptn_Child1=StateMap
 [ProjectWorkspace.Frames.ChildFrames.Document-1.ViewFrame-0.StateMap]
-AFC_SIM_AP_NAME=word_detect
-AFC_PROJ_DB_PATH=C:/Documents and Settings/marspeople/Desktop/Lab6_novos/q2/db/word_detect.quartus_db
+AFC_SIM_AP_NAME=pat_shift
+AFC_PROJ_DB_PATH=C:/Documents and Settings/marspeople/Desktop/Lab6_novos/q1/pat_shift/db/pat_shift.quartus_db
 AFC_IN_REPORT=False

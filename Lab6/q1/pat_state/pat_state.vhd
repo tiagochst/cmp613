@@ -13,11 +13,14 @@ ENTITY pat_state IS
 END pat_state;
 
 ARCHITECTURE behav OF pat_state IS
+	CONSTANT PAT_LEN: INTEGER := 8;
 	SIGNAL zero, um: STD_LOGIC; --sinais síncronos
 	
-	SIGNAL state_no, nxt_state: INTEGER range 0 to 8 := 0;
-	--estados 0 e 8 correspondem ao primeiro bit, mas
-	--em 8 a sequência acabou de ser encontrada
+	SIGNAL st_no, nxt_st: INTEGER range 0 to PAT_LEN:=0;
+	SIGNAL look_pos: INTEGER range 0 to PAT_LEN-1;
+	--estados 0 e PAT_LEN correspondem ao primeiro bit,
+    --mas no último a sequência acabou de ser encontrada
+	--look_pos é o índice real do próximo bit esperado
 	
 	COMPONENT buff IS
 		PORT (clk, d: IN STD_LOGIC;
@@ -29,35 +32,37 @@ BEGIN
 	bf1: COMPONENT buff
 		PORT MAP (clk, not pb1, um);
 
-	PROCESS (clk, rstn, state_no, zero, um)
+	PROCESS (clk, rstn, st_no, zero, um)
 	BEGIN
 		IF (rstn = '0') THEN
-			state_no <= 0;
+			st_no <= 0;
 		ELSIF (rising_edge(clk)) THEN
 			--Transição da Máquina de Estados
-			IF (zero = '1' and PATT(state_no) = '0') THEN
-				state_no <= nxt_state;
-			ELSIF (um = '1' and PATT(state_no) = '1') THEN
-				state_no <= nxt_state;
+			IF (zero = '1' and PATT(look_pos) = '0') THEN
+				st_no <= nxt_st;
+			ELSIF (um = '1' and PATT(look_pos) = '1') THEN
+				st_no <= nxt_st;
 			ELSIF (zero = '1' or um = '1') THEN
-				state_no <= 0;
+				st_no <= 0;
 			END IF;
 		END IF;
 	END PROCESS;
 	
 	--Saídas e sinais de controle da Máquina de Estados
 	--Calcula próximo estado se a entrada vier correta
-	PROCESS (state_no)
+	PROCESS (st_no)
 	BEGIN
-		CASE state_no IS
-			WHEN 0 to 7 =>
+		CASE st_no IS
+			WHEN 0 to PAT_LEN-1 =>
 				ok <= '0';
-				nxt_state <= state_no + 1;
-			WHEN 8 =>
+				look_pos <= st_no;
+				nxt_st <= st_no + 1;
+			WHEN PAT_LEN =>
 				ok <= '1';
-				nxt_state <= 1;
+				look_pos <= 0;
+				nxt_st <= 1;
 		END CASE;
 	END PROCESS;
 	
-	cur_st <= std_logic_vector(to_unsigned(state_no, 3));
+	cur_st <= std_logic_vector(to_unsigned(st_no, 3));
 END behav;
