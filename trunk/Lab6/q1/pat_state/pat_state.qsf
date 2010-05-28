@@ -66,4 +66,5 @@ set_instance_assignment -name CLOCK_SETTINGS clk -to clk
 set_global_assignment -name VECTOR_WAVEFORM_FILE pat_state.vwf
 set_global_assignment -name SIMULATION_MODE FUNCTIONAL
 set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE pat_state.vwf
+set_global_assignment -name MISC_FILE "C:/Documents and Settings/ra082115/Desktop/Lab6/q1/pat_state/pat_state.dpf"
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

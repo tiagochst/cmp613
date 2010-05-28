@@ -43,10 +43,6 @@ set_global_assignment -name ORIGINAL_QUARTUS_VERSION "9.1 SP1"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "15:33:56  MAY 21, 2010"
 set_global_assignment -name LAST_QUARTUS_VERSION "9.1 SP1"
 set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_blast_fpga
-set_global_assignment -name VHDL_FILE word_detect.vhd
-set_global_assignment -name VHDL_FILE buff.vhd
-set_global_assignment -name BDF_FILE conv_7seg.bdf
-set_global_assignment -name SOURCE_FILE conv_7seg.cmp
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
@@ -55,9 +51,6 @@ set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
 set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
 set_location_assignment PIN_D12 -to clk
-set_location_assignment PIN_U22 -to cur_st[0]
-set_location_assignment PIN_U21 -to cur_st[1]
-set_location_assignment PIN_V22 -to cur_st[2]
 set_location_assignment PIN_R22 -to nxt
 set_location_assignment PIN_Y21 -to ok
 set_location_assignment PIN_T21 -to rstn
@@ -78,7 +71,13 @@ set_instance_assignment -name CLOCK_SETTINGS clk -to clk
 set_global_assignment -name USE_CONFIGURATION_DEVICE ON
 set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
 set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-STATED"
-set_global_assignment -name VECTOR_WAVEFORM_FILE word_detect.vwf
 set_global_assignment -name SIMULATION_MODE FUNCTIONAL
 set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE word_detect.vwf
+set_global_assignment -name VHDL_FILE pat_shift_det.vhd
+set_global_assignment -name VHDL_FILE word_detect.vhd
+set_global_assignment -name VHDL_FILE buff.vhd
+set_global_assignment -name BDF_FILE conv_7seg.bdf
+set_global_assignment -name SOURCE_FILE conv_7seg.cmp
+set_global_assignment -name VECTOR_WAVEFORM_FILE word_detect.vwf
+set_global_assignment -name MISC_FILE "C:/Documents and Settings/ra082115/Desktop/Lab6/q2/word_detect.dpf"
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
