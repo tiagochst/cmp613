@@ -6,6 +6,7 @@ ENTITY via_dados IS
     PORT (clk, rstn: IN STD_LOGIC;
           opcode: IN STD_LOGIC_VECTOR(5 downto 0);
           inp: IN STD_LOGIC_VECTOR(3 downto 0);
+          outp: OUT STD_LOGIC_VECTOR(3 downto 0);
           seg0: OUT STD_LOGIC_VECTOR(6 downto 0));
 END via_dados;
 
@@ -51,4 +52,5 @@ BEGIN
         
     s0: COMPONENT conv_7seg
 		PORT MAP (regs(to_disp), seg0);
+	outp <= regs(to_disp);
 END behav;
