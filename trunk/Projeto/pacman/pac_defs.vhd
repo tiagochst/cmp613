@@ -41,13 +41,14 @@ PACKAGE pac_defs IS
 	   
 	--Fator de divisão do clock de 27MHz, usada para atualização do
 	--estado do jogo ("velocidade de execução")
-	CONSTANT DIV_FACT: INTEGER := 2700000;
+	CONSTANT DIV_FACT: INTEGER := 1350000;
 	
 	subtype sentido is INTEGER range -1 to 1;
 	TYPE direc is array(0 to 1) of sentido;
 	TYPE direc_vet is array(0 to 3) of direc;
 	
 	--Quatro vetores de direção: cima, direita, baixo, esquerda
+	TYPE dir is (CIMA,DIREITA,BAIXO,ESQUERDA,NONE);
 	CONSTANT DIRS: direc_vet := ((-1,0), (0,1), (1,0), (0,-1));
 	
 	CONSTANT PAC_START_X : INTEGER := 42;

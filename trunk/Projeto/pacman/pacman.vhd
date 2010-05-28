@@ -8,6 +8,9 @@ ENTITY pacman is
     clk27M, reset_button      : in  STD_LOGIC;
     red, green, blue          : out STD_LOGIC_vector(3 downto 0);
     hsync, vsync              : out STD_LOGIC;
+    LEDG  : BUFFER   STD_LOGIC_VECTOR (7 downto 3);    --   LED Green[7:0]
+    PS2_DAT : inout STD_LOGIC;                      --   PS2 Data
+    PS2_CLK : inout STD_LOGIC;	                    --   PS2 Clock
     pb0, pb1                  : in STD_LOGIC
     );
 END pacman;
@@ -59,6 +62,28 @@ ARCHITECTURE comportamento of pacman is
 	      q: OUT INTEGER);
 	END COMPONENT counter;
 
+-------
+-------    Telado
+-------
+COMPONENT kbd_key IS 
+  PORT (
+    ------------------------   Clock Input       ------------------------
+    CLOCK_27   :    IN   STD_LOGIC;                 --   24 MHz
+    ------------------------   Push Button      -------------------------
+    KEY : IN   STD_LOGIC;                           --   Pushbutton reset
+    ----------------------------   LED      ----------------------------
+    LEDG  : OUT   STD_LOGIC_VECTOR (7 downto 5);    --   LED Green[7:0]
+    ------------------------	PS2		--------------------------------
+    PS2_DAT : inout STD_LOGIC;                      --   PS2 Data
+    PS2_CLK : inout STD_LOGIC;	                    --   PS2 Clock
+    ---------------------------Players direction -----------------------
+    p1_dir,p2_dir: OUT STD_LOGIC_VECTOR(2 downto 0)
+    );
+END COMPONENT kbd_key ;
+
+signal p1_dir,p2_dir: STD_LOGIC_VECTOR(2 downto 0);
+
+
     -----------------------------------------------------------------------------
     -- Sinais de controle da lógica do jogo
     -----------------------------------------------------------------------------
@@ -66,9 +91,8 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL key_pac_esq, key_pac_dir: STD_LOGIC;     -- sinais síncronos do cursor do usuário
     SIGNAL pac_pos_x: INTEGER range 0 to TAB_LEN-1 := PAC_START_X;
     SIGNAL pac_pos_y: INTEGER range 0 to TAB_LEN-1 := PAC_START_Y;
-    SIGNAL pac_cur_dir: INTEGER range 0 to 3:= 1;
-    SIGNAL esq_dir, dir_dir: INTEGER range 0 to 3 := 3;
-	SIGNAL nxt_cel, dir_cel, esq_cel: tab_sym;
+    SIGNAL pac_cur_dir: INTEGER range 0 to 4:= 1;
+ 	SIGNAL nxt_cel, dir_cel, esq_cel,up_cel,dwn_cel: tab_sym;
     
 BEGIN
     -- Controlador VGA (resolução 128 colunas por 96 linhas)
@@ -158,24 +182,16 @@ BEGIN
 	
 	--Calcula possíveis parâmetros envolvidos no próximo movimento
 	--do pacman
-	PROCESS (pac_cur_dir, dir_dir, esq_dir, mem_area)
+	PROCESS (pac_cur_dir, mem_area)
 	BEGIN
-		IF (pac_cur_dir = 3)
-		THEN dir_dir <= 0;
-		ELSE dir_dir <= pac_cur_dir + 1;
-		END IF;
-		
-		IF (pac_cur_dir = 0)
-		THEN esq_dir <= 3;
-		ELSE esq_dir <= pac_cur_dir - 1;
-		END IF;
 		
 		--calcula qual seriam as proximas celulas visitadas pelo pacman
 		nxt_cel <= mem_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1));
-		dir_cel <= mem_area(DIRS(dir_dir)(0),
-		                    DIRS(dir_dir)(1));
-		esq_cel <= mem_area(DIRS(esq_dir)(0),
-		                    DIRS(esq_dir)(1));
+		dir_cel <= mem_area(0,1);
+		esq_cel <= mem_area(0,-1);
+		up_cel <= mem_area(-1,0);
+		dwn_cel <= mem_area(1,0);
+
 	END PROCESS;
 
     -- purpose: Este processo irá atualizar a posicão do pacman e definir
@@ -185,39 +201,61 @@ BEGIN
     --          pac_cur_dir, pac_pos_x, pac_pos_y
     -- outputs: pac_cur_dir, pac_pos_x, pac_pos_y, got_coin
     p_atualiza_pacman: PROCESS (clk27M, rstn)
-		VARIABLE pb0_old, pb1_old: STD_LOGIC;
-		VARIABLE nxt_move: STD_LOGIC_VECTOR(1 downto 0);
+		VARIABLE pb0_old, pb1_old: STD_LOGIC_VECTOR(2 downto 0);
+		VARIABLE nxt_move: STD_LOGIC_VECTOR(2 downto 0);
     BEGIN
         IF (rstn = '0') THEN
             pac_pos_x <= PAC_START_X;
             pac_pos_y <= PAC_START_Y;
 			pac_cur_dir <= 1; --inicializa direcao para direita
+			nxt_move:= "000";
         ELSIF (clk27M'event and clk27M = '1') THEN
-            IF (estado = ATUALIZA_LOGICA) THEN
-				IF (pb0 = '0' and pb0_old = '1') THEN
-					nxt_move := "01"; --direita
-				ELSIF (pb1 = '0' and pb1_old = '1') THEN
-					nxt_move := "10"; --esquerda
+
+--		IF(LEDG(5)='1')then  --ver entrada teclado
+--			LEDG(4)<= p1_dir(0);
+--			LEDG(3)<= p1_dir(1); 
+--		end if;  
+             IF (estado = ATUALIZA_LOGICA) THEN
+				IF (p1_dir = "000" and pb0_old = "111") THEN
+					nxt_move := "001"; --direita
+				ELSIF (p1_dir = "001" and pb1_old = "111") THEN
+					nxt_move := "010"; --esquerda
+				ELSIF (p1_dir = "010" and pb0_old = "111") THEN
+					nxt_move := "011"; --cima
+				ELSIF (p1_dir = "011" and pb1_old = "111") THEN
+					nxt_move := "100"; --baixo
 				END IF;
 				
-				IF (nxt_move = "01" and dir_cel = '.') THEN
-					pac_cur_dir <= dir_dir;
-					nxt_move := "00";
-				ELSIF (nxt_move = "10" and esq_cel = '.') THEN
-					pac_cur_dir <= esq_dir;
-					nxt_move := "00";
+				IF (nxt_move = "001" and (dir_cel = '.' or dir_cel=  '2' )) THEN
+					pac_cur_dir <= 1;--DIREITA;
+					nxt_move := "000";
+				ELSIF (nxt_move = "010" and (esq_cel = '.'or esq_cel=  '2' )) THEN
+					pac_cur_dir <= 3;--ESQUERDA;
+					nxt_move := "000";
+				ELSIF (nxt_move = "011" and (up_cel = '.'or up_cel=  '2' )) THEN
+					pac_cur_dir <= 0;--CIMA;
+					nxt_move := "000";
+				ELSIF (nxt_move = "100" and (dwn_cel = '.' or dwn_cel=  '2' )) THEN
+					pac_cur_dir <= 2;--baixo
+					nxt_move := "000";
                 ELSIF (nxt_cel = '.' or nxt_cel = '2') THEN --atualiza posicao
-                    pac_pos_x <= pac_pos_x + DIRS(pac_cur_dir)(1);
-                    pac_pos_y <= pac_pos_y + DIRS(pac_cur_dir)(0);
-                END IF;
+					IF(pac_pos_x = 82 ) then
+						pac_pos_x<=3;
+					ELSIF(pac_pos_x = 2 ) then
+						pac_pos_x<=81;
+					ELSE
+						pac_pos_x <= pac_pos_x + DIRS(pac_cur_dir)(1);
+						pac_pos_y <= pac_pos_y + DIRS(pac_cur_dir)(0);
+					END IF;
+                 END IF;
                 
                 IF (nxt_cel = '2') THEN --checa se obteve moeda                    
                     got_coin <= '1';
                 ELSE
                     got_coin <= '0';
                 END IF;
-                pb0_old := pb0;
-				pb1_old := pb1;
+                pb0_old := p1_dir;
+				pb1_old := p1_dir;
             END IF;
         END IF;
 	END PROCESS;
@@ -405,5 +443,9 @@ BEGIN
             temp := reset_button;     
         END IF;
     END PROCESS build_rstn;
+    
+   kbd: kbd_key PORT MAP (
+    clk27M,reset_button,LEDG(7 downto 5),PS2_DAT,PS2_CLK, p1_dir,p2_dir
+    );
     
 END comportamento;
