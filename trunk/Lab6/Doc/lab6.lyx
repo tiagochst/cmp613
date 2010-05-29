@@ -1,0 +1,755 @@
+#LyX 1.6.6.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage[brazil]{babel}    % dá suporte para os termos na língua portuguesa do Brasil
+\usepackage{url}
+\usepackage{textcomp}
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{amsmath} 
+\usepackage{wrapfig}
+\numberwithin{table}{section}
+\numberwithin{figure}{section}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{indentfirst}
+\usepackage{multicol}
+
+\newcommand*{\titleTMB}{\begingroup \centering \settowidth{\unitlength}{\LARGE MC 613} \vspace*{\baselineskip} {\large\scshape  Grupo 5 - Turma A}\\[\baselineskip] \rule{11.0cm}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} \rule{11.0cm}{0.4pt}\\[\baselineskip] {\LARGE Sexto laboratório }\\[0.2\baselineskip] {\LARGE de Circuitos Digitais}\\[0.2\baselineskip] {\itshape MC 613 - Primeiro Semestre de 2010}\\[0.2\baselineskip] \rule{11.0cm}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} \rule{11.0cm}{1.6pt}\\[\baselineskip] {\large\scshape Professor: Guido Araújo}\par \vfill {\normalsize   \scshape 
+\begin{center} 
+\begin{tabular}{  l  l  p{5cm} } 
+Henrique Serapião Gonzales     &  RA: 083636 \\
+Marcelo Galvão Póvoa & RA: 082115\\ 		
+Tiago Chedraoui Silva      & RA: 082941\\  	
+\end{tabular} \end{center}
+\itshape \today }\\[\baselineskip] \vspace{3.2pt} \endgroup}
+
+\floatname{algorithm}{Algoritmo}
+\end_preamble
+\use_default_options true
+\begin_modules
+eqs-within-sections
+figs-within-sections
+tabs-within-sections
+\end_modules
+\language brazilian
+\inputencoding auto
+\font_roman ae
+\font_sans lmss
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letterpaper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\leftmargin 3cm
+\rightmargin 3cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{titlepage}  
+\backslash
+titleTMB 
+\backslash
+end{titlepage} % capa no preambulo document settings
+\end_layout
+
+\begin_layout Plain Layout
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 1
+\end_layout
+
+\begin_layout Standard
+Um detector de sequência de 
+\emph on
+n-bits
+\emph default
+ é um circuito bastante comum e de utilidades diversas.
+ A implementação teve entradas unárias assíncronas nos 
+\emph on
+push buttons
+\emph default
+, portanto foi necessária a sincronização das mesmas (Algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Componente-de-amostragem"
+
+\end_inset
+
+).
+ Ambas simulações possuem as mesmas entradas e mostram a detecção.
+ Geralmente, pode ser implementado de duas formas diferentes:
+\end_layout
+
+\begin_layout Subsection
+Registrador de Deslocamento
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Registrador-de-Deslocamento"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Esse método é o mais simples e fácil, uma vez que usa um registrador de
+ deslocamento de 
+\emph on
+n-bits
+\emph default
+ com saída paralela.
+ Se todas as posições da saída forem iguais ao padrão, a sequência foi detectada.
+ 
+\end_layout
+
+\begin_layout Standard
+No entanto, há um detalhe importante a se considerar: a saída só pode ser
+ 
+\begin_inset Formula $'1'$
+\end_inset
+
+ se todos os 
+\emph on
+n
+\emph default
+ bits foram entrados (e corretamente).
+ Logo, o registrador deve ser capaz de diferenciar nos bits de saída quais
+ foram entrados pelo usuário e quais são de inicialização.
+ Esse problema foi contornado usando um contador de bits entrados que não
+ precisa contar além de 
+\emph on
+n
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Essa implementação é totalmente genérica em relação ao padrão desejado.
+\end_layout
+
+\begin_layout Subsection
+Máquina de Estados
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Máquina-de-Estados"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Usando uma máquina de estados, tem-se um comportamento mais analítico da
+ detecção do padrão.
+ Há 
+\emph on
+n+1 
+\emph default
+estados, um para cada próximo bit esperado do padrão e o último relativo
+ também ao primeiro bit mas indicando que a sequência acabou de ser encontrada.
+ 
+\end_layout
+
+\begin_layout Standard
+A dificuldade desse método está em determinar, para cada estado, qual é
+ próximo estado em caso de falha no bit lido (função conhecida como 
+\emph on
+failure function
+\emph default
+), o que é feito manualmente.
+ Em caso de acerto no bit lido, o próximo estado é 
+\begin_inset Formula $estado+1$
+\end_inset
+
+.
+ Uma vantagem em relação ao registrador é que não é preciso contar quantos
+ bits entraram.
+\end_layout
+
+\begin_layout Standard
+Essa implementação não consegue ser totalmente genérica devido à função
+ de falha, porém basta construí-la para o padrão desejado.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "pat_shift_det.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Componente do detector de padrão 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Registrador-de-Deslocamento"
+
+\end_inset
+
+ em VHDL
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Componente-do-detector"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "pat_shift.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Top-level do detector 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Registrador-de-Deslocamento"
+
+\end_inset
+
+ em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "pat_state.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Top-level do detector de padrão 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Máquina-de-Estados"
+
+\end_inset
+
+ em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "buff.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Componente de amostragem de 
+\emph on
+push button
+\emph default
+ (usado em vários projetos) em VHDL
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Componente-de-amostragem"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pat_shift.PNG
+	lyxscale 50
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação do detector de padrão 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Registrador-de-Deslocamento"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pat_state.PNG
+	lyxscale 50
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação do detector de padrão 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Máquina-de-Estados"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 2
+\end_layout
+
+\begin_layout Standard
+Um detector de palavras em hexadecimal (4 bits) pode ser facilmente construído
+ a partir de quatro componentes detectores com registrador de deslocamento
+ da Questão 1 (Alg.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Componente-do-detector"
+
+\end_inset
+
+), cada um recebendo paralelamente um fluxo de bits para detectar.
+ Como esses detectores são genéricos, basta extrair os padrões da palavra
+ C0FFEE e enviar na entrada dos componentes.
+ 
+\end_layout
+
+\begin_layout Standard
+A entrada do circuito é mais simples que a anterior: quatro bits são entrados
+ por vez amostrados por um 
+\emph on
+push button
+\emph default
+.
+ As saídas correspondem a última letra lida no display de 7 segmentos e
+ o led que indica detecção (
+\begin_inset Formula $AND$
+\end_inset
+
+ lógico de todos os componentes).
+ A simulação mostra sucintamente a ocorrência de detecção.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "word_detect.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Top-level do detector de palavras em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename word_detect.PNG
+	lyxscale 50
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação do detector de palavras
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 3
+\end_layout
+
+\begin_layout Section
+Questão 4
+\end_layout
+
+\begin_layout Section
+Questão 5
+\end_layout
+
+\begin_layout Section*
+Conclusão
+\end_layout
+
+\end_body
+\end_document
