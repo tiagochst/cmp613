@@ -9,6 +9,9 @@ use ieee.numeric_std.all;
 
 --entrada: codigo proveniente do teclado
 --saida: mudancas de direcao do player
+-- code entrada codificada das teclas 
+--(maximo tres teclas pressionadas 16 bits cada)
+-- p1_dir - p2_dir representacao de cima,desce,esquerda,direita,nenhuma
 entity player_dir is 
 port( code: IN STD_LOGIC_VECTOR(47 downto 0);
        p1_dir,p2_dir: OUT STD_LOGIC_VECTOR(2 downto 0));--colocar um enum type
@@ -18,9 +21,36 @@ architecture rtl of player_dir is
   signal key_1,key_2,key_3 : std_logic_vector(15 downto 0);
 
 begin
-  key_1<=code(47 downto 32);
-  key_2<=code(31 downto 16);
-  key_3<=code(15 downto 0);
+-- Modelo:
+-->> 2-players -> cada um aperta uma tecla
+-- Codigo referente a cada tecla deve estar em key_1 ou key_2 
+-->> Desconsiderarei key_3 -> implementacao futura mas sem grande utilidade.
+-- Problemas referentes a entrada de teclas:
+-->> se um player aperta 3 teclas, o outro nao tera a sua teclalida 
+  key_1<=code(47 downto 32);-- terceirta tecla pressionada
+  key_2<=code(31 downto 16);-- segunda tecla pressionada
+  key_3<=code(15 downto 0); -- primeira tecla pressionada
+
+-- P 1 Teclas
+-- Movimentacao|     Tecla         | codigo  
+-- Cima        |(up - key arrow)   | x"E075" 
+-- Baixo       |(down - key arrow) | x"E072"
+-- Esquerda    |(down - key arrow) | x"E06b"
+-- Direita     |(right - key arrow)| x"E074"
+
+-- P 2 Teclas
+-- Movimentacao|Tecla | codigo  
+-- Cima        | (W)  | x"001d" 
+-- Baixo       | (S)  | x"001b"
+-- Esquerda    | (A)  | x"001c"
+-- Direita     | (D)  | x"0023"
+
+--Tabela de decodificao
+-- Cima     :  010
+-- Baixo    :  011
+-- Esquerda :  001
+-- Direita  :  000
+-- Nenhuma  :  111
 
      process(key_1,key_2,key_3)
       begin
@@ -37,65 +67,57 @@ begin
 	    when x"E072" =>
 		   p1_dir <= "011"; -- baixo p1
 			p2_dir <="000";
---	    when x"001c" =>
---		   p2_dir <= "00"; -- direita p2
---	    when x"0032" =>
---		   p2_dir <= "01"; -- esquerda p2
---	    when x"0021" =>
---		   p2_dir <= "10"; -- cima p2
---	    when x"0023" =>
---		   p2_dir <= "11"; -- baixo p2
-
 	   when others=>  --Apaga leds
 		   p1_dir <= "111"; -- cima p1
 		   p2_dir <="111";
       end case;
-
---     case (key_2) is
---	    when x"001c" =>
---		   p1_dir <= "00"; -- direita p1
---	    when x"0032" =>
---		   p1_dir <= "01"; -- esquerda p1
---	    when x"0021" =>
---		   p1_dir <= "10"; -- cima p1
---	    when x"0023" =>
---		   p1_dir <= "11"; -- baixo p1
-----
-----	    when x"001c" =>
-----		   p2_dir <= "00"; -- direita p2
-----	    when x"0032" =>
-----		   p2_dir <= "01"; -- esquerda p2
-----	    when x"0021" =>
-----		   p2_dir <= "10"; -- cima p2
-----	    when x"0023" =>
-----		   p2_dir <= "11"; -- baixo p2
+--TODO: implementar os 25 casos !!!
 --
---	    when others=>
---	    p1_dir <="00";
---	    p2_dir <="00";--Apaga leds
---      end case;
--- 
---      case (key_3) is
---	    when x"001c" =>
---		   p1_dir <= "00"; -- direita p1
---	    when x"0032" =>
---		   p1_dir <= "01"; -- esquerda p1
---	    when x"0021" =>
---		   p1_dir <= "10"; -- cima p1
---	    when x"0023" =>
---		   p1_dir <= "11"; -- baixo p1
---
---	    when x"001c" =>
---		   p2_dir <= "00"; -- direita p2
---	    when x"0032" =>
---		   p2_dir <= "01"; -- esquerda p2
---	    when x"0021" =>
---		   p2_dir <= "10"; -- cima p2
---	    when x"0023" =>
---		   p2_dir <= "11"; -- baixo p2
---
---	    when others=>  --Apaga leds
---      end case;
- 
+--      IF(key_3 = x"E074",key_2 =x"0023" ) THEN
+--	  	    p1_dir <= "000"; -- direita p1
+--			p2_dir <="000";  -- diretia p2
+--	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--		   p1_dir <= "001"; -- esquerda p1
+--		   p2_dir <="000";
+--	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--		   p1_dir <= "010"; -- cima p1
+--		   p2_dir <="000";
+--	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--		   p1_dir <= "010"; -- cima p1
+--		   p2_dir <="000";
+--	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--		   p1_dir <= "010"; -- cima p1
+--		   p2_dir <="000";
+--	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--		   p1_dir <= "010"; -- cima p1
+--		   p2_dir <="000";
+--	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--		   p1_dir <= "010"; -- cima p1
+--		   p2_dir <="000";
+--	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--		   p1_dir <= "010"; -- cima p1
+--		   p2_dir <="000";
+--	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--		   p1_dir <= "010"; -- cima p1
+--		   p2_dir <="000";
+--	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--		   p1_dir <= "010"; -- cima p1
+--		   p2_dir <="000";
+--	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--		   p1_dir <= "010"; -- cima p1
+--		   p2_dir <="000";
+--	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--		   p1_dir <= "010"; -- cima p1
+--		   p2_dir <="000";
+--	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--		   p1_dir <= "010"; -- cima p1
+--		   p2_dir <="000";
+--	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--		   p1_dir <= "010"; -- cima p1
+--		   p2_dir <="000";
+--       ELSE 
+--		   p1_dir <= "111"; -- cima p1
+--		   p2_dir <="111";
+--      END IF;
   end process;
 END rtl;
