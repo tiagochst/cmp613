@@ -1,0 +1,42 @@
+#summary Status da implementação do Pacman na DE1
+
+= Details =
+
+*Interação com teclado*
+  * DONE:
+    * Implementei para dois jogadores, mas tive que ignorar três teclas simultâneas. Porque o código para duas teclas (uma para cada player,ficou bem grande)
+    * Mantive o codigo para um player caso não fizermos 2 players (está comentado) no código.(comentei tudo bem certinho)
+  * TO DO:
+    * Falta realizar teste com teclado para 2 players.
+    * Melhorar o código do ped e tentar retirar os 25 warnings e o *critical warning* relacionado a ele.
+
+*Movimentação*
+  * DONE:
+    * O Mars implementou a parte de movimentação com coordenadas absolutas
+    * Teletransporte implementado ontem no IC.
+    * Interação com teclado realizada ontem no IC.
+  * TO DO:
+    * Movimentação outros personagens do jogo. Minimizar interferência de teclas pressionadas ao mesmo tempo.
+    * A idéia básica é fazer um (ou dois) fantasmas sendo o player 2,sugiro inserir velocidade pouco maior no fantasma senão é impossivel o fantasma pegar o pacman.
+    * Fazer movimentação suave posicionando o pacman parcialmente entre dois blocos da tela (precisaria ter suporte a sprites)
+
+*Gráficos*
+  * DONE:
+     * Cenário projetado de acordo com o jogo original
+     * Camada de overlay para desenhos sobre o cenário (pacman, fantasmas, frutas, etc)
+  * TO DO:
+     * Aumentar resolução - cada bloco da tela será representado por um sprite 5x5
+     * Adicionar mais cores (máximo de 4096 cores), _será que é necessário?_
+     
+*Outros*
+  * TO DO:
+    * Término do jogo ao comer todas as bolinhas
+    * Pontuação do level (primeiro nos 7-seg depois criar sprites para a tela)
+    * Frutas no meio do cenário
+    * High scores
+    * Morte do pacman - colocá-lo no centro novamente.(Animação de morte??)
+    * *Áudio* (BGM e SFX): envolve instanciar o NIOS e interfacear C com VHDL, não sabemos se vale a pena ou se sequer tentaremos.
+    * Limpeza do código (ao final): 
+      * Separar RAMs de blocos da interface VGA
+      * Criar componentes para o pacman e os fantasmas
+      * Debugging
