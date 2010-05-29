@@ -1,6 +1,6 @@
 #summary Status da implementação do Pacman na DE1
 
-= Details =
+= Detalhes =
 
 *Interação com teclado*
   * DONE:
