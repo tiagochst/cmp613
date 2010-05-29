@@ -141,8 +141,8 @@ name "sub:Registrador-de-Deslocamento"
 \end_layout
 
 \begin_layout Standard
-Esse método é o mais simples e fácil, uma vez que usa um registrador de
- deslocamento de 
+Esse método é o mais simples, uma vez que usa um registrador de deslocamento
+ de 
 \emph on
 n-bits
 \emph default
@@ -194,7 +194,7 @@ Usando uma máquina de estados, tem-se um comportamento mais analítico da
 \emph on
 n+1 
 \emph default
-estados, um para cada próximo bit esperado do padrão e o último relativo
+estados, sendo um para cada próximo bit esperado do padrão e o último relativo
  também ao primeiro bit mas indicando que a sequência acabou de ser encontrada.
  
 \end_layout
@@ -741,6 +741,155 @@ Questão 3
 
 \begin_layout Section
 Questão 4
+\end_layout
+
+\begin_layout Standard
+A via de dados especificada é bastante simples, mas representa a decodificação
+ das instruções e uso de barramento de uma CPU.
+ Basicamente, há uma série de multiplexadores envolvidos: 
+\emph on
+(i)
+\emph default
+ escolha da operação, 
+\emph on
+(ii) 
+\emph default
+escolha do registrador de origem/destino, 
+\emph on
+(iii)
+\emph default
+ uso do barramento, etc.
+ 
+\end_layout
+
+\begin_layout Standard
+Com uma implementação comportamental em VHDL é fácil fazer essa lógica usando
+ índices de um vetor de registradores (incluindo um para a saída).
+ Note que a saída é a 
+\emph on
+amostra
+\emph default
+ do valor do registrador quando ocorre a operação 
+\emph on
+10
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+A demonstração é feita com 
+\emph on
+clock
+\emph default
+ manual, entrada paralela (
+\emph on
+4-bits
+\emph default
+) e saída em 7-segmentos.
+ A simulação mostra alguns exemplos do funcionamento de cada 
+\emph on
+OpCode
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "via_dados.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Top-level da via de dados em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename via_dados.PNG
+	lyxscale 50
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação da via de dados
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
