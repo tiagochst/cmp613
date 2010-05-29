@@ -52,72 +52,123 @@ begin
 -- Direita  :  000
 -- Nenhuma  :  111
 
-     process(key_1,key_2,key_3)
-      begin
-      case (key_3) is
-	    when x"E074" =>
-		   p1_dir <= "000"; -- direita p1
-			p2_dir <="000";
-	    when x"E06b" =>
-		   p1_dir <= "001"; -- esquerda p1
-		   p2_dir <="000";
-	    when x"E075" =>
-		   p1_dir <= "010"; -- cima p1
-		   p2_dir <="000";
-	    when x"E072" =>
-		   p1_dir <= "011"; -- baixo p1
-			p2_dir <="000";
-	   when others=>  --Apaga leds
-		   p1_dir <= "111"; -- cima p1
-		   p2_dir <="111";
-      end case;
---TODO: implementar os 25 casos !!!
---
---      IF(key_3 = x"E074",key_2 =x"0023" ) THEN
---	  	    p1_dir <= "000"; -- direita p1
---			p2_dir <="000";  -- diretia p2
---	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--Implementacao para 1 player
+--     process(key_3)
+--      begin
+--      case (key_3) is
+--	    when x"E074" =>
+--		   p1_dir <= "000"; -- direita p1
+--			p2_dir <="000";
+--	    when x"E06b" =>
 --		   p1_dir <= "001"; -- esquerda p1
 --		   p2_dir <="000";
---	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
+--	    when x"E075" =>
 --		   p1_dir <= "010"; -- cima p1
 --		   p2_dir <="000";
---	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
---		   p1_dir <= "010"; -- cima p1
---		   p2_dir <="000";
---	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
---		   p1_dir <= "010"; -- cima p1
---		   p2_dir <="000";
---	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
---		   p1_dir <= "010"; -- cima p1
---		   p2_dir <="000";
---	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
---		   p1_dir <= "010"; -- cima p1
---		   p2_dir <="000";
---	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
---		   p1_dir <= "010"; -- cima p1
---		   p2_dir <="000";
---	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
---		   p1_dir <= "010"; -- cima p1
---		   p2_dir <="000";
---	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
---		   p1_dir <= "010"; -- cima p1
---		   p2_dir <="000";
---	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
---		   p1_dir <= "010"; -- cima p1
---		   p2_dir <="000";
---	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
---		   p1_dir <= "010"; -- cima p1
---		   p2_dir <="000";
---	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
---		   p1_dir <= "010"; -- cima p1
---		   p2_dir <="000";
---	   ELSIF (key_3 = x"E074",key_2 =x"0023" ) THEN
---		   p1_dir <= "010"; -- cima p1
---		   p2_dir <="000";
---       ELSE 
+--	    when x"E072" =>
+--		   p1_dir <= "011"; -- baixo p1
+--			p2_dir <="000";
+--	   when others=>  --Apaga leds
 --		   p1_dir <= "111"; -- cima p1
 --		   p2_dir <="111";
---      END IF;
-  end process;
+--      end case;
+
+--
+--Implementacao para 2 players...sera que tem lentidao?
+--
+  PROCESS(key_3,key_2)
+    BEGIN
+      IF((key_3 = x"E074" and key_2 =x"0023") or 
+		(key_2 = x"E074" and key_3 =x"0023") ) THEN
+	  	   p1_dir <= "000";  -- direita p1
+		p2_dir <= "000";  -- diretia p2
+	  ELSIF ((key_3 = x"E06b" and key_2 = x"001c") or
+		     (key_2 = x"E06b" and key_3 = x"001c") ) THEN
+		  p1_dir <= "001";  -- esquerda p1
+		  p2_dir <= "001";  -- esquerda p2
+	  ELSIF ((key_3 = x"001d" and key_2 = x"E075") or
+		     (key_2 = x"001d" and key_3 = x"E075") ) THEN
+		  p1_dir <= "010";  -- cima p1
+		  p2_dir <= "010";  -- cima p2
+	  ELSIF ((key_3 = x"001b" and key_2 =  x"E072") or
+		     (key_2 = x"001b" and key_3 =  x"E072") ) THEN
+		  p1_dir <= "011";  -- baixo p1
+		  p2_dir <= "011";  -- baixo p2
+	  ELSIF ((key_3 = x"E074" and key_2 =  x"001c") or
+		     (key_2 = x"E074" and key_3 =  x"001c") ) THEN
+		  p1_dir <= "000";  -- direira  p1
+		  p2_dir <="001";   -- esquerda p2 
+	  ELSIF ((key_3 = x"E074" and key_2 =  x"001d") or
+		     (key_2 = x"E074" and key_3 =  x"001d") ) THEN
+		  p1_dir <= "000";  -- direira  p1
+		  p2_dir <="010";   -- cima p2 
+	  ELSIF ((key_3 = x"E074" and key_2 =  x"001b") or
+		     (key_2 = x"E074" and key_3 =  x"001b") ) THEN
+		  p1_dir <= "000";  -- direira  p1
+		  p2_dir <="011";   -- baixo p2 
+	  ELSIF ((key_3 = x"E06b" and key_2 =  x"0023") or
+		     (key_2 = x"E06b" and key_3 =  x"0023") ) THEN
+		  p1_dir <= "001";  -- esquerda  p1
+		  p2_dir <="000";   -- direita p2 
+	  ELSIF ((key_3 = x"E06b" and key_2 =  x"001d") or
+		     (key_2 = x"E06b" and key_3 =  x"001d") ) THEN
+		  p1_dir <= "001";  -- esquerda  p1
+		  p2_dir <="010";   -- cima p2 
+	  ELSIF ((key_3 = x"E06b" and key_2 =  x"001b") or
+		     (key_2 = x"E06b" and key_3 =  x"001b") ) THEN
+		  p1_dir <= "001";  -- esquerda  p1
+		  p2_dir <= "011";  -- baixo p2 
+	  ELSIF ((key_3 = x"0023" and key_2 = x"E075") or
+		     (key_2 = x"0023" and key_3 = x"E075") ) THEN
+		  p1_dir <= "010";  -- cima p1
+		  p2_dir <= "000";  -- direita p2
+	  ELSIF ((key_3 = x"001c" and key_2 = x"E075") or
+		     (key_2 = x"001c" and key_3 = x"E075") ) THEN
+		  p1_dir <= "010";  -- cima p1
+		  p2_dir <= "001";  -- esquerda p2
+	  ELSIF ((key_3 = x"001b" and key_2 = x"E075") or
+		     (key_2 = x"001b" and key_3 = x"E075") ) THEN
+		  p1_dir <= "010";  -- cima p1
+		  p2_dir <= "011";  -- baixo p2
+	  ELSIF ((key_3 = x"0023" and key_2 =  x"E072") or
+		     (key_2 = x"0023" and key_3 =  x"E072") ) THEN
+		  p1_dir <= "011";  -- baixo p1
+		  p2_dir <= "000";  -- direita p2
+	  ELSIF ((key_3 = x"001c" and key_2 =  x"E072") or
+		     (key_2 = x"001c" and key_3 =  x"E072") ) THEN
+		  p1_dir <= "011";  -- baixo p1
+		  p2_dir <= "001";  -- esquerda p2
+	  ELSIF ((key_3 = x"001d" and key_2 =  x"E072") or
+		     (key_2 = x"001d" and key_3 =  x"E072") ) THEN
+		  p1_dir <= "011";  -- baixo p1
+		  p2_dir <= "010";  -- cima p2
+	  ELSIF (key_3 = x"E074" ) THEN
+		  p1_dir <= "000";  -- direita p1
+		  p2_dir <= "111";  -- nenhum  p2
+	  ELSIF (key_3 = x"E06b" ) THEN
+		  p1_dir <= "001";  -- esquerda p1
+		  p2_dir <= "111";  -- nenhum  p2
+	  ELSIF (key_3 = x"E075" ) THEN
+		  p1_dir <= "010";  -- cima p1
+		  p2_dir <= "111";  -- nenhum  p2
+	  ELSIF (key_3 = x"E072" ) THEN
+		  p1_dir <= "011";  -- baixo p1
+		  p2_dir <= "111";  -- nenhum  p2
+	  ELSIF (key_3 = x"0023" ) THEN
+		  p1_dir <= "111";  -- nenhum p1
+		  p2_dir <= "000";  -- direita  p2
+	  ELSIF (key_3 = x"001c" ) THEN
+		  p1_dir <= "111";  -- nenhum p1
+		  p2_dir <= "001";  -- esquerda  p2
+	  ELSIF (key_3 = x"001d" ) THEN
+		  p1_dir <= "111";  -- nenhum p1
+		  p2_dir <= "010";  -- cima  p2
+	  ELSIF (key_3 = x"001b" ) THEN
+		  p1_dir <= "111";  -- nenhum p1
+		  p2_dir <= "011";  -- baixo  p2
+      ELSE 
+		  p1_dir <= "111";  --nenhum p1
+		  p2_dir <= "111";  --nenhum  p2
+      END IF;
+  END PROCESS;
 END rtl;
