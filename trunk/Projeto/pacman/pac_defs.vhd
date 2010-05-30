@@ -16,7 +16,9 @@ PACKAGE pac_defs IS
 	
 	SUBTYPE block3 is std_logic_vector(2 downto 0);
 	SUBTYPE color4 is std_logic_vector(3 downto 0);
-	TYPE vcolor is array(0 to 5) of color4; 
+	TYPE vcolor is array(0 to 5) of color4;
+	
+	TYPE t_direcao is (CIMA,DIREI,BAIXO,ESQUE,NADA);
 	
 	-- cores de cada tipo de bloco numérico tab_sym
 	CONSTANT RED_CMP: vcolor :=
@@ -37,29 +39,30 @@ PACKAGE pac_defs IS
 	TYPE tab_sym_3x3 is array(-1 to 1, -1 to 1) of tab_sym;
 	
 	TYPE ovl_bitmap5 is array(0 to 4, 0 to 4) of STD_LOGIC;
-	TYPE ovl_bitmap5_vet is array(0 to 3) of ovl_bitmap5; 
+	TYPE ovl_bitmap5_vet is array(t_direcao) of ovl_bitmap5; 
 	   
 	--Fator de divisão do clock de 27MHz, usada para atualização do
 	--estado do jogo ("velocidade de execução")
 	CONSTANT DIV_FACT: INTEGER := 1350000;
-	
+
 	subtype sentido is INTEGER range -1 to 1;
 	TYPE direc is array(0 to 1) of sentido;
-	TYPE direc_vet is array(0 to 3) of direc;
+	TYPE direc_vet is array(t_direcao) of direc;
 	
-	--Quatro vetores de direção: cima, direita, baixo, esquerda
-	TYPE dir is (CIMA,DIREITA,BAIXO,ESQUERDA,NONE);
-	CONSTANT DIRS: direc_vet := ((-1,0), (0,1), (1,0), (0,-1));
+	CONSTANT DIRS: direc_vet := (CIMA  => (-1, 0), DIREI => ( 0, 1), 
+	                             BAIXO => ( 1, 0), ESQUE => ( 0,-1),
+	                             NADA  => ( 0, 0));
 	
 	CONSTANT PAC_START_X : INTEGER := 42;
 	CONSTANT PAC_START_Y : INTEGER := 71;
 	
 	--Desenhos do pacman nas quatro possiveis direcoes
 	CONSTANT PAC_BITMAPS: ovl_bitmap5_vet := 
-	(("01010", "10111", "11111", "11111", "01110"),
-	 ("01110", "11101", "11110", "11111", "01110"),
-	 ("01110", "11111", "11111", "10111", "01010"),
-	 ("01110", "10111", "01111", "11111", "01110"));
+	(CIMA =>  ("01010", "10111", "11111", "11111", "01110"),
+	 DIREI => ("01110", "11101", "11110", "11111", "01110"),
+	 BAIXO => ("01110", "11111", "11111", "10111", "01010"),
+	 ESQUE => ("01110", "10111", "01111", "11111", "01110"),
+	 OTHERS=> (OTHERS => (OTHERS => '0')));
 	 
 	TYPE mapa_t is array(0 to SCR_WDT*SCR_HGT-1) of tab_sym;
 	CONSTANT MAPA_INICIAL: mapa_t := 
