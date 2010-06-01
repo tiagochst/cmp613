@@ -1,5 +1,6 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
+use work.pac_defs.all;
 
 ENTITY kbd_key IS 
   PORT (
@@ -13,17 +14,11 @@ ENTITY kbd_key IS
     PS2_DAT : inout STD_LOGIC;                      --   PS2 Data
     PS2_CLK : inout STD_LOGIC;	                    --   PS2 Clock
     ---------------------------Players direction -----------------------
-    p1_dir,p2_dir: OUT STD_LOGIC_VECTOR(2 downto 0)
+    p1_dir,p2_dir: OUT t_direcao
     );
 END;
 
 architecture struct of kbd_key is
-
-   COMPONENT player_dir is 
-      port( code: IN STD_LOGIC_VECTOR(47 downto 0);
-            p1_dir,p2_dir: OUT STD_LOGIC_VECTOR(2 downto 0));
-      END COMPONENT player_dir;
-
   component kbdex_ctrl
     generic(
       clkfreq : INTEGER
@@ -47,8 +42,8 @@ architecture struct of kbd_key is
 BEGIN 
   resetn <= KEY;
 
-  code:player_dir port map(
-    key_all,p1_dir,p2_dir
+  code: entity WORK.player_dir port map(
+    key_all, p1_dir, p2_dir
   );
 
   kbd_ctrl : kbdex_ctrl generic map(24000) port map(
