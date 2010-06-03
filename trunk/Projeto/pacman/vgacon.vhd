@@ -64,12 +64,14 @@
 --
 -- These signals follow simple memory write protocol (we=1 writes
 -- data_in to address (pixel number) write_addr. This last signal may assume
--- NUM_HORZ_PIXELS * NUM_VERT_PIXELS different values, corresponding to each
+-- NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS different values, corresponding to each
 -- one of the displayable pixels.
 -------------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+USE work.PAC_DEFS.all;
 
 entity vgacon is
   generic (
@@ -77,20 +79,20 @@ entity vgacon is
     --  Must also keep in mind that our native resolution is 640x480, and
     --  you can't cross these bounds (although you will seldom have enough
     --  on-chip memory to instantiate this module with higher res).
-    NUM_HORZ_PIXELS : natural := 128;  -- Number of horizontal pixels
-    NUM_VERT_PIXELS : natural := 96);  -- Number of vertical pixels
+    NUM_HORZ_BLOCKS : natural := 128;  -- Number of horizontal pixels
+    NUM_VERT_BLOCKS : natural := 96);  -- Number of vertical pixels
   
   port (
     clk27M, rstn              : in  std_logic;
     write_clk, write_enable   : in  std_logic;
     write_addr                : in  integer range 0 to
-                                  NUM_HORZ_PIXELS * NUM_VERT_PIXELS - 1;
-    data_in                   : in  std_logic_vector(2 downto 0);
+                                  NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS - 1;
+    data_in                   : in  blk_sym;
     vga_clk                   : buffer std_logic;       -- Ideally 25.175 MHz
-    vga_block                 : out std_logic_vector(2 downto 0); --at 25.2 MHz
-    data_block                : out std_logic_vector(2 downto 0); --at 27 MHz
+    vga_pixel                 : out color_3b; --at 25.2 MHz
+    data_block                : out blk_sym; --at 27 MHz
     hsync, vsync              : out std_logic;
-    ovl_in                    : in std_logic_vector(2 downto 0);
+    ovl_in                    : in ovl_blk_sym;
     ovl_we                    : in std_logic);
 end vgacon;
 
@@ -102,9 +104,12 @@ architecture behav of vgacon is
   signal h_count, h_count_d : integer range 0 to 799;  -- horizontal counter
   signal v_count, v_count_d : integer range 0 to 524;  -- vertical counter
   -- We only want to address HORZ*VERT pixels in memory
-  signal read_addr : integer range 0 to NUM_HORZ_PIXELS * NUM_VERT_PIXELS - 1;
+  signal read_addr : integer range 0 to NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS - 1;
   signal h_drawarea, v_drawarea, drawarea : std_logic;
-  signal vga_data_out, vga_ovl_data_out	  : std_logic_vector(2 downto 0);
+  signal vga_data_out	  : blk_sym;
+  signal vga_ovl_data_out : ovl_blk_sym;
+  signal id_vga_data_out, id_data_block, id_data_in: t_blk_id;
+  signal id_ovl_in, id_vga_ovl_data_out: t_ovl_blk_id;
 begin  -- behav
 
   -- This is our PLL (Phase Locked Loop) to divide the DE1 27 MHz
@@ -116,27 +121,35 @@ begin  -- behav
   -- to write contents to this memory, modifying pixels individually.
   vgamem0 : work.dual_clock_ram
   generic map (
-    MEMSIZE => NUM_HORZ_PIXELS * NUM_VERT_PIXELS)
+    MEMSIZE => NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS,
+    MEMWDT  => 4)
   port map (
     read_clk       => vga_clk,
     write_clk      => write_clk,
     read_address   => read_addr,
     write_address  => write_addr,
-    data_in        => data_in,
-    rdata_out      => vga_data_out,
-    wdata_out      => data_block,
+    data_in        => id_data_in,
+    rdata_out      => id_vga_data_out,
+    wdata_out      => id_data_block,
     we             => write_enable);
   vgamem1 : work.dual_clock_ram
   generic map (
-    MEMSIZE => NUM_HORZ_PIXELS * NUM_VERT_PIXELS)
+    MEMSIZE => NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS,
+    MEMWDT  => 8)
   port map (
     read_clk       => vga_clk,
     write_clk      => write_clk,
     read_address   => read_addr,
     write_address  => write_addr,
-    data_in        => ovl_in,
-    rdata_out      => vga_ovl_data_out,
+    data_in        => id_ovl_in,
+    rdata_out      => id_vga_ovl_data_out,
     we             => ovl_we);
+    
+  id_data_in       <= std_logic_vector(to_unsigned(blk_sym'pos(data_in), 4));
+  id_ovl_in        <= std_logic_vector(to_unsigned(ovl_blk_sym'pos(ovl_in), 8));  
+  vga_data_out     <= blk_sym'val(to_integer(unsigned(id_vga_data_out)));
+  data_block       <= blk_sym'val(to_integer(unsigned(id_data_block)));
+  vga_ovl_data_out <= ovl_blk_sym'val(to_integer(unsigned(id_vga_ovl_data_out)));
 
   -- purpose: Increments the current horizontal position counter
   -- type   : sequential
@@ -231,25 +244,29 @@ begin  -- behav
   -- outputs: read_addr
   gen_r_addr: process (h_count, v_count)
   begin  -- process gen_r_addr
-    read_addr <= h_count / (640 / NUM_HORZ_PIXELS)
-                 + ((v_count/(480 / NUM_VERT_PIXELS))
-                    * NUM_HORZ_PIXELS);    
+    read_addr <= h_count / (640 / NUM_HORZ_BLOCKS)
+                 + ((v_count/(480 / NUM_VERT_BLOCKS))
+                    * NUM_HORZ_BLOCKS);
   end process gen_r_addr;
 
   -- Build color signals based on memory output and "drawarea" signal
   -- (if we are not in the drawable area of 640x480, must deassert all
   --  color signals).
   --MODIFICADO--------------
-  PROCESS (vga_data_out, vga_ovl_data_out, drawarea)
+  PROCESS (vga_data_out, vga_ovl_data_out, drawarea, h_count, v_count)
   BEGIN
     IF (drawarea = '1') THEN
-	  IF (vga_ovl_data_out /= "000") THEN
-        vga_block <= vga_ovl_data_out;
+	  IF (vga_ovl_data_out /= BLK_NULL) THEN
+        vga_pixel(0) <= OVL_SPRITES_RED(vga_ovl_data_out)(v_count mod 5, (h_count+4) mod 5);
+        vga_pixel(1) <= OVL_SPRITES_GRN(vga_ovl_data_out)(v_count mod 5, (h_count+4) mod 5);
+        vga_pixel(2) <= OVL_SPRITES_BLU(vga_ovl_data_out)(v_count mod 5, (h_count+4) mod 5);
       ELSE
-        vga_block <= vga_data_out;
+        vga_pixel(0) <= SPRITES_RED(vga_data_out)(v_count mod 5, (h_count+4) mod 5);
+        vga_pixel(1) <= SPRITES_GRN(vga_data_out)(v_count mod 5, (h_count+4) mod 5);
+        vga_pixel(2) <= SPRITES_BLU(vga_data_out)(v_count mod 5, (h_count+4) mod 5);
       END IF;
     ELSE
-      vga_block <= (others => '0');
+      vga_pixel <= (others => '0');
     END IF;  
   END PROCESS;    
 end behav;
@@ -266,31 +283,32 @@ end behav;
 
 library ieee;
 use ieee.std_logic_1164.all;
+USE work.PAC_DEFS.all;
 
 entity dual_clock_ram is
 
   generic (
-    MEMSIZE : natural);  
+    MEMSIZE : natural;
+    MEMWDT  : natural);  
   port (
     read_clk, write_clk         : in  std_logic;  -- support different clocks
-    data_in                     : in  std_logic_vector(2 downto 0);
+    data_in                     : in  std_logic_vector(MEMWDT-1 downto 0);
     write_address, read_address : in  integer range 0 to MEMSIZE - 1;  
     we                          : in  std_logic;  -- write enable
-    rdata_out, wdata_out        : out std_logic_vector(2 downto 0));
-
+    rdata_out, wdata_out        : out std_logic_vector(MEMWDT-1 downto 0));
 end dual_clock_ram;
 
 architecture behav of dual_clock_ram is
   -- we only want to address (store) MEMSIZE elements 
   subtype addr is integer range 0 to MEMSIZE - 1;
-  type mem is array (addr) of std_logic_vector(2 downto 0);
+  type mem is array (addr) of std_logic_vector(MEMWDT-1 downto 0);
   signal ram_block : mem;
   -- we don't care with read after write behavior (whether ram reads
   -- old or new data in the same cycle).
   attribute ramstyle : string;
   attribute ramstyle of dual_clock_ram : entity is "no_rw_check";
-  attribute ram_init_file : string;
-  attribute ram_init_file of ram_block : signal is "vga_mem.mif";
+  --attribute ram_init_file : string;
+  --attribute ram_init_file of ram_block : signal is "vga_mem.mif";
 
 begin  -- behav
 

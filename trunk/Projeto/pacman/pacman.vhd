@@ -8,7 +8,7 @@ ENTITY pacman is
     clk27M, reset_button      : in  STD_LOGIC;
     red, green, blue          : out STD_LOGIC_vector(3 downto 0);
     hsync, vsync              : out STD_LOGIC;
-    LEDG  : BUFFER STD_LOGIC_VECTOR (7 downto 5);   --   LED Green
+    LEDG  	: BUFFER STD_LOGIC_VECTOR (7 downto 5); --   LED Green
     PS2_DAT : inout STD_LOGIC;                      --   PS2 Data
     PS2_CLK : inout STD_LOGIC	                    --   PS2 Clock
     );
@@ -21,8 +21,8 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL we : STD_LOGIC;                          -- write enable ('1' p/ escrita)
     SIGNAL addr : INTEGER 
                   range 0 to SCR_HGT*SCR_WDT-1;     -- ENDereco mem. vga
-    SIGNAL block_in, block_out : block3;            -- dados trocados com a mem. vga
-    SIGNAL vga_block_out: block3;
+    SIGNAL block_in, block_out : blk_sym;           -- dados trocados com a mem. vga
+    SIGNAL vga_pixel_out: color_3b;
 
     -- Sinais dos contadores de linhas e colunas utilizados para percorrer
     -- as posições da memória de vídeo (pixels) no momento de construir um quadro.
@@ -43,7 +43,7 @@ ARCHITECTURE comportamento of pacman is
     
     -- Sinais de desenho em overlay sobre o cenário do jogo
     SIGNAL overlay: STD_LOGIC;
-    SIGNAL ovl_in: block3;
+    SIGNAL ovl_blk_in: ovl_blk_sym;
 
     -- Sinais para um contador utilizado para atrasar 
     -- a frequência da atualização
@@ -51,8 +51,7 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL timer : STD_LOGIC;                       -- vale '1' quando o contador chegar ao fim
     SIGNAL timer_rstn, timer_enable : STD_LOGIC;
     
-    SIGNAL mem_area: tab_sym_3x3;
-	SIGNAL code: tab_sym;
+    SIGNAL mem_area: blk_sym_3x3;
     
     COMPONENT counter IS
 	PORT (clk, rstn, en: IN STD_LOGIC;
@@ -60,14 +59,13 @@ ARCHITECTURE comportamento of pacman is
 	      q: OUT INTEGER);
 	END COMPONENT counter;
 	
-	FUNCTION walkable(s: tab_sym)
+	FUNCTION walkable(s: blk_sym)
 		RETURN boolean IS
 	BEGIN
-		IF (s = '.' or s = '2') THEN RETURN true;
+		IF (s = BLK_PATH or s = BLK_COIN or s = BLK_SPC_COIN) THEN RETURN true;
 		ELSE RETURN false;
 		END IF;
 	END FUNCTION;
-
 
     -----------------------------------------------------------------------------
     -- Sinais de controle da lógica do jogo
@@ -77,9 +75,9 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL pac_pos_x: INTEGER range 0 to TAB_LEN-1 := PAC_START_X;
     SIGNAL pac_pos_y: INTEGER range 0 to TAB_LEN-1 := PAC_START_Y;
     SIGNAL pac_cur_dir: t_direcao;
- 	SIGNAL nxt_cel, dir_cel, esq_cel, cim_cel, bai_cel: tab_sym;
+    SIGNAL pac_est_boca: UNSIGNED(1 downto 0); -- o MSB indica boca aberta ou fechada
+ 	SIGNAL nxt_cel, dir_cel, esq_cel, cim_cel, bai_cel: blk_sym;
 	SIGNAL p1_dir,p2_dir: t_direcao; -- sinais lidos pelo teclado
-    
 BEGIN
     -- Controlador VGA (resolução 128 colunas por 96 linhas)
     -- Sinais:(aspect ratio 4:3). Os sinais que iremos utilizar para comunicar
@@ -90,7 +88,7 @@ BEGIN
     vga_controller: entity work.vgacon port map (
         clk27M       => clk27M,
         rstn         => '1',
-        vga_block    => vga_block_out,
+        vga_pixel    => vga_pixel_out,
         data_block   => block_out,
         hsync        => hsync,
         vsync        => vsync,
@@ -98,12 +96,13 @@ BEGIN
         write_enable => we,
         write_addr   => addr,
         data_in      => block_in,
-        ovl_in       => ovl_in,
-        ovl_we       => overlay);	
+        ovl_in       => ovl_blk_in,
+        ovl_we       => overlay);
         
-    red   <= RED_CMP(to_integer(unsigned(vga_block_out)));
-	green <= GRN_CMP(to_integer(unsigned(vga_block_out)));
-	blue  <= BLU_CMP(to_integer(unsigned(vga_block_out)));
+    -- Atribuição capada das cores 3b -> 12b
+    red   <= (OTHERS => vga_pixel_out(0));
+    green <= (OTHERS => vga_pixel_out(1));
+    blue  <= (OTHERS => vga_pixel_out(2));     
 	
 	-- Controlador do teclado. Devolve os sinais síncronos das teclas
 	-- de interesse pressionadas ou não.
@@ -143,18 +142,6 @@ BEGIN
     -- podemos avançar para o próximo estado?
     fim_escrita <= '1' WHEN (line = SCR_HGT-1) and (col = SCR_WDT-1)
                    ELSE '0';
-				  
-	PROCESS (block_out)
-	BEGIN
-		CASE block_out IS
-			WHEN "000"  => code <= ' ';
-			WHEN "001"  => code <= '.';
-			WHEN "010"  => code <= '1';
-			WHEN "011"  => code <= '2';
-			WHEN "100"  => code <= '3';
-			WHEN OTHERS => code <= ' '; 
-		END CASE;
-	END PROCESS;
 	
 	-- purpose: Preenche a matriz 3x3 mem_area no estado MEMORIA_RD
     -- type   : sequential
@@ -169,7 +156,7 @@ BEGIN
 				y_offset := line - pac_pos_y;
 				x_offset := col - pac_pos_x;
 				IF (x_offset >=0 and x_offset <=2 and y_offset >=-1 and y_offset<=1) THEN
-					mem_area(y_offset, x_offset-1) <= code;
+					mem_area(y_offset, x_offset-1) <= block_out;
 				END IF;
 			END IF;
 		END IF;
@@ -200,6 +187,7 @@ BEGIN
             pac_pos_x <= PAC_START_X;
             pac_pos_y <= PAC_START_Y;
 			pac_cur_dir <= DIREI; --inicializa direcao para direita
+			pac_est_boca <= (OTHERS => '0');
 			nxt_move := NADA;
         ELSIF (clk27M'event and clk27M = '1') THEN
              IF (estado = ATUALIZA_LOGICA) THEN
@@ -227,7 +215,7 @@ BEGIN
 					pac_cur_dir <= ESQUE;
 					nxt_move := NADA;
                 ELSIF (walkable(nxt_cel)) THEN --atualiza posicao
-					IF(pac_pos_x = 82) then
+					IF(pac_pos_x = 82) then --teletransporte
 						pac_pos_x <= 3;
 					ELSIF(pac_pos_x = 2) then
 						pac_pos_x <= 81;
@@ -237,12 +225,14 @@ BEGIN
 					END IF;
                  END IF;
                 
-                IF (nxt_cel = '2') THEN --checa se obteve moeda                    
+                IF (nxt_cel = BLK_COIN or nxt_cel = BLK_SPC_COIN) THEN
                     got_coin <= '1';
                 ELSE
                     got_coin <= '0';
                 END IF;
                 p1_dir_old := p1_dir;
+				
+				pac_est_boca <= pac_est_boca + 1;
             END IF;
         END IF;
 	END PROCESS;
@@ -250,28 +240,22 @@ BEGIN
 	-- purpose: Processo para que gera sinais de desenho de 
 	--			overlay (ie, sobre o fundo) do pacman e dos fantasmas 
     -- type   : combinational
-    des_overlay: PROCESS (pac_pos_x, pac_pos_y, pac_cur_dir, estado, line, col)
+    des_overlay: PROCESS (pac_pos_x, pac_pos_y, pac_cur_dir, pac_est_boca, line, col)
 		VARIABLE x_offset, y_offset: INTEGER range -TAB_LEN to TAB_LEN;
     BEGIN
         --Sinais para desenho do pacman na tela durante PERCORRE_QUADRO
         y_offset := line - pac_pos_y + 2;
         x_offset := col - pac_pos_x + 2;
         
-        if (pac_pos_y = line and pac_pos_x = col) THEN
-			ovl_in <= "101";
-		ELSE
-			ovl_in <= "000";
-		END IF;
-        
 		IF (x_offset>=0 and x_offset<5 and 
-			y_offset>=0 and y_offset<5) THEN                
-			IF (PAC_BITMAPS(pac_cur_dir)(y_offset, x_offset) = '1') THEN
-				ovl_in <= "101";
+			y_offset>=0 and y_offset<5) THEN
+			IF (pac_est_boca(1) = '0') THEN
+				ovl_blk_in <= PAC_BITMAPS(pac_cur_dir)(y_offset, x_offset);
 			ELSE
-				ovl_in <= "000";
+				ovl_blk_in <= PAC_BITMAPS(NADA)(y_offset, x_offset);
 			END IF;
 		ELSE
-			ovl_in <= "000";
+			ovl_blk_in <= BLK_NULL;
 		END IF;
     END PROCESS;
 
@@ -279,18 +263,12 @@ BEGIN
 	def_block_in: PROCESS (estado, addr)
 	BEGIN
 		IF (estado = CARREGA_MAPA) THEN
-			CASE MAPA_INICIAL(addr) IS
-				WHEN ' '    => block_in <= "000";
-				WHEN '.'    => block_in <= "001";
-				WHEN '1' 	=> block_in <= "010";
-				WHEN '2'    => block_in <= "011";
-				WHEN '3'	=> block_in <= "100";
-			END CASE;
+			block_in <= CONV_TAB_BLK(MAPA_INICIAL(addr));
 		ELSE	 
-			block_in <= "001";
+			block_in <= BLK_PATH; --Caso que a moeda é comida pelo pacman
 		END IF;
 	END PROCESS;
-
+    
     -----------------------------------------------------------------------------
     -- Processos que definem a FSM (finite state machine), nossa máquina
     -- de estados de controle.
