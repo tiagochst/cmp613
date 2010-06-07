@@ -1,4 +1,4 @@
-#LyX 1.6.6.1 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -19,6 +19,41 @@
 \usepackage{listings}
 \usepackage{indentfirst}
 \usepackage{multicol}
+\usepackage{listings}
+\lstset{language=VHDL,numbers= left}
+\usepackage{listings}
+  \usepackage{courier}
+ \lstset{
+         basicstyle=\footnotesize\ttfamily, 
+         %numbers=left,               
+         numberstyle=\tiny,         
+         %stepnumber=2,              
+         numbersep=5pt,             
+         tabsize=2,                  
+         extendedchars=true,  
+         breaklines=true,       
+         keywordstyle=\color{blue},
+         frame=b,         
+         stringstyle=\color{green}\ttfamily, 
+         showspaces=false,          
+         showtabs=false,             
+         xleftmargin=17pt,
+         framexleftmargin=17pt,
+         framexrightmargin=5pt,
+         framexbottommargin=4pt,
+         %backgroundcolor=\color{lightgray},
+         showstringspaces=false              
+  }
+ \lstloadlanguages{C
+ }
+  \usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFont{green}{\color{green}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+
+
+
 
 \newcommand*{\titleTMB}{\begingroup \centering \settowidth{\unitlength}{\LARGE MC 613} \vspace*{\baselineskip} {\large\scshape  Grupo 5 - Turma A}\\[\baselineskip] \rule{11.0cm}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} \rule{11.0cm}{0.4pt}\\[\baselineskip] {\LARGE Sexto laboratório }\\[0.2\baselineskip] {\LARGE de Circuitos Digitais}\\[0.2\baselineskip] {\itshape MC 613 - Primeiro Semestre de 2010}\\[0.2\baselineskip] \rule{11.0cm}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} \rule{11.0cm}{1.6pt}\\[\baselineskip] {\large\scshape Professor: Guido Araújo}\par \vfill {\normalsize   \scshape 
 \begin{center} 
@@ -221,6 +256,29 @@ Essa implementação não consegue ser totalmente genérica devido à função
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:Componente-do-detector,caption=Componente do detector
+ de padrão 
+\backslash
+ref{sub:Registrador-de-Deslocamento} em VHDL]{pat_shift_det.vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 \begin_inset Float algorithm
 placement H
 wide false
@@ -298,7 +356,35 @@ name "alg:Componente-do-detector"
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:top-level-detector,caption=Top-level do detector
+ 
+\backslash
+ref{sub:Registrador-de-Deslocamento} em VHDL]{pat_shift.vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 \begin_inset Float algorithm
 placement H
 wide false
@@ -369,12 +455,40 @@ reference "sub:Registrador-de-Deslocamento"
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:top-level-detector-maq,caption=Top-level do detector
+ 
+\backslash
+ref{sub:Máquina-de-Estados} em VHDL]{pat_state.vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset Float algorithm
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset ERT
@@ -440,12 +554,38 @@ reference "sub:Máquina-de-Estados"
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:Componente-de-amostragem,caption=Componente de
+ amostragem de push button (usado em vários projetos) em VHDL]{buff.vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset Float algorithm
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset ERT
@@ -499,6 +639,11 @@ push button
 \begin_inset CommandInset label
 LatexCommand label
 name "alg:Componente-de-amostragem"
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -637,11 +782,32 @@ push button
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:detec_pal,caption=Top-level do detector de palavras
+ em VHDL]{word_detect.vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset Float algorithm
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset ERT
@@ -700,6 +866,11 @@ Top-level do detector de palavras em VHDL
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Float figure
 wide false
@@ -737,6 +908,256 @@ Simulação do detector de palavras
 
 \begin_layout Section
 Questão 3
+\end_layout
+
+\begin_layout Standard
+Utilizando as mega funções disponíveis para a FPGA, projetou-se, inicialmente,
+ uma memória RAM de 64B com operações de escrita e leitura.RAM possui as
+ seguintes pinagens:
+\end_layout
+
+\begin_layout Standard
+• As linhas de endereço (6 bits para acesso a todas as posições dos bytes)
+\end_layout
+
+\begin_layout Itemize
+Pinos de entradas e saídas de dados.
+\end_layout
+
+\begin_layout Itemize
+E = Chip enable, possibilita utilização da RAM se valor é igual 1.
+\end_layout
+
+\begin_layout Itemize
+W = write enable, possibilita escrita na ram se valor igual a 1.
+\end_layout
+
+\begin_layout Itemize
+G = output enable, possibilita acessar dados lidos da RAM.
+\end_layout
+
+\begin_layout Standard
+Vale a pena observar que se W= 1 e G = 1 representaria escrita e leitura
+ simultâneas no mesmo endereço, logo, devido a inconsistência dessa ação,
+ não é realizado nem escrita nem leitura.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:cmp_ram,caption=Memória RAM de 64B em VHDL]{ram_64B.vhd
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "ram_64B.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Memória RAM de 64B em VHDL
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:cmp_ram"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Posteriormente utilizando quatro módulos dos componente anterior projetamos
+ um sistema de memória RAM com 256B.
+\end_layout
+
+\begin_layout Standard
+Utilizando as 10 toggle switches, carrega-se os 10 bits de endereço no primeiro
+ ciclo, já no segundo carrega-se os 8 bits de dados mais os bits de enable
+ das operações de leitura e escrita.
+\end_layout
+
+\begin_layout Standard
+Para a escolha da ram utilizamos um multiplexador que avaliam os 4 bits
+ mais significativos do endereço.Se a ram é escolhida seu chi enable passa
+ a valer 1 caso contrário 0.
+\end_layout
+
+\begin_layout Standard
+Usamos os displays de 7 segmentos para apresentarem o resultado da operação
+ da leitura da ram.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:256ram,caption=Memória RAM de 256B em VHDL]{ram4x64B.vh
+d}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "ram4x64B.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Memória RAM de 64B em VHDL
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:256ram"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -794,11 +1215,32 @@ OpCode
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=via_dados.vhd,caption=Top-level da via de dados em
+ VHDL]{via_dados.vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset Float algorithm
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset ERT
@@ -857,6 +1299,11 @@ Top-level da via de dados em VHDL
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Float figure
 wide false
@@ -894,6 +1341,49 @@ Simulação da via de dados
 
 \begin_layout Section
 Questão 5
+\end_layout
+
+\begin_layout Standard
+Utilizando o módulo vgacon e o arquivo de exemplo disponibilizado, que contém
+ uma demonstração de uma bola percorrendo o espaço visível e quicando nas
+ laterais do monitor promovemos alterações de modo que a bola deixasse um
+ rastro pelo caminho percorrido criando uma variável que não permitiria
+ a escritam em posições anteiriores percorridas pela bola e criamos o processo
+ atualiza_cor para a alteração da cor da bola sempre que ela mudasse de
+ direção, ou seja nos cantos da tela.Vale a observar que ao ocorrem mudanças
+ tanto na direção vertical quanto horizontal a cor deveria mudar somente
+ uma vez, para isso adicionamos as condições nas linhas 35 e 40 do código
+ abaixo.
+\end_layout
+
+\begin_layout Standard
+Posteriormente criamos a função de reset que cria um novo estdado chamado
+ apaga_quadro (ver linha 83 do código abaixo), que retorna a bola ao pixel
+ na posiçao (0,0), ponto superior esquerdo da tela, e apaga os rastros na
+ tela.
+\end_layout
+
+\begin_layout Standard
+O arquivo no formato MIF disponibilizado é usado para especificar conteúdo
+ inicial da RAM, como deveríamos ter uma tela preta, alteramos o arquivo
+ para que todos os campos passassem a ter um valor 0.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=bounce.vhdl,caption=Arquivo responsável pelo comportamento
+ da bola]{bounce.vhd}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
