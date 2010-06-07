@@ -6,16 +6,16 @@ ENTITY ram4x64B IS
 	PORT
 	(
 		clk       :IN STD_LOGIC ; 
-		input     : IN STD_LOGIC_VECTOR (7 DOWNTO 0);  -- dados entrada
+		input     : IN STD_LOGIC_VECTOR (7 DOWNTO 0);     -- dados entrada
 		output    : BUFFER STD_LOGIC_VECTOR (7 DOWNTO 0); -- saida
-		--address   : IN STD_LOGIC_VECTOR (7 DOWNTO 0);  -- endereco
-		wren      : IN STD_LOGIC;                      -- W write-enable
-		rden      : IN STD_LOGIC;                       -- G read-enable
+		wren      : IN STD_LOGIC;                         -- W write-enable
+		rden      : IN STD_LOGIC;                         -- G read-enable
 		chmod       : IN STD_LOGIC  ;                     -- G read-enable
-		modled       : OUT STD_LOGIC ;                      -- G read-enable
-		wrled       : OUT STD_LOGIC;                       -- G read-enable
-		rdled       : OUT STD_LOGIC                       -- G read-enable
-	
+		modled       : OUT STD_LOGIC ;                    -- G read-enable
+		wrled       : OUT STD_LOGIC;                      -- G read-enable
+		rdled       : OUT STD_LOGIC ;                     -- G read-enable
+        seg1, seg0: OUT STD_LOGIC_VECTOR(6 downto 0)     --sete segmentos
+
 	);
 END ram4x64B;
 
@@ -23,6 +23,11 @@ ARCHITECTURE behav OF ram4x64B IS
 SIGNAL sel:STD_LOGIC_VECTOR (3 DOWNTO 0);
 SIGNAL	q_sig,q_sig1,q_sig2,q_sig3,q_sig4 : STD_LOGIC_VECTOR (7 DOWNTO 0); -- saida
 
+
+COMPONENT conv_7seg IS
+	PORT (x: IN STD_LOGIC_VECTOR(3 downto 0);
+	      y: OUT STD_LOGIC_VECTOR(6 downto 0));
+END COMPONENT conv_7seg;
 
 COMPONENT ram_64B IS
 	PORT
@@ -132,5 +137,12 @@ ram4: ram_64B PORT MAP (
 			END IF;	
 		END IF;
 	END PROCESS;	
+
+	--leitura da memoria RAM
+	cseg0: COMPONENT conv_7seg
+		PORT MAP (output(3 downto 0), seg0);
+	cseg1: COMPONENT conv_7seg
+		PORT MAP (output(7 downto 4), seg1);
+
 
 END behav;
