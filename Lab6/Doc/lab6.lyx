@@ -1047,20 +1047,23 @@ Posteriormente utilizando quatro módulos dos componente anterior projetamos
 
 \begin_layout Standard
 Utilizando as 10 toggle switches, carrega-se os 10 bits de endereço no primeiro
- ciclo, já no segundo carrega-se os 8 bits de dados mais os bits de enable
- das operações de leitura e escrita.
+ ciclo (Led verde aceso) , já no segundo (Led verde apagado) carrega-se
+ os 8 bits de dados mais os bits de enable das operações de leitura e escrita.
 \end_layout
 
 \begin_layout Standard
 Para a escolha da ram utilizamos um multiplexador que avaliam os 4 bits
- mais significativos do endereço.Se a ram é escolhida seu chi enable passa
- a valer 1 caso contrário 0.
+ mais significativos do endereço.
+ Se a ram é escolhida, seu chip enable passa a valer 1, caso contrário,
+ 0.
+ E usamos os displays de 7 segmentos para apresentarem o resultado da operação
+ da leitura da ram.
+ 
 \end_layout
 
 \begin_layout Standard
-Usamos os displays de 7 segmentos para apresentarem o resultado da operação
- da leitura da ram.
- 
+Adicionamos um push button para a mudança de estados e a confimação de execução
+ dos dados.
 \end_layout
 
 \begin_layout Standard
