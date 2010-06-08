@@ -14,8 +14,11 @@ use work.pac_defs.all;
 --(maximo tres teclas pressionadas 16 bits cada)
 -- p1_dir - p2_dir representacao de cima,desce,esquerda,direita,nenhuma
 entity player_dir is 
-port( code: IN STD_LOGIC_VECTOR(47 downto 0);
-       p1_dir,p2_dir: OUT t_direcao);
+port(
+	code: IN STD_LOGIC_VECTOR(47 downto 0);
+	p1_dir,p2_dir: OUT t_direcao;
+	p2_key0: OUT STD_LOGIC
+);
 end entity player_dir;
 
 architecture rtl of player_dir is
@@ -185,4 +188,7 @@ begin
 		ELSE  BAIXO WHEN (key_1 = x"001b" or key_2 = x"001b" or key_3 = x"001b")
 		ELSE  ESQUE WHEN (key_1 = x"001c" or key_2 = x"001c" or key_3 = x"001c")
 		ELSE  NADA;
+		
+	p2_key0 <= '1' WHEN (key_1 = x"0029" or key_2 = x"0029" or key_3 = x"0029")
+		ELSE '0';
 END rtl;
