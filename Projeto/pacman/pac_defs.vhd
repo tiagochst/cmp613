@@ -57,8 +57,13 @@ PACKAGE pac_defs IS
 					 BLK_PAC_FEC_10, BLK_PAC_FEC_11, BLK_PAC_FEC_12, BLK_PAC_FEC_13, BLK_PAC_FEC_14,
 					 BLK_PAC_FEC_20, BLK_PAC_FEC_21, BLK_PAC_FEC_22, BLK_PAC_FEC_23, BLK_PAC_FEC_24,
 					 BLK_PAC_FEC_30, BLK_PAC_FEC_31, BLK_PAC_FEC_32, BLK_PAC_FEC_33, BLK_PAC_FEC_34,
-					 BLK_PAC_FEC_40, BLK_PAC_FEC_41, BLK_PAC_FEC_42, BLK_PAC_FEC_43, BLK_PAC_FEC_44
-					 );
+					 BLK_PAC_FEC_40, BLK_PAC_FEC_41, BLK_PAC_FEC_42, BLK_PAC_FEC_43, BLK_PAC_FEC_44,
+					 BLK_FAN_00, BLK_FAN_01, BLK_FAN_02, BLK_FAN_03, BLK_FAN_04,
+					 BLK_FAN_10, BLK_FAN_11, BLK_FAN_12, BLK_FAN_13, BLK_FAN_14,
+					 BLK_FAN_20, BLK_FAN_21, BLK_FAN_22, BLK_FAN_23, BLK_FAN_24,
+					 BLK_FAN_30, BLK_FAN_31, BLK_FAN_32, BLK_FAN_33, BLK_FAN_34,
+					 BLK_FAN_40, BLK_FAN_41, BLK_FAN_42, BLK_FAN_43, BLK_FAN_44
+					);
 					 
 	TYPE c_tab_blk is array(tab_sym) of blk_sym;
 	CONSTANT CONV_TAB_BLK: c_tab_blk := 
@@ -70,9 +75,17 @@ PACKAGE pac_defs IS
 	
 	TYPE sprite5 is array(0 to 4, 0 to 4) of STD_LOGIC;
 	TYPE ovl_blk_5x5 is array(0 to 4, 0 to 4) of ovl_blk_sym;
-	TYPE ovl_blocks_vet is array(t_direcao) of ovl_blk_5x5;
+	TYPE ovl_blk_dir_vet is array(t_direcao) of ovl_blk_5x5;
 	TYPE sprite5_vet is array(blk_sym) of sprite5;
-	TYPE ovl_sprite5_vet is array(ovl_blk_sym) of sprite5;	
+	TYPE ovl_sprite5_vet is array(ovl_blk_sym) of sprite5;
+	
+	CONSTANT FAN_NO: INTEGER := 2; --Número de fantasmas
+	--Tipos em array para os fantasmas
+	SUBTYPE t_pos is INTEGER range 0 to TAB_LEN-1;
+	TYPE t_fans_pos is array(0 to FAN_NO-1) of t_pos;
+	TYPE t_fans_dirs is array(0 to FAN_NO-1) of t_direcao;
+	TYPE t_fans_blk_sym is array(0 to FAN_NO-1) of blk_sym;
+	TYPE t_fans_blk_sym_3x3 is array(0 to FAN_NO-1) of blk_sym_3x3;
 	   
 	--Fator de divisão do clock de 27MHz, usada para atualização do
 	--estado do jogo ("velocidade de execução")
@@ -88,9 +101,11 @@ PACKAGE pac_defs IS
 	
 	CONSTANT PAC_START_X : INTEGER := 42;
 	CONSTANT PAC_START_Y : INTEGER := 71;
+	CONSTANT FANS_START_X : t_fans_pos := (40, 55);
+	CONSTANT FANS_START_Y : t_fans_pos := (35, 35);
 	
 	--Desenhos do pacman nas quatro possiveis direcoes
-	CONSTANT PAC_BITMAPS: ovl_blocks_vet := (
+	CONSTANT PAC_BITMAPS: ovl_blk_dir_vet := (
 	CIMA =>  ((BLK_PAC_CIM_00, BLK_PAC_CIM_01, BLK_PAC_CIM_02, BLK_PAC_CIM_03, BLK_PAC_CIM_04),
 	           (BLK_PAC_CIM_10, BLK_PAC_CIM_11, BLK_PAC_CIM_12, BLK_PAC_CIM_13, BLK_PAC_CIM_14),
 	           (BLK_PAC_CIM_20, BLK_PAC_CIM_21, BLK_PAC_CIM_22, BLK_PAC_CIM_23, BLK_PAC_CIM_24),
@@ -117,6 +132,13 @@ PACKAGE pac_defs IS
 	           (BLK_PAC_FEC_30, BLK_PAC_FEC_31, BLK_PAC_FEC_32, BLK_PAC_FEC_33, BLK_PAC_FEC_34),
 	           (BLK_PAC_FEC_40, BLK_PAC_FEC_41, BLK_PAC_FEC_42, BLK_PAC_FEC_43, BLK_PAC_FEC_44))
 	);
+	
+	CONSTANT FAN_BITMAPS: ovl_blk_5x5 := (
+		(BLK_FAN_00, BLK_FAN_01, BLK_FAN_02, BLK_FAN_03, BLK_FAN_04),
+		(BLK_FAN_10, BLK_FAN_11, BLK_FAN_12, BLK_FAN_13, BLK_FAN_14),
+		(BLK_FAN_20, BLK_FAN_21, BLK_FAN_22, BLK_FAN_23, BLK_FAN_24),
+		(BLK_FAN_30, BLK_FAN_31, BLK_FAN_32, BLK_FAN_33, BLK_FAN_34),
+		(BLK_FAN_40, BLK_FAN_41, BLK_FAN_42, BLK_FAN_43, BLK_FAN_44));
 	 
 	--A longa lista de sprites 5x5 usados para mascarar um bloco
 	--em 5x5 pixels em três componentes de cores (8 cores)
@@ -270,10 +292,35 @@ PACKAGE pac_defs IS
 	BLK_PAC_FEC_44 => ("11100","11000","10000","00000","00000"),
 	OTHERS			=> (OTHERS => (OTHERS => '0')));
 	
-	CONSTANT OVL_SPRITES_GRN: ovl_sprite5_vet := (
-	OTHERS			=> (OTHERS => (OTHERS => '0')));	
+	CONSTANT OVL_SPRITES_GRN: ovl_sprite5_vet := OVL_SPRITES_RED;
 	
-	CONSTANT OVL_SPRITES_BLU: ovl_sprite5_vet := OVL_SPRITES_RED;
+	CONSTANT OVL_SPRITES_BLU: ovl_sprite5_vet := (
+	BLK_FAN_00 => ("00000","00000","00000","00000","00001"),
+	BLK_FAN_01 => ("00000","00111","11111","11111","11111"),
+	BLK_FAN_02 => ("00000","11111","11111","11111","11111"),
+	BLK_FAN_03 => ("00000","11100","11110","11110","11111"),
+	BLK_FAN_04 => ("00000","00000","00000","00000","00000"),
+	BLK_FAN_10 => ("00011","00011","00111","00111","00111"),
+	BLK_FAN_11 => ("11111","11111","11111","11111","11111"),
+	BLK_FAN_12 => ("11111","11111","11111","11111","11111"),
+	BLK_FAN_13 => ("11111","11111","11111","11111","11111"),
+	BLK_FAN_14 => ("10000","10000","11000","11000","11000"),
+	BLK_FAN_20 => ("00111","01111","01111","01111","01111"),
+	BLK_FAN_21 => ("11111","11111","11111","11111","11111"),
+	BLK_FAN_22 => ("11111","11111","11111","11111","11111"),
+	BLK_FAN_23 => ("11111","11111","11111","11111","11111"),
+	BLK_FAN_24 => ("11000","11100","11100","11100","11100"),
+	BLK_FAN_30 => ("01111","01111","01111","01111","01111"),
+	BLK_FAN_31 => ("11111","11111","11111","11111","10011"),
+	BLK_FAN_32 => ("11111","11111","11111","11111","11111"),
+	BLK_FAN_33 => ("11111","11111","11111","11111","10011"),
+	BLK_FAN_34 => ("11100","11100","11100","11100","11100"),
+	BLK_FAN_40 => ("01111","01111","00110","00000","00000"),
+	BLK_FAN_41 => ("00001","00000","00000","00000","00000"),
+	BLK_FAN_42 => ("11111","11110","01100","00000","00000"),
+	BLK_FAN_43 => ("00001","00001","00000","00000","00000"),
+	BLK_FAN_44 => ("11100","11100","11000","00000","00000"),
+	OTHERS			=> (OTHERS => (OTHERS => '0')));
 	
 	TYPE mapa_t is array(0 to SCR_WDT*SCR_HGT-1) of tab_sym;
 	CONSTANT MAPA_INICIAL: mapa_t := 

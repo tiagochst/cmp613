@@ -14,7 +14,8 @@ ENTITY kbd_key IS
     PS2_DAT : inout STD_LOGIC;                      --   PS2 Data
     PS2_CLK : inout STD_LOGIC;	                    --   PS2 Clock
     ---------------------------Players direction -----------------------
-    p1_dir,p2_dir: OUT t_direcao
+    p1_dir,p2_dir: OUT t_direcao;
+    p2_key0: OUT STD_LOGIC
     );
 END;
 
@@ -43,7 +44,7 @@ BEGIN
   resetn <= KEY;
 
   code: entity WORK.player_dir port map(
-    key_all, p1_dir, p2_dir
+    key_all, p1_dir, p2_dir, p2_key0
   );
 
   kbd_ctrl : kbdex_ctrl generic map(24000) port map(
