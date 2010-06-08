@@ -215,7 +215,7 @@ Essa implementação é totalmente genérica em relação ao padrão desejado.
 Máquina de Estados
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Máquina-de-Estados"
+name "sub:Maquina-de-Estados"
 
 \end_inset
 
@@ -471,7 +471,7 @@ status open
 lstinputlisting[label=alg:top-level-detector-maq,caption=Top-level do detector
  
 \backslash
-ref{sub:Máquina-de-Estados} em VHDL]{pat_state.vhd}
+ref{sub:Maquina-de-Estados} em VHDL]{pat_state.vhd}
 \end_layout
 
 \end_inset
@@ -537,7 +537,7 @@ end{multicols}
 Top-level do detector de padrão 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Máquina-de-Estados"
+reference "sub:Maquina-de-Estados"
 
 \end_inset
 
@@ -727,7 +727,7 @@ status open
 Simulação do detector de padrão 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Máquina-de-Estados"
+reference "sub:Maquina-de-Estados"
 
 \end_inset
 
@@ -1041,29 +1041,30 @@ name "alg:cmp_ram"
 \end_layout
 
 \begin_layout Standard
-Posteriormente utilizando quatro módulos dos componente anterior projetamos
- um sistema de memória RAM com 256B.
-\end_layout
-
-\begin_layout Standard
-Utilizando as 10 toggle switches, carrega-se os 10 bits de endereço no primeiro
- ciclo (Led verde aceso) , já no segundo (Led verde apagado) carrega-se
- os 8 bits de dados mais os bits de enable das operações de leitura e escrita.
-\end_layout
-
-\begin_layout Standard
-Para a escolha da ram utilizamos um multiplexador que avaliam os 4 bits
- mais significativos do endereço.
- Se a ram é escolhida, seu chip enable passa a valer 1, caso contrário,
- 0.
- E usamos os displays de 7 segmentos para apresentarem o resultado da operação
- da leitura da ram.
+Posteriormente, é possível projetar um sistema de memória RAM com 256B através
+ do uso de quatro módulos do componente anterior.
  
 \end_layout
 
 \begin_layout Standard
-Adicionamos um push button para a mudança de estados e a confimação de execução
- dos dados.
+Utilizando as 10 toggle switches, carrega-se os 10 bits de endereço no primeiro
+ ciclo (Led verde aceso), e no segundo ciclo(Led verde apagado) carrega-se
+ os 8 bits de dados mais os bits de enable das operações de leitura e escrita.
+\end_layout
+
+\begin_layout Standard
+Para a escolha da ram, utilizamos um multiplexador que avaliam os 4 bits
+ mais significativos do endereço.
+ Se a ram é escolhida, seu chip enable passa a valer 1, caso contrário,valerá
+ 0.
+ 
+\end_layout
+
+\begin_layout Standard
+Além disso, os displays de 7 segmentos foram usados para apresentarem o
+ resultado da operação da leitura da ram.
+ E adicionamos um push button para a mudança de estados e a confirmação
+ de execução dos dados.
 \end_layout
 
 \begin_layout Standard
@@ -1347,29 +1348,37 @@ Questão 5
 \end_layout
 
 \begin_layout Standard
-Utilizando o módulo vgacon e o arquivo de exemplo disponibilizado, que contém
- uma demonstração de uma bola percorrendo o espaço visível e quicando nas
- laterais do monitor promovemos alterações de modo que a bola deixasse um
- rastro pelo caminho percorrido criando uma variável que não permitiria
- a escritam em posições anteiriores percorridas pela bola e criamos o processo
- atualiza_cor para a alteração da cor da bola sempre que ela mudasse de
- direção, ou seja nos cantos da tela.Vale a observar que ao ocorrem mudanças
- tanto na direção vertical quanto horizontal a cor deveria mudar somente
- uma vez, para isso adicionamos as condições nas linhas 35 e 40 do código
- abaixo.
+Utilizando o módulo vgacon e o arquivo de exemplo que contém uma demostração
+ de uma bola percorrendo o espaço visível e quicando nas laterais do monitor
+ , realizamos alterações no código de modo que a bola deixasse um rastro
+ pelo caminho percorrido.
+ Para isso, existiu a criação de uma variável que não permitiria a escrita
+ em posições anteriores percorridas pela bola.
+ 
 \end_layout
 
 \begin_layout Standard
-Posteriormente criamos a função de reset que cria um novo estdado chamado
- apaga_quadro (ver linha 83 do código abaixo), que retorna a bola ao pixel
- na posiçao (0,0), ponto superior esquerdo da tela, e apaga os rastros na
- tela.
+Outros processos foram desenvolvidos , dentre eles: 
+\end_layout
+
+\begin_layout Itemize
+Atualiza_cor: altera a cor da bola sempre que ela mudasse de direção, ou
+ seja, sempre que ela atingisse os cantos da tela.
+ Vale observar, que ao ocorrem mudanças simultâneas na direção vertical
+ e horizontal, a cor deveria mudar somente uma vez, para isso adicionamos
+ as condições nas linhas 35 e 40 do código abaixo.
+\end_layout
+
+\begin_layout Itemize
+Reset : criou-se um novo estado (apaga_quadro - ver linha 83 do código abaixo),
+ que retorna a bola ao pixel na posição (0,0), ponto superior esquerdo da
+ tela, e apaga os rastros na tela.
 \end_layout
 
 \begin_layout Standard
-O arquivo no formato MIF disponibilizado é usado para especificar conteúdo
- inicial da RAM, como deveríamos ter uma tela preta, alteramos o arquivo
- para que todos os campos passassem a ter um valor 0.
+Além disso, o arquivo fornecido no formato MIF - usado para especificar
+ conteúdo inicial da RAM - foi alterado para a obtenção de uma tela preta,
+ assim, todos os campos do arquivo passaram a ter um valor 0.
 \end_layout
 
 \begin_layout Standard
