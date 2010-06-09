@@ -87,10 +87,10 @@ entity vgacon is
     write_clk, write_enable   : in  std_logic;
     write_addr                : in  integer range 0 to
                                   NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS - 1;
-    data_in                   : in  blk_sym;
+    data_in                   : in  t_blk_sym;
     vga_clk                   : buffer std_logic;       -- Ideally 25.175 MHz
-    vga_pixel                 : out color_3b; --at 25.2 MHz
-    data_block                : out blk_sym; --at 27 MHz
+    vga_pixel                 : out t_color_3b; --at 25.2 MHz
+    data_block                : out t_blk_sym; --at 27 MHz
     hsync, vsync              : out std_logic;
     ovl_in                    : in ovl_blk_sym;
     ovl_we                    : in std_logic);
@@ -106,7 +106,7 @@ architecture behav of vgacon is
   -- We only want to address HORZ*VERT pixels in memory
   signal read_addr : integer range 0 to NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS - 1;
   signal h_drawarea, v_drawarea, drawarea : std_logic;
-  signal vga_data_out	  : blk_sym;
+  signal vga_data_out	  : t_blk_sym;
   signal vga_ovl_data_out : ovl_blk_sym;
   signal id_vga_data_out, id_data_block, id_data_in: t_blk_id;
   signal id_ovl_in, id_vga_ovl_data_out: t_ovl_blk_id;
@@ -145,10 +145,10 @@ begin  -- behav
     rdata_out      => id_vga_ovl_data_out,
     we             => ovl_we);
     
-  id_data_in       <= std_logic_vector(to_unsigned(blk_sym'pos(data_in), 4));
+  id_data_in       <= std_logic_vector(to_unsigned(t_blk_sym'pos(data_in), 4));
   id_ovl_in        <= std_logic_vector(to_unsigned(ovl_blk_sym'pos(ovl_in), 8));  
-  vga_data_out     <= blk_sym'val(to_integer(unsigned(id_vga_data_out)));
-  data_block       <= blk_sym'val(to_integer(unsigned(id_data_block)));
+  vga_data_out     <= t_blk_sym'val(to_integer(unsigned(id_vga_data_out)));
+  data_block       <= t_blk_sym'val(to_integer(unsigned(id_data_block)));
   vga_ovl_data_out <= ovl_blk_sym'val(to_integer(unsigned(id_vga_ovl_data_out)));
 
   -- purpose: Increments the current horizontal position counter
@@ -254,19 +254,24 @@ begin  -- behav
   --  color signals).
   --MODIFICADO--------------
   PROCESS (vga_data_out, vga_ovl_data_out, drawarea, h_count, v_count)
+	VARIABLE pixel_normal, pixel_ovl: t_color_3b; 
   BEGIN
+	pixel_ovl(0) := OVL_SPRITES_RED(vga_ovl_data_out)(v_count mod 5, (h_count+4) mod 5);
+    pixel_ovl(1) := OVL_SPRITES_GRN(vga_ovl_data_out)(v_count mod 5, (h_count+4) mod 5);
+    pixel_ovl(2) := OVL_SPRITES_BLU(vga_ovl_data_out)(v_count mod 5, (h_count+4) mod 5);
+    
+    pixel_normal(0) := SPRITES_RED(vga_data_out)(v_count mod 5, (h_count+4) mod 5);
+    pixel_normal(1) := SPRITES_GRN(vga_data_out)(v_count mod 5, (h_count+4) mod 5);
+    pixel_normal(2) := SPRITES_BLU(vga_data_out)(v_count mod 5, (h_count+4) mod 5);
+    
     IF (drawarea = '1') THEN
-	  IF (vga_ovl_data_out /= BLK_NULL) THEN
-        vga_pixel(0) <= OVL_SPRITES_RED(vga_ovl_data_out)(v_count mod 5, (h_count+4) mod 5);
-        vga_pixel(1) <= OVL_SPRITES_GRN(vga_ovl_data_out)(v_count mod 5, (h_count+4) mod 5);
-        vga_pixel(2) <= OVL_SPRITES_BLU(vga_ovl_data_out)(v_count mod 5, (h_count+4) mod 5);
+	  IF (pixel_ovl /= "000") THEN
+        vga_pixel <= pixel_ovl;
       ELSE
-        vga_pixel(0) <= SPRITES_RED(vga_data_out)(v_count mod 5, (h_count+4) mod 5);
-        vga_pixel(1) <= SPRITES_GRN(vga_data_out)(v_count mod 5, (h_count+4) mod 5);
-        vga_pixel(2) <= SPRITES_BLU(vga_data_out)(v_count mod 5, (h_count+4) mod 5);
+        vga_pixel <= pixel_normal;
       END IF;
     ELSE
-      vga_pixel <= (others => '0');
+      vga_pixel <= "000";
     END IF;  
   END PROCESS;    
 end behav;
