@@ -5,13 +5,14 @@ use ieee.numeric_std.all;
 ENTITY ram4x64B IS
 	PORT
 	(
-		clk       : IN STD_LOGIC; 
+		clk27M    : IN STD_LOGIC; 
 		input     : IN STD_LOGIC_VECTOR (7 DOWNTO 0);     -- dados entrada
 		output    : BUFFER STD_LOGIC_VECTOR (7 DOWNTO 0); -- saida
 		wren      : IN STD_LOGIC;                         -- W write-enable
 		rden      : IN STD_LOGIC;
 		chmod     : IN STD_LOGIC;
 		modled    : OUT STD_LOGIC;
+		man_clk   : IN STD_LOGIC;
         seg1, seg0: OUT STD_LOGIC_VECTOR(6 downto 0)     --sete segmentos
 	);
 END ram4x64B;
@@ -42,6 +43,7 @@ ARCHITECTURE behav OF ram4x64B IS
 	SIGNAL state : state_type := wraddress;
 	SIGNAL data_sig,address_sig: STD_LOGIC_VECTOR (7 DOWNTO 0):="00000000";
 	SIGNAL chmod_sig,wren_sig,rden_sig: STD_LOGIC :='0'; --modo de  amostrado
+	SIGNAL man_clk_sig: STD_LOGIC;
  
 	COMPONENT buff IS
 	PORT (clk, d: IN STD_LOGIC;
@@ -50,12 +52,19 @@ ARCHITECTURE behav OF ram4x64B IS
 
  BEGIN
 	bf: COMPONENT buff
-		PORT MAP (clk, chmod,chmod_sig);
+		PORT MAP (clk27M, chmod, chmod_sig);
+	bf1: COMPONENT buff
+		PORT MAP (clk27M, man_clk, man_clk_sig);
+	
+	--Sincroniza os estados dos switches pelo
+	-- clock manual
+	wren_sig <= wren and man_clk_sig;
+	rden_sig <= rden and man_clk_sig;
 
   -- Transicoes da Maquina de Estados
-	PROCESS (state, clk)
+	PROCESS (state, clk27M)
 	BEGIN
-		IF (rising_edge(clk)) THEN
+		IF (rising_edge(clk27M)) THEN
 			CASE state IS
 				WHEN  wraddress => --leitura de enderço
 					address_sig <= input;
@@ -91,21 +100,21 @@ ARCHITECTURE behav OF ram4x64B IS
 	END PROCESS;
 
 	ram1: ram_64B PORT MAP (
-		clk,data_sig,q_sig1,address_sig(5 downto 0),wren,sel(0),not wren);
+		clk27M,data_sig,q_sig1,address_sig(5 downto 0),wren_sig,sel(0),not wren_sig);
 
 	ram2: ram_64B PORT MAP (
-		clk,data_sig,q_sig2,address_sig(5 downto 0),wren,sel(1),not wren);
+		clk27M,data_sig,q_sig2,address_sig(5 downto 0),wren_sig,sel(1),not wren_sig);
 
 	ram3: ram_64B PORT MAP (
-		clk,data_sig,q_sig3,address_sig(5 downto 0),wren,sel(2),not wren);
+		clk27M,data_sig,q_sig3,address_sig(5 downto 0),wren_sig,sel(2),not wren_sig);
 
 	ram4: ram_64B PORT MAP (
-		clk,data_sig,q_sig4,address_sig(5 downto 0),wren,sel(3),not wren);
+		clk27M,data_sig,q_sig4,address_sig(5 downto 0),wren,sel(3),not wren);
 
-	PROCESS(clk) 
+	PROCESS(clk27M) 
 	BEGIN
-		IF (clk'event and clk = '1') THEN
-			IF(rden ='1') THEN
+		IF (clk27M'event and clk27M = '1') THEN
+			IF(rden_sig ='1') THEN
 			case sel is
 				when "0001" =>
 					output<=q_sig1;
