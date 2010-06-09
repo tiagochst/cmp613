@@ -60,7 +60,6 @@ set_location_assignment PIN_U12 -to input[5]
 set_location_assignment PIN_U11 -to input[6]
 set_location_assignment PIN_M2 -to input[7]
 set_location_assignment PIN_R22 -to chmod
-set_location_assignment PIN_D12 -to clk
 set_location_assignment PIN_R20 -to output[0]
 set_location_assignment PIN_R19 -to output[1]
 set_location_assignment PIN_U19 -to output[2]
@@ -69,15 +68,12 @@ set_location_assignment PIN_T18 -to output[4]
 set_location_assignment PIN_V19 -to output[5]
 set_location_assignment PIN_Y18 -to output[6]
 set_location_assignment PIN_U18 -to output[7]
-set_location_assignment PIN_R21 -to rden
-set_location_assignment PIN_T22 -to wren
+set_location_assignment PIN_L2 -to rden
+set_location_assignment PIN_M1 -to wren
 set_global_assignment -name MISC_FILE "C:/Users/Tiago/Desktop/mc613/Projetos/Lab6/q3/q3b/ram4x64B.dpf"
 set_global_assignment -name FMAX_REQUIREMENT "27 MHz" -section_id clk
-set_instance_assignment -name CLOCK_SETTINGS clk -to clk
 set_location_assignment PIN_U22 -to modled
 set_global_assignment -name MISC_FILE "C:/Users/Tiago/Desktop/mc613/Projetos/Lab6/q3_ress/q3b/ram4x64B.dpf"
-set_location_assignment PIN_U21 -to rdled
-set_location_assignment PIN_V22 -to wrled
 set_global_assignment -name BDF_FILE conv_7seg.bdf
 set_global_assignment -name SOURCE_FILE conv_7seg.cmp
 set_global_assignment -name VHDL_FILE buff.vhd
@@ -103,4 +99,8 @@ set_location_assignment PIN_E1 -to seg1[0]
 set_global_assignment -name MISC_FILE "C:/Users/Tiago/Desktop/Logicos/Lab6/q3/q3b/ram4x64B.dpf"
 set_global_assignment -name USE_CONFIGURATION_DEVICE ON
 set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-STATED"
+set_global_assignment -name MISC_FILE "C:/Documents and Settings/marspeople/Desktop/Lab6_novos/q3/q3b/ram4x64B.dpf"
+set_location_assignment PIN_D12 -to clk27M
+set_location_assignment PIN_R21 -to man_clk
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
