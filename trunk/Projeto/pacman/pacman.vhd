@@ -455,7 +455,7 @@ BEGIN
 	--			overlay (ie, sobre o fundo) do pacman e dos fantasmas 
     -- type   : combinational
     des_overlay: PROCESS (pac_pos_x, pac_pos_y, pac_cur_dir, sig_blink, 
-                          fan_pos_x, fan_pos_y, fan_state, line, col)
+                          fan_pos_x, fan_pos_y, fan_state, fan_cur_dir, line, col)
 		VARIABLE x_offset, y_offset: INTEGER range -TAB_LEN to TAB_LEN;
     BEGIN
         --Sinais para desenho do pacman na tela durante PERCORRE_QUADRO
@@ -478,20 +478,24 @@ BEGIN
 			x_offset := col - fan_pos_x(0) + 2;
 			IF (x_offset>=0 and x_offset<5 and 
 				y_offset>=0 and y_offset<5) THEN
-				IF (sig_blink(1) = '0' and fan_state(0) = ST_VULN) THEN
-					ovl_blk_in <= BLK_NULL;
+				IF (fan_state(0) = ST_VULN) THEN
+					ovl_blk_in <= FAN_VULN_BITMAP(y_offset, x_offset);
+				ELSIF (fan_state(0) = ST_DEAD) THEN
+					ovl_blk_in <= FAN_DEAD_BITMAPS(fan_cur_dir(0))(y_offset, x_offset);
 				ELSE
-					ovl_blk_in <= FAN_BITMAP(y_offset, x_offset);
+					ovl_blk_in <= FAN_BITMAPS(fan_cur_dir(0))(y_offset, x_offset);
 				END IF;
 			ELSE
 				y_offset := line - fan_pos_y(1) + 2;
 				x_offset := col - fan_pos_x(1) + 2;
 				IF (x_offset>=0 and x_offset<5 and
 				y_offset>=0 and y_offset<5) THEN
-					IF (sig_blink(1) = '0' and fan_state(1) = ST_VULN) THEN
-						ovl_blk_in <= BLK_NULL;
+					IF (fan_state(0) = ST_VULN) THEN
+						ovl_blk_in <= FAN_VULN_BITMAP(y_offset, x_offset);
+					ELSIF (fan_state(0) = ST_DEAD) THEN
+						ovl_blk_in <= FAN_DEAD_BITMAPS(fan_cur_dir(1))(y_offset, x_offset);
 					ELSE
-						ovl_blk_in <= FAN_BITMAP(y_offset, x_offset);
+						ovl_blk_in <= FAN_BITMAPS(fan_cur_dir(1))(y_offset, x_offset);
 					END IF;
 				ELSE
 					ovl_blk_in <= BLK_NULL;
@@ -499,7 +503,7 @@ BEGIN
 			END IF;
 		END IF;
     END PROCESS;
-
+    
     -- Define dado que entra na ram
 	def_block_in: PROCESS (estado, addr)
 	BEGIN
