@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 
 ENTITY disp_words IS
    port(
-	 en:IN STD_LOGIC;
+	 clk, en:IN STD_LOGIC;
      VIDAS,PNT,PEDRAS: IN INTEGER;
      seg0,seg1,seg2,seg3:OUT STD_LOGIC_VECTOR(6 downto 0)
      );
@@ -32,9 +32,8 @@ BEGIN
 
 PROCESS (en)
 	VARIABLE counter:INTEGER:=0;
-
     BEGIN
-	IF(en='1') THEN
+	IF(clk'event and clk = '1' and en = '1') THEN
 		IF (counter /= 0 AND (PEDRAS =0 or VIDAS=0)) THEN
 			aux_seg3 <= aux_seg2; -- dISplay
 			aux_seg2 <= aux_seg1; -- rolante
