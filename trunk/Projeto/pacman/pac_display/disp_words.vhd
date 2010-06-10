@@ -5,129 +5,126 @@ use ieee.numeric_std.all;
 ENTITY disp_words IS
    port(
 	 en:IN STD_LOGIC;
-     --VIDAS,PNT,PEDRAS: IN INTEGER;
-     VIDAS,PEDRAS: IN STD_LOGIC;
-     PNT: IN INTEGER;
+     VIDAS,PNT,PEDRAS: IN INTEGER;
      seg0,seg1,seg2,seg3:OUT STD_LOGIC_VECTOR(6 downto 0)
      );
 END disp_words;
 
-architecture struct of disp_words is
+architecture struct of disp_words IS
 	SIGNAL P0,P1,P2,P3: std_logic_vector(3 downto 0):="0000"; -- recebe pontuacao passada pelo top level
     SIGNAL  HEX0,HEX1,HEX2,HEX3: STD_LOGIC_VECTOR(6 downto 0):="0000000"; --intermediario pontuacao 
 	SIGNAL alfa_code: STD_LOGIC_VECTOR(6 downto 0):="0000000"; -- intermediario letras
-	SIGNAL  aux_seg0,aux_seg1,aux_seg2,aux_seg3: STD_LOGIC_VECTOR(6 downto 0):="1111111"; --usado para rolagem do display
-
+	SIGNAL  aux_seg0,aux_seg1,aux_seg2,aux_seg3: STD_LOGIC_VECTOR(6 downto 0):="1111111"; --usado para rolagem do dISplay
  	
     COMPONENT conv_7seg IS
 	  PORT (x: IN STD_LOGIC_VECTOR(3 downto 0);
 	        y: OUT STD_LOGIC_VECTOR(6 downto 0));
     END COMPONENT conv_7seg;
 
-begin
-	process(PNT)
-		begin
+BEGIN
+	PROCESS(PNT)
+		BEGIN
    			P0 <= std_logic_vector(to_unsigned(PNT mod 10,4));        --unidade
 			P1 <= std_logic_vector(to_unsigned((PNT/10  mod 10),4));  --dezena		
 			P2 <= std_logic_vector(to_unsigned((PNT/100 mod 10),4));  --centena
 			P3 <= std_logic_vector(to_unsigned((PNT/1000 mod 10),4)); --milhar
-	end process;
+	END PROCESS;
 
- process (en)
-VARIABLE counter:INTEGER:=0;
-  
-      begin
-	IF(en='1') then
-		IF (counter /= 0 and (PEDRAS ='0' or VIDAS ='0')) then
-			aux_seg3 <= aux_seg2;
-			aux_seg2 <= aux_seg1;
-			aux_seg1 <= aux_seg0;
-			else
-			aux_seg3 <= "1111111";
-			aux_seg2 <= "1111111";
-			aux_seg1 <= "1111111";
-			aux_seg0 <= "1111111";
-		end if;
+PROCESS (en)
+	VARIABLE counter:INTEGER:=0;
 
-	if(PEDRAS = '0') then
-			case (counter) is
-				when 0 =>
+    BEGIN
+	IF(en='1') THEN
+		IF (counter /= 0 AND (PEDRAS =0 or VIDAS=0)) THEN
+			aux_seg3 <= aux_seg2; -- dISplay
+			aux_seg2 <= aux_seg1; -- rolante
+			aux_seg1 <= aux_seg0; --
+		ELSE
+			aux_seg3 <= "1111111"; -- apaga palavras
+			aux_seg2 <= "1111111"; -- quANDo jogo e
+			aux_seg1 <= "1111111"; -- reiniciado ou 
+			aux_seg0 <= "1111111"; -- iniciado
+		END IF;
+
+	IF(PEDRAS = 0) THEN
+			case (counter) IS
+				WHEN 0 =>
 					alfa_code <= "0010001"; --Y
-				when 1 =>
+				WHEN 1 =>
 					alfa_code <= "0100011"; --O
-				when 2 =>
+				WHEN 2 =>
 					alfa_code <= "1000001"; --U
-				when 3 =>
+				WHEN 3 =>
 					alfa_code <= "1111111"; -- 
-				when 4 =>
+				WHEN 4 =>
 					alfa_code <= "0001000"; --A
-				when 5 =>
+				WHEN 5 =>
 					alfa_code <= "0101111"; --R
-				when 6 =>
+				WHEN 6 =>
 					alfa_code <= "0000110"; --E
-				when 7 =>
+				WHEN 7 =>
 					alfa_code <= "1111111"; --
-				when 8 =>
+				WHEN 8 =>
 					alfa_code <= "0000111"; --T 
-				when 9 =>
+				WHEN 9 =>
 					alfa_code <= "0001011"; --H
-				when 10 =>
+				WHEN 10 =>
 					alfa_code <= "0000110"; --E 
-				when 11 =>
+				WHEN 11 =>
 					alfa_code <= "1111111"; -- 
-				when 12 =>
+				WHEN 12 =>
 					alfa_code <= "0000011"; --B 
-				when 13 =>
+				WHEN 13 =>
 					alfa_code <= "0000110"; --E 
-				when 14 =>
+				WHEN 14 =>
 					alfa_code <= "0010010"; --S
-				when 15 =>
+				WHEN 15 =>
 					alfa_code <= "0000111"; --T 
-				when others =>	
+				WHEN others =>	
 					alfa_code <= "1111111";
-				end case;
+				END case;
 			counter := (counter +1) mod 16;
-		elsif (VIDAS = '0') then
-			case (counter) is
-				when 0 =>
+		ELSIF (VIDAS = 0) THEN
+			case (counter) IS
+				WHEN 0 =>
 					alfa_code <= "0010001"; --Y
-				when 1 =>
+				WHEN 1 =>
 					alfa_code <= "0100011"; --O
-				when 2 =>
+				WHEN 2 =>
 					alfa_code <= "1000001"; --U
-				when 3 =>
+				WHEN 3 =>
 					alfa_code <= "1111111"; -- 
-				when 4 =>
+				WHEN 4 =>
 					alfa_code <= "1000111"; --L
-				when 5 =>
+				WHEN 5 =>
 					alfa_code <= "0100011"; --O
-				when 6 =>
+				WHEN 6 =>
 					alfa_code <= "0010010"; --S
-				when 7 =>
+				WHEN 7 =>
 					alfa_code <= "0000110"; --E
-				when others =>
+				WHEN others =>
 					alfa_code <= "1111111"; -- 
-				end case;
+				END case;
 			counter := (counter +1) mod 8;
 		
-		else
+		ELSE
 			counter :=0;
 			alfa_code <= "1111111";
-		end if;
-	end if;	
+		END IF;
+	END IF;	
 	aux_seg0 <= alfa_code;
-end process;
+END PROCESS;
 
 	hexseg0: conv_7seg port map(P0, HEX0); --casa da unidade da pontuacao
 	hexseg1: conv_7seg port map(P1, HEX1); --casa da dezena da pontuacao
 	hexseg2: conv_7seg port map(P2, HEX2); --casa centena da pontuacao
 	hexseg3: conv_7seg port map(P3, HEX3); --casa de mil pontos  
 
---se nem perdeu todas as vidas ou terminou todas as pecas mostra pontuacao,
---caso contrario mostra as frases.
-	seg0 <= HEX0 when (VIDAS /= '0' and PEDRAS /= '0') else aux_seg0 ; 
-	seg1 <= HEX1 when (VIDAS /= '0' and PEDRAS /= '0') else aux_seg1;
-	seg2 <= HEX2 when (VIDAS /= '0' and PEDRAS /= '0') else aux_seg2;
-	seg3 <= HEX3 when (VIDAS /= '0' and PEDRAS /= '0') else aux_seg3;
+	--se nem perdeu todas as vidas ou terminou todas as pecas mostra pontuacao,
+	--caso contrario mostra as frases.
+	seg0 <= HEX0 WHEN (VIDAS /= 0 AND PEDRAS /= 0) ELSE aux_seg0 ; 
+	seg1 <= HEX1 WHEN (VIDAS /= 0 AND PEDRAS /= 0) ELSE aux_seg1;
+	seg2 <= HEX2 WHEN (VIDAS /= 0 AND PEDRAS /= 0) ELSE aux_seg2;
+	seg3 <= HEX3 WHEN (VIDAS /= 0 AND PEDRAS /= 0) ELSE aux_seg3;
 
 END struct;
