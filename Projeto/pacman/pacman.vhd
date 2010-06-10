@@ -8,9 +8,10 @@ ENTITY pacman is
     clk27M, reset_button      : in  STD_LOGIC;
     red, green, blue          : out STD_LOGIC_vector(3 downto 0);
     hsync, vsync              : out STD_LOGIC;
-    LEDG  	: BUFFER STD_LOGIC_VECTOR (7 downto 5); --   LED Green
-    PS2_DAT : inout STD_LOGIC;                      --   PS2 Data
-    PS2_CLK : inout STD_LOGIC	                    --   PS2 Clock
+    LEDG                      : BUFFER STD_LOGIC_VECTOR (7 downto 5); --   LED Green
+    PS2_DAT                   : inout STD_LOGIC;                      --   PS2 Data
+    PS2_CLK                   : inout STD_LOGIC;	                  --   PS2 Clock
+    SEG0, SEG1, SEG2, SEG3    : OUT STD_LOGIC_VECTOR(6 downto 0)
     );
 END pacman;
 
@@ -74,10 +75,15 @@ ARCHITECTURE comportamento of pacman is
     -- Sinais de controle da lógica do jogo
     -----------------------------------------------------------------------------
     SIGNAL got_coin, got_spc_coin: STD_LOGIC;       -- informa se obteve moeda no ultimo movimento
+    SIGNAL q_rem_moedas: INTEGER range -10 to 255 := 240;
+    SIGNAL q_vidas: INTEGER range 0 to 5 := 3;
+    SIGNAL q_pontos: INTEGER range 0 to 9999 := 0;
+    SIGNAL display_en: STD_LOGIC;
+    
     SIGNAL pac_pos_x: t_pos := PAC_START_X;
     SIGNAL pac_pos_y: t_pos := PAC_START_Y;
     SIGNAL pac_cur_dir: t_direcao;
-    SIGNAL sig_blink: UNSIGNED(1 downto 0); -- o MSB indica boca aberta ou fechada
+    SIGNAL sig_blink: UNSIGNED(4 downto 0);
  	SIGNAL pac_nxt_cel, pac_dir_cel, pac_esq_cel, pac_cim_cel, pac_bai_cel: t_blk_sym;
     SIGNAL pac_area: blk_sym_3x3;
     SIGNAL pacman_dead: STD_LOGIC;
@@ -130,6 +136,21 @@ BEGIN
 		p2_dir    => p2_dir,
 		p2_key0   => p2_toggle
     );
+    
+    display_en <= '1' WHEN (sig_blink = 0 and estado = ATUALIZA_LOGICA_1)
+		ELSE '0';
+    
+    display: ENTITY WORK.disp PORT MAP (
+		CLK 	  => clk27M,
+		EN		  => display_en,
+		VIDAS     => q_vidas,
+		PNT       => q_pontos,
+		PEDRAS    => q_rem_moedas,
+		seg0      => SEG0,
+		seg1      => SEG1,
+		seg2      => SEG2,
+		seg3      => SEG3
+	);
 
     -----------------------------------------------------------------------------
     -- Contadores de varredura da tela
@@ -230,10 +251,12 @@ BEGIN
             pac_pos_x <= PAC_START_X;
             pac_pos_y <= PAC_START_Y;
 			pac_cur_dir <= NADA; --inicializa direcao para direita
-			sig_blink <= (OTHERS => '0');
 			nxt_move := NADA;
+			q_rem_moedas <= 240;
+            q_vidas <= 3;
+            q_pontos <= 0;
         ELSIF (clk27M'event and clk27M = '1') THEN
-             IF (estado = ATUALIZA_LOGICA_1 and atual_en_2 = '1') THEN
+             IF (estado = ATUALIZA_LOGICA_1 and atual_en_4 = '1') THEN
 				--Checa teclado para "agendar" um movimento
 				IF (p1_dir = CIMA and p1_dir_old = NADA) THEN
 					nxt_move := CIMA;
@@ -280,9 +303,14 @@ BEGIN
 					got_spc_coin <= '0';
 				END IF;
                 
+                IF (pac_nxt_cel = BLK_COIN) THEN
+					q_pontos <= q_pontos + 10;
+					q_rem_moedas <= q_rem_moedas - 1;
+				ELSIF (pac_nxt_cel = BLK_SPC_COIN) THEN
+					q_pontos <= q_pontos + 50;
+				END IF;
+                
                 p1_dir_old := p1_dir;
-				
-				sig_blink <= sig_blink + 1;
             END IF;
         END IF;
 	END PROCESS;
@@ -640,6 +668,7 @@ BEGIN
         IF rstn = '0' THEN                  -- asynchronous reset (active low)
             estado <= SHOW_SPLASH;
             atual_cont <= 0;
+            sig_blink  <= (OTHERS => '0');
         elsif clk27M'event and clk27M = '1' THEN  -- rising clock edge
             estado <= pr_estado;
             
@@ -649,6 +678,7 @@ BEGIN
 				ELSE
 					atual_cont <= atual_cont + 1;
 				END IF;
+				sig_blink <= sig_blink + 1;
 			END IF;
         END IF;
     END PROCESS seq_fsm;
