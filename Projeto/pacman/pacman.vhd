@@ -122,7 +122,7 @@ BEGIN
     -- Atribuição capada das cores 3b -> 12b
     red   <= (OTHERS => vga_pixel_out(0));
     green <= (OTHERS => vga_pixel_out(1));
-    blue  <= (OTHERS => vga_pixel_out(2));     
+    blue  <= (OTHERS => vga_pixel_out(2));
 	
 	-- Controlador do teclado. Devolve os sinais síncronos das teclas
 	-- de interesse pressionadas ou não.
@@ -210,12 +210,12 @@ BEGIN
 	--Gera enables de atualizações para cada velocidade de atualização
 	PROCESS (atual_cont)
 	BEGIN
-		IF (atual_cont = 0 or atual_cont = 6)
+		IF (atual_cont=0 or atual_cont=6)
 		THEN atual_en_2 <= '1';
 		ELSE atual_en_2 <= '0';
 		END IF;
 		
-		IF (atual_cont = 0 or atual_cont = 4 or atual_cont = 8)
+		IF (atual_cont=0 or atual_cont=4  or atual_cont=8)
 		THEN atual_en_3 <= '1';
 		ELSE atual_en_3 <= '0';
 		END IF;
@@ -256,7 +256,7 @@ BEGIN
             q_vidas <= 3;
             q_pontos <= 0;
         ELSIF (clk27M'event and clk27M = '1') THEN
-             IF (estado = ATUALIZA_LOGICA_1 and atual_en_4 = '1') THEN
+             IF (estado = ATUALIZA_LOGICA_1 and atual_en_3 = '1') THEN
 				--Checa teclado para "agendar" um movimento
 				IF (p1_dir = CIMA and p1_dir_old = NADA) THEN
 					nxt_move := CIMA;
@@ -268,6 +268,7 @@ BEGIN
 					nxt_move := ESQUE;
 				END IF;
 				
+                --atualiza direção
 				IF (nxt_move = CIMA and walkable(pac_cim_cel)) THEN
 					pac_cur_dir <= CIMA;
 					nxt_move := NADA;
@@ -281,35 +282,34 @@ BEGIN
 					pac_cur_dir <= ESQUE;
 					nxt_move := NADA;
                 ELSIF (walkable(pac_nxt_cel)) THEN --atualiza posicao
-					IF(pac_pos_x = TELE_DIR_POS) then --teletransporte
+					IF (pac_pos_x = TELE_DIR_POS) then --teletransporte
 						pac_pos_x <= TELE_ESQ_POS + 1;
-					ELSIF(pac_pos_x = TELE_ESQ_POS) then
+					ELSIF (pac_pos_x = TELE_ESQ_POS) then
 						pac_pos_x <= TELE_DIR_POS - 1;
 					ELSE
 						pac_pos_x <= pac_pos_x + DIRS(pac_cur_dir)(1);
 						pac_pos_y <= pac_pos_y + DIRS(pac_cur_dir)(0);
 					END IF;
-                 END IF;
-                
-                IF (pac_nxt_cel = BLK_COIN or pac_nxt_cel = BLK_SPC_COIN) THEN
-                    got_coin <= '1';
-                ELSE
-                    got_coin <= '0';
+                    
+                    IF (pac_nxt_cel = BLK_COIN or pac_nxt_cel = BLK_SPC_COIN) THEN
+                        got_coin <= '1';
+                    ELSE
+                        got_coin <= '0';
+                    END IF;
+                    
+                    IF (pac_nxt_cel = BLK_SPC_COIN) THEN
+                        got_spc_coin <= '1';
+                    ELSE
+                        got_spc_coin <= '0';
+                    END IF;
+                    
+                    IF (pac_nxt_cel = BLK_COIN) THEN
+                        q_pontos <= q_pontos + 10;
+                        q_rem_moedas <= q_rem_moedas - 1;
+                    ELSIF (pac_nxt_cel = BLK_SPC_COIN) THEN
+                        q_pontos <= q_pontos + 50;
+                    END IF;
                 END IF;
-                
-                IF (pac_nxt_cel = BLK_SPC_COIN) THEN
-					got_spc_coin <= '1';
-				ELSE
-					got_spc_coin <= '0';
-				END IF;
-                
-                IF (pac_nxt_cel = BLK_COIN) THEN
-					q_pontos <= q_pontos + 10;
-					q_rem_moedas <= q_rem_moedas - 1;
-				ELSIF (pac_nxt_cel = BLK_SPC_COIN) THEN
-					q_pontos <= q_pontos + 50;
-				END IF;
-                
                 p1_dir_old := p1_dir;
             END IF;
         END IF;
@@ -319,8 +319,8 @@ BEGIN
 	--de todos os fantasmas
 	PROCESS (clk27M)
 	BEGIN
-		IF (clk27M'event and clk27M = '1') THEN
-			IF (estado = ATUALIZA_LOGICA_1) THEN
+		--IF (clk27M'event and clk27M = '1') THEN
+			--IF (estado = ATUALIZA_LOGICA_1) THEN
 				FOR i in 0 to FAN_NO-1 LOOP
 					fan_nxt_cel(i) <= fan_area(i)(DIRS(fan_cur_dir(i))(0), DIRS(fan_cur_dir(i))(1));
 					fan_dir_cel(i) <= fan_area(i)(0,1);
@@ -328,8 +328,8 @@ BEGIN
 					fan_cim_cel(i) <= fan_area(i)(-1,0);
 					fan_bai_cel(i) <= fan_area(i)(1,0);
 				END LOOP;
-			END IF;
-		END IF;
+			--END IF;
+		--END IF;
 	END PROCESS;
 	
 	-- purpose: Este processo irá atualizar as posições dos fantasmas e definir
@@ -411,8 +411,8 @@ BEGIN
 							WHEN OTHERS =>
 							END CASE;
 						END IF;
-					WHEN ST_FUGA => 
-						IF (atual_en_3 = '1') THEN --Supõe que fan_pos_x já vale CELL_IN_X 
+					WHEN ST_FUGA => --Supõe que fan_pos_x já vale CELL_IN_X 
+						IF (atual_en_3 = '1') THEN 
 							fan_pos_y(i) <= fan_pos_y(i) - 1;
 						END IF;
 					END CASE;
@@ -438,12 +438,12 @@ BEGIN
 					CASE fan_state(i) IS
 						WHEN ST_VIVO =>
 							IF (pac_pos_x = fan_pos_x(i) and pac_pos_y = fan_pos_y(i)) THEN
-								pacman_dead <= '1';
+								--pacman_dead <= '1';
 							ELSE
 								IF (got_spc_coin = '1') THEN
 									fan_state(i) <= ST_VULN;
 								END IF;
-								pacman_dead <= '0';
+								--pacman_dead <= '0';
 							END IF;
 							fan_tempo(i) := 0;
 							
@@ -472,6 +472,7 @@ BEGIN
 						WHEN ST_FUGA =>
 							IF (fan_pos_y(i) = CELL_OUT_Y) THEN
 								fan_state(i) <= ST_VIVO;
+                                fan_cur_dir(i) <= NADA;
 							END IF;
 					END CASE;
 				END LOOP;
@@ -480,7 +481,7 @@ BEGIN
 	END PROCESS;
 	
 	-- purpose: Processo para que gera sinais de desenho de 
-	--			overlay (ie, sobre o fundo) do pacman e dos fantasmas 
+	--			overlay (ie, sobre o fundo) da vidas, do pacman e dos fantasmas 
     -- type   : combinational
     des_overlay: PROCESS (pac_pos_x, pac_pos_y, pac_cur_dir, sig_blink, 
                           fan_pos_x, fan_pos_y, fan_state, fan_cur_dir, line, col)
@@ -501,34 +502,36 @@ BEGIN
 					ovl_blk_in <= PAC_FECV_BITMAP(y_offset, x_offset);
 				END IF;
 			END IF;
-		ELSE --Desenho dos fantasmas (FIXME usar FOR)
-			y_offset := line - fan_pos_y(0) + 2;
-			x_offset := col - fan_pos_x(0) + 2;
-			IF (x_offset>=0 and x_offset<5 and 
-				y_offset>=0 and y_offset<5) THEN
-				IF (fan_state(0) = ST_VULN) THEN
-					ovl_blk_in <= FAN_VULN_BITMAP(y_offset, x_offset);
-				ELSIF (fan_state(0) = ST_DEAD) THEN
-					ovl_blk_in <= FAN_DEAD_BITMAPS(fan_cur_dir(0))(y_offset, x_offset);
-				ELSE
-					ovl_blk_in <= FAN_BITMAPS(fan_cur_dir(0))(y_offset, x_offset);
-				END IF;
-			ELSE
-				y_offset := line - fan_pos_y(1) + 2;
-				x_offset := col - fan_pos_x(1) + 2;
-				IF (x_offset>=0 and x_offset<5 and
-				y_offset>=0 and y_offset<5) THEN
-					IF (fan_state(0) = ST_VULN) THEN
-						ovl_blk_in <= FAN_VULN_BITMAP(y_offset, x_offset);
-					ELSIF (fan_state(0) = ST_DEAD) THEN
-						ovl_blk_in <= FAN_DEAD_BITMAPS(fan_cur_dir(1))(y_offset, x_offset);
-					ELSE
-						ovl_blk_in <= FAN_BITMAPS(fan_cur_dir(1))(y_offset, x_offset);
-					END IF;
-				ELSE
-					ovl_blk_in <= BLK_NULL;
-				END IF;
-			END IF;
+		ELSE --Desenho dos fantasmas
+            FOR i in 0 to FAN_NO-1 LOOP
+                y_offset := line - fan_pos_y(i) + 2;
+                x_offset := col - fan_pos_x(i) + 2;
+                IF (x_offset>=0 and x_offset<5 and 
+                    y_offset>=0 and y_offset<5) THEN
+                    IF (fan_state(i) = ST_VULN) THEN
+                        ovl_blk_in <= FAN_VULN_BITMAP(y_offset, x_offset);
+                    ELSIF (fan_state(i) = ST_DEAD) THEN
+                        ovl_blk_in <= FAN_DEAD_BITMAPS(fan_cur_dir(i))(y_offset, x_offset);
+                    ELSE
+                        ovl_blk_in <= FAN_BITMAPS(fan_cur_dir(i))(y_offset, x_offset);
+                    END IF;
+                --ELSE
+                    --y_offset := line - fan_pos_y(1) + 2;
+                    --x_offset := col - fan_pos_x(1) + 2;
+                    --IF (x_offset>=0 and x_offset<5 and
+                    --y_offset>=0 and y_offset<5) THEN
+                        --IF (fan_state(0) = ST_VULN) THEN
+                            --ovl_blk_in <= FAN_VULN_BITMAP(y_offset, x_offset);
+                        --ELSIF (fan_state(0) = ST_DEAD) THEN
+                            --ovl_blk_in <= FAN_DEAD_BITMAPS(fan_cur_dir(1))(y_offset, x_offset);
+                        --ELSE
+                            --ovl_blk_in <= FAN_BITMAPS(fan_cur_dir(1))(y_offset, x_offset);
+                        --END IF;
+                    --ELSE
+                        --ovl_blk_in <= BLK_NULL;
+                    --END IF;
+                END IF;
+            END LOOP;
 		END IF;
     END PROCESS;
     
@@ -709,7 +712,7 @@ BEGIN
     build_rstn: PROCESS (clk27M)
         VARIABLE temp : STD_LOGIC;          -- flipflop intermediario
     BEGIN  -- PROCESS build_rstn
-        IF clk27M'event and clk27M = '1' THEN  -- rising clock edge
+        IF (clk27M'event and clk27M = '1') THEN  -- rising clock edge
             rstn <= temp;
             temp := reset_button;     
         END IF;
