@@ -14,10 +14,10 @@
     * O Mars implementou a parte de movimentação com coordenadas absolutas
     * Teletransporte implementado ontem no IC.
     * Interação com teclado realizada ontem no IC.
-  * TO DO:
     * Movimentação outros personagens do jogo. Minimizar interferência de teclas pressionadas ao mesmo tempo.
     * A idéia básica é fazer um (ou dois) fantasmas sendo o player 2,sugiro inserir velocidade pouco maior no fantasma senão é impossivel o fantasma pegar o pacman.
-    * Fazer movimentação suave posicionando o pacman parcialmente entre dois blocos da tela (precisaria ter suporte a sprites)
+  * TO DO:
+    * ~~Fazer movimentação suave posicionando o pacman parcialmente entre dois blocos da tela (precisaria ter suporte a sprites)~~ Já é suficiente.
 
 *Gráficos*
   * DONE:
@@ -25,17 +25,17 @@
      * Camada de overlay para desenhos sobre o cenário (pacman, fantasmas, frutas, etc)
      * Resolução de 640x480 com sprites ok, porém com glitches que devem ser removidos
   * TO DO:
-     * Pensar em alguma maneira de tirar a borda preta em torno dos fantasmas/pacman.
+     * *Pensar em alguma maneira de tirar a borda preta em torno dos fantasmas/pacman.*
      * Adicionar mais cores (máximo de 4096 cores), _será que é necessário?_
      
 *Outros*
   * DONE:
-    * Pontuação do level (primeiro nos 7-seg depois criar sprites para a tela, provavelmente não mais)
+    * Pontuação do level (primeiro nos 7-seg ~~depois criar sprites para a tela~~)
     * Término do jogo ao comer todas as bolinhas
   * TO DO:
-    * Frutas no meio do cenário
+    * Frutas no meio do cenário (sprites desenhados)
     * High scores
-    * Morte do pacman - colocá-lo no centro novamente.(Animação de morte??)
+    * Morte do pacman - colocá-lo no centro novamente.(Animação de morte? É trabalhoso)
     * *Áudio* (BGM e SFX): envolve instanciar o NIOS e interfacear C com VHDL, não sabemos se vale a pena ou se sequer tentaremos. Tiago diz que é difícil.
     * Limpeza do código (ao final): 
       * Separar RAMs de blocos da interface VGA
