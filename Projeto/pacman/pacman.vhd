@@ -16,7 +16,8 @@ ENTITY pacman is
 END pacman;
 
 ARCHITECTURE comportamento of pacman is
-    SIGNAL rstn : STD_LOGIC;                        -- reset active low
+    SIGNAL rstn: STD_LOGIC;                        -- reset active low
+    SIGNAL restart: STD_LOGIC; -- Ativado quando o pacman morre (active high)
                                         
     -- Interface com a memória de vídeo do controlador
     SIGNAL we : STD_LOGIC;                          -- write enable ('1' p/ escrita)
@@ -38,7 +39,8 @@ ARCHITECTURE comportamento of pacman is
 
     -- Especificação dos tipos e sinais da máquina de estados de controle
     TYPE estado_t is (SHOW_SPLASH, CARREGA_MAPA, INICIO_JOGO, PERCORRE_QUADRO,
-                      ATUALIZA_LOGICA_1, ATUALIZA_LOGICA_2, ATUALIZA_LOGICA_3, MEMORIA_WR);
+                      ATUALIZA_LOGICA_1, ATUALIZA_LOGICA_2, ATUALIZA_LOGICA_3, MEMORIA_WR,
+                      REINICIO, FIM_JOGO, PACMAN_VENCE);
     SIGNAL estado: estado_t := SHOW_SPLASH;
     SIGNAL pr_estado: estado_t := SHOW_SPLASH;
     
@@ -53,8 +55,8 @@ ARCHITECTURE comportamento of pacman is
 
     -- Sinais para um contador utilizado para atrasar 
     -- a frequência da atualização
-    SIGNAL contador : INTEGER range 0 to DIV_FACT-1;
-    SIGNAL timer : STD_LOGIC;                       -- vale '1' quando o contador chegar ao fim
+    SIGNAL contador, long_cont : INTEGER range 0 to DIV_FACT-1;
+    SIGNAL timer, long_timer : STD_LOGIC;     -- vale '1' quando o contador chegar ao fim
     SIGNAL timer_rstn, timer_enable : STD_LOGIC;
       
     COMPONENT counter IS
@@ -83,7 +85,7 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL pac_pos_x: t_pos := PAC_START_X;
     SIGNAL pac_pos_y: t_pos := PAC_START_Y;
     SIGNAL pac_cur_dir: t_direcao;
-    SIGNAL sig_blink: UNSIGNED(4 downto 0);
+    SIGNAL sig_blink: UNSIGNED(6 downto 0);
  	SIGNAL pac_nxt_cel, pac_dir_cel, pac_esq_cel, pac_cim_cel, pac_bai_cel: t_blk_sym;
     SIGNAL pac_area: blk_sym_3x3;
     SIGNAL pacman_dead: STD_LOGIC;
@@ -137,7 +139,8 @@ BEGIN
 		p2_key0   => p2_toggle
     );
     
-    display_en <= '1' WHEN (sig_blink = 0 and estado = ATUALIZA_LOGICA_1)
+    --Ativa durante um ciclo de clock a cada 32 atualizações
+    display_en <= '1' WHEN (sig_blink(4 downto 0) = 0 and estado = ATUALIZA_LOGICA_1)
 		ELSE '0';
     
     display: ENTITY WORK.disp PORT MAP (
@@ -210,17 +213,17 @@ BEGIN
 	--Gera enables de atualizações para cada velocidade de atualização
 	PROCESS (atual_cont)
 	BEGIN
-		IF (atual_cont=0 or atual_cont=6)
+		IF (atual_cont=0 or atual_cont=4 or atual_cont=8)
 		THEN atual_en_2 <= '1';
 		ELSE atual_en_2 <= '0';
 		END IF;
 		
-		IF (atual_cont=0 or atual_cont=4  or atual_cont=8)
+		IF (atual_cont=0 or atual_cont=3 or atual_cont=6 or atual_cont=9)
 		THEN atual_en_3 <= '1';
 		ELSE atual_en_3 <= '0';
 		END IF;
 		
-		IF (atual_cont=0 or atual_cont=3 or atual_cont=6 or atual_cont=9)
+		IF (atual_cont mod 2 = 0)
 		THEN atual_en_4 <= '1';
 		ELSE atual_en_4 <= '0';
 		END IF;
@@ -244,28 +247,23 @@ BEGIN
     -- inputs : clk27M, rstn, pac_area
     --          pac_cur_dir, pac_pos_x, pac_pos_y
     -- outputs: pac_cur_dir, pac_pos_x, pac_pos_y, got_coin
-    p_atualiza_pacman: PROCESS (clk27M, rstn)
+    p_atualiza_pacman: PROCESS (clk27M, rstn, restart)
 		VARIABLE nxt_move, p1_dir_old: t_direcao;
     BEGIN
-        IF (rstn = '0') THEN
+		IF (rstn = '0' and restart = '0') THEN
+			q_vidas <= 3;
+			q_pontos <= 0;
+        ELSIF (rstn = '0' and restart = '1') THEN
             pac_pos_x <= PAC_START_X;
             pac_pos_y <= PAC_START_Y;
-			pac_cur_dir <= NADA; --inicializa direcao para direita
+			pac_cur_dir <= NADA;
 			nxt_move := NADA;
 			q_rem_moedas <= 240;
-            q_vidas <= 3;
-            q_pontos <= 0;
         ELSIF (clk27M'event and clk27M = '1') THEN
-             IF (estado = ATUALIZA_LOGICA_1 and atual_en_3 = '1') THEN
+             IF (estado = ATUALIZA_LOGICA_1 and atual_en_2 = '1') THEN
 				--Checa teclado para "agendar" um movimento
-				IF (p1_dir = CIMA and p1_dir_old = NADA) THEN
-					nxt_move := CIMA;
-				ELSIF (p1_dir = DIREI and p1_dir_old = NADA) THEN
-					nxt_move := DIREI;
-				ELSIF (p1_dir = BAIXO and p1_dir_old = NADA) THEN
-					nxt_move := BAIXO;
-				ELSIF (p1_dir = ESQUE and p1_dir_old = NADA) THEN
-					nxt_move := ESQUE;
+				IF (p1_dir /= NADA and p1_dir_old = NADA) THEN
+					nxt_move := p1_dir;
 				END IF;
 				
                 --atualiza direção
@@ -281,17 +279,19 @@ BEGIN
 				ELSIF (nxt_move = ESQUE and walkable(pac_esq_cel)) THEN
 					pac_cur_dir <= ESQUE;
 					nxt_move := NADA;
-                ELSIF (walkable(pac_nxt_cel)) THEN --atualiza posicao
-					IF (pac_pos_x = TELE_DIR_POS) then --teletransporte
-						pac_pos_x <= TELE_ESQ_POS + 1;
-					ELSIF (pac_pos_x = TELE_ESQ_POS) then
-						pac_pos_x <= TELE_DIR_POS - 1;
-					ELSE
-						pac_pos_x <= pac_pos_x + DIRS(pac_cur_dir)(1);
-						pac_pos_y <= pac_pos_y + DIRS(pac_cur_dir)(0);
+                ELSE
+					IF (walkable(pac_nxt_cel)) THEN --atualiza posicao
+						IF (pac_pos_x = TELE_DIR_POS) then --teletransporte
+							pac_pos_x <= TELE_ESQ_POS + 1;
+						ELSIF (pac_pos_x = TELE_ESQ_POS) then
+							pac_pos_x <= TELE_DIR_POS - 1;
+						ELSE
+							pac_pos_x <= pac_pos_x + DIRS(pac_cur_dir)(1);
+							pac_pos_y <= pac_pos_y + DIRS(pac_cur_dir)(0);
+						END IF;
 					END IF;
-                    
-                    IF (pac_nxt_cel = BLK_COIN or pac_nxt_cel = BLK_SPC_COIN) THEN
+                
+					IF (pac_nxt_cel = BLK_COIN or pac_nxt_cel = BLK_SPC_COIN) THEN
                         got_coin <= '1';
                     ELSE
                         got_coin <= '0';
@@ -317,7 +317,7 @@ BEGIN
 	
 	--Calcula possíveis parâmetros envolvidos no próximo movimento
 	--de todos os fantasmas
-	PROCESS (clk27M)
+	PROCESS (fan_area, fan_cur_dir)
 	BEGIN
 		--IF (clk27M'event and clk27M = '1') THEN
 			--IF (estado = ATUALIZA_LOGICA_1) THEN
@@ -338,15 +338,16 @@ BEGIN
     -- inputs : clk27M, rstn, pac_area
     --          fan_cur_dir, fan_pos_x, fan_pos_y
     -- outputs: fan_cur_dir, fan_pos_x, fan_pos_y, got_coin
-    p_atualiza_fantasmas: PROCESS (clk27M, rstn)
-		VARIABLE nxt_move, p2_dir_old: t_direcao;
+    p_atualiza_fantasmas: PROCESS (clk27M, rstn, restart)
+		VARIABLE p2_dir_old: t_direcao;
+		VARIABLE nxt_move: t_fans_dirs;
 		VARIABLE p2_toggle_old: STD_LOGIC;
     BEGIN
-        IF (rstn = '0') THEN
+        IF (rstn = '0' or restart = '1') THEN
             fan_pos_x <= FANS_START_X;
             fan_pos_y <= FANS_START_Y;
 			fan_cur_dir <= (others => NADA);
-			nxt_move := NADA;
+			nxt_move := (others => NADA);
         ELSIF (clk27M'event and clk27M = '1') THEN
              IF (estado = ATUALIZA_LOGICA_2) THEN
 				FOR i in 0 to FAN_NO-1 LOOP
@@ -354,43 +355,32 @@ BEGIN
 					WHEN ST_VIVO | ST_VULN => 
 						IF (cur_fan = i and atual_en_3 = '1') THEN
 							--Checa teclado para "agendar" um movimento
-							IF (p2_dir = CIMA and p2_dir_old = NADA) THEN
-								nxt_move := CIMA;
-							ELSIF (p2_dir = DIREI and p2_dir_old = NADA) THEN
-								nxt_move := DIREI;
-							ELSIF (p2_dir = BAIXO and p2_dir_old = NADA) THEN
-								nxt_move := BAIXO;
-							ELSIF (p2_dir = ESQUE and p2_dir_old = NADA) THEN
-								nxt_move := ESQUE; 
+							IF (p2_dir /= NADA and p2_dir_old = NADA) THEN
+								nxt_move(i) := p2_dir;
 							END IF;
 							
-							IF (nxt_move = CIMA and walkable(fan_cim_cel(cur_fan))) THEN
-								fan_cur_dir(cur_fan) <= CIMA;
-								nxt_move := NADA;
-							ELSIF (nxt_move = DIREI and walkable(fan_dir_cel(cur_fan))) THEN
-								fan_cur_dir(cur_fan) <= DIREI;
-								nxt_move := NADA;
-							ELSIF (nxt_move = BAIXO and walkable(fan_bai_cel(cur_fan))) THEN
-								fan_cur_dir(cur_fan) <= BAIXO;
-								nxt_move := NADA;
-							ELSIF (nxt_move = ESQUE and walkable(fan_esq_cel(cur_fan))) THEN
-								fan_cur_dir(cur_fan) <= ESQUE;
-								nxt_move := NADA;
-							ELSIF (walkable(fan_nxt_cel(cur_fan))) THEN --atualiza posicao
-								IF(fan_pos_x(cur_fan) = TELE_DIR_POS) then --teletransporte
-									fan_pos_x(cur_fan) <= TELE_ESQ_POS + 1;
-								ELSIF(fan_pos_x(cur_fan) = TELE_ESQ_POS) then
-									fan_pos_x(cur_fan) <= TELE_DIR_POS - 1;
+							IF (nxt_move(i) = CIMA and walkable(fan_cim_cel(i))) THEN
+								fan_cur_dir(i) <= CIMA;
+								nxt_move(i) := NADA;
+							ELSIF (nxt_move(i) = DIREI and walkable(fan_dir_cel(i))) THEN
+								fan_cur_dir(i) <= DIREI;
+								nxt_move(i) := NADA;
+							ELSIF (nxt_move(i) = BAIXO and walkable(fan_bai_cel(i))) THEN
+								fan_cur_dir(i) <= BAIXO;
+								nxt_move(i) := NADA;
+							ELSIF (nxt_move(i) = ESQUE and walkable(fan_esq_cel(i))) THEN
+								fan_cur_dir(i) <= ESQUE;
+								nxt_move(i) := NADA;
+							ELSIF (walkable(fan_nxt_cel(i))) THEN --atualiza posicao
+								IF(fan_pos_x(i) = TELE_DIR_POS) then --teletransporte
+									fan_pos_x(i) <= TELE_ESQ_POS + 1;
+								ELSIF(fan_pos_x(i) = TELE_ESQ_POS) then
+									fan_pos_x(i) <= TELE_DIR_POS - 1;
 								ELSE
-									fan_pos_x(cur_fan) <= 
-										fan_pos_x(cur_fan) + DIRS(fan_cur_dir(cur_fan))(1);
-									fan_pos_y(cur_fan) <= 
-										fan_pos_y(cur_fan) + DIRS(fan_cur_dir(cur_fan))(0);
+									fan_pos_x(i) <= fan_pos_x(i) + DIRS(fan_cur_dir(i))(1);
+									fan_pos_y(i) <= fan_pos_y(i) + DIRS(fan_cur_dir(i))(0);
 								END IF;
 							END IF;
-							 
-							p2_dir_old := p2_dir;
-							p2_toggle_old := p2_toggle;
 						END IF;
 					WHEN ST_DEAD | ST_FIND_EXIT => 
 						IF (atual_en_4 = '1') THEN
@@ -414,22 +404,29 @@ BEGIN
 					WHEN ST_FUGA => --Supõe que fan_pos_x já vale CELL_IN_X 
 						IF (atual_en_3 = '1') THEN 
 							fan_pos_y(i) <= fan_pos_y(i) - 1;
+							fan_cur_dir(i) <= CIMA;
 						END IF;
 					END CASE;
 				END LOOP;
 				IF (p2_toggle = '1' and p2_toggle_old = '0') THEN
-					cur_fan <= cur_fan + 1;
+					IF (cur_fan = FAN_NO-1)
+					THEN cur_fan <= 0;
+					ELSE cur_fan <= cur_fan + 1;
+					END IF;
 					fan_cur_dir <= (OTHERS => NADA);
 				END IF;
+				p2_dir_old := p2_dir;
+				p2_toggle_old := p2_toggle;
             END IF;
         END IF;
 	END PROCESS;
 	
 	-- Gera o próximo estado de cada fantasma na atualização
-	p_fan_next_state: PROCESS (clk27M, rstn)
+	-- type: combinational
+	p_fan_next_state: PROCESS (clk27M, rstn, restart)
 		VARIABLE fan_tempo: t_fans_times;
 	BEGIN
-		IF (rstn = '0') THEN
+		IF (rstn = '0' or restart = '1') THEN
 			fan_state <= (OTHERS => ST_FIND_EXIT);
 			fan_tempo := (OTHERS => 0);
 		ELSIF (clk27M'event and clk27M = '1') THEN
@@ -437,13 +434,8 @@ BEGIN
 				FOR i in 0 to FAN_NO-1 LOOP
 					CASE fan_state(i) IS
 						WHEN ST_VIVO =>
-							IF (pac_pos_x = fan_pos_x(i) and pac_pos_y = fan_pos_y(i)) THEN
-								--pacman_dead <= '1';
-							ELSE
-								IF (got_spc_coin = '1') THEN
-									fan_state(i) <= ST_VULN;
-								END IF;
-								--pacman_dead <= '0';
+							IF (got_spc_coin = '1') THEN
+								fan_state(i) <= ST_VULN;
 							END IF;
 							fan_tempo(i) := 0;
 							
@@ -472,7 +464,6 @@ BEGIN
 						WHEN ST_FUGA =>
 							IF (fan_pos_y(i) = CELL_OUT_Y) THEN
 								fan_state(i) <= ST_VIVO;
-                                fan_cur_dir(i) <= NADA;
 							END IF;
 					END CASE;
 				END LOOP;
@@ -483,7 +474,7 @@ BEGIN
 	-- purpose: Processo para que gera sinais de desenho de 
 	--			overlay (ie, sobre o fundo) da vidas, do pacman e dos fantasmas 
     -- type   : combinational
-    des_overlay: PROCESS (pac_pos_x, pac_pos_y, pac_cur_dir, sig_blink, 
+    des_overlay: PROCESS (pac_pos_x, pac_pos_y, pac_cur_dir, sig_blink,
                           fan_pos_x, fan_pos_y, fan_state, fan_cur_dir, line, col)
 		VARIABLE x_offset, y_offset: INTEGER range -TAB_LEN to TAB_LEN;
     BEGIN
@@ -493,7 +484,7 @@ BEGIN
         
 		IF (x_offset>=0 and x_offset<5 and 
 			y_offset>=0 and y_offset<5) THEN
-			IF (sig_blink(1) = '0') THEN
+			IF (sig_blink(4) = '0') THEN
 				ovl_blk_in <= PAC_BITMAPS(pac_cur_dir)(y_offset, x_offset);
 			ELSE
 				IF (pac_cur_dir = DIREI or pac_cur_dir = ESQUE) THEN
@@ -503,37 +494,50 @@ BEGIN
 				END IF;
 			END IF;
 		ELSE --Desenho dos fantasmas
-            FOR i in 0 to FAN_NO-1 LOOP
-                y_offset := line - fan_pos_y(i) + 2;
-                x_offset := col - fan_pos_x(i) + 2;
-                IF (x_offset>=0 and x_offset<5 and 
-                    y_offset>=0 and y_offset<5) THEN
-                    IF (fan_state(i) = ST_VULN) THEN
-                        ovl_blk_in <= FAN_VULN_BITMAP(y_offset, x_offset);
-                    ELSIF (fan_state(i) = ST_DEAD) THEN
-                        ovl_blk_in <= FAN_DEAD_BITMAPS(fan_cur_dir(i))(y_offset, x_offset);
-                    ELSE
-                        ovl_blk_in <= FAN_BITMAPS(fan_cur_dir(i))(y_offset, x_offset);
-                    END IF;
-                --ELSE
-                    --y_offset := line - fan_pos_y(1) + 2;
-                    --x_offset := col - fan_pos_x(1) + 2;
-                    --IF (x_offset>=0 and x_offset<5 and
-                    --y_offset>=0 and y_offset<5) THEN
-                        --IF (fan_state(0) = ST_VULN) THEN
-                            --ovl_blk_in <= FAN_VULN_BITMAP(y_offset, x_offset);
-                        --ELSIF (fan_state(0) = ST_DEAD) THEN
-                            --ovl_blk_in <= FAN_DEAD_BITMAPS(fan_cur_dir(1))(y_offset, x_offset);
-                        --ELSE
-                            --ovl_blk_in <= FAN_BITMAPS(fan_cur_dir(1))(y_offset, x_offset);
-                        --END IF;
-                    --ELSE
-                        --ovl_blk_in <= BLK_NULL;
-                    --END IF;
-                END IF;
-            END LOOP;
+			y_offset := line - fan_pos_y(0) + 2;
+			x_offset := col - fan_pos_x(0) + 2;
+			IF (x_offset>=0 and x_offset<5 and 
+				y_offset>=0 and y_offset<5) THEN
+				IF (fan_state(0) = ST_VULN) THEN
+					ovl_blk_in <= FAN_VULN_BITMAP(y_offset, x_offset);
+				ELSIF (fan_state(0) = ST_DEAD) THEN
+					ovl_blk_in <= FAN_DEAD_BITMAPS(fan_cur_dir(0))(y_offset, x_offset);
+				ELSE
+					ovl_blk_in <= FAN_GRN_BITMAPS(fan_cur_dir(0))(y_offset, x_offset);
+				END IF;
+			ELSE
+				y_offset := line - fan_pos_y(1) + 2;
+				x_offset := col - fan_pos_x(1) + 2;
+				IF (x_offset>=0 and x_offset<5 and
+				y_offset>=0 and y_offset<5) THEN
+					IF (fan_state(1) = ST_VULN) THEN
+						ovl_blk_in <= FAN_VULN_BITMAP(y_offset, x_offset);
+					ELSIF (fan_state(1) = ST_DEAD) THEN
+						ovl_blk_in <= FAN_DEAD_BITMAPS(fan_cur_dir(1))(y_offset, x_offset);
+					ELSE
+						ovl_blk_in <= FAN_RED_BITMAPS(fan_cur_dir(1))(y_offset, x_offset);
+					END IF;
+				ELSE
+					ovl_blk_in <= BLK_NULL;
+				END IF;
+			END IF;
 		END IF;
     END PROCESS;
+    
+    -- Determina quando o pacman morreu
+    -- type: combinational
+    PROCESS (pac_pos_x, pac_pos_y, fan_pos_x, fan_pos_y)
+		VARIABLE all_fan: STD_LOGIC;
+	BEGIN
+		all_fan := '0';
+		FOR i in 0 to FAN_NO-1 LOOP
+			IF (pac_pos_x = fan_pos_x(i) and pac_pos_y = fan_pos_y(i)) THEN
+				all_fan := '1';
+			END IF;
+		END LOOP;
+		
+		pacman_dead <= all_fan;
+	END PROCESS;
     
     -- Define dado que entra na ram
 	def_block_in: PROCESS (estado, addr)
@@ -553,11 +557,8 @@ BEGIN
     -- purpose: Esta é a lógica combinacional que calcula sinais de saída a partir
     --          do estado atual e alguns sinais de entrada (Máquina de Mealy).
     -- type   : combinational
-    -- inputs : estado, fim_escrita, timer, col, line, pac_pos_x, pac_pos_y
-    -- outputs: pr_estado, atualiza_pos_x, atualiza_pos_y, line_rstn,
-    --          line_enable, col_rstn, col_enable, we, timer_enable, timer_rstn
-    logica_mealy: PROCESS (estado, fim_escrita, timer, 
-                           col, line, pac_pos_x, pac_pos_y, got_coin)
+    logica_mealy: PROCESS (estado, fim_escrita, timer, q_rem_moedas, q_vidas,
+                           col, line, pac_pos_x, pac_pos_y, pacman_dead, got_coin)
     BEGIN
         case estado is
         when CARREGA_MAPA  => IF (fim_escrita = '1') THEN
@@ -573,9 +574,50 @@ BEGIN
                         timer_rstn     <= '0';
                         timer_enable   <= '0';
                         addr           <= col + SCR_WDT*line;
-                        overlay         <= '0';
                         
-        when INICIO_JOGO  => IF timer = '1' THEN              
+		when REINICIO  => IF (long_timer = '1') THEN
+							pr_estado <= INICIO_JOGO;
+						ELSE
+							pr_estado <= REINICIO;
+						END IF;
+                        line_rstn      <= '1';
+                        line_enable    <= '1';
+                        col_rstn       <= '1';
+                        col_enable     <= '1';
+                        we             <= '0';
+                        timer_rstn     <= '1'; 
+                        timer_enable   <= '1';
+                        addr           <=  0;
+                        
+		when FIM_JOGO  => pr_estado <= FIM_JOGO; --não sai disso
+                        line_rstn      <= '1';
+                        line_enable    <= '1';
+                        col_rstn       <= '1';
+                        col_enable     <= '1';
+                        we             <= '0';
+                        timer_rstn     <= '0'; 
+                        timer_enable   <= '0';
+                        addr           <=  0;
+                        
+		when PACMAN_VENCE => pr_estado <= PACMAN_VENCE; --não sai disso
+                        line_rstn      <= '1';
+                        line_enable    <= '1';
+                        col_rstn       <= '1';
+                        col_enable     <= '1';
+                        we             <= '0';
+                        timer_rstn     <= '0';  -- reset é active low!
+                        timer_enable   <= '0';
+                        addr           <=  0;
+
+        when INICIO_JOGO  => IF (pacman_dead = '1') THEN
+							IF (q_vidas = 0) THEN
+								pr_estado <= FIM_JOGO;
+							ELSE
+								pr_estado <= REINICIO;
+							END IF;
+						ELSIF (q_rem_moedas <= 0) THEN
+							pr_estado <= PACMAN_VENCE;	
+                        ELSIF (timer = '1') THEN            
                             pr_estado <= PERCORRE_QUADRO;
                         ELSE
                             pr_estado <= INICIO_JOGO;
@@ -588,7 +630,6 @@ BEGIN
                         timer_rstn     <= '1';  -- reset é active low!
                         timer_enable   <= '1';
                         addr           <= 0;
-                        overlay         <= '0';
 
         when PERCORRE_QUADRO => IF (fim_escrita = '1') THEN
                             pr_estado <= ATUALIZA_LOGICA_1;
@@ -603,7 +644,6 @@ BEGIN
                         timer_rstn     <= '0';
                         timer_enable   <= '0';
                         addr           <= col + SCR_WDT*line;
-                        overlay        <= '1';
                         
         when ATUALIZA_LOGICA_1 => pr_estado <= ATUALIZA_LOGICA_2;
 						line_rstn      <= '1';
@@ -614,7 +654,6 @@ BEGIN
                         timer_rstn     <= '0';
                         timer_enable   <= '0';
                         addr		   <= 0;
-                        overlay        <= '0';
                         
 		when ATUALIZA_LOGICA_2 => pr_estado <= ATUALIZA_LOGICA_3;
 						line_rstn      <= '1';
@@ -625,7 +664,6 @@ BEGIN
                         timer_rstn     <= '0';
                         timer_enable   <= '0';
                         addr		   <= 0;
-                        overlay        <= '0';
 		
 		when ATUALIZA_LOGICA_3 => pr_estado <= MEMORIA_WR;
 						line_rstn      <= '1';
@@ -636,7 +674,6 @@ BEGIN
                         timer_rstn     <= '0';
                         timer_enable   <= '0';
                         addr		   <= 0;
-                        overlay        <= '0';
       
         when MEMORIA_WR => pr_estado <= INICIO_JOGO;
 						line_rstn      <= '0';
@@ -647,7 +684,6 @@ BEGIN
                         timer_rstn     <= '0';
                         timer_enable   <= '0';
                         addr		   <= pac_pos_x + SCR_WDT * pac_pos_y;
-                        overlay        <= '0';
                         
 		when others  => pr_estado <= CARREGA_MAPA;
                         line_rstn      <= '0';
@@ -658,9 +694,23 @@ BEGIN
                         timer_rstn     <= '1'; 
                         timer_enable   <= '0';
                         addr           <= 0;
-                        overlay         <= '0';
         END case;
     END PROCESS logica_mealy;
+    
+    -- Define sinais de controle da FSM usados em apenas UM ESTADO
+    -- type: combinational
+    sinais_extras: PROCESS (estado)
+	BEGIN
+		IF (estado = PERCORRE_QUADRO) 
+		THEN overlay <= '1';
+		ELSE overlay <= '0';
+		END IF;
+		
+		IF (estado = REINICIO) 
+		THEN restart <= '1';
+		ELSE restart <= '0';
+		END IF;
+	END PROCESS;
 
     -- purpose: Avança a FSM para o próximo estado
     -- type   : sequential
@@ -668,14 +718,22 @@ BEGIN
     -- outputs: estado
     seq_fsm: PROCESS (clk27M, rstn)
     BEGIN  -- PROCESS seq_fsm
-        IF rstn = '0' THEN                  -- asynchronous reset (active low)
+        IF (rstn = '0') THEN                  -- asynchronous reset (active low)
             estado <= SHOW_SPLASH;
-            atual_cont <= 0;
-            sig_blink  <= (OTHERS => '0');
-        elsif clk27M'event and clk27M = '1' THEN  -- rising clock edge
+        elsif (clk27M'event and clk27M = '1') THEN  -- rising clock edge
             estado <= pr_estado;
-            
-            IF (estado = ATUALIZA_LOGICA_2) THEN
+        END IF;
+    END PROCESS seq_fsm;
+    
+    -- Atualiza contadores de número de atualizações
+    -- type: sequential
+    atual_counters: PROCESS (clk27M, rstn)
+	BEGIN
+		IF (rstn = '0') THEN
+			atual_cont <= 0;
+            sig_blink  <= (OTHERS => '0');
+		ELSIF (clk27M'event and clk27M = '1') THEN
+			IF (estado = ATUALIZA_LOGICA_2) THEN
 				IF (atual_cont = 11) THEN
 					atual_cont <= 0;
 				ELSE
@@ -683,22 +741,33 @@ BEGIN
 				END IF;
 				sig_blink <= sig_blink + 1;
 			END IF;
-        END IF;
-    END PROCESS seq_fsm;
+		END IF;
+	END PROCESS;
 
     -----------------------------------------------------------------------------
-    -- Contador utilizado para atrasar a animação (evitar
+    -- Contadores utilizados para atrasar a animação (evitar
     -- que a atualização de quadros fique muito veloz).
     ----------------------------------------------------------------------------
-    p_contador: COMPONENT counter 
+    p_contador0: COMPONENT counter 
         PORT MAP (clk 	=> clk27M,
 		          rstn 	=> timer_rstn,
 		          en	=> timer_enable,
 				  max	=> DIV_FACT - 1,
 				  q		=> contador);
+	
+	p_contador1: COMPONENT counter 
+        PORT MAP (clk 	=> clk27M,
+		          rstn 	=> timer_rstn, --mesmo reset do contador 0, porém
+		          en	=> timer, --contagem a cada término do contador 0
+				  max	=> 127,
+				  q		=> long_cont);
                   
-    --O sinal "timer" indica quando o contador chegou ao final
+    --O sinal "timer" indica a hora de fazer nova atualização
     timer <= '1' WHEN (contador = DIV_FACT - 1)
+    ELSE     '0';
+   
+    --Timer para mostrar um evento na tela
+    long_timer <= '1' WHEN (long_cont = 127)
     ELSE     '0';
     
     -----------------------------------------------------------------------------

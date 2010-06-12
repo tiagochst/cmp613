@@ -135,7 +135,7 @@ begin  -- behav
   vgamem1 : work.dual_clock_ram
   generic map (
     MEMSIZE => NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS,
-    MEMWDT  => 8)
+    MEMWDT  => 9)
   port map (
     read_clk       => vga_clk,
     write_clk      => write_clk,
@@ -146,7 +146,7 @@ begin  -- behav
     we             => ovl_we);
     
   id_data_in       <= std_logic_vector(to_unsigned(t_blk_sym'pos(data_in), 4));
-  id_ovl_in        <= std_logic_vector(to_unsigned(ovl_blk_sym'pos(ovl_in), 8));
+  id_ovl_in        <= std_logic_vector(to_unsigned(ovl_blk_sym'pos(ovl_in), 9));
   vga_data_out     <= t_blk_sym'val(to_integer(unsigned(id_vga_data_out)));
   data_block       <= t_blk_sym'val(to_integer(unsigned(id_data_block)));
   vga_ovl_data_out <= ovl_blk_sym'val(to_integer(unsigned(id_vga_ovl_data_out)));
