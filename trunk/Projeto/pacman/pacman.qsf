@@ -85,7 +85,6 @@ set_global_assignment -name VHDL_FILE counter.vhd
 set_global_assignment -name VHDL_FILE pacman.vhd
 set_global_assignment -name VHDL_FILE vgacon.vhd
 set_global_assignment -name VHDL_FILE pac_defs.vhd
-set_global_assignment -name VHDL_FILE pac_sprites.vhd
 set_location_assignment PIN_E2 -to SEG0[6]
 set_location_assignment PIN_F1 -to SEG0[5]
 set_location_assignment PIN_F2 -to SEG0[4]

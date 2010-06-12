@@ -38,7 +38,7 @@ architecture struct of kbd_key is
 		
   signal resetn : std_logic:='0';
   signal key_all : std_logic_vector(47 downto 0);
-  signal lights, key_on  : std_logic_vector( 2 downto 0):="000";
+  signal key_on  : std_logic_vector( 2 downto 0):="000";
 
 BEGIN 
   resetn <= KEY;
@@ -48,7 +48,7 @@ BEGIN
   );
 
   kbd_ctrl : kbdex_ctrl generic map(24000) port map(
-    PS2_DAT, PS2_CLK, CLOCK_27, '1', resetn, lights(1) & lights(2) & lights(0),
+    PS2_DAT, PS2_CLK, CLOCK_27, '1', resetn, "111",
     key_on, key_code(47 downto 0) => key_all
   );
 	
