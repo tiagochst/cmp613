@@ -4,10 +4,9 @@
 
 *Interação com teclado*
   * DONE:
-    * Implementei para dois jogadores, mas tive que ignorar três teclas simultâneas. Porque o código para duas teclas (uma para cada player,ficou bem grande)
+    * Implementei para dois jogadores.
     * Mantive o codigo para um player caso não fizermos 2 players (está comentado) no código.(comentei tudo bem certinho)
   * TO DO:
-    * Falta realizar teste com teclado para 2 players.
     * Melhorar o código do ped e tentar retirar os 25 warnings e o *critical warning* relacionado a ele.
 
 *Movimentação*
@@ -24,18 +23,20 @@
   * DONE:
      * Cenário projetado de acordo com o jogo original
      * Camada de overlay para desenhos sobre o cenário (pacman, fantasmas, frutas, etc)
+     * Resolução de 640x480 com sprites ok, porém com glitches que devem ser removidos
   * TO DO:
-     * Aumentar resolução - cada bloco da tela será representado por um sprite 5x5
+     * Pensar em alguma maneira de tirar a borda preta em torno dos fantasmas/pacman.
      * Adicionar mais cores (máximo de 4096 cores), _será que é necessário?_
      
 *Outros*
-  * TO DO:
+  * DONE:
+    * Pontuação do level (primeiro nos 7-seg depois criar sprites para a tela, provavelmente não mais)
     * Término do jogo ao comer todas as bolinhas
-    * Pontuação do level (primeiro nos 7-seg depois criar sprites para a tela)
+  * TO DO:
     * Frutas no meio do cenário
     * High scores
     * Morte do pacman - colocá-lo no centro novamente.(Animação de morte??)
-    * *Áudio* (BGM e SFX): envolve instanciar o NIOS e interfacear C com VHDL, não sabemos se vale a pena ou se sequer tentaremos.
+    * *Áudio* (BGM e SFX): envolve instanciar o NIOS e interfacear C com VHDL, não sabemos se vale a pena ou se sequer tentaremos. Tiago diz que é difícil.
     * Limpeza do código (ao final): 
       * Separar RAMs de blocos da interface VGA
       * Criar componentes para o pacman e os fantasmas
