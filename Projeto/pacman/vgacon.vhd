@@ -1,77 +1,8 @@
--------------------------------------------------------------------------------
--- Title      : VGA Controller for DE1 boards
--- Project    : 
--------------------------------------------------------------------------------
--- File       : vgacontop.vhd
--- Author     : Rafael Auler
--- Company    : 
--- Created    : 2010-03-21
--- Last update: 2010-03-26
--- Platform   : 
--- Standard   : VHDL'2008
--------------------------------------------------------------------------------
--- Description: 
--------------------------------------------------------------------------------
--- Copyright (c) 2010 
--------------------------------------------------------------------------------
--- Revisions  :
--- Date        Version  Author          Description
--- 2010-03-21  1.0      Rafael Auler	Created
--- 2010-03-26  1.1      Rafael Auler    Working 64x60 display w/ internal mem.
--- 2010-03-26  1.2      Rafael Auler    Working with arbitrary res. (up to
---                                      640x480, tied to on-chip memory
---                                      availability). Defaults to 128x96.
--------------------------------------------------------------------------------
-
-
--- How sync signals are generated for 640x480
--- Note: sync signals are active low
--------------------------------------------------------------------------------
--- Horizontal sync:
--- -------------------__--------
-
---              |    |  |      |
--- <----------->
---    640
--- <---------------->
---    660
--- <------------------->
---    756
--- <-------------------------->
---    800
--------------------------------------------------------------------------------
--- Vertical sync:
--- -----------------__-------
---
---            |    |  |     |
--- <--------->
---    480
--- <-------------->
---    494
--- <----------------->
---    495
--- <----------------------->
---    525
--------------------------------------------------------------------------------
-
--------------------------------------------------------------------------------
--- Notes:
--- write_clk, write_addr, write_enable and data_in are input signals used to
--- write to this controller memory and thus altering the displayed image on VGA.
---
--- "data_in" has 3 bits and represents a single image pixel.
--- (high bit for RED, middle for GREEN and lower for BLUE - total of 8 colors).
---
--- These signals follow simple memory write protocol (we=1 writes
--- data_in to address (pixel number) write_addr. This last signal may assume
--- NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS different values, corresponding to each
--- one of the displayable pixels.
--------------------------------------------------------------------------------
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 USE work.PAC_DEFS.all;
+USE work.PAC_SPRITES.all;
 
 entity vgacon is
   generic (
@@ -92,7 +23,7 @@ entity vgacon is
     vga_pixel                 : out t_color_3b; --at 25.2 MHz
     data_block                : out t_blk_sym; --at 27 MHz
     hsync, vsync              : out std_logic;
-    ovl_in                    : in ovl_blk_sym;
+    ovl_in                    : in t_ovl_blk_sym;
     ovl_we                    : in std_logic);
 end vgacon;
 
@@ -107,7 +38,7 @@ architecture behav of vgacon is
   signal read_addr : integer range 0 to NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS - 1;
   signal h_drawarea, v_drawarea, drawarea : std_logic;
   signal vga_data_out	  : t_blk_sym;
-  signal vga_ovl_data_out : ovl_blk_sym;
+  signal vga_ovl_data_out : t_ovl_blk_sym;
   signal id_vga_data_out, id_data_block, id_data_in: t_blk_id;
   signal id_ovl_in, id_vga_ovl_data_out: t_ovl_blk_id;
 begin  -- behav
@@ -146,10 +77,10 @@ begin  -- behav
     we             => ovl_we);
     
   id_data_in       <= std_logic_vector(to_unsigned(t_blk_sym'pos(data_in), 4));
-  id_ovl_in        <= std_logic_vector(to_unsigned(ovl_blk_sym'pos(ovl_in), 9));
+  id_ovl_in        <= std_logic_vector(to_unsigned(t_ovl_blk_sym'pos(ovl_in), 9));
   vga_data_out     <= t_blk_sym'val(to_integer(unsigned(id_vga_data_out)));
   data_block       <= t_blk_sym'val(to_integer(unsigned(id_data_block)));
-  vga_ovl_data_out <= ovl_blk_sym'val(to_integer(unsigned(id_vga_ovl_data_out)));
+  vga_ovl_data_out <= t_ovl_blk_sym'val(to_integer(unsigned(id_vga_ovl_data_out)));
 
   -- purpose: Increments the current horizontal position counter
   -- type   : sequential

@@ -2,6 +2,7 @@ LIBRARY ieee;
 USE ieee.STD_LOGIC_1164.all;
 USE ieee.NUMERIC_STD.all;
 USE work.PAC_DEFS.all;
+USE work.PAC_SPRITES.all;
 
 ENTITY pacman is
   PORT (
@@ -17,7 +18,7 @@ END pacman;
 
 ARCHITECTURE comportamento of pacman is
     SIGNAL rstn: STD_LOGIC;                        -- reset active low
-    SIGNAL restart: STD_LOGIC; -- Ativado quando o pacman morre (active high)
+    SIGNAL restartn: STD_LOGIC;                    -- Usado quando o pacman morre (active low)
                                         
     -- Interface com a memória de vídeo do controlador
     SIGNAL we : STD_LOGIC;                          -- write enable ('1' p/ escrita)
@@ -46,12 +47,11 @@ ARCHITECTURE comportamento of pacman is
     
     SIGNAL atual_cont:             -- Contagem (modular) do número de vezes que a lógica
        INTEGER range 0 to 11 := 0; -- atualizou (serve como enable de várias velocidades)
-    SIGNAL atual_en_2, atual_en_3, atual_en_4: STD_LOGIC;
+    SIGNAL atua_en: STD_LOGIC_VECTOR(2 downto 0);
                                                     
-    
     -- Sinais de desenho em overlay sobre o cenário do jogo
     SIGNAL overlay: STD_LOGIC;
-    SIGNAL ovl_blk_in: ovl_blk_sym;
+    SIGNAL ovl_blk_in: t_ovl_blk_sym;
 
     -- Sinais para um contador utilizado para atrasar 
     -- a frequência da atualização
@@ -64,19 +64,11 @@ ARCHITECTURE comportamento of pacman is
 	      max: IN INTEGER;
 	      q: OUT INTEGER);
 	END COMPONENT counter;
-	
-	FUNCTION walkable(s: t_blk_sym)
-		RETURN boolean IS
-	BEGIN
-		IF (s = BLK_PATH or s = BLK_COIN or s = BLK_SPC_COIN) THEN RETURN true;
-		ELSE RETURN false;
-		END IF;
-	END FUNCTION;
 
     -----------------------------------------------------------------------------
     -- Sinais de controle da lógica do jogo
     -----------------------------------------------------------------------------
-    SIGNAL got_coin, got_spc_coin: STD_LOGIC;       -- informa se obteve moeda no ultimo movimento
+    SIGNAL got_coin, got_spc_coin: STD_LOGIC;   -- informa se obteve moeda no ultimo movimento
     SIGNAL q_rem_moedas: INTEGER range -10 to 255 := 240;
     SIGNAL q_vidas: INTEGER range 0 to 5 := 3;
     SIGNAL q_pontos: INTEGER range 0 to 9999 := 0;
@@ -86,17 +78,17 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL pac_pos_y: t_pos := PAC_START_Y;
     SIGNAL pac_cur_dir: t_direcao;
     SIGNAL sig_blink: UNSIGNED(6 downto 0);
- 	SIGNAL pac_nxt_cel, pac_dir_cel, pac_esq_cel, pac_cim_cel, pac_bai_cel: t_blk_sym;
-    SIGNAL pac_area: blk_sym_3x3;
+    SIGNAL pac_area: t_blk_sym_3x3;
     SIGNAL pacman_dead: STD_LOGIC;
+    SIGNAL pac_fan_hit: STD_LOGIC;
+    SIGNAL pac_atua: STD_LOGIC;
  	
- 	SIGNAL fan_pos_x: t_fans_pos := FANS_START_X;
- 	SIGNAL fan_pos_y: t_fans_pos := FANS_START_Y;
+ 	SIGNAL fan_pos_x: t_fans_pos;
+ 	SIGNAL fan_pos_y: t_fans_pos;
     SIGNAL fan_cur_dir: t_fans_dirs;
-    SIGNAL fan_nxt_cel, fan_dir_cel, fan_esq_cel, fan_cim_cel, fan_bai_cel: t_fans_blk_sym;
-    SIGNAL cur_fan: INTEGER range 0 to FAN_NO-1; -- fantasma controlado atualmente pelo p2
     SIGNAL fan_state: t_fans_states;
 	SIGNAL fan_area: t_fans_blk_sym_3x3;
+	SIGNAL fan_atua: STD_LOGIC;
 
 	SIGNAL p1_dir, p2_dir: t_direcao; -- sinais lidos pelo teclado
 	SIGNAL p2_toggle: STD_LOGIC;
@@ -181,6 +173,45 @@ BEGIN
     -- podemos avançar para o próximo estado?
     fim_escrita <= '1' WHEN (line = SCR_HGT-1) and (col = SCR_WDT-1)
                    ELSE '0';
+                   
+	-- Controlador dos fantasmas
+	ctrl_fans_inst: ENTITY work.ctrl_fans PORT MAP (
+		clk27M 		=> clk27M, 			rstn 		=> rstn,
+		atualiza 	=> fan_atua, 		atua_en 	=> atua_en,
+		key_dir 	=> p2_dir, 			key_tgl 	=> p2_toggle,
+		fan_area 	=> fan_area,		pacman_dead => pacman_dead,
+		spc_coin	=> got_spc_coin,	pac_fan_hit => pac_fan_hit,
+		fan_pos_x 	=> fan_pos_x, 		fan_pos_y 	=> fan_pos_y,
+		fan_state	=> fan_state, 		fan_cur_dir => fan_cur_dir
+	);
+	
+	-- Controlador do pacman
+	ctrl_pac_inst: ENTITY work.ctrl_pacman PORT MAP (
+		clk27M		=> clk27M,			rstn		=> rstn and restartn,
+		key_dir		=> p1_dir,			atualiza	=> pac_atua and atua_en(0),
+		pac_area	=> pac_area,		pac_cur_dir	=> pac_cur_dir,
+		pac_pos_x	=> pac_pos_x,		pac_pos_y	=> pac_pos_y,
+		got_coin	=> got_coin,		got_spc_coin=> got_spc_coin
+	);
+	
+	--Gera enables de atualizações para cada velocidade de atualização
+	PROCESS (atual_cont)
+	BEGIN
+		IF (atual_cont=0 or atual_cont=4 or atual_cont=8)
+		THEN atua_en(0) <= '1';
+		ELSE atua_en(0) <= '0';
+		END IF;
+		
+		IF (atual_cont=0 or atual_cont=3 or atual_cont=6 or atual_cont=9)
+		THEN atua_en(1) <= '1';
+		ELSE atua_en(1) <= '0';
+		END IF;
+		
+		IF (atual_cont mod 2 = 0)
+		THEN atua_en(2) <= '1';
+		ELSE atua_en(2) <= '0';
+		END IF;
+	END PROCESS;
 	
 	-- purpose: Preenche as matrizes 3x3 das vizinhanças pac_area 
 	--          e fans_area durante PERCORRE_QUADRO
@@ -210,266 +241,25 @@ BEGIN
 		END IF;
 	END PROCESS;
 	
-	--Gera enables de atualizações para cada velocidade de atualização
-	PROCESS (atual_cont)
+	-- Atualiza parâmetros de informação do jogo
+	-- type: sequential
+	param_jogo: PROCESS (clk27M, rstn)
 	BEGIN
-		IF (atual_cont=0 or atual_cont=4 or atual_cont=8)
-		THEN atual_en_2 <= '1';
-		ELSE atual_en_2 <= '0';
-		END IF;
-		
-		IF (atual_cont=0 or atual_cont=3 or atual_cont=6 or atual_cont=9)
-		THEN atual_en_3 <= '1';
-		ELSE atual_en_3 <= '0';
-		END IF;
-		
-		IF (atual_cont mod 2 = 0)
-		THEN atual_en_4 <= '1';
-		ELSE atual_en_4 <= '0';
-		END IF;
-	END PROCESS;
-	
-	--Calcula possíveis parâmetros envolvidos no próximo movimento
-	--do pacman
-	PROCESS (pac_cur_dir, pac_area)
-	BEGIN
-		--calcula qual seriam as proximas celulas visitadas pelo pacman
-		pac_nxt_cel <= pac_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1));
-		pac_dir_cel <= pac_area(0,1);
-		pac_esq_cel <= pac_area(0,-1);
-		pac_cim_cel <= pac_area(-1,0);
-		pac_bai_cel <= pac_area(1,0);
-	END PROCESS;
-
-    -- purpose: Este processo irá atualizar a posicão do pacman e definir
-    --          suas ações no jogo. Opera no estado ATUALIZA_LOGICA_1
-    -- type   : sequential
-    -- inputs : clk27M, rstn, pac_area
-    --          pac_cur_dir, pac_pos_x, pac_pos_y
-    -- outputs: pac_cur_dir, pac_pos_x, pac_pos_y, got_coin
-    p_atualiza_pacman: PROCESS (clk27M, rstn, restart)
-		VARIABLE nxt_move, p1_dir_old: t_direcao;
-    BEGIN
-		IF (rstn = '0' and restart = '0') THEN
+		IF (rstn = '0') THEN
 			q_vidas <= 3;
 			q_pontos <= 0;
-        ELSIF (rstn = '0' and restart = '1') THEN
-            pac_pos_x <= PAC_START_X;
-            pac_pos_y <= PAC_START_Y;
-			pac_cur_dir <= NADA;
-			nxt_move := NADA;
 			q_rem_moedas <= 240;
-        ELSIF (clk27M'event and clk27M = '1') THEN
-             IF (estado = ATUALIZA_LOGICA_1 and atual_en_2 = '1') THEN
-				--Checa teclado para "agendar" um movimento
-				IF (p1_dir /= NADA and p1_dir_old = NADA) THEN
-					nxt_move := p1_dir;
-				END IF;
-				
-                --atualiza direção
-				IF (nxt_move = CIMA and walkable(pac_cim_cel)) THEN
-					pac_cur_dir <= CIMA;
-					nxt_move := NADA;
-				ELSIF (nxt_move = DIREI and walkable(pac_dir_cel)) THEN
-					pac_cur_dir <= DIREI;
-					nxt_move := NADA;
-				ELSIF (nxt_move = BAIXO and walkable(pac_bai_cel)) THEN
-					pac_cur_dir <= BAIXO;
-					nxt_move := NADA;
-				ELSIF (nxt_move = ESQUE and walkable(pac_esq_cel)) THEN
-					pac_cur_dir <= ESQUE;
-					nxt_move := NADA;
-                ELSE
-					IF (walkable(pac_nxt_cel)) THEN --atualiza posicao
-						IF (pac_pos_x = TELE_DIR_POS) then --teletransporte
-							pac_pos_x <= TELE_ESQ_POS + 1;
-						ELSIF (pac_pos_x = TELE_ESQ_POS) then
-							pac_pos_x <= TELE_DIR_POS - 1;
-						ELSE
-							pac_pos_x <= pac_pos_x + DIRS(pac_cur_dir)(1);
-							pac_pos_y <= pac_pos_y + DIRS(pac_cur_dir)(0);
-						END IF;
-					END IF;
-                
-					IF (pac_nxt_cel = BLK_COIN or pac_nxt_cel = BLK_SPC_COIN) THEN
-                        got_coin <= '1';
-                    ELSE
-                        got_coin <= '0';
-                    END IF;
-                    
-                    IF (pac_nxt_cel = BLK_SPC_COIN) THEN
-                        got_spc_coin <= '1';
-                    ELSE
-                        got_spc_coin <= '0';
-                    END IF;
-                    
-                    IF (pac_nxt_cel = BLK_COIN) THEN
-                        q_pontos <= q_pontos + 10;
-                        q_rem_moedas <= q_rem_moedas - 1;
-                    ELSIF (pac_nxt_cel = BLK_SPC_COIN) THEN
-                        q_pontos <= q_pontos + 50;
-                    END IF;
-                END IF;
-                p1_dir_old := p1_dir;
-            END IF;
-        END IF;
-	END PROCESS;
-	
-	--Calcula possíveis parâmetros envolvidos no próximo movimento
-	--de todos os fantasmas
-	PROCESS (fan_area, fan_cur_dir)
-	BEGIN
-		--IF (clk27M'event and clk27M = '1') THEN
-			--IF (estado = ATUALIZA_LOGICA_1) THEN
-				FOR i in 0 to FAN_NO-1 LOOP
-					fan_nxt_cel(i) <= fan_area(i)(DIRS(fan_cur_dir(i))(0), DIRS(fan_cur_dir(i))(1));
-					fan_dir_cel(i) <= fan_area(i)(0,1);
-					fan_esq_cel(i) <= fan_area(i)(0,-1);
-					fan_cim_cel(i) <= fan_area(i)(-1,0);
-					fan_bai_cel(i) <= fan_area(i)(1,0);
-				END LOOP;
-			--END IF;
-		--END IF;
-	END PROCESS;
-	
-	-- purpose: Este processo irá atualizar as posições dos fantasmas e definir
-    --          suas ações no jogo. Opera no estado ATUALIZA_LOGICA_2
-    -- type   : sequential
-    -- inputs : clk27M, rstn, pac_area
-    --          fan_cur_dir, fan_pos_x, fan_pos_y
-    -- outputs: fan_cur_dir, fan_pos_x, fan_pos_y, got_coin
-    p_atualiza_fantasmas: PROCESS (clk27M, rstn, restart)
-		VARIABLE p2_dir_old: t_direcao;
-		VARIABLE nxt_move: t_fans_dirs;
-		VARIABLE p2_toggle_old: STD_LOGIC;
-    BEGIN
-        IF (rstn = '0' or restart = '1') THEN
-            fan_pos_x <= FANS_START_X;
-            fan_pos_y <= FANS_START_Y;
-			fan_cur_dir <= (others => NADA);
-			nxt_move := (others => NADA);
-        ELSIF (clk27M'event and clk27M = '1') THEN
-             IF (estado = ATUALIZA_LOGICA_2) THEN
-				FOR i in 0 to FAN_NO-1 LOOP
-					CASE fan_state(i) IS
-					WHEN ST_VIVO | ST_VULN => 
-						IF (cur_fan = i and atual_en_3 = '1') THEN
-							--Checa teclado para "agendar" um movimento
-							IF (p2_dir /= NADA and p2_dir_old = NADA) THEN
-								nxt_move(i) := p2_dir;
-							END IF;
-							
-							IF (nxt_move(i) = CIMA and walkable(fan_cim_cel(i))) THEN
-								fan_cur_dir(i) <= CIMA;
-								nxt_move(i) := NADA;
-							ELSIF (nxt_move(i) = DIREI and walkable(fan_dir_cel(i))) THEN
-								fan_cur_dir(i) <= DIREI;
-								nxt_move(i) := NADA;
-							ELSIF (nxt_move(i) = BAIXO and walkable(fan_bai_cel(i))) THEN
-								fan_cur_dir(i) <= BAIXO;
-								nxt_move(i) := NADA;
-							ELSIF (nxt_move(i) = ESQUE and walkable(fan_esq_cel(i))) THEN
-								fan_cur_dir(i) <= ESQUE;
-								nxt_move(i) := NADA;
-							ELSIF (walkable(fan_nxt_cel(i))) THEN --atualiza posicao
-								IF(fan_pos_x(i) = TELE_DIR_POS) then --teletransporte
-									fan_pos_x(i) <= TELE_ESQ_POS + 1;
-								ELSIF(fan_pos_x(i) = TELE_ESQ_POS) then
-									fan_pos_x(i) <= TELE_DIR_POS - 1;
-								ELSE
-									fan_pos_x(i) <= fan_pos_x(i) + DIRS(fan_cur_dir(i))(1);
-									fan_pos_y(i) <= fan_pos_y(i) + DIRS(fan_cur_dir(i))(0);
-								END IF;
-							END IF;
-						END IF;
-					WHEN ST_DEAD | ST_FIND_EXIT => 
-						IF (atual_en_4 = '1') THEN
-							-- Movimento automático do fantasma para a cela
-							CASE FAN_PERCURSO(fan_pos_y(i), fan_pos_x(i)) IS
-							WHEN 'Q' =>
-								fan_pos_y(i) <= fan_pos_y(i) - 1;
-								fan_cur_dir(i) <= CIMA;
-							WHEN 'W' =>
-								fan_pos_y(i) <= fan_pos_y(i) + 1;
-								fan_cur_dir(i) <= BAIXO;
-							WHEN 'E' =>
-								fan_pos_x(i) <= fan_pos_x(i) - 1;
-								fan_cur_dir(i) <= ESQUE;
-							WHEN 'R' =>
-								fan_pos_x(i) <= fan_pos_x(i) + 1;
-								fan_cur_dir(i) <= DIREI;
-							WHEN OTHERS =>
-							END CASE;
-						END IF;
-					WHEN ST_FUGA => --Supõe que fan_pos_x já vale CELL_IN_X 
-						IF (atual_en_3 = '1') THEN 
-							fan_pos_y(i) <= fan_pos_y(i) - 1;
-							fan_cur_dir(i) <= CIMA;
-						END IF;
-					END CASE;
-				END LOOP;
-				IF (p2_toggle = '1' and p2_toggle_old = '0') THEN
-					IF (cur_fan = FAN_NO-1)
-					THEN cur_fan <= 0;
-					ELSE cur_fan <= cur_fan + 1;
-					END IF;
-					fan_cur_dir <= (OTHERS => NADA);
-				END IF;
-				p2_dir_old := p2_dir;
-				p2_toggle_old := p2_toggle;
-            END IF;
-        END IF;
-	END PROCESS;
-	
-	-- Gera o próximo estado de cada fantasma na atualização
-	-- type: combinational
-	p_fan_next_state: PROCESS (clk27M, rstn, restart)
-		VARIABLE fan_tempo: t_fans_times;
-	BEGIN
-		IF (rstn = '0' or restart = '1') THEN
-			fan_state <= (OTHERS => ST_FIND_EXIT);
-			fan_tempo := (OTHERS => 0);
 		ELSIF (clk27M'event and clk27M = '1') THEN
-			IF (estado = ATUALIZA_LOGICA_3) THEN
-				FOR i in 0 to FAN_NO-1 LOOP
-					CASE fan_state(i) IS
-						WHEN ST_VIVO =>
-							IF (got_spc_coin = '1') THEN
-								fan_state(i) <= ST_VULN;
-							END IF;
-							fan_tempo(i) := 0;
-							
-						WHEN ST_VULN =>
-							IF (pac_pos_x = fan_pos_x(i) and pac_pos_y = fan_pos_y(i)) THEN
-								fan_tempo(i) := 0;
-								fan_state(i) <= ST_DEAD;
-							ELSIF (fan_tempo(i) = FAN_TIME_VULN) THEN
-								fan_state(i) <= ST_VIVO;
-							ELSE
-								fan_tempo(i) := fan_tempo(i) + 1;
-							END IF;
-							
-						WHEN ST_DEAD =>
-							IF (fan_tempo(i) = FAN_TIME_DEAD) THEN
-								fan_state(i) <= ST_FIND_EXIT;
-							ELSE
-								fan_tempo(i) := fan_tempo(i) + 1;
-							END IF;
-						
-						WHEN ST_FIND_EXIT =>
-							IF (fan_pos_x(i) = CELL_IN_X and fan_pos_y(i) = CELL_IN_Y) THEN
-								fan_state(i) <= ST_FUGA;
-							END IF;
-							
-						WHEN ST_FUGA =>
-							IF (fan_pos_y(i) = CELL_OUT_Y) THEN
-								fan_state(i) <= ST_VIVO;
-							END IF;
-					END CASE;
-				END LOOP;
+			IF (pacman_dead = '1') THEN
+				q_vidas <= q_vidas - 1;
+			ELSIF (got_coin = '1') THEN
+				q_pontos <= q_pontos + 10;
+				q_rem_moedas <= q_rem_moedas - 1;
+			ELSIF (got_spc_coin = '1') THEN
+				q_pontos <= q_pontos + 50;
 			END IF;
 		END IF;
-	END PROCESS;
+	END PROCESS param_jogo;
 	
 	-- purpose: Processo para que gera sinais de desenho de 
 	--			overlay (ie, sobre o fundo) da vidas, do pacman e dos fantasmas 
@@ -524,7 +314,7 @@ BEGIN
 		END IF;
     END PROCESS;
     
-    -- Determina quando o pacman morreu
+    -- Determina quando o pacman colidiu com algum dos fantasmas
     -- type: combinational
     PROCESS (pac_pos_x, pac_pos_y, fan_pos_x, fan_pos_y)
 		VARIABLE all_fan: STD_LOGIC;
@@ -536,7 +326,7 @@ BEGIN
 			END IF;
 		END LOOP;
 		
-		pacman_dead <= all_fan;
+		pac_fan_hit <= all_fan;
 	END PROCESS;
     
     -- Define dado que entra na ram
@@ -557,8 +347,8 @@ BEGIN
     -- purpose: Esta é a lógica combinacional que calcula sinais de saída a partir
     --          do estado atual e alguns sinais de entrada (Máquina de Mealy).
     -- type   : combinational
-    logica_mealy: PROCESS (estado, fim_escrita, timer, q_rem_moedas, q_vidas,
-                           col, line, pac_pos_x, pac_pos_y, pacman_dead, got_coin)
+    logica_mealy: PROCESS (estado, fim_escrita, timer, long_timer, q_rem_moedas, q_vidas,
+                           col, line, pac_pos_x, pac_pos_y, pacman_dead, got_coin, got_spc_coin)
     BEGIN
         case estado is
         when CARREGA_MAPA  => IF (fim_escrita = '1') THEN
@@ -680,7 +470,7 @@ BEGIN
                         line_enable    <= '0';
                         col_rstn       <= '0';
                         col_enable     <= '0';
-                        we             <= got_coin; 
+                        we             <= got_coin or got_spc_coin; 
                         timer_rstn     <= '0';
                         timer_enable   <= '0';
                         addr		   <= pac_pos_x + SCR_WDT * pac_pos_y;
@@ -707,8 +497,18 @@ BEGIN
 		END IF;
 		
 		IF (estado = REINICIO) 
-		THEN restart <= '1';
-		ELSE restart <= '0';
+		THEN restartn <= '0';
+		ELSE restartn <= '1';
+		END IF;
+		
+		IF (estado = ATUALIZA_LOGICA_2) 
+		THEN fan_atua <= '1';
+		ELSE fan_atua <= '0';
+		END IF;
+		
+		IF (estado = ATUALIZA_LOGICA_1) 
+		THEN pac_atua <= '1';
+		ELSE pac_atua <= '0';
 		END IF;
 	END PROCESS;
 
