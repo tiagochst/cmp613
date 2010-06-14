@@ -96,6 +96,8 @@ PACKAGE pac_defs IS
 					 BLK_FAN_VULN_30, BLK_FAN_VULN_31, BLK_FAN_VULN_32, BLK_FAN_VULN_33, BLK_FAN_VULN_34,
 					 BLK_FAN_VULN_40, BLK_FAN_VULN_41, BLK_FAN_VULN_42, BLK_FAN_VULN_43, BLK_FAN_VULN_44
 					);
+					
+	CONSTANT FAN_NO: INTEGER := 2; --Número de fantasmas no jogo
 					 
 	TYPE c_tab_blk is array(t_tab_sym) of t_blk_sym;
 	CONSTANT CONV_TAB_BLK: c_tab_blk := 
@@ -108,14 +110,15 @@ PACKAGE pac_defs IS
 	TYPE t_sprite5 is array(0 to 4, 0 to 4) of STD_LOGIC;
 	TYPE t_ovl_blk_5x5 is array(0 to 4, 0 to 4) of t_ovl_blk_sym;
 	TYPE t_ovl_blk_dir_vet is array(t_direcao) of t_ovl_blk_5x5;
+	TYPE t_fans_ovl_blk_dir_vet is array(0 to FAN_NO-1) of t_ovl_blk_dir_vet;
+	
 	TYPE t_sprite5_vet is array(t_blk_sym) of t_sprite5;
 	TYPE t_ovl_sprite5_vet is array(t_ovl_blk_sym) of t_sprite5;
 	
-	CONSTANT FAN_NO: INTEGER := 2; --Número de fantasmas no jogo (não é genérico no toplevel FIXME)
 	--Tipos em array para os fantasmas
 	SUBTYPE t_pos is INTEGER range 0 to TAB_LEN-1;
 	SUBTYPE t_fan_time is INTEGER range 0 to 1000;
-	TYPE t_fan_state is (ST_VIVO, ST_VULN, ST_DEAD, ST_FIND_EXIT, ST_FUGA);
+	TYPE t_fan_state is (ST_VIVO, ST_VULN, ST_DEAD, ST_PRE_DEAD, ST_FIND_EXIT, ST_FUGA);
 	
 	TYPE t_fans_pos is array(0 to FAN_NO-1) of t_pos;
 	TYPE t_fans_dirs is array(0 to FAN_NO-1) of t_direcao;
@@ -124,6 +127,8 @@ PACKAGE pac_defs IS
 	TYPE t_fans_states is array(0 to FAN_NO-1) of t_fan_state;
 	TYPE t_fans_times is array(0 to FAN_NO-1) of t_fan_time;
 	SUBTYPE t_fans_bits is STD_LOGIC_VECTOR(0 to FAN_NO-1);
+	
+	TYPE t_vidas_pos is array(0 to 2) of t_pos;
 	   
 	--Fator de divisão do clock de 27MHz, usada para atualização do
 	--estado do jogo ("velocidade de execução")
@@ -148,6 +153,8 @@ PACKAGE pac_defs IS
 	CONSTANT CELL_OUT_Y : INTEGER := 35;
 	CONSTANT TELE_DIR_POS : INTEGER := 82;
 	CONSTANT TELE_ESQ_POS : INTEGER := 2;
+	CONSTANT VIDA_ICONS_X: t_vidas_pos := (90, 90, 90);
+	CONSTANT VIDA_ICONS_Y: t_vidas_pos := (89, 83, 77);
 	
 	TYPE t_tab_array is array(0 to SCR_WDT*SCR_HGT-1) of t_tab_sym;
 	TYPE t_tab_mapa is array(0 to SCR_HGT-1, 0 to SCR_WDT-1) of t_tab_sym;
@@ -258,7 +265,7 @@ PACKAGE pac_defs IS
 	"                                                                                                                                ",
 	"                                                                                                                                ",
 	"                                                                                                                                ", 
-	"    RRRRRRRRRRRRRRRWEEEEEEEERRRRRRRRRW         WEEEEEEEEERRRRRRRRREEEEEEEEEEEEEEE                                               ",
+	"    RRRRRRRRRRRRRRRWEEEEEEEERRRRRRRRRW         WEEEEEEEEERRRRRRRRWEEEEEEEEEEEEEEE                                               ",
 	"    W              W                 W         W                 W              W                                               ", 
 	"    W              W                 W         W                 W              W                                               ",
 	"    W              W                 W         W                 W              W                                               ", 
