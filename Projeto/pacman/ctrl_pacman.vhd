@@ -24,10 +24,19 @@ BEGIN
 	BEGIN
 		--calcula qual seriam as proximas celulas visitadas pelo pacman
 		pac_nxt_cel <= pac_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1));
-		pac_dir_cel <= pac_area(0,1);
-		pac_esq_cel <= pac_area(0,-1);
-		pac_cim_cel <= pac_area(-1,0);
-		pac_bai_cel <= pac_area(1,0);
+		
+		IF (WALKABLE(pac_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1)))) THEN
+			--o pacman conseguirá andar para a próxima casa
+			pac_dir_cel <= pac_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1) + 1);
+			pac_esq_cel <= pac_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1) - 1);
+			pac_cim_cel <= pac_area(DIRS(pac_cur_dir)(0)-1, DIRS(pac_cur_dir)(1));
+			pac_bai_cel <= pac_area(DIRS(pac_cur_dir)(0)+1, DIRS(pac_cur_dir)(1));
+		ELSE
+			pac_dir_cel <= pac_area( 0, 1);
+			pac_esq_cel <= pac_area( 0, -1);
+			pac_cim_cel <= pac_area(-1, 0);
+			pac_bai_cel <= pac_area( 1, 0);
+		END IF;
 	END PROCESS;
 
     -- purpose: Este processo irá atualizar a posicão do pacman e definir
@@ -61,26 +70,26 @@ BEGIN
 				ELSIF (nxt_move = ESQUE and WALKABLE(pac_esq_cel)) THEN
 					pac_cur_dir <= ESQUE;
 					nxt_move := NADA;
-                ELSE
-					IF (WALKABLE(pac_nxt_cel)) THEN --atualiza posicao
-						IF (pac_pos_x = TELE_DIR_POS) then --teletransporte
-							pac_pos_x <= TELE_ESQ_POS + 1;
-						ELSIF (pac_pos_x = TELE_ESQ_POS) then
-							pac_pos_x <= TELE_DIR_POS - 1;
-						ELSE
-							pac_pos_x <= pac_pos_x + DIRS(pac_cur_dir)(1);
-							pac_pos_y <= pac_pos_y + DIRS(pac_cur_dir)(0);
-						END IF;
-					END IF;
                 END IF;
+                
+				IF (WALKABLE(pac_nxt_cel)) THEN --atualiza posicao
+					IF (pac_pos_x = TELE_DIR_POS) then --teletransporte
+						pac_pos_x <= TELE_ESQ_POS + 1;
+					ELSIF (pac_pos_x = TELE_ESQ_POS) then
+						pac_pos_x <= TELE_DIR_POS - 1;
+					ELSE
+						pac_pos_x <= pac_pos_x + DIRS(pac_cur_dir)(1);
+						pac_pos_y <= pac_pos_y + DIRS(pac_cur_dir)(0);
+					END IF;
+				END IF;
                 key_dir_old := key_dir;
             END IF;
         END IF;
 	END PROCESS;
 	
-	got_coin <= '1' WHEN (pac_nxt_cel = BLK_COIN)
+	got_coin <= '1' WHEN (pac_nxt_cel = BLK_COIN and atualiza = '1')
 	ELSE '0';
 			
-	got_spc_coin <= '1' WHEN (pac_nxt_cel = BLK_SPC_COIN)
+	got_spc_coin <= '1' WHEN (pac_nxt_cel = BLK_SPC_COIN and atualiza = '1')
 	ELSE '0';
 END behav;

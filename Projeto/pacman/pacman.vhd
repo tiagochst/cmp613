@@ -12,7 +12,9 @@ ENTITY pacman is
     LEDG                      : BUFFER STD_LOGIC_VECTOR (7 downto 5); --   LED Green
     PS2_DAT                   : inout STD_LOGIC;                      --   PS2 Data
     PS2_CLK                   : inout STD_LOGIC;	                  --   PS2 Clock
-    SEG0, SEG1, SEG2, SEG3    : OUT STD_LOGIC_VECTOR(6 downto 0)
+    SEG0, SEG1, SEG2, SEG3    : OUT STD_LOGIC_VECTOR(6 downto 0);
+    LEDR					  : BUFFER STD_LOGIC_VECTOR (3 downto 0);
+    testled					  : OUT STD_LOGIC
     );
 END pacman;
 
@@ -48,6 +50,7 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL atual_cont:             -- Contagem (modular) do número de vezes que a lógica
        INTEGER range 0 to 11 := 0; -- atualizou (serve como enable de várias velocidades)
     SIGNAL atua_en: STD_LOGIC_VECTOR(2 downto 0);
+    SIGNAL run_display: STD_LOGIC;
                                                     
     -- Sinais de desenho em overlay sobre o cenário do jogo
     SIGNAL overlay: STD_LOGIC;
@@ -72,7 +75,9 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL q_rem_moedas: INTEGER range -10 to 255 := 240;
     SIGNAL q_vidas: INTEGER range 0 to 5 := 3;
     SIGNAL q_pontos: INTEGER range 0 to 9999 := 0;
+    SIGNAL vidas_arr: STD_LOGIC_VECTOR(3 downto 0);
     SIGNAL display_en: STD_LOGIC;
+    SIGNAL reg_coin_we: STD_LOGIC;
     
     SIGNAL pac_pos_x: t_pos := PAC_START_X;
     SIGNAL pac_pos_y: t_pos := PAC_START_Y;
@@ -80,7 +85,7 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL sig_blink: UNSIGNED(6 downto 0);
     SIGNAL pac_area: t_blk_sym_3x3;
     SIGNAL pacman_dead: STD_LOGIC;
-    SIGNAL pac_fan_hit: STD_LOGIC;
+    SIGNAL pac_fans_hit: UNSIGNED(0 to FAN_NO-1);
     SIGNAL pac_atua: STD_LOGIC;
  	
  	SIGNAL fan_pos_x: t_fans_pos;
@@ -132,7 +137,7 @@ BEGIN
     );
     
     --Ativa durante um ciclo de clock a cada 32 atualizações
-    display_en <= '1' WHEN (sig_blink(4 downto 0) = 0 and estado = ATUALIZA_LOGICA_1)
+    display_en <= '1' WHEN (sig_blink(4 downto 0) = 0)
 		ELSE '0';
     
     display: ENTITY WORK.disp PORT MAP (
@@ -176,11 +181,11 @@ BEGIN
                    
 	-- Controlador dos fantasmas
 	ctrl_fans_inst: ENTITY work.ctrl_fans PORT MAP (
-		clk27M 		=> clk27M, 			rstn 		=> rstn,
+		clk27M 		=> clk27M, 			rstn 		=> rstn and restartn,
 		atualiza 	=> fan_atua, 		atua_en 	=> atua_en,
 		key_dir 	=> p2_dir, 			key_tgl 	=> p2_toggle,
 		fan_area 	=> fan_area,		pacman_dead => pacman_dead,
-		spc_coin	=> got_spc_coin,	pac_fan_hit => pac_fan_hit,
+		spc_coin	=> got_spc_coin,	pac_fans_hit=> pac_fans_hit,
 		fan_pos_x 	=> fan_pos_x, 		fan_pos_y 	=> fan_pos_y,
 		fan_state	=> fan_state, 		fan_cur_dir => fan_cur_dir
 	);
@@ -188,7 +193,7 @@ BEGIN
 	-- Controlador do pacman
 	ctrl_pac_inst: ENTITY work.ctrl_pacman PORT MAP (
 		clk27M		=> clk27M,			rstn		=> rstn and restartn,
-		key_dir		=> p1_dir,			atualiza	=> pac_atua and atua_en(0),
+		key_dir		=> p1_dir,			atualiza	=> pac_atua,
 		pac_area	=> pac_area,		pac_cur_dir	=> pac_cur_dir,
 		pac_pos_x	=> pac_pos_x,		pac_pos_y	=> pac_pos_y,
 		got_coin	=> got_coin,		got_spc_coin=> got_spc_coin
@@ -252,11 +257,21 @@ BEGIN
 		ELSIF (clk27M'event and clk27M = '1') THEN
 			IF (pacman_dead = '1') THEN
 				q_vidas <= q_vidas - 1;
-			ELSIF (got_coin = '1') THEN
-				q_pontos <= q_pontos + 10;
-				q_rem_moedas <= q_rem_moedas - 1;
-			ELSIF (got_spc_coin = '1') THEN
-				q_pontos <= q_pontos + 50;
+			END IF;
+			
+			IF (pac_atua = '1') THEN
+				IF (got_coin = '1') THEN
+					q_pontos <= q_pontos + 10;
+					q_rem_moedas <= q_rem_moedas - 1;
+				ELSIF (got_spc_coin = '1') THEN
+					q_pontos <= q_pontos + 50;
+				END IF;
+				
+				IF (got_coin = '1' or got_spc_coin = '1') THEN
+					reg_coin_we <= '1'; --registra moeda comida
+				ELSE
+					reg_coin_we <= '0';
+				END IF;
 			END IF;
 		END IF;
 	END PROCESS param_jogo;
@@ -264,69 +279,70 @@ BEGIN
 	-- purpose: Processo para que gera sinais de desenho de 
 	--			overlay (ie, sobre o fundo) da vidas, do pacman e dos fantasmas 
     -- type   : combinational
-    des_overlay: PROCESS (pac_pos_x, pac_pos_y, pac_cur_dir, sig_blink,
+    des_overlay: PROCESS (pac_pos_x, pac_pos_y, pac_cur_dir, sig_blink, vidas_arr,
                           fan_pos_x, fan_pos_y, fan_state, fan_cur_dir, line, col)
 		VARIABLE x_offset, y_offset: INTEGER range -TAB_LEN to TAB_LEN;
+		VARIABLE ovl_blk_tmp: t_ovl_blk_sym;
     BEGIN
+		ovl_blk_tmp := BLK_NULL;
         --Sinais para desenho do pacman na tela durante PERCORRE_QUADRO
-        y_offset := line - pac_pos_y + 2;
+
+		FOR i in 0 to FAN_NO-1 LOOP --Desenho dos fantasmas
+			y_offset := line - fan_pos_y(i) + 2;
+			x_offset := col - fan_pos_x(i) + 2;
+			IF (x_offset>=0 and x_offset<5 and 
+				y_offset>=0 and y_offset<5) THEN
+				IF (fan_state(i) = ST_VULN) THEN
+					ovl_blk_tmp := FAN_VULN_BITMAP(y_offset, x_offset);
+				ELSIF (fan_state(i) = ST_DEAD) THEN
+					ovl_blk_tmp := FAN_DEAD_BITMAPS(fan_cur_dir(i))(y_offset, x_offset);
+				ELSE
+					ovl_blk_tmp := FAN_BITMAPS(i)(fan_cur_dir(i))(y_offset, x_offset);
+				END IF;
+				y_offset := line - fan_pos_y(1) + 2;
+			END IF;
+		END LOOP;
+		
+		y_offset := line - pac_pos_y + 2;
         x_offset := col - pac_pos_x + 2;
-        
 		IF (x_offset>=0 and x_offset<5 and 
 			y_offset>=0 and y_offset<5) THEN
 			IF (sig_blink(4) = '0') THEN
-				ovl_blk_in <= PAC_BITMAPS(pac_cur_dir)(y_offset, x_offset);
+				ovl_blk_tmp := PAC_BITMAPS(pac_cur_dir)(y_offset, x_offset);
 			ELSE
 				IF (pac_cur_dir = DIREI or pac_cur_dir = ESQUE) THEN
-					ovl_blk_in <= PAC_FECH_BITMAP(y_offset, x_offset);
+					ovl_blk_tmp := PAC_FECH_BITMAP(y_offset, x_offset);
 				ELSE
-					ovl_blk_in <= PAC_FECV_BITMAP(y_offset, x_offset);
-				END IF;
-			END IF;
-		ELSE --Desenho dos fantasmas
-			y_offset := line - fan_pos_y(0) + 2;
-			x_offset := col - fan_pos_x(0) + 2;
-			IF (x_offset>=0 and x_offset<5 and 
-				y_offset>=0 and y_offset<5) THEN
-				IF (fan_state(0) = ST_VULN) THEN
-					ovl_blk_in <= FAN_VULN_BITMAP(y_offset, x_offset);
-				ELSIF (fan_state(0) = ST_DEAD) THEN
-					ovl_blk_in <= FAN_DEAD_BITMAPS(fan_cur_dir(0))(y_offset, x_offset);
-				ELSE
-					ovl_blk_in <= FAN_GRN_BITMAPS(fan_cur_dir(0))(y_offset, x_offset);
-				END IF;
-			ELSE
-				y_offset := line - fan_pos_y(1) + 2;
-				x_offset := col - fan_pos_x(1) + 2;
-				IF (x_offset>=0 and x_offset<5 and
-				y_offset>=0 and y_offset<5) THEN
-					IF (fan_state(1) = ST_VULN) THEN
-						ovl_blk_in <= FAN_VULN_BITMAP(y_offset, x_offset);
-					ELSIF (fan_state(1) = ST_DEAD) THEN
-						ovl_blk_in <= FAN_DEAD_BITMAPS(fan_cur_dir(1))(y_offset, x_offset);
-					ELSE
-						ovl_blk_in <= FAN_RED_BITMAPS(fan_cur_dir(1))(y_offset, x_offset);
-					END IF;
-				ELSE
-					ovl_blk_in <= BLK_NULL;
+					ovl_blk_tmp := PAC_FECV_BITMAP(y_offset, x_offset);
 				END IF;
 			END IF;
 		END IF;
+		
+		FOR i in 0 to 2 LOOP --Desenho dos ícones de vida
+			IF (vidas_arr(i) = '1') THEN
+				y_offset := line - VIDA_ICONS_Y(i) + 2;
+				x_offset := col - VIDA_ICONS_X(i) + 2;
+				IF (x_offset>=0 and x_offset<5 and
+				y_offset>=0 and y_offset<5) THEN
+					ovl_blk_tmp := PAC_BITMAPS(DIREI)(y_offset, x_offset);
+				END IF;
+			END IF;
+		END LOOP;
+		
+		ovl_blk_in <= ovl_blk_tmp;
     END PROCESS;
     
     -- Determina quando o pacman colidiu com algum dos fantasmas
     -- type: combinational
     PROCESS (pac_pos_x, pac_pos_y, fan_pos_x, fan_pos_y)
-		VARIABLE all_fan: STD_LOGIC;
 	BEGIN
-		all_fan := '0';
 		FOR i in 0 to FAN_NO-1 LOOP
 			IF (pac_pos_x = fan_pos_x(i) and pac_pos_y = fan_pos_y(i)) THEN
-				all_fan := '1';
+				pac_fans_hit(i) <= '1';
+			ELSE
+				pac_fans_hit(i) <= '0';
 			END IF;
 		END LOOP;
-		
-		pac_fan_hit <= all_fan;
 	END PROCESS;
     
     -- Define dado que entra na ram
@@ -338,6 +354,21 @@ BEGIN
 			block_in <= BLK_PATH; --Caso que a moeda é comida pelo pacman
 		END IF;
 	END PROCESS;
+	
+	led_vidas: PROCESS (q_vidas)
+	BEGIN
+		IF (q_vidas = 3) THEN
+			vidas_arr <= "0111";
+		ELSIF (q_vidas = 2) THEN
+			vidas_arr <= "0011";
+		ELSIF (q_vidas = 1) THEN
+			vidas_arr <= "0001";
+		ELSE
+			vidas_arr <= "0000";
+		END IF;
+	END PROCESS led_vidas;
+	
+	LEDR <= vidas_arr;
     
     -----------------------------------------------------------------------------
     -- Processos que definem a FSM (finite state machine), nossa máquina
@@ -348,7 +379,7 @@ BEGIN
     --          do estado atual e alguns sinais de entrada (Máquina de Mealy).
     -- type   : combinational
     logica_mealy: PROCESS (estado, fim_escrita, timer, long_timer, q_rem_moedas, q_vidas,
-                           col, line, pac_pos_x, pac_pos_y, pacman_dead, got_coin, got_spc_coin)
+                           col, line, pac_pos_x, pac_pos_y, pacman_dead, reg_coin_we)
     BEGIN
         case estado is
         when CARREGA_MAPA  => IF (fim_escrita = '1') THEN
@@ -407,7 +438,7 @@ BEGIN
 							END IF;
 						ELSIF (q_rem_moedas <= 0) THEN
 							pr_estado <= PACMAN_VENCE;	
-                        ELSIF (timer = '1') THEN            
+                        ELSIF (timer = '1') THEN
                             pr_estado <= PERCORRE_QUADRO;
                         ELSE
                             pr_estado <= INICIO_JOGO;
@@ -470,7 +501,7 @@ BEGIN
                         line_enable    <= '0';
                         col_rstn       <= '0';
                         col_enable     <= '0';
-                        we             <= got_coin or got_spc_coin; 
+                        we             <= reg_coin_we; 
                         timer_rstn     <= '0';
                         timer_enable   <= '0';
                         addr		   <= pac_pos_x + SCR_WDT * pac_pos_y;
@@ -489,7 +520,7 @@ BEGIN
     
     -- Define sinais de controle da FSM usados em apenas UM ESTADO
     -- type: combinational
-    sinais_extras: PROCESS (estado)
+    sinais_extras: PROCESS (estado, atua_en)
 	BEGIN
 		IF (estado = PERCORRE_QUADRO) 
 		THEN overlay <= '1';
@@ -506,9 +537,14 @@ BEGIN
 		ELSE fan_atua <= '0';
 		END IF;
 		
-		IF (estado = ATUALIZA_LOGICA_1) 
+		IF (estado = ATUALIZA_LOGICA_1 and atua_en(0) = '1') 
 		THEN pac_atua <= '1';
 		ELSE pac_atua <= '0';
+		END IF;
+		
+		IF (estado = FIM_JOGO) 
+		THEN testled <= '1';
+		ELSE testled <= '0';
 		END IF;
 	END PROCESS;
 
