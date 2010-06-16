@@ -41,6 +41,7 @@ architecture behav of vgacon is
   signal vga_ovl_data_out : t_ovl_blk_sym;
   signal id_vga_data_out, id_data_block, id_data_in: t_blk_id;
   signal id_ovl_in, id_vga_ovl_data_out: t_ovl_blk_id;
+  signal vga_pixel_0 : t_color_3b;
 begin  -- behav
 
   -- This is our PLL (Phase Locked Loop) to divide the DE1 27 MHz
@@ -197,14 +198,21 @@ begin  -- behav
     
     IF (drawarea = '1') THEN
 	  IF (pixel_ovl /= "000") THEN
-        vga_pixel <= pixel_ovl;
+        vga_pixel_0 <= pixel_ovl;
       ELSE
-        vga_pixel <= pixel_normal;
+        vga_pixel_0 <= pixel_normal;
       END IF;
     ELSE
-      vga_pixel <= "000";
+      vga_pixel_0 <= "000";
     END IF;  
-  END PROCESS;    
+  END PROCESS;
+  
+  PROCESS (vga_clk)
+  BEGIN
+    IF (vga_clk'event and vga_clk = '1') THEN
+		vga_pixel <= vga_pixel_0;
+	END IF;
+  END PROCESS;
 end behav;
 
 

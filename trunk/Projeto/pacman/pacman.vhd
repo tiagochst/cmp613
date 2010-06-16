@@ -13,7 +13,7 @@ ENTITY pacman is
     PS2_DAT                   : inout STD_LOGIC;                      --   PS2 Data
     PS2_CLK                   : inout STD_LOGIC;	                  --   PS2 Clock
     SEG0, SEG1, SEG2, SEG3    : OUT STD_LOGIC_VECTOR(6 downto 0);
-    LEDR					  : BUFFER STD_LOGIC_VECTOR (3 downto 0);
+    LEDR					  : BUFFER STD_LOGIC_VECTOR (2 downto 0);
     testled					  : OUT STD_LOGIC
     );
 END pacman;
@@ -77,6 +77,7 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL q_pontos: INTEGER range 0 to 9999 := 0;
     SIGNAL vidas_arr: STD_LOGIC_VECTOR(3 downto 0);
     SIGNAL display_en: STD_LOGIC;
+    SIGNAL disp_count: INTEGER range 0 to DIV_FACT-1;
     SIGNAL reg_coin_we: STD_LOGIC;
     
     SIGNAL pac_pos_x: t_pos := PAC_START_X;
@@ -136,8 +137,15 @@ BEGIN
 		p2_key0   => p2_toggle
     );
     
+	disp_counter: COMPONENT counter
+        PORT MAP (clk 	=> clk27M,
+		          rstn 	=> '1',
+		          en	=> '1', --contagem a cada término do contador 0
+				  max	=> 4*DIV_FACT,
+				  q		=> disp_count);
+	
     --Ativa durante um ciclo de clock a cada 32 atualizações
-    display_en <= '1' WHEN (sig_blink(4 downto 0) = 0)
+    display_en <= '1' WHEN (disp_count = 0)
 		ELSE '0';
     
     display: ENTITY WORK.disp PORT MAP (
@@ -591,7 +599,7 @@ BEGIN
 				  max	=> DIV_FACT - 1,
 				  q		=> contador);
 	
-	p_contador1: COMPONENT counter 
+	p_contador1: COMPONENT counter
         PORT MAP (clk 	=> clk27M,
 		          rstn 	=> timer_rstn, --mesmo reset do contador 0, porém
 		          en	=> timer, --contagem a cada término do contador 0

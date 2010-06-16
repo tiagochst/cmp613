@@ -36,11 +36,11 @@ begin
   key_3<=code(15 downto 0); -- primeira tecla pressionada
 
 -- P 1 Teclas
--- Movimentacao|     Tecla         | codigo  
--- Cima        |(up - key arrow)   | x"E075" 
--- Baixo       |(down - key arrow) | x"E072"
--- Esquerda    |(down - key arrow) | x"E06b"
--- Direita     |(right - key arrow)| x"E074"
+-- Movimentacao|     Tecla    | codigo  
+-- Cima        |  (Numpad 8)  | x"E075" 
+-- Baixo       |  (Numpad 5)  | x"E072"
+-- Esquerda    |  (Numpad 4)  | x"E06b"
+-- Direita     |  (Numpad 6)  | x"E074"
 
 -- P 2 Teclas
 -- Movimentacao|Tecla | codigo  
@@ -49,132 +49,13 @@ begin
 -- Esquerda    | (A)  | x"001c"
 -- Direita     | (D)  | x"0023"
 
---Tabela de decodificao
--- Cima     :  010
--- Baixo    :  011
--- Esquerda :  001
--- Direita  :  000
--- Nenhuma  :  111
 
---Implementacao para 1 player
---     process(key_3)
---      begin
---      case (key_3) is
---	    when x"E074" =>
---		   p1_dir <= "000"; -- direita p1
---			p2_dir <="000";
---	    when x"E06b" =>
---		   p1_dir <= "001"; -- esquerda p1
---		   p2_dir <="000";
---	    when x"E075" =>
---		   p1_dir <= "010"; -- cima p1
---		   p2_dir <="000";
---	    when x"E072" =>
---		   p1_dir <= "011"; -- baixo p1
---			p2_dir <="000";
---	   when others=>  --Apaga leds
---		   p1_dir <= "111"; -- cima p1
---		   p2_dir <="111";
---      end case;
-
---
---Implementacao para 2 players...sera que tem lentidao?
---
---  PROCESS(key_3,key_2)
---    BEGIN
---      IF((key_3 = x"E074" and key_2 =x"0023") or 
---		(key_2 = x"E074" and key_3 =x"0023") ) THEN
---	  	   p1_dir <= "000";  -- direita p1
---		p2_dir <= "000";  -- diretia p2
---	  ELSIF ((key_3 = x"E06b" and key_2 = x"001c") or
---		     (key_2 = x"E06b" and key_3 = x"001c") ) THEN
---		  p1_dir <= "001";  -- esquerda p1
---		  p2_dir <= "001";  -- esquerda p2
---	  ELSIF ((key_3 = x"001d" and key_2 = x"E075") or
---		     (key_2 = x"001d" and key_3 = x"E075") ) THEN
---		  p1_dir <= "010";  -- cima p1
---		  p2_dir <= "010";  -- cima p2
---	  ELSIF ((key_3 = x"001b" and key_2 =  x"E072") or
---		     (key_2 = x"001b" and key_3 =  x"E072") ) THEN
---		  p1_dir <= "011";  -- baixo p1
---		  p2_dir <= "011";  -- baixo p2
---	  ELSIF ((key_3 = x"E074" and key_2 =  x"001c") or
---		     (key_2 = x"E074" and key_3 =  x"001c") ) THEN
---		  p1_dir <= "000";  -- direira  p1
---		  p2_dir <="001";   -- esquerda p2 
---	  ELSIF ((key_3 = x"E074" and key_2 =  x"001d") or
---		     (key_2 = x"E074" and key_3 =  x"001d") ) THEN
---		  p1_dir <= "000";  -- direira  p1
---		  p2_dir <="010";   -- cima p2 
---	  ELSIF ((key_3 = x"E074" and key_2 =  x"001b") or
---		     (key_2 = x"E074" and key_3 =  x"001b") ) THEN
---		  p1_dir <= "000";  -- direira  p1
---		  p2_dir <="011";   -- baixo p2 
---	  ELSIF ((key_3 = x"E06b" and key_2 =  x"0023") or
---		     (key_2 = x"E06b" and key_3 =  x"0023") ) THEN
---		  p1_dir <= "001";  -- esquerda  p1
---		  p2_dir <="000";   -- direita p2 
---	  ELSIF ((key_3 = x"E06b" and key_2 =  x"001d") or
---		     (key_2 = x"E06b" and key_3 =  x"001d") ) THEN
---		  p1_dir <= "001";  -- esquerda  p1
---		  p2_dir <="010";   -- cima p2 
---	  ELSIF ((key_3 = x"E06b" and key_2 =  x"001b") or
---		     (key_2 = x"E06b" and key_3 =  x"001b") ) THEN
---		  p1_dir <= "001";  -- esquerda  p1
---		  p2_dir <= "011";  -- baixo p2 
---	  ELSIF ((key_3 = x"0023" and key_2 = x"E075") or
---		     (key_2 = x"0023" and key_3 = x"E075") ) THEN
---		  p1_dir <= "010";  -- cima p1
---		  p2_dir <= "000";  -- direita p2
---	  ELSIF ((key_3 = x"001c" and key_2 = x"E075") or
---		     (key_2 = x"001c" and key_3 = x"E075") ) THEN
---		  p1_dir <= "010";  -- cima p1
---		  p2_dir <= "001";  -- esquerda p2
---	  ELSIF ((key_3 = x"001b" and key_2 = x"E075") or
---		     (key_2 = x"001b" and key_3 = x"E075") ) THEN
---		  p1_dir <= "010";  -- cima p1
---		  p2_dir <= "011";  -- baixo p2
---	  ELSIF ((key_3 = x"0023" and key_2 =  x"E072") or
---		     (key_2 = x"0023" and key_3 =  x"E072") ) THEN
---		  p1_dir <= "011";  -- baixo p1
---		  p2_dir <= "000";  -- direita p2
---	  ELSIF ((key_3 = x"001c" and key_2 =  x"E072") or
---		     (key_2 = x"001c" and key_3 =  x"E072") ) THEN
---		  p1_dir <= "011";  -- baixo p1
---		  p2_dir <= "001";  -- esquerda p2
---	  ELSIF ((key_3 = x"001d" and key_2 =  x"E072") or
---		     (key_2 = x"001d" and key_3 =  x"E072") ) THEN
---		  p1_dir <= "011";  -- baixo p1
---		  p2_dir <= "010";  -- cima p2
---	  ELSIF (key_3 = x"E074" ) THEN
---		  p1_dir <= "000";  -- direita p1
---		  p2_dir <= "111";  -- nenhum  p2
---	  ELSIF (key_3 = x"E06b" ) THEN
---		  p1_dir <= "001";  -- esquerda p1
---		  p2_dir <= "111";  -- nenhum  p2
---	  ELSIF (key_3 = x"E075" ) THEN
---		  p1_dir <= "010";  -- cima p1
---		  p2_dir <= "111";  -- nenhum  p2
---	  ELSIF (key_3 = x"E072" ) THEN
---		  p1_dir <= "011";  -- baixo p1
---		  p2_dir <= "111";  -- nenhum  p2
---	  ELSIF (key_3 = x"0023" ) THEN
---		  p1_dir <= "111";  -- nenhum p1
---		  p2_dir <= "000";  -- direita  p2
---	  ELSIF (key_3 = x"001c" ) THEN
---		  p1_dir <= "111";  -- nenhum p1
---		  p2_dir <= "001";  -- esquerda  p2
---	  ELSIF (key_3 = x"001d" ) THEN
---		  p1_dir <= "111";  -- nenhum p1
---		  p2_dir <= "010";  -- cima  p2
---	  ELSIF (key_3 = x"001b" ) THEN
---		  p1_dir <= "111";  -- nenhum p1
---		  p2_dir <= "011";  -- baixo  p2
---      ELSE 
---		  p1_dir <= "111";  --nenhum p1
---		  p2_dir <= "111";  --nenhum  p2
---      END IF;
---  END PROCESS;
+-- P 3 Teclas
+-- Movimentacao|Tecla | codigo  
+-- Cima        | (W)  | x"001d" 
+-- Baixo       | (S)  | x"001b"
+-- Esquerda    | (A)  | x"001c"
+-- Direita     | (D)  | x"0023"
 
 	--Implementação mais simples para 2 players com 3 teclas
 	p1_dir <= CIMA  WHEN (key_1 = x"E075" or key_2 = x"E075" or key_3 = x"E075")
