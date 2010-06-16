@@ -128,4 +128,26 @@ set_location_assignment PIN_R20 -to LEDR[0]
 set_location_assignment PIN_R19 -to LEDR[1]
 set_location_assignment PIN_U19 -to LEDR[2]
 set_location_assignment PIN_Y19 -to LEDR[3]
+set_global_assignment -name ENABLE_CLOCK_LATENCY ON
+set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to clk27M
+set_global_assignment -name OPTIMIZATION_TECHNIQUE SPEED
+set_global_assignment -name STRATIXII_OPTIMIZATION_TECHNIQUE SPEED
+set_global_assignment -name CYCLONE_OPTIMIZATION_TECHNIQUE SPEED
+set_global_assignment -name CYCLONEII_OPTIMIZATION_TECHNIQUE SPEED
+set_global_assignment -name STRATIX_OPTIMIZATION_TECHNIQUE SPEED
+set_global_assignment -name MAXII_OPTIMIZATION_TECHNIQUE SPEED
+set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS ON
+set_global_assignment -name ADV_NETLIST_OPT_SYNTH_WYSIWYG_REMAP ON
+set_global_assignment -name CUT_OFF_IO_PIN_FEEDBACK OFF
+set_global_assignment -name FMAX_REQUIREMENT "27 MHz" -section_id clk27M
+set_global_assignment -name BASED_ON_CLOCK_SETTINGS clk27M -section_id "vgacon:vga_controller|vga_clk"
+set_global_assignment -name MULTIPLY_BASE_CLOCK_PERIOD_BY 15 -section_id "vgacon:vga_controller|vga_clk"
+set_global_assignment -name DIVIDE_BASE_CLOCK_PERIOD_BY 14 -section_id "vgacon:vga_controller|vga_clk"
+set_global_assignment -name OPTIMIZE_HOLD_TIMING "IO PATHS AND MINIMUM TPD PATHS"
+set_instance_assignment -name CLOCK_SETTINGS clk27M -to clk27M
+set_instance_assignment -name CLOCK_SETTINGS "vgacon:vga_controller|vga_clk" -to "vgacon:vga_controller|vga_clk"
+set_global_assignment -name MUX_RESTRUCTURE OFF
+set_global_assignment -name PHYSICAL_SYNTHESIS_COMBO_LOGIC ON
+set_global_assignment -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON
+set_global_assignment -name PHYSICAL_SYNTHESIS_REGISTER_RETIMING ON
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
