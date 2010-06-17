@@ -133,10 +133,10 @@ set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to clk27M
 set_global_assignment -name OPTIMIZATION_TECHNIQUE SPEED
 set_global_assignment -name STRATIXII_OPTIMIZATION_TECHNIQUE SPEED
 set_global_assignment -name CYCLONE_OPTIMIZATION_TECHNIQUE SPEED
-set_global_assignment -name CYCLONEII_OPTIMIZATION_TECHNIQUE SPEED
+set_global_assignment -name CYCLONEII_OPTIMIZATION_TECHNIQUE BALANCED
 set_global_assignment -name STRATIX_OPTIMIZATION_TECHNIQUE SPEED
 set_global_assignment -name MAXII_OPTIMIZATION_TECHNIQUE SPEED
-set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS ON
+set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS OFF
 set_global_assignment -name ADV_NETLIST_OPT_SYNTH_WYSIWYG_REMAP ON
 set_global_assignment -name CUT_OFF_IO_PIN_FEEDBACK OFF
 set_global_assignment -name FMAX_REQUIREMENT "27 MHz" -section_id clk27M

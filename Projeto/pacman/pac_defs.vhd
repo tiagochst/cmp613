@@ -117,8 +117,9 @@ PACKAGE pac_defs IS
 	
 	--Tipos em array para os fantasmas
 	SUBTYPE t_pos is INTEGER range 0 to TAB_LEN-1;
+	SUBTYPE t_offset IS INTEGER range -TAB_LEN to TAB_LEN;
 	SUBTYPE t_fan_time is INTEGER range 0 to 1000;
-	TYPE t_fan_state is (ST_VIVO, ST_VULN, ST_DEAD, ST_PRE_DEAD, ST_FIND_EXIT, ST_FUGA);
+	TYPE t_fan_state is (ST_VIVO, ST_VULN, ST_VULN_BLINK, ST_DEAD, ST_PRE_DEAD, ST_FIND_EXIT, ST_FUGA);
 	
 	TYPE t_fans_pos is array(0 to FAN_NO-1) of t_pos;
 	TYPE t_fans_dirs is array(0 to FAN_NO-1) of t_direcao;
@@ -146,7 +147,8 @@ PACKAGE pac_defs IS
 	CONSTANT PAC_START_Y : INTEGER := 71;
 	CONSTANT FANS_START_X : t_fans_pos := (40, 45);
 	CONSTANT FANS_START_Y : t_fans_pos := (44, 44);
-	CONSTANT FAN_TIME_VULN : INTEGER := 500;
+	CONSTANT FAN_TIME_VULN_START_BLINK : INTEGER := 450;
+	CONSTANT FAN_TIME_VULN_END : INTEGER := 500;
 	CONSTANT FAN_TIME_DEAD : INTEGER := 1000;
 	CONSTANT CELL_IN_X : INTEGER := 42;
 	CONSTANT CELL_IN_Y : INTEGER := 44;

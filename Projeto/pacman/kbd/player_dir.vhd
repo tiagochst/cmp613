@@ -16,8 +16,7 @@ use work.pac_defs.all;
 entity player_dir is 
 port(
 	code: IN STD_LOGIC_VECTOR(47 downto 0);
-	p1_dir,p2_dir: OUT t_direcao;
-	p2_key0: OUT STD_LOGIC
+	p1_dir,p2_dir,p3_dir: OUT t_direcao
 );
 end entity player_dir;
 
@@ -37,10 +36,10 @@ begin
 
 -- P 1 Teclas
 -- Movimentacao|     Tecla    | codigo  
--- Cima        |  (Numpad 8)  | x"E075" 
--- Baixo       |  (Numpad 5)  | x"E072"
--- Esquerda    |  (Numpad 4)  | x"E06b"
--- Direita     |  (Numpad 6)  | x"E074"
+-- Cima        |  (Numpad 8)  | x"0075" 
+-- Baixo       |  (Numpad 5)  | x"0073"
+-- Esquerda    |  (Numpad 4)  | x"006B"
+-- Direita     |  (Numpad 6)  | x"0074"
 
 -- P 2 Teclas
 -- Movimentacao|Tecla | codigo  
@@ -52,16 +51,16 @@ begin
 
 -- P 3 Teclas
 -- Movimentacao|Tecla | codigo  
--- Cima        | (W)  | x"001d" 
--- Baixo       | (S)  | x"001b"
--- Esquerda    | (A)  | x"001c"
--- Direita     | (D)  | x"0023"
+-- Cima        | (I)  | x"0043" 
+-- Baixo       | (K)  | x"0042"
+-- Esquerda    | (J)  | x"003B"
+-- Direita     | (L)  | x"004B"
 
 	--Implementação mais simples para 2 players com 3 teclas
-	p1_dir <= CIMA  WHEN (key_1 = x"E075" or key_2 = x"E075" or key_3 = x"E075")
-		ELSE  DIREI WHEN (key_1 = x"E074" or key_2 = x"E074" or key_3 = x"E074")
-		ELSE  BAIXO WHEN (key_1 = x"E072" or key_2 = x"E072" or key_3 = x"E072")
-		ELSE  ESQUE WHEN (key_1 = x"E06b" or key_2 = x"E06b" or key_3 = x"E06b")
+	p1_dir <= CIMA  WHEN (key_1 = x"0075" or key_2 = x"0075" or key_3 = x"0075")
+		ELSE  DIREI WHEN (key_1 = x"0074" or key_2 = x"0074" or key_3 = x"0074")
+		ELSE  BAIXO WHEN (key_1 = x"0073" or key_2 = x"0073" or key_3 = x"0073")
+		ELSE  ESQUE WHEN (key_1 = x"006B" or key_2 = x"006B" or key_3 = x"006B")
 		ELSE  NADA;
 		
 	p2_dir <= CIMA  WHEN (key_1 = x"001d" or key_2 = x"001d" or key_3 = x"001d")
@@ -70,6 +69,9 @@ begin
 		ELSE  ESQUE WHEN (key_1 = x"001c" or key_2 = x"001c" or key_3 = x"001c")
 		ELSE  NADA;
 		
-	p2_key0 <= '1' WHEN (key_1 = x"0029" or key_2 = x"0029" or key_3 = x"0029")
-		ELSE '0';
+	p3_dir <= CIMA  WHEN (key_1 = x"0043" or key_2 = x"0043" or key_3 = x"0043")
+		ELSE  DIREI WHEN (key_1 = x"004B" or key_2 = x"004B" or key_3 = x"004B")
+		ELSE  BAIXO WHEN (key_1 = x"0042" or key_2 = x"0042" or key_3 = x"0042")
+		ELSE  ESQUE WHEN (key_1 = x"003B" or key_2 = x"003B" or key_3 = x"003B")
+		ELSE  NADA;
 END rtl;

@@ -75,7 +75,7 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL q_rem_moedas: INTEGER range -10 to 255 := 240;
     SIGNAL q_vidas: INTEGER range 0 to 5 := 3;
     SIGNAL q_pontos: INTEGER range 0 to 9999 := 0;
-    SIGNAL vidas_arr: STD_LOGIC_VECTOR(3 downto 0);
+    SIGNAL vidas_arr: STD_LOGIC_VECTOR(2 downto 0);
     SIGNAL display_en: STD_LOGIC;
     SIGNAL disp_count: INTEGER range 0 to DIV_FACT-1;
     SIGNAL reg_coin_we: STD_LOGIC;
@@ -95,9 +95,10 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL fan_state: t_fans_states;
 	SIGNAL fan_area: t_fans_blk_sym_3x3;
 	SIGNAL fan_atua: STD_LOGIC;
+	SIGNAL fan_died: STD_LOGIC;
 
-	SIGNAL p1_dir, p2_dir: t_direcao; -- sinais lidos pelo teclado
-	SIGNAL p2_toggle: STD_LOGIC;
+	SIGNAL pac_key_dir: t_direcao; -- sinais lidos pelo teclado
+	SIGNAL fan_key_dir: t_fans_dirs;
 BEGIN
     -- Controlador VGA (resolução 128 colunas por 96 linhas)
     -- Sinais:(aspect ratio 4:3). Os sinais que iremos utilizar para comunicar
@@ -132,16 +133,16 @@ BEGIN
 		LEDG      => LEDG(7 downto 5),
 		PS2_DAT   => PS2_DAT,
 		PS2_CLK   => PS2_CLK,
-		p1_dir    => p1_dir,
-		p2_dir    => p2_dir,
-		p2_key0   => p2_toggle
+		p1_dir    => pac_key_dir,
+		p2_dir    => fan_key_dir(0),
+		p3_dir    => fan_key_dir(1)
     );
     
 	disp_counter: COMPONENT counter
         PORT MAP (clk 	=> clk27M,
 		          rstn 	=> '1',
-		          en	=> '1', --contagem a cada término do contador 0
-				  max	=> 4*DIV_FACT,
+		          en	=> '1',
+				  max	=> 27000000,
 				  q		=> disp_count);
 	
     --Ativa durante um ciclo de clock a cada 32 atualizações
@@ -191,7 +192,7 @@ BEGIN
 	ctrl_fans_inst: ENTITY work.ctrl_fans PORT MAP (
 		clk27M 		=> clk27M, 			rstn 		=> rstn and restartn,
 		atualiza 	=> fan_atua, 		atua_en 	=> atua_en,
-		key_dir 	=> p2_dir, 			key_tgl 	=> p2_toggle,
+		keys_dir 	=> fan_key_dir,		fan_died	=> fan_died,
 		fan_area 	=> fan_area,		pacman_dead => pacman_dead,
 		spc_coin	=> got_spc_coin,	pac_fans_hit=> pac_fans_hit,
 		fan_pos_x 	=> fan_pos_x, 		fan_pos_y 	=> fan_pos_y,
@@ -201,7 +202,7 @@ BEGIN
 	-- Controlador do pacman
 	ctrl_pac_inst: ENTITY work.ctrl_pacman PORT MAP (
 		clk27M		=> clk27M,			rstn		=> rstn and restartn,
-		key_dir		=> p1_dir,			atualiza	=> pac_atua,
+		key_dir		=> pac_key_dir,		atualiza	=> pac_atua,
 		pac_area	=> pac_area,		pac_cur_dir	=> pac_cur_dir,
 		pac_pos_x	=> pac_pos_x,		pac_pos_y	=> pac_pos_y,
 		got_coin	=> got_coin,		got_spc_coin=> got_spc_coin
@@ -263,23 +264,40 @@ BEGIN
 			q_pontos <= 0;
 			q_rem_moedas <= 240;
 		ELSIF (clk27M'event and clk27M = '1') THEN
-			IF (pacman_dead = '1') THEN
+			IF (pacman_dead = '1' and estado = INICIO_JOGO) THEN
 				q_vidas <= q_vidas - 1;
 			END IF;
 			
-			IF (pac_atua = '1') THEN
-				IF (got_coin = '1') THEN
-					q_pontos <= q_pontos + 10;
-					q_rem_moedas <= q_rem_moedas - 1;
-				ELSIF (got_spc_coin = '1') THEN
-					q_pontos <= q_pontos + 50;
-				END IF;
-				
-				IF (got_coin = '1' or got_spc_coin = '1') THEN
-					reg_coin_we <= '1'; --registra moeda comida
-				ELSE
-					reg_coin_we <= '0';
-				END IF;
+--			IF (pac_atua = '1') THEN
+--				IF (fan_died = '1') THEN
+--					q_pontos <= q_pontos + 200;
+--				ELSIF (got_coin = '1') THEN
+--					q_pontos <= q_pontos + 10;
+--					q_rem_moedas <= q_rem_moedas - 1;
+--				ELSIF (got_spc_coin = '1') THEN
+--					q_pontos <= q_pontos + 50;
+--				END IF;
+--				
+--				IF (got_coin = '1' or got_spc_coin = '1') THEN
+--					reg_coin_we <= '1'; --registra moeda comida
+--				ELSE
+--					reg_coin_we <= '0';
+--				END IF;
+--			END IF;
+
+			IF (fan_died = '1') THEN
+				q_pontos <= q_pontos + 200;
+			ELSIF (got_coin = '1' and pac_atua = '1') THEN
+				q_pontos <= q_pontos + 10;
+				q_rem_moedas <= q_rem_moedas - 1;
+			ELSIF (got_spc_coin = '1' and pac_atua = '1') THEN
+				q_pontos <= q_pontos + 50;
+			END IF;
+			
+			IF (pac_atua = '1' and (got_coin = '1' or got_spc_coin = '1')) THEN
+				reg_coin_we <= '1'; --registra moeda comida
+			ELSE
+				reg_coin_we <= '0';
 			END IF;
 		END IF;
 	END PROCESS param_jogo;
@@ -289,7 +307,7 @@ BEGIN
     -- type   : combinational
     des_overlay: PROCESS (pac_pos_x, pac_pos_y, pac_cur_dir, sig_blink, vidas_arr,
                           fan_pos_x, fan_pos_y, fan_state, fan_cur_dir, line, col)
-		VARIABLE x_offset, y_offset: INTEGER range -TAB_LEN to TAB_LEN;
+		VARIABLE x_offset, y_offset: t_offset;
 		VARIABLE ovl_blk_tmp: t_ovl_blk_sym;
     BEGIN
 		ovl_blk_tmp := BLK_NULL;
@@ -300,7 +318,13 @@ BEGIN
 			x_offset := col - fan_pos_x(i) + 2;
 			IF (x_offset>=0 and x_offset<5 and 
 				y_offset>=0 and y_offset<5) THEN
-				IF (fan_state(i) = ST_VULN) THEN
+				IF (fan_state(i) = ST_VULN_BLINK) THEN
+					IF (sig_blink(4) = '0') THEN --pisca no modo vulnerável
+						ovl_blk_tmp := FAN_VULN_BITMAP(y_offset, x_offset);
+					ELSE
+						ovl_blk_tmp := BLK_NULL;
+					END IF;
+				ELSIF (fan_state(i) = ST_VULN) THEN
 					ovl_blk_tmp := FAN_VULN_BITMAP(y_offset, x_offset);
 				ELSIF (fan_state(i) = ST_DEAD) THEN
 					ovl_blk_tmp := FAN_DEAD_BITMAPS(fan_cur_dir(i))(y_offset, x_offset);
@@ -343,9 +367,12 @@ BEGIN
     -- Determina quando o pacman colidiu com algum dos fantasmas
     -- type: combinational
     PROCESS (pac_pos_x, pac_pos_y, fan_pos_x, fan_pos_y)
+		VARIABLE	off_x, off_y: t_offset;
 	BEGIN
 		FOR i in 0 to FAN_NO-1 LOOP
-			IF (pac_pos_x = fan_pos_x(i) and pac_pos_y = fan_pos_y(i)) THEN
+			off_x := pac_pos_x - fan_pos_x(i);
+			off_y := pac_pos_y - fan_pos_y(i);
+			IF (off_x >=-1 and off_x <=1 and off_y>=-1 and off_y<=1) THEN
 				pac_fans_hit(i) <= '1';
 			ELSE
 				pac_fans_hit(i) <= '0';
@@ -366,13 +393,13 @@ BEGIN
 	led_vidas: PROCESS (q_vidas)
 	BEGIN
 		IF (q_vidas = 3) THEN
-			vidas_arr <= "0111";
+			vidas_arr <= "111";
 		ELSIF (q_vidas = 2) THEN
-			vidas_arr <= "0011";
+			vidas_arr <= "011";
 		ELSIF (q_vidas = 1) THEN
-			vidas_arr <= "0001";
+			vidas_arr <= "001";
 		ELSE
-			vidas_arr <= "0000";
+			vidas_arr <= "000";
 		END IF;
 	END PROCESS led_vidas;
 	
@@ -414,7 +441,7 @@ BEGIN
                         col_rstn       <= '1';
                         col_enable     <= '1';
                         we             <= '0';
-                        timer_rstn     <= '1'; 
+                        timer_rstn     <= '1';
                         timer_enable   <= '1';
                         addr           <=  0;
                         

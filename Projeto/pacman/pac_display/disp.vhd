@@ -7,7 +7,7 @@ ENTITY disp IS
 	  CLK:       IN STD_LOGIC;--   27 MHz
 	  EN:        IN STD_LOGIC;
       VIDAS: IN INTEGER range 0 to 5:=1;       
-      PNT :IN INTEGER range  0 to 9999:=0;
+      PNT :IN INTEGER range 0 to 9999:=0;
       PEDRAS: IN INTEGER range -10 to 255:=0;   
       seg0,seg1,seg2,seg3 : OUT STD_LOGIC_VECTOR (6 downto 0) --   Display sete segmentos
 	);

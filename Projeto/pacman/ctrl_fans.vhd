@@ -8,15 +8,15 @@ ENTITY ctrl_fans IS
 	clk27M, rstn			:IN STD_LOGIC;
     atualiza				:IN STD_LOGIC;
     atua_en					:IN STD_LOGIC_VECTOR(2 downto 0); --velocidades para atualizar
-    key_dir					:IN t_direcao; --tecla de ação lida pelo teclado
-    key_tgl     	      	:IN STD_LOGIC; --tecla de trocar fantasma
+    keys_dir				:IN t_fans_dirs; --teclas de ação lidas pelo teclado
     fan_area	          	:IN t_fans_blk_sym_3x3; --mapa 3x3 em torno da posição atual
     spc_coin                :IN STD_LOGIC;
     pac_fans_hit            :IN UNSIGNED(0 to FAN_NO-1);
     fan_pos_x, fan_pos_y	:BUFFER t_fans_pos;
     fan_state               :BUFFER t_fans_states;
     fan_cur_dir				:BUFFER t_fans_dirs;
-    pacman_dead				:OUT STD_LOGIC
+    pacman_dead				:OUT STD_LOGIC;
+    fan_died				:OUT STD_LOGIC
 	);
 END ctrl_fans;
 
@@ -55,7 +55,7 @@ BEGIN
     --          fan_cur_dir, fan_pos_x, fan_pos_y
     -- outputs: fan_cur_dir, fan_pos_x, fan_pos_y, got_coin
     p_atualiza_fan: PROCESS (clk27M, rstn)
-		VARIABLE key_dir_old, nxt_move: t_fans_dirs;
+		VARIABLE keys_dir_old, nxt_move: t_fans_dirs;
     BEGIN
         IF (rstn = '0') THEN
             fan_pos_x <= FANS_START_X;
@@ -66,11 +66,11 @@ BEGIN
              IF (atualiza = '1') THEN
 				FOR i in 0 to FAN_NO-1 LOOP
 					CASE fan_state(i) IS
-					WHEN ST_VIVO | ST_VULN => 
+					WHEN ST_VIVO | ST_VULN | ST_VULN_BLINK => 
 						IF (atua_en(1) = '1') THEN
 							--Checa teclado para "agendar" um movimento
-							IF (key_dir(i) /= NADA and key_dir_old(i) = NADA) THEN
-								nxt_move(i) := key_dir(i);
+							IF (keys_dir(i) /= NADA and keys_dir_old(i) = NADA) THEN
+								nxt_move(i) := keys_dir(i);
 							END IF;
 							
 							IF (nxt_move(i) = CIMA and WALKABLE(fan_cim_cel(i))) THEN
@@ -98,7 +98,7 @@ BEGIN
 								END IF;
 							END IF;
 							
-							key_dir_old(i) := key_dir(i);
+							keys_dir_old(i) := keys_dir(i);
 						END IF;
 					WHEN ST_DEAD | ST_PRE_DEAD | ST_FIND_EXIT => 
 						IF (atua_en(2) = '1') THEN
@@ -133,10 +133,11 @@ BEGIN
 	-- Gera o próximo estado de cada fantasma na atualização
 	-- type: combinational
 	p_fan_next_state: PROCESS (fan_state, spc_coin, pac_fans_hit, fan_tempo,
-	                           fan_pos_x, fan_pos_y)
-		VARIABLE pacman_dead_var: STD_LOGIC;
+	                           fan_pos_x, fan_pos_y, atua_en)
+		VARIABLE pacman_dead_var, fan_died_var: STD_LOGIC;
 	BEGIN
 		pacman_dead_var := '0';
+		fan_died_var := '0';
 
 		FOR i in 0 to FAN_NO-1 LOOP
 			CASE fan_state(i) IS
@@ -154,10 +155,22 @@ BEGIN
 				WHEN ST_VULN =>
 					IF (pac_fans_hit(i) = '1') THEN
 						pr_fan_state(i) <= ST_PRE_DEAD;
-					ELSIF (fan_tempo(i) = FAN_TIME_VULN) THEN
-						pr_fan_state(i) <= ST_VIVO;
+						fan_died_var := '1';
+					ELSIF (fan_tempo(i) = FAN_TIME_VULN_START_BLINK) THEN
+						pr_fan_state(i) <= ST_VULN_BLINK;
 					ELSE
 						pr_fan_state(i) <= ST_VULN;
+					END IF;
+					fan_rstn_tempo(i) <= '1';
+					
+				WHEN ST_VULN_BLINK =>
+					IF (pac_fans_hit(i) = '1') THEN
+						pr_fan_state(i) <= ST_PRE_DEAD;
+						fan_died_var := '1';
+					ELSIF (fan_tempo(i) = FAN_TIME_VULN_END) THEN
+						pr_fan_state(i) <= ST_VIVO;
+					ELSE
+						pr_fan_state(i) <= ST_VULN_BLINK;
 					END IF;
 					fan_rstn_tempo(i) <= '1';
 					
@@ -193,6 +206,7 @@ BEGIN
 		END LOOP;
 
 		pacman_dead <= pacman_dead_var and atua_en(1);
+		fan_died <= fan_died_var and atua_en(1);
 	END PROCESS p_fan_next_state;
 
 	-- Avança a FSM para o próximo estado

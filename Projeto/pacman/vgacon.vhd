@@ -130,7 +130,7 @@ begin  -- behav
         if v_count = 524 then
           v_count <= 0;
         else
-          v_count <= v_count + 1;  
+          v_count <= v_count + 1;
         end if;          
       end if;
     end if;

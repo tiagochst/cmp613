@@ -551,7 +551,7 @@ GND                          : Y15       : gnd    :                   :         
 RESERVED_INPUT               : Y16       :        :                   :         : 7         :                
 RESERVED_INPUT               : Y17       :        :                   :         : 7         :                
 RESERVED_INPUT               : Y18       :        :                   :         : 6         :                
-LEDR[3]                      : Y19       : output : 3.3-V LVTTL       :         : 6         : Y              
+RESERVED_INPUT               : Y19       :        :                   :         : 6         :                
 RESERVED_INPUT               : Y20       :        :                   :         : 6         :                
 testled                      : Y21       : output : 3.3-V LVTTL       :         : 6         : Y              
 RESERVED_INPUT               : Y22       :        :                   :         : 6         :                
