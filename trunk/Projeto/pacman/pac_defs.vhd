@@ -130,10 +130,14 @@ PACKAGE pac_defs IS
 	SUBTYPE t_fans_bits is STD_LOGIC_VECTOR(0 to FAN_NO-1);
 	
 	TYPE t_vidas_pos is array(0 to 2) of t_pos;
+	
+	SUBTYPE t_velocs is INTEGER range 0 to 20;
+	TYPE t_vet_velocs is array(0 to 2) of t_velocs;
 	   
 	--Fator de divisão do clock de 27MHz, usada para atualização do
 	--estado do jogo ("velocidade de execução")
-	CONSTANT DIV_FACT: INTEGER := 337500;
+	CONSTANT DIV_FACT: INTEGER := 202500;
+	CONSTANT DISP_DIV_FACT: INTEGER := 20*DIV_FACT;
 
 	subtype sentido is INTEGER range -1 to 1;
 	TYPE t_direc is array(0 to 1) of sentido;
@@ -147,9 +151,9 @@ PACKAGE pac_defs IS
 	CONSTANT PAC_START_Y : INTEGER := 71;
 	CONSTANT FANS_START_X : t_fans_pos := (40, 45);
 	CONSTANT FANS_START_Y : t_fans_pos := (44, 44);
-	CONSTANT FAN_TIME_VULN_START_BLINK : INTEGER := 450;
-	CONSTANT FAN_TIME_VULN_END : INTEGER := 500;
-	CONSTANT FAN_TIME_DEAD : INTEGER := 1000;
+	CONSTANT FAN_TIME_VULN_START_BLINK : INTEGER := 600;
+	CONSTANT FAN_TIME_VULN_END : INTEGER := 750;
+	CONSTANT FAN_TIME_DEAD : INTEGER := 700;
 	CONSTANT CELL_IN_X : INTEGER := 42;
 	CONSTANT CELL_IN_Y : INTEGER := 44;
 	CONSTANT CELL_OUT_Y : INTEGER := 35;
@@ -157,6 +161,8 @@ PACKAGE pac_defs IS
 	CONSTANT TELE_ESQ_POS : INTEGER := 2;
 	CONSTANT VIDA_ICONS_X: t_vidas_pos := (90, 90, 90);
 	CONSTANT VIDA_ICONS_Y: t_vidas_pos := (89, 83, 77);
+	--velocidades de atualização para: 0=pacman, 1=fantasma, 2=fantasma morto
+	CONSTANT VEL_DIV: t_vet_velocs := (6, 5, 4); 
 	
 	TYPE t_tab_array is array(0 to SCR_WDT*SCR_HGT-1) of t_tab_sym;
 	TYPE t_tab_mapa is array(0 to SCR_HGT-1, 0 to SCR_WDT-1) of t_tab_sym;
@@ -306,7 +312,7 @@ PACKAGE pac_defs IS
 	"                   W        W             W             Q        W                                                              ", 
 	"                   W        W             W             Q        W                                                              ", 
 	"                   W        W       WEE   W   WEE       Q        W                                                              ", 
-	" DDDDDDDDDDDDDDDDDDDDDDDDDDDW       W QEEEEEEEE Q       QEEEEEEEEEEEEEEEEEEEEEEEEEEE                                            ", 
+	" RRRRRRRRRRRRRRRRRRRRRRRRRRRW       W QEEEEEEEE Q       QEEEEEEEEEEEEEEEEEEEEEEEEEEE                                            ", 
 	"                   Q        W       RRRRRRRRRRRRQ       Q        Q                                                              ", 
 	"                   Q        W                           Q        Q                                                              ", 
 	"                   Q        W                           Q        Q                                                              ", 
