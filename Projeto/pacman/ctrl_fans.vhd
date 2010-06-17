@@ -156,7 +156,7 @@ BEGIN
 					IF (pac_fans_hit(i) = '1') THEN
 						pr_fan_state(i) <= ST_PRE_DEAD;
 						fan_died_var := '1';
-					ELSIF (fan_tempo(i) = FAN_TIME_VULN_START_BLINK) THEN
+					ELSIF (fan_tempo(i) > FAN_TIME_VULN_START_BLINK) THEN
 						pr_fan_state(i) <= ST_VULN_BLINK;
 					ELSE
 						pr_fan_state(i) <= ST_VULN;
@@ -167,7 +167,7 @@ BEGIN
 					IF (pac_fans_hit(i) = '1') THEN
 						pr_fan_state(i) <= ST_PRE_DEAD;
 						fan_died_var := '1';
-					ELSIF (fan_tempo(i) = FAN_TIME_VULN_END) THEN
+					ELSIF (fan_tempo(i) > FAN_TIME_VULN_END) THEN
 						pr_fan_state(i) <= ST_VIVO;
 					ELSE
 						pr_fan_state(i) <= ST_VULN_BLINK;
@@ -180,7 +180,7 @@ BEGIN
 					pacman_dead <= '0';
 				
 				WHEN ST_DEAD =>
-					IF (fan_tempo(i) = FAN_TIME_DEAD) THEN
+					IF (fan_tempo(i) > FAN_TIME_DEAD) THEN
 						pr_fan_state(i) <= ST_FIND_EXIT;
 					ELSE 
 						pr_fan_state(i) <= ST_DEAD;
@@ -206,7 +206,7 @@ BEGIN
 		END LOOP;
 
 		pacman_dead <= pacman_dead_var and atua_en(1);
-		fan_died <= fan_died_var and atua_en(1);
+		fan_died <= fan_died_var;
 	END PROCESS p_fan_next_state;
 
 	-- Avança a FSM para o próximo estado

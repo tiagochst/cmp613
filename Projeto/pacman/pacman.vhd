@@ -9,18 +9,19 @@ ENTITY pacman is
     clk27M, reset_button      : in  STD_LOGIC;
     red, green, blue          : out STD_LOGIC_vector(3 downto 0);
     hsync, vsync              : out STD_LOGIC;
-    LEDG                      : BUFFER STD_LOGIC_VECTOR (7 downto 5); --   LED Green
-    PS2_DAT                   : inout STD_LOGIC;                      --   PS2 Data
-    PS2_CLK                   : inout STD_LOGIC;	                  --   PS2 Clock
+    LEDG                      : BUFFER STD_LOGIC_VECTOR (7 downto 5); 
+    PS2_DAT                   : inout STD_LOGIC;                      
+    PS2_CLK                   : inout STD_LOGIC;	                 
     SEG0, SEG1, SEG2, SEG3    : OUT STD_LOGIC_VECTOR(6 downto 0);
     LEDR					  : BUFFER STD_LOGIC_VECTOR (2 downto 0);
-    testled					  : OUT STD_LOGIC
+    endgame					  : OUT STD_LOGIC
     );
 END pacman;
 
 ARCHITECTURE comportamento of pacman is
     SIGNAL rstn: STD_LOGIC;                        -- reset active low
     SIGNAL restartn: STD_LOGIC;                    -- Usado quando o pacman morre (active low)
+    SIGNAL load_cenario: STD_LOGIC;				   -- Informa quando o cenário está sendo recarregado
                                         
     -- Interface com a memória de vídeo do controlador
     SIGNAL we : STD_LOGIC;                          -- write enable ('1' p/ escrita)
@@ -47,10 +48,11 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL estado: estado_t := SHOW_SPLASH;
     SIGNAL pr_estado: estado_t := SHOW_SPLASH;
     
-    SIGNAL atual_cont:             -- Contagem (modular) do número de vezes que a lógica
-       INTEGER range 0 to 11 := 0; -- atualizou (serve como enable de várias velocidades)
+    -- sinais que servem como enable de várias velocidades
     SIGNAL atua_en: STD_LOGIC_VECTOR(2 downto 0);
-    SIGNAL run_display: STD_LOGIC;
+    SIGNAL display_en: STD_LOGIC;
+    SIGNAL disp_count: INTEGER range 0 to DIV_FACT-1;
+    SIGNAL sig_blink: UNSIGNED(6 downto 0); -- enables com duty de 50%
                                                     
     -- Sinais de desenho em overlay sobre o cenário do jogo
     SIGNAL overlay: STD_LOGIC;
@@ -71,24 +73,23 @@ ARCHITECTURE comportamento of pacman is
     -----------------------------------------------------------------------------
     -- Sinais de controle da lógica do jogo
     -----------------------------------------------------------------------------
-    SIGNAL got_coin, got_spc_coin: STD_LOGIC;   -- informa se obteve moeda no ultimo movimento
-    SIGNAL q_rem_moedas: INTEGER range -10 to 255 := 240;
+    SIGNAL got_coin, got_spc_coin: STD_LOGIC;  -- informa se obteve moeda no ultimo movimento
+    SIGNAL reg_coin_we: STD_LOGIC;
+    SIGNAL q_rem_moedas: INTEGER range 0 to 255 := 240; -- quantidade de moedas normais para vencer
     SIGNAL q_vidas: INTEGER range 0 to 5 := 3;
     SIGNAL q_pontos: INTEGER range 0 to 9999 := 0;
     SIGNAL vidas_arr: STD_LOGIC_VECTOR(2 downto 0);
-    SIGNAL display_en: STD_LOGIC;
-    SIGNAL disp_count: INTEGER range 0 to DIV_FACT-1;
-    SIGNAL reg_coin_we: STD_LOGIC;
-    
+   
+    -- Controle do pacman
     SIGNAL pac_pos_x: t_pos := PAC_START_X;
     SIGNAL pac_pos_y: t_pos := PAC_START_Y;
     SIGNAL pac_cur_dir: t_direcao;
-    SIGNAL sig_blink: UNSIGNED(6 downto 0);
     SIGNAL pac_area: t_blk_sym_3x3;
     SIGNAL pacman_dead: STD_LOGIC;
     SIGNAL pac_fans_hit: UNSIGNED(0 to FAN_NO-1);
     SIGNAL pac_atua: STD_LOGIC;
  	
+ 	-- Controle dos fantasmas
  	SIGNAL fan_pos_x: t_fans_pos;
  	SIGNAL fan_pos_y: t_fans_pos;
     SIGNAL fan_cur_dir: t_fans_dirs;
@@ -100,12 +101,11 @@ ARCHITECTURE comportamento of pacman is
 	SIGNAL pac_key_dir: t_direcao; -- sinais lidos pelo teclado
 	SIGNAL fan_key_dir: t_fans_dirs;
 BEGIN
-    -- Controlador VGA (resolução 128 colunas por 96 linhas)
-    -- Sinais:(aspect ratio 4:3). Os sinais que iremos utilizar para comunicar
-    -- - write_clk (nosso clock)
-    -- - write_enable ('1' quando queremos escrever um pixel)
-    -- - write_addr (ENDereço do pixel a escrever)
-    -- - data_in (brilho do pixel RGB, 1 bit pra cada componente de cor)
+
+	-- Controlador VGA com duas camadas (RAMs) de blocos:
+	-- cenário e overlay, isto é, o pacman e os fantasmas
+	-- Devolve os pixels convertidos pelos sprites e os 
+	-- sinais de controle do monitor
     vga_controller: entity work.vgacon port map (
         clk27M       => clk27M,
         rstn         => '1',
@@ -142,13 +142,14 @@ BEGIN
         PORT MAP (clk 	=> clk27M,
 		          rstn 	=> '1',
 		          en	=> '1',
-				  max	=> 27000000,
+				  max	=> DISP_DIV_FACT-1,
 				  q		=> disp_count);
 	
-    --Ativa durante um ciclo de clock a cada 32 atualizações
-    display_en <= '1' WHEN (disp_count = 0)
+    display_en <= '1' WHEN (disp_count = DISP_DIV_FACT-1)
 		ELSE '0';
     
+    -- Módulo que controla os displays 7-seg imprimindo
+    -- mensagens e a pontuação atual
     display: ENTITY WORK.disp PORT MAP (
 		CLK 	  => clk27M,
 		EN		  => display_en,
@@ -161,10 +162,7 @@ BEGIN
 		seg3      => SEG3
 	);
 
-    -----------------------------------------------------------------------------
     -- Contadores de varredura da tela
-    -----------------------------------------------------------------------------
-
     conta_coluna: COMPONENT counter
 		PORT MAP (clk 	=> clk27M,
 		          rstn 	=> col_rstn,
@@ -202,38 +200,17 @@ BEGIN
 	-- Controlador do pacman
 	ctrl_pac_inst: ENTITY work.ctrl_pacman PORT MAP (
 		clk27M		=> clk27M,			rstn		=> rstn and restartn,
-		key_dir		=> pac_key_dir,		atualiza	=> pac_atua,
+		key_dir		=> pac_key_dir,		atualiza	=> pac_atua and atua_en(0),
 		pac_area	=> pac_area,		pac_cur_dir	=> pac_cur_dir,
 		pac_pos_x	=> pac_pos_x,		pac_pos_y	=> pac_pos_y,
 		got_coin	=> got_coin,		got_spc_coin=> got_spc_coin
 	);
 	
-	--Gera enables de atualizações para cada velocidade de atualização
-	PROCESS (atual_cont)
-	BEGIN
-		IF (atual_cont=0 or atual_cont=4 or atual_cont=8)
-		THEN atua_en(0) <= '1';
-		ELSE atua_en(0) <= '0';
-		END IF;
-		
-		IF (atual_cont=0 or atual_cont=3 or atual_cont=6 or atual_cont=9)
-		THEN atua_en(1) <= '1';
-		ELSE atua_en(1) <= '0';
-		END IF;
-		
-		IF (atual_cont mod 2 = 0)
-		THEN atua_en(2) <= '1';
-		ELSE atua_en(2) <= '0';
-		END IF;
-	END PROCESS;
-	
-	-- purpose: Preenche as matrizes 3x3 das vizinhanças pac_area 
-	--          e fans_area durante PERCORRE_QUADRO
+	-- Preenche as matrizes 3x3 das vizinhanças pac_area 
+	-- e fans_area durante PERCORRE_QUADRO
     -- type   : sequential
-    -- inputs : clk27M, rstn, pac_area, line, col, estado
-    -- outputs: pac_area
     p_fill_memarea: PROCESS (clk27M)
-		VARIABLE x_offset, y_offset: INTEGER range -TAB_LEN to TAB_LEN;
+		VARIABLE x_offset, y_offset: t_offset;
 	BEGIN
 		IF (clk27M'event and clk27M='1') THEN
 			IF (estado = PERCORRE_QUADRO) THEN
@@ -255,7 +232,7 @@ BEGIN
 		END IF;
 	END PROCESS;
 	
-	-- Atualiza parâmetros de informação do jogo
+	-- Atualiza parâmetros de informação atual do jogo
 	-- type: sequential
 	param_jogo: PROCESS (clk27M, rstn)
 	BEGIN
@@ -264,62 +241,47 @@ BEGIN
 			q_pontos <= 0;
 			q_rem_moedas <= 240;
 		ELSIF (clk27M'event and clk27M = '1') THEN
-			IF (pacman_dead = '1' and estado = INICIO_JOGO) THEN
+			IF (pacman_dead = '1' and fan_atua = '1') THEN--estado = fan_atua) THEN
 				q_vidas <= q_vidas - 1;
 			END IF;
-			
---			IF (pac_atua = '1') THEN
---				IF (fan_died = '1') THEN
---					q_pontos <= q_pontos + 200;
---				ELSIF (got_coin = '1') THEN
---					q_pontos <= q_pontos + 10;
---					q_rem_moedas <= q_rem_moedas - 1;
---				ELSIF (got_spc_coin = '1') THEN
---					q_pontos <= q_pontos + 50;
---				END IF;
---				
---				IF (got_coin = '1' or got_spc_coin = '1') THEN
---					reg_coin_we <= '1'; --registra moeda comida
---				ELSE
---					reg_coin_we <= '0';
---				END IF;
---			END IF;
 
 			IF (fan_died = '1') THEN
 				q_pontos <= q_pontos + 200;
-			ELSIF (got_coin = '1' and pac_atua = '1') THEN
-				q_pontos <= q_pontos + 10;
-				q_rem_moedas <= q_rem_moedas - 1;
-			ELSIF (got_spc_coin = '1' and pac_atua = '1') THEN
-				q_pontos <= q_pontos + 50;
-			END IF;
+			ELSIF (pac_atua = '1' and atua_en(0) = '1') THEN
+				IF (got_coin = '1') THEN
+					q_pontos <= q_pontos + 10;
+					q_rem_moedas <= q_rem_moedas - 1;
+				ELSIF (got_spc_coin = '1') THEN
+					q_pontos <= q_pontos + 50;
+				END IF;
 			
-			IF (pac_atua = '1' and (got_coin = '1' or got_spc_coin = '1')) THEN
-				reg_coin_we <= '1'; --registra moeda comida
-			ELSE
-				reg_coin_we <= '0';
+				IF (got_coin = '1' or got_spc_coin = '1') THEN
+					reg_coin_we <= '1'; --registra uma moeda comida
+				ELSE
+					reg_coin_we <= '0';
+				END IF;
 			END IF;
 		END IF;
 	END PROCESS param_jogo;
 	
-	-- purpose: Processo para que gera sinais de desenho de 
-	--			overlay (ie, sobre o fundo) da vidas, do pacman e dos fantasmas 
+	-- purpose: Processo para que gera todos os sinais de desenho de overlay
+	--			(ie, sobre o fundo) da vidas, do pacman e dos fantasmas de acordo
+	--          com a varredura de line e col durante PERCORRE_QUADRO
     -- type   : combinational
     des_overlay: PROCESS (pac_pos_x, pac_pos_y, pac_cur_dir, sig_blink, vidas_arr,
                           fan_pos_x, fan_pos_y, fan_state, fan_cur_dir, line, col)
 		VARIABLE x_offset, y_offset: t_offset;
 		VARIABLE ovl_blk_tmp: t_ovl_blk_sym;
     BEGIN
-		ovl_blk_tmp := BLK_NULL;
-        --Sinais para desenho do pacman na tela durante PERCORRE_QUADRO
+		ovl_blk_tmp := BLK_NULL; -- este será o bloco que vai pra VGA
 
-		FOR i in 0 to FAN_NO-1 LOOP --Desenho dos fantasmas
+		FOR i in 0 to FAN_NO-1 LOOP -- Desenho dos fantasmas
 			y_offset := line - fan_pos_y(i) + 2;
 			x_offset := col - fan_pos_x(i) + 2;
 			IF (x_offset>=0 and x_offset<5 and 
 				y_offset>=0 and y_offset<5) THEN
 				IF (fan_state(i) = ST_VULN_BLINK) THEN
-					IF (sig_blink(4) = '0') THEN --pisca no modo vulnerável
+					IF (sig_blink(4) = '0') THEN --pisca no final do modo vulnerável
 						ovl_blk_tmp := FAN_VULN_BITMAP(y_offset, x_offset);
 					ELSE
 						ovl_blk_tmp := BLK_NULL;
@@ -335,6 +297,7 @@ BEGIN
 			END IF;
 		END LOOP;
 		
+		-- Desenho do pacman
 		y_offset := line - pac_pos_y + 2;
         x_offset := col - pac_pos_x + 2;
 		IF (x_offset>=0 and x_offset<5 and 
@@ -364,7 +327,7 @@ BEGIN
 		ovl_blk_in <= ovl_blk_tmp;
     END PROCESS;
     
-    -- Determina quando o pacman colidiu com algum dos fantasmas
+    -- Determina quando o pacman colidiu com cada um dos fantasmas
     -- type: combinational
     PROCESS (pac_pos_x, pac_pos_y, fan_pos_x, fan_pos_y)
 		VARIABLE	off_x, off_y: t_offset;
@@ -372,6 +335,7 @@ BEGIN
 		FOR i in 0 to FAN_NO-1 LOOP
 			off_x := pac_pos_x - fan_pos_x(i);
 			off_y := pac_pos_y - fan_pos_y(i);
+			-- a tolerância para colisão é uma região 3x3
 			IF (off_x >=-1 and off_x <=1 and off_y>=-1 and off_y<=1) THEN
 				pac_fans_hit(i) <= '1';
 			ELSE
@@ -380,10 +344,10 @@ BEGIN
 		END LOOP;
 	END PROCESS;
     
-    -- Define dado que entra na ram
-	def_block_in: PROCESS (estado, addr)
+    -- Define dado que entra na ram de cenário
+	def_block_in: PROCESS (load_cenario, addr)
 	BEGIN
-		IF (estado = CARREGA_MAPA) THEN
+		IF (load_cenario = '1') THEN
 			block_in <= CONV_TAB_BLK(MAPA_INICIAL(addr));
 		ELSE	 
 			block_in <= BLK_PATH; --Caso que a moeda é comida pelo pacman
@@ -406,15 +370,11 @@ BEGIN
 	LEDR <= vidas_arr;
     
     -----------------------------------------------------------------------------
-    -- Processos que definem a FSM (finite state machine), nossa máquina
-    -- de estados de controle.
-    -----------------------------------------------------------------------------
-
-    -- purpose: Esta é a lógica combinacional que calcula sinais de saída a partir
-    --          do estado atual e alguns sinais de entrada (Máquina de Mealy).
+    -- Processos que definem a FSM principal. Alguns sinais de controle são definidos
+    -- apenas para um estado e portanto estão localizados no process seguinte
     -- type   : combinational
     logica_mealy: PROCESS (estado, fim_escrita, timer, long_timer, q_rem_moedas, q_vidas,
-                           col, line, pac_pos_x, pac_pos_y, pacman_dead, reg_coin_we)
+                           col, line, pac_pos_x, pac_pos_y, pacman_dead, reg_coin_we, fan_died)
     BEGIN
         case estado is
         when CARREGA_MAPA  => IF (fim_escrita = '1') THEN
@@ -465,15 +425,7 @@ BEGIN
                         timer_enable   <= '0';
                         addr           <=  0;
 
-        when INICIO_JOGO  => IF (pacman_dead = '1') THEN
-							IF (q_vidas = 0) THEN
-								pr_estado <= FIM_JOGO;
-							ELSE
-								pr_estado <= REINICIO;
-							END IF;
-						ELSIF (q_rem_moedas <= 0) THEN
-							pr_estado <= PACMAN_VENCE;	
-                        ELSIF (timer = '1') THEN
+        when INICIO_JOGO  => IF (timer = '1') THEN
                             pr_estado <= PERCORRE_QUADRO;
                         ELSE
                             pr_estado <= INICIO_JOGO;
@@ -501,7 +453,17 @@ BEGIN
                         timer_enable   <= '0';
                         addr           <= col + SCR_WDT*line;
                         
-        when ATUALIZA_LOGICA_1 => pr_estado <= ATUALIZA_LOGICA_2;
+        when ATUALIZA_LOGICA_1 => IF (pacman_dead = '1') THEN
+							IF (q_vidas = 0) THEN
+								pr_estado <= FIM_JOGO;
+							ELSE
+								pr_estado <= REINICIO;
+							END IF;
+						ELSIF (q_rem_moedas <= 0) THEN
+							pr_estado <= PACMAN_VENCE;
+						ELSE
+							pr_estado <= ATUALIZA_LOGICA_2;
+						END IF;
 						line_rstn      <= '1';
                         line_enable    <= '0';
                         col_rstn       <= '1';
@@ -562,63 +524,70 @@ BEGIN
 		ELSE overlay <= '0';
 		END IF;
 		
+		IF (estado = CARREGA_MAPA)
+		THEN load_cenario <= '1';
+		ELSE load_cenario <= '0';
+		END IF;
+		
 		IF (estado = REINICIO) 
 		THEN restartn <= '0';
 		ELSE restartn <= '1';
 		END IF;
 		
-		IF (estado = ATUALIZA_LOGICA_2) 
+		IF (estado = ATUALIZA_LOGICA_2)
 		THEN fan_atua <= '1';
 		ELSE fan_atua <= '0';
 		END IF;
 		
-		IF (estado = ATUALIZA_LOGICA_1 and atua_en(0) = '1') 
+		IF (estado = ATUALIZA_LOGICA_1) 
 		THEN pac_atua <= '1';
 		ELSE pac_atua <= '0';
 		END IF;
 		
 		IF (estado = FIM_JOGO) 
-		THEN testled <= '1';
-		ELSE testled <= '0';
+		THEN endgame <= '1';
+		ELSE endgame <= '0';
 		END IF;
 	END PROCESS;
 
-    -- purpose: Avança a FSM para o próximo estado
+    -- Avança a FSM para o próximo estado
     -- type   : sequential
-    -- inputs : clk27M, rstn, pr_estado
-    -- outputs: estado
     seq_fsm: PROCESS (clk27M, rstn)
-    BEGIN  -- PROCESS seq_fsm
-        IF (rstn = '0') THEN                  -- asynchronous reset (active low)
+    BEGIN 
+        IF (rstn = '0') THEN                
             estado <= SHOW_SPLASH;
-        elsif (clk27M'event and clk27M = '1') THEN  -- rising clock edge
+        elsif (clk27M'event and clk27M = '1') THEN 
             estado <= pr_estado;
         END IF;
     END PROCESS seq_fsm;
     
     -- Atualiza contadores de número de atualizações
+	-- Gera enables de atualizações para cada velocidade de atualização
     -- type: sequential
     atual_counters: PROCESS (clk27M, rstn)
+		VARIABLE atual_cont: t_vet_velocs;
 	BEGIN
 		IF (rstn = '0') THEN
-			atual_cont <= 0;
+			atual_cont := (OTHERS => 0);
             sig_blink  <= (OTHERS => '0');
 		ELSIF (clk27M'event and clk27M = '1') THEN
 			IF (estado = ATUALIZA_LOGICA_2) THEN
-				IF (atual_cont = 11) THEN
-					atual_cont <= 0;
-				ELSE
-					atual_cont <= atual_cont + 1;
-				END IF;
+				FOR i IN 0 to 2 LOOP
+					IF (atual_cont(i) = VEL_DIV(i)-1) THEN
+						atual_cont(i) := 0;
+						atua_en(i) <= '1';
+					ELSE
+						atual_cont(i) := atual_cont(i) + 1;
+						atua_en(i) <= '0';
+					END IF;
+				END LOOP;
 				sig_blink <= sig_blink + 1;
 			END IF;
 		END IF;
 	END PROCESS;
 
-    -----------------------------------------------------------------------------
     -- Contadores utilizados para atrasar a animação (evitar
     -- que a atualização de quadros fique muito veloz).
-    ----------------------------------------------------------------------------
     p_contador0: COMPONENT counter 
         PORT MAP (clk 	=> clk27M,
 		          rstn 	=> timer_rstn,
@@ -641,18 +610,13 @@ BEGIN
     long_timer <= '1' WHEN (long_cont = 127)
     ELSE     '0';
     
-    -----------------------------------------------------------------------------
-    -- Processos que sincronizam sinais assíncronos, de preferência com mais
+    -- Processos que sincronizam o reset assíncrono, de preferência com mais
     -- de 1 flipflop, para evitar metaestabilidade.
-    -----------------------------------------------------------------------------
-    -- purpose: Aqui sincronizamos nosso sinal de reset vindo do botão da DE1
     -- type   : sequential
-    -- inputs : clk27M
-    -- outputs: rstn
     build_rstn: PROCESS (clk27M)
         VARIABLE temp : STD_LOGIC;          -- flipflop intermediario
-    BEGIN  -- PROCESS build_rstn
-        IF (clk27M'event and clk27M = '1') THEN  -- rising clock edge
+    BEGIN  
+        IF (clk27M'event and clk27M = '1') THEN  
             rstn <= temp;
             temp := reset_button;     
         END IF;

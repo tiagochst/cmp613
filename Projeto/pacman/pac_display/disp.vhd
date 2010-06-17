@@ -16,7 +16,6 @@ END;
 architecture struct of disp is
 	SIGNAL P0,P1,P2,P3: std_logic_vector(3 downto 0):="0000"; -- recebe pontuacao passada pelo top level
     SIGNAL  HEX0,HEX1,HEX2,HEX3: STD_LOGIC_VECTOR(6 downto 0):="0000000"; --intermediario pontuacao 
-	SIGNAL alfa_code: STD_LOGIC_VECTOR(6 downto 0):="0000000"; -- intermediario letras
 	SIGNAL  aux_seg0,aux_seg1,aux_seg2,aux_seg3: STD_LOGIC_VECTOR(6 downto 0):="1111111"; --usado para rolagem do dISplay
  	
     COMPONENT conv_7seg IS
@@ -35,6 +34,7 @@ BEGIN
 
 	PROCESS (en, clk)
 		VARIABLE counter:INTEGER:=0;
+		VARIABLE alfa_code: STD_LOGIC_VECTOR(6 downto 0):="0000000"; -- intermediario letras
     BEGIN
 		IF(clk'event and clk = '1' and en = '1') THEN
 			IF (counter /= 0 AND (PEDRAS<=0 or VIDAS=0)) THEN
@@ -51,39 +51,39 @@ BEGIN
 			IF(PEDRAS<= 0) THEN
 				case (counter) IS
 					WHEN 0 =>
-						alfa_code <= "0010001"; --Y
+						alfa_code := "0010001"; --Y
 					WHEN 1 =>
-						alfa_code <= "0100011"; --O
+						alfa_code := "0100011"; --O
 					WHEN 2 =>
-						alfa_code <= "1000001"; --U
+						alfa_code := "1000001"; --U
 					WHEN 3 =>
-						alfa_code <= "1111111"; -- 
+						alfa_code := "1111111"; -- 
 					WHEN 4 =>
-						alfa_code <= "0001000"; --A
+						alfa_code := "0001000"; --A
 					WHEN 5 =>
-						alfa_code <= "0101111"; --R
+						alfa_code := "0101111"; --R
 					WHEN 6 =>
-						alfa_code <= "0000110"; --E
+						alfa_code := "0000110"; --E
 					WHEN 7 =>
-						alfa_code <= "1111111"; --
+						alfa_code := "1111111"; --
 					WHEN 8 =>
-						alfa_code <= "0000111"; --T 
+						alfa_code := "0000111"; --T 
 					WHEN 9 =>
-						alfa_code <= "0001011"; --H
+						alfa_code := "0001011"; --H
 					WHEN 10 =>
-						alfa_code <= "0000110"; --E 
+						alfa_code := "0000110"; --E 
 					WHEN 11 =>
-						alfa_code <= "1111111"; -- 
+						alfa_code := "1111111"; -- 
 					WHEN 12 =>
-						alfa_code <= "0000011"; --B 
+						alfa_code := "0000011"; --B 
 					WHEN 13 =>
-						alfa_code <= "0000110"; --E 
+						alfa_code := "0000110"; --E 
 					WHEN 14 =>
-						alfa_code <= "0010010"; --S
+						alfa_code := "0010010"; --S
 					WHEN 15 =>
-						alfa_code <= "0000111"; --T 
+						alfa_code := "0000111"; --T 
 					WHEN others =>	
-						alfa_code <= "1111111";
+						alfa_code := "1111111";
 					END case;
 				IF (counter = 15) THEN
 					counter := 0;
@@ -93,23 +93,23 @@ BEGIN
 			ELSIF (VIDAS = 0) THEN
 				case (counter) IS
 					WHEN 0 =>
-						alfa_code <= "0010001"; --Y
+						alfa_code := "0010001"; --Y
 					WHEN 1 =>
-						alfa_code <= "0100011"; --O
+						alfa_code := "0100011"; --O
 					WHEN 2 =>
-						alfa_code <= "1000001"; --U
+						alfa_code := "1000001"; --U
 					WHEN 3 =>
-						alfa_code <= "1111111"; -- 
+						alfa_code := "1111111"; -- 
 					WHEN 4 =>
-						alfa_code <= "1000111"; --L
+						alfa_code := "1000111"; --L
 					WHEN 5 =>
-						alfa_code <= "0100011"; --O
+						alfa_code := "0100011"; --O
 					WHEN 6 =>
-						alfa_code <= "0010010"; --S
+						alfa_code := "0010010"; --S
 					WHEN 7 =>
-						alfa_code <= "0000110"; --E
+						alfa_code := "0000110"; --E
 					WHEN others =>
-						alfa_code <= "1111111"; -- 
+						alfa_code := "1111111"; -- 
 					END case;
 				IF (counter = 7) THEN
 					counter := 0;
@@ -118,10 +118,11 @@ BEGIN
 				END IF;			
 			ELSE
 				counter :=0;
-				alfa_code <= "1111111";
+				alfa_code := "1111111";
 			END IF;
-		END IF;	
-		aux_seg0 <= alfa_code;
+			
+			aux_seg0 <= alfa_code;
+		END IF;
 	END PROCESS;
 
 	hexseg0: conv_7seg port map(P0, HEX0); --casa da unidade da pontuacao
