@@ -4,17 +4,17 @@
 
 *Interação com teclado*
   * DONE:
-    * Implementei para dois jogadores.
-    * Mantive o codigo para um player caso não fizermos 2 players (está comentado) no código.(comentei tudo bem certinho)
+    * Implementei para dois jogadores. Agora com 3 regiões de controle (2+1).
   * TO DO:
     * Melhorar o código do ped e tentar retirar os 25 warnings e o *critical warning* relacionado a ele.
+    * Aumentar o número de teclas simultâneas ou modificar os controles.
 
 *Movimentação*
   * DONE:
     * O Mars implementou a parte de movimentação com coordenadas absolutas
     * Teletransporte implementado ontem no IC.
     * Interação com teclado realizada ontem no IC.
-    * Movimentação outros personagens do jogo. Minimizar interferência de teclas pressionadas ao mesmo tempo.
+    * Movimentação outros personagens do jogo.
     * A idéia básica é fazer um (ou dois) fantasmas sendo o player 2,sugiro inserir velocidade pouco maior no fantasma senão é impossivel o fantasma pegar o pacman.
   * TO DO:
     * ~~Fazer movimentação suave posicionando o pacman parcialmente entre dois blocos da tela (precisaria ter suporte a sprites)~~ Já é suficiente.
@@ -23,7 +23,7 @@
   * DONE:
      * Cenário projetado de acordo com o jogo original
      * Camada de overlay para desenhos sobre o cenário (pacman, fantasmas, frutas, etc)
-     * Resolução de 640x480 com sprites ok, porém com glitches que devem ser removidos
+     * Resolução de 640x480 com sprites ok, ~~porém com glitches que devem ser removidos~~
   * TO DO:
      * *Pensar em alguma maneira de tirar a borda preta em torno dos fantasmas/pacman.*
      * Adicionar mais cores (máximo de 4096 cores), _será que é necessário?_
@@ -32,12 +32,13 @@
   * DONE:
     * Pontuação do level (primeiro nos 7-seg ~~depois criar sprites para a tela~~)
     * Término do jogo ao comer todas as bolinhas
-  * TO DO:
+    * Reinício do jogo quando pacman perde uma vida (3 vezes)
     * Frutas no meio do cenário (sprites desenhados)
+    * Criar componentes para o pacman e os fantasmas
+  * TO DO:
     * High scores
-    * Morte do pacman - colocá-lo no centro novamente.(Animação de morte? É trabalhoso)
+    * Animação de morte do pacman? É trabalhoso...
     * *Áudio* (BGM e SFX): envolve instanciar o NIOS e interfacear C com VHDL, não sabemos se vale a pena ou se sequer tentaremos. Tiago diz que é difícil.
     * Limpeza do código (ao final): 
       * Separar RAMs de blocos da interface VGA
-      * Criar componentes para o pacman e os fantasmas
       * Debugging

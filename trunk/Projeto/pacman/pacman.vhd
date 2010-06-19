@@ -38,20 +38,20 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL col_enable : STD_LOGIC;                  -- enable do contador de colunas
     SIGNAL line_rstn : STD_LOGIC;                   -- reset do contador de linhas
     SIGNAL line_enable, line_inc : STD_LOGIC;       -- enable do contador de linhas
-    SIGNAL fim_escrita : STD_LOGIC;                 -- '1' quando um quadro terminou de ser
+    SIGNAL fim_varredura : STD_LOGIC;                 -- '1' quando um quadro terminou de ser
                                                     -- escrito na memória de vídeo
 
     -- Especificação dos tipos e sinais da máquina de estados de controle
-    TYPE estado_t is (SHOW_SPLASH, CARREGA_MAPA, INICIO_JOGO, PERCORRE_QUADRO,
+    TYPE estado_t is (SHOW_SPLASH, CARREGA_MAPA, ESTADO_INICIAL, PERCORRE_QUADRO,
                       ATUALIZA_LOGICA_1, ATUALIZA_LOGICA_2, ATUALIZA_LOGICA_3, MEMORIA_WR,
-                      REINICIO, FIM_JOGO, PACMAN_VENCE);
+                      REINICIO, FIM_JOGO);
     SIGNAL estado: estado_t := SHOW_SPLASH;
     SIGNAL pr_estado: estado_t := SHOW_SPLASH;
     
     -- sinais que servem como enable de várias velocidades
     SIGNAL atua_en: STD_LOGIC_VECTOR(2 downto 0);
     SIGNAL display_en: STD_LOGIC;
-    SIGNAL disp_count: INTEGER range 0 to DIV_FACT-1;
+	SIGNAL disp_count: INTEGER range 0 to 27000000;
     SIGNAL sig_blink: UNSIGNED(6 downto 0); -- enables com duty de 50%
                                                     
     -- Sinais de desenho em overlay sobre o cenário do jogo
@@ -79,10 +79,13 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL q_vidas: INTEGER range 0 to 5 := 3;
     SIGNAL q_pontos: INTEGER range 0 to 9999 := 0;
     SIGNAL vidas_arr: STD_LOGIC_VECTOR(2 downto 0);
+    SIGNAL update_info: STD_LOGIC;
+    SIGNAL fruta_id: t_fruta_id;
+    SIGNAL got_fruta: STD_LOGIC;
    
     -- Controle do pacman
-    SIGNAL pac_pos_x: t_pos := PAC_START_X;
-    SIGNAL pac_pos_y: t_pos := PAC_START_Y;
+    SIGNAL pac_pos_x: t_pos;
+    SIGNAL pac_pos_y: t_pos;
     SIGNAL pac_cur_dir: t_direcao;
     SIGNAL pac_area: t_blk_sym_3x3;
     SIGNAL pacman_dead: STD_LOGIC;
@@ -140,7 +143,7 @@ BEGIN
     
 	disp_counter: COMPONENT counter
         PORT MAP (clk 	=> clk27M,
-		          rstn 	=> '1',
+		          rstn 	=> rstn,
 		          en	=> '1',
 				  max	=> DISP_DIV_FACT-1,
 				  q		=> disp_count);
@@ -160,6 +163,11 @@ BEGIN
 		seg1      => SEG1,
 		seg2      => SEG2,
 		seg3      => SEG3
+	);
+	
+	frutas: ENTITY WORK.ctrl_frutas PORT MAP (
+		clk    => clk27M, 	   rstn  => rstn and restartn and (not got_fruta),
+		enable => update_info, fruta => fruta_id
 	);
 
     -- Contadores de varredura da tela
@@ -183,12 +191,12 @@ BEGIN
 				  q		=> line);
     
     -- podemos avançar para o próximo estado?
-    fim_escrita <= '1' WHEN (line = SCR_HGT-1) and (col = SCR_WDT-1)
+    fim_varredura <= '1' WHEN (line = SCR_HGT-1) and (col = SCR_WDT-1)
                    ELSE '0';
                    
 	-- Controlador dos fantasmas
 	ctrl_fans_inst: ENTITY work.ctrl_fans PORT MAP (
-		clk27M 		=> clk27M, 			rstn 		=> rstn and restartn,
+		clk 		=> clk27M, 			rstn 		=> rstn and restartn,
 		atualiza 	=> fan_atua, 		atua_en 	=> atua_en,
 		keys_dir 	=> fan_key_dir,		fan_died	=> fan_died,
 		fan_area 	=> fan_area,		pacman_dead => pacman_dead,
@@ -199,7 +207,7 @@ BEGIN
 	
 	-- Controlador do pacman
 	ctrl_pac_inst: ENTITY work.ctrl_pacman PORT MAP (
-		clk27M		=> clk27M,			rstn		=> rstn and restartn,
+		clk 		=> clk27M,			rstn		=> rstn and restartn,
 		key_dir		=> pac_key_dir,		atualiza	=> pac_atua and atua_en(0),
 		pac_area	=> pac_area,		pac_cur_dir	=> pac_cur_dir,
 		pac_pos_x	=> pac_pos_x,		pac_pos_y	=> pac_pos_y,
@@ -241,14 +249,16 @@ BEGIN
 			q_pontos <= 0;
 			q_rem_moedas <= 240;
 		ELSIF (clk27M'event and clk27M = '1') THEN
-			IF (pacman_dead = '1' and fan_atua = '1') THEN--estado = fan_atua) THEN
+			IF (pacman_dead = '1' and update_info = '1') THEN
 				q_vidas <= q_vidas - 1;
 			END IF;
 
 			IF (fan_died = '1') THEN
 				q_pontos <= q_pontos + 200;
 			ELSIF (pac_atua = '1' and atua_en(0) = '1') THEN
-				IF (got_coin = '1') THEN
+				IF (got_fruta = '1') THEN
+					q_pontos <= q_pontos + 500;
+				ELSIF (got_coin = '1') THEN
 					q_pontos <= q_pontos + 10;
 					q_rem_moedas <= q_rem_moedas - 1;
 				ELSIF (got_spc_coin = '1') THEN
@@ -268,30 +278,42 @@ BEGIN
 	--			(ie, sobre o fundo) da vidas, do pacman e dos fantasmas de acordo
 	--          com a varredura de line e col durante PERCORRE_QUADRO
     -- type   : combinational
-    des_overlay: PROCESS (pac_pos_x, pac_pos_y, pac_cur_dir, sig_blink, vidas_arr,
+    des_overlay: PROCESS (pac_pos_x, pac_pos_y, pac_cur_dir, sig_blink, vidas_arr, fruta_id,
                           fan_pos_x, fan_pos_y, fan_state, fan_cur_dir, line, col)
 		VARIABLE x_offset, y_offset: t_offset;
 		VARIABLE ovl_blk_tmp: t_ovl_blk_sym;
     BEGIN
 		ovl_blk_tmp := BLK_NULL; -- este será o bloco que vai pra VGA
-
+		-- a hierarquia dos desenhos tem o último como mais importante
+		-- isto é, se ele for desenhado, nenhum outro aparece por cima
+		
+		-- Desenho da fruta
+		IF (fruta_id /= 0) THEN
+			y_offset := line - FRUTA_Y + 2;
+			x_offset := col - FRUTA_X + 2;
+			IF (x_offset>=0 and x_offset<5 and 
+				y_offset>=0 and y_offset<5) THEN
+				ovl_blk_tmp := FRUTA_BLKMAP(fruta_id)(y_offset, x_offset);
+			END IF;
+		END IF;
+		
 		FOR i in 0 to FAN_NO-1 LOOP -- Desenho dos fantasmas
 			y_offset := line - fan_pos_y(i) + 2;
 			x_offset := col - fan_pos_x(i) + 2;
 			IF (x_offset>=0 and x_offset<5 and 
 				y_offset>=0 and y_offset<5) THEN
 				IF (fan_state(i) = ST_VULN_BLINK) THEN
-					IF (sig_blink(4) = '0') THEN --pisca no final do modo vulnerável
-						ovl_blk_tmp := FAN_VULN_BITMAP(y_offset, x_offset);
+					IF (sig_blink(5) = '0') THEN --pisca no final do modo vulnerável
+						ovl_blk_tmp := FAN_VULN_BLKMAP(y_offset, x_offset);
 					ELSE
 						ovl_blk_tmp := BLK_NULL;
 					END IF;
 				ELSIF (fan_state(i) = ST_VULN) THEN
-					ovl_blk_tmp := FAN_VULN_BITMAP(y_offset, x_offset);
+					ovl_blk_tmp := FAN_VULN_BLKMAP(y_offset, x_offset);
 				ELSIF (fan_state(i) = ST_DEAD) THEN
-					ovl_blk_tmp := FAN_DEAD_BITMAPS(fan_cur_dir(i))(y_offset, x_offset);
+					ovl_blk_tmp := FAN_DEAD_BLKMAPS(fan_cur_dir(i))(y_offset, x_offset);
 				ELSE
-					ovl_blk_tmp := FAN_BITMAPS(i)(fan_cur_dir(i))(y_offset, x_offset);
+					ovl_blk_tmp := FAN_BLKMAPS(i)(fan_cur_dir(i))(y_offset, x_offset);
 				END IF;
 				y_offset := line - fan_pos_y(1) + 2;
 			END IF;
@@ -302,13 +324,13 @@ BEGIN
         x_offset := col - pac_pos_x + 2;
 		IF (x_offset>=0 and x_offset<5 and 
 			y_offset>=0 and y_offset<5) THEN
-			IF (sig_blink(4) = '0') THEN
-				ovl_blk_tmp := PAC_BITMAPS(pac_cur_dir)(y_offset, x_offset);
+			IF (sig_blink(5) = '0') THEN
+				ovl_blk_tmp := PAC_BLKMAPS(pac_cur_dir)(y_offset, x_offset);
 			ELSE
 				IF (pac_cur_dir = DIREI or pac_cur_dir = ESQUE) THEN
-					ovl_blk_tmp := PAC_FECH_BITMAP(y_offset, x_offset);
+					ovl_blk_tmp := PAC_FECH_BLKMAP(y_offset, x_offset);
 				ELSE
-					ovl_blk_tmp := PAC_FECV_BITMAP(y_offset, x_offset);
+					ovl_blk_tmp := PAC_FECV_BLKMAP(y_offset, x_offset);
 				END IF;
 			END IF;
 		END IF;
@@ -319,13 +341,23 @@ BEGIN
 				x_offset := col - VIDA_ICONS_X(i) + 2;
 				IF (x_offset>=0 and x_offset<5 and
 				y_offset>=0 and y_offset<5) THEN
-					ovl_blk_tmp := PAC_BITMAPS(DIREI)(y_offset, x_offset);
+					ovl_blk_tmp := PAC_BLKMAPS(DIREI)(y_offset, x_offset);
 				END IF;
 			END IF;
 		END LOOP;
 		
 		ovl_blk_in <= ovl_blk_tmp;
     END PROCESS;
+    
+    -- Determina quando o pacman comeu uma fruta
+    PROCESS (pac_pos_x, pac_pos_y, fruta_id)
+	BEGIN
+		IF (pac_pos_x = FRUTA_X and pac_pos_y = FRUTA_Y and fruta_id /= 0) THEN
+			got_fruta <= '1';
+		ELSE
+			got_fruta <= '0';
+		END IF;
+	END PROCESS;
     
     -- Determina quando o pacman colidiu com cada um dos fantasmas
     -- type: combinational
@@ -335,8 +367,8 @@ BEGIN
 		FOR i in 0 to FAN_NO-1 LOOP
 			off_x := pac_pos_x - fan_pos_x(i);
 			off_y := pac_pos_y - fan_pos_y(i);
-			-- a tolerância para colisão é uma região 3x3
-			IF (off_x >=-1 and off_x <=1 and off_y>=-1 and off_y<=1) THEN
+			-- a tolerância para colisão é uma região 5x5
+			IF (off_x >=-2 and off_x <=2 and off_y>=-2 and off_y<=2) THEN
 				pac_fans_hit(i) <= '1';
 			ELSE
 				pac_fans_hit(i) <= '0';
@@ -349,7 +381,7 @@ BEGIN
 	BEGIN
 		IF (load_cenario = '1') THEN
 			block_in <= CONV_TAB_BLK(MAPA_INICIAL(addr));
-		ELSE	 
+		ELSE
 			block_in <= BLK_PATH; --Caso que a moeda é comida pelo pacman
 		END IF;
 	END PROCESS;
@@ -373,14 +405,14 @@ BEGIN
     -- Processos que definem a FSM principal. Alguns sinais de controle são definidos
     -- apenas para um estado e portanto estão localizados no process seguinte
     -- type   : combinational
-    logica_mealy: PROCESS (estado, fim_escrita, timer, long_timer, q_rem_moedas, q_vidas,
+    logica_mealy: PROCESS (estado, fim_varredura, timer, long_timer, q_rem_moedas, q_vidas,
                            col, line, pac_pos_x, pac_pos_y, pacman_dead, reg_coin_we, fan_died)
     BEGIN
         case estado is
-        when CARREGA_MAPA  => IF (fim_escrita = '1') THEN
-							pr_estado <= INICIO_JOGO;
-						ELSE
-							pr_estado <= CARREGA_MAPA;
+        when CARREGA_MAPA  => IF (fim_varredura = '1') THEN -- Estado CARREGA_MAPA:
+							pr_estado <= ESTADO_INICIAL;    -- Percorre linhas e colunas escrevendo o 
+						ELSE								-- conteúdo do cenário inicial na memória.
+							pr_estado <= CARREGA_MAPA;      -- Usado para (re)inicializar o jogo inteiro
 						END IF;
 						line_rstn      <= '1';
                         line_enable    <= '1';
@@ -391,13 +423,13 @@ BEGIN
                         timer_enable   <= '0';
                         addr           <= col + SCR_WDT*line;
                         
-		when REINICIO  => IF (long_timer = '1') THEN
-							pr_estado <= INICIO_JOGO;
-						ELSE
-							pr_estado <= REINICIO;
-						END IF;
-                        line_rstn      <= '1';
-                        line_enable    <= '1';
+		when REINICIO  => IF (long_timer = '1') THEN        -- Estado REINICIO:
+							pr_estado <= ESTADO_INICIAL;    -- Aguarda um intervalo de alguns segundos antes
+						ELSE                                -- de voltar o jogo ao normal. Além disso, ativa
+							pr_estado <= REINICIO;          -- o sinal restartn para reinicializar os dados
+						END IF;                             -- necessários. O pacman e os fantasmas voltam às
+                        line_rstn      <= '1';              -- suas posições originais mas as moedas do mapa
+                        line_enable    <= '1';              -- e a pontuação permanecem.
                         col_rstn       <= '1';
                         col_enable     <= '1';
                         we             <= '0';
@@ -405,44 +437,34 @@ BEGIN
                         timer_enable   <= '1';
                         addr           <=  0;
                         
-		when FIM_JOGO  => pr_estado <= FIM_JOGO; --não sai disso
-                        line_rstn      <= '1';
-                        line_enable    <= '1';
-                        col_rstn       <= '1';
+		when FIM_JOGO  => pr_estado <= FIM_JOGO;            -- Estado FIM_JOGO:
+                        line_rstn      <= '1';              -- Não realiza ação e fica ocioso nesse estado.
+                        line_enable    <= '1';              -- O jogo acabou (as vidas do pacman se esgotaram
+                        col_rstn       <= '1';              -- ou este comeu todas as moedas do mapa).
                         col_enable     <= '1';
                         we             <= '0';
                         timer_rstn     <= '0'; 
                         timer_enable   <= '0';
                         addr           <=  0;
                         
-		when PACMAN_VENCE => pr_estado <= PACMAN_VENCE; --não sai disso
-                        line_rstn      <= '1';
-                        line_enable    <= '1';
-                        col_rstn       <= '1';
-                        col_enable     <= '1';
-                        we             <= '0';
-                        timer_rstn     <= '0';  -- reset é active low!
-                        timer_enable   <= '0';
-                        addr           <=  0;
-
-        when INICIO_JOGO  => IF (timer = '1') THEN
-                            pr_estado <= PERCORRE_QUADRO;
-                        ELSE
-                            pr_estado <= INICIO_JOGO;
-                        END IF;
-                        line_rstn      <= '0';  -- reset é active low!
+        when ESTADO_INICIAL  => IF (timer = '1') THEN       -- Estado ESTADO_INICIAL:
+                            pr_estado <= PERCORRE_QUADRO;   -- Primeiro estado durante operação normal do jogo
+                        ELSE                                -- Responsável pelo atraso principal da animação,
+                            pr_estado <= ESTADO_INICIAL;    -- após o qual será feita a varredura no estado do
+                        END IF;                             -- cenário.
+                        line_rstn      <= '0';  
                         line_enable    <= '0';
-                        col_rstn       <= '0';  -- reset é active low!
+                        col_rstn       <= '0';  
                         col_enable     <= '0';
                         we             <= '0';
-                        timer_rstn     <= '1';  -- reset é active low!
+                        timer_rstn     <= '1';  
                         timer_enable   <= '1';
                         addr           <= 0;
 
-        when PERCORRE_QUADRO => IF (fim_escrita = '1') THEN
-                            pr_estado <= ATUALIZA_LOGICA_1;
-                        ELSE
-                            pr_estado <= PERCORRE_QUADRO;
+        when PERCORRE_QUADRO => IF (fim_varredura = '1') THEN -- Estado PERCORRE_QUADRO:
+                            pr_estado <= ATUALIZA_LOGICA_1;   -- Varre a memória de cenário, lendo as regiões vizinhas
+                        ELSE                                  -- dos objetos e, ao mesmo tempo, escrevendo as posições
+                            pr_estado <= PERCORRE_QUADRO;     -- atuais dos mesmos na memória de overlay.
                         END IF;
                         line_rstn      <= '1';
                         line_enable    <= '1';
@@ -453,14 +475,14 @@ BEGIN
                         timer_enable   <= '0';
                         addr           <= col + SCR_WDT*line;
                         
-        when ATUALIZA_LOGICA_1 => IF (pacman_dead = '1') THEN
-							IF (q_vidas = 0) THEN
-								pr_estado <= FIM_JOGO;
-							ELSE
+        when ATUALIZA_LOGICA_1 => IF (pacman_dead = '1') THEN -- Estado ATUALIZA_LOGICA_1:
+							IF (q_vidas = 0) THEN             -- Faz as checagens fundamentais de final de jogo ou
+								pr_estado <= FIM_JOGO;        -- reinício, além de habilitar o próximo movimento
+							ELSE                              -- do pacman.
 								pr_estado <= REINICIO;
 							END IF;
 						ELSIF (q_rem_moedas <= 0) THEN
-							pr_estado <= PACMAN_VENCE;
+							pr_estado <= FIM_JOGO;
 						ELSE
 							pr_estado <= ATUALIZA_LOGICA_2;
 						END IF;
@@ -473,18 +495,8 @@ BEGIN
                         timer_enable   <= '0';
                         addr		   <= 0;
                         
-		when ATUALIZA_LOGICA_2 => pr_estado <= ATUALIZA_LOGICA_3;
-						line_rstn      <= '1';
-                        line_enable    <= '0';
-                        col_rstn       <= '1';
-                        col_enable     <= '0';
-                        we             <= '0';
-                        timer_rstn     <= '0';
-                        timer_enable   <= '0';
-                        addr		   <= 0;
-		
-		when ATUALIZA_LOGICA_3 => pr_estado <= MEMORIA_WR;
-						line_rstn      <= '1';
+		when ATUALIZA_LOGICA_2 => pr_estado <= MEMORIA_WR; -- Estado ATUALIZA_LOGICA_2:
+						line_rstn      <= '1';             -- Habilita o próximo movimento dos fantasmas.
                         line_enable    <= '0';
                         col_rstn       <= '1';
                         col_enable     <= '0';
@@ -493,10 +505,10 @@ BEGIN
                         timer_enable   <= '0';
                         addr		   <= 0;
       
-        when MEMORIA_WR => pr_estado <= INICIO_JOGO;
-						line_rstn      <= '0';
-                        line_enable    <= '0';
-                        col_rstn       <= '0';
+        when MEMORIA_WR => pr_estado <= ESTADO_INICIAL;   -- Estado MEMORIA_WR:
+						line_rstn      <= '0';            -- Escreve apenas um bloco que é o novo valor da célula
+                        line_enable    <= '0';            -- atual do pacman na memória de cenário. Isso pode apagar
+                        col_rstn       <= '0';            -- a moeda que havia sob o pacman se ela foi comida.
                         col_enable     <= '0';
                         we             <= reg_coin_we; 
                         timer_rstn     <= '0';
@@ -547,6 +559,11 @@ BEGIN
 		IF (estado = FIM_JOGO) 
 		THEN endgame <= '1';
 		ELSE endgame <= '0';
+		END IF;
+		
+		IF (estado = MEMORIA_WR)
+		THEN update_info <= '1';
+		ELSE update_info <= '0';
 		END IF;
 	END PROCESS;
 

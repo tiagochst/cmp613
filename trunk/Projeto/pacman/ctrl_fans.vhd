@@ -5,11 +5,11 @@ USE work.PAC_DEFS.all;
 
 ENTITY ctrl_fans IS
 	PORT (
-	clk27M, rstn			:IN STD_LOGIC;
+	clk, rstn			:IN STD_LOGIC;
     atualiza				:IN STD_LOGIC;
     atua_en					:IN STD_LOGIC_VECTOR(2 downto 0); --velocidades para atualizar
     keys_dir				:IN t_fans_dirs; --teclas de ação lidas pelo teclado
-    fan_area	          	:IN t_fans_blk_sym_3x3; --mapa 3x3 em torno da posição atual
+    fan_area	          	:IN t_fans_blk_sym_3x3; --mapas 3x3 em torno da posições atuais
     spc_coin                :IN STD_LOGIC;
     pac_fans_hit            :IN UNSIGNED(0 to FAN_NO-1);
     fan_pos_x, fan_pos_y	:BUFFER t_fans_pos;
@@ -25,9 +25,17 @@ ARCHITECTURE behav OF ctrl_fans IS
     SIGNAL fan_tempo: t_fans_times;
     SIGNAL fan_rstn_tempo: t_fans_bits;
     SIGNAL pr_fan_state: t_fans_states;
+    
+    -- Tempos (em atualizações) para os estados temporários dos fantasmas
+	CONSTANT FAN_TIME_VULN_START_BLINK : INTEGER := 650;
+	CONSTANT FAN_TIME_VULN_END : INTEGER := 750;
+	CONSTANT FAN_TIME_DEAD : INTEGER := 700;
+	
+	CONSTANT FANS_START_X : t_fans_pos := (40, 44);
+	CONSTANT FANS_START_Y : t_fans_pos := (44, 44);
 BEGIN
-	--Calcula possíveis parâmetros envolvidos no próximo movimento
-	--de todos os fantasmas
+	-- Calcula possíveis parâmetros envolvidos no próximo movimento
+	-- de todos os fantasmas. Análogo ao do pacman.
 	-- type: combinational
 	PROCESS (fan_area, fan_cur_dir)
 	BEGIN
@@ -48,13 +56,10 @@ BEGIN
 		END LOOP;
 	END PROCESS;
 	
-	-- purpose: Este processo irá atualizar as posições dos fantasmas e definir
-    --          suas ações no jogo de acordo com seus estados.
+	-- Atualiza as posições dos fantasmas e define
+    -- suas ações no jogo de acordo com seus estados.
     -- type   : sequential
-    -- inputs : clk27M, rstn, pac_area
-    --          fan_cur_dir, fan_pos_x, fan_pos_y
-    -- outputs: fan_cur_dir, fan_pos_x, fan_pos_y, got_coin
-    p_atualiza_fan: PROCESS (clk27M, rstn)
+    p_atualiza_fan: PROCESS (clk, rstn)
 		VARIABLE keys_dir_old, nxt_move: t_fans_dirs;
     BEGIN
         IF (rstn = '0') THEN
@@ -62,7 +67,7 @@ BEGIN
             fan_pos_y <= FANS_START_Y;
 			fan_cur_dir <= (others => NADA);
 			nxt_move := (others => NADA);
-        ELSIF (clk27M'event and clk27M = '1') THEN
+        ELSIF (clk'event and clk = '1') THEN
              IF (atualiza = '1') THEN
 				FOR i in 0 to FAN_NO-1 LOOP
 					CASE fan_state(i) IS
@@ -102,24 +107,25 @@ BEGIN
 						END IF;
 					WHEN ST_DEAD | ST_PRE_DEAD | ST_FIND_EXIT => 
 						IF (atua_en(2) = '1') THEN
-							-- Movimento automático do fantasma para a cela
+							-- Movimento automático do fantasma para a cela com velocidade maior
 							CASE FAN_PERCURSO(fan_pos_y(i), fan_pos_x(i)) IS
-							WHEN 'Q' =>
+							WHEN 'C' =>
 								fan_pos_y(i) <= fan_pos_y(i) - 1;
 								fan_cur_dir(i) <= CIMA;
-							WHEN 'W' =>
+							WHEN 'B' =>
 								fan_pos_y(i) <= fan_pos_y(i) + 1;
 								fan_cur_dir(i) <= BAIXO;
 							WHEN 'E' =>
 								fan_pos_x(i) <= fan_pos_x(i) - 1;
 								fan_cur_dir(i) <= ESQUE;
-							WHEN 'R' =>
+							WHEN 'D' =>
 								fan_pos_x(i) <= fan_pos_x(i) + 1;
 								fan_cur_dir(i) <= DIREI;
 							WHEN OTHERS =>
 							END CASE;
 						END IF;
-					WHEN ST_FUGA => --Supõe que fan_pos_x já vale CELL_IN_X 
+					WHEN ST_FUGA => 
+						--Supõe que fan_pos_x já vale CELL_IN_X, apenas anda pra cima
 						IF (atua_en(1) = '1') THEN 
 							fan_pos_y(i) <= fan_pos_y(i) - 1;
 							fan_cur_dir(i) <= CIMA;
@@ -130,7 +136,8 @@ BEGIN
         END IF;
 	END PROCESS p_atualiza_fan;
 	
-	-- Gera o próximo estado de cada fantasma na atualização
+	-- Gera o próximo estado de cada fantasma para atualização
+	-- e os sinais de controle do estado
 	-- type: combinational
 	p_fan_next_state: PROCESS (fan_state, spc_coin, pac_fans_hit, fan_tempo,
 	                           fan_pos_x, fan_pos_y, atua_en)
@@ -141,8 +148,8 @@ BEGIN
 
 		FOR i in 0 to FAN_NO-1 LOOP
 			CASE fan_state(i) IS
-				WHEN ST_VIVO =>
-					IF (pac_fans_hit(i) = '1') THEN
+				WHEN ST_VIVO => --estado normal, mata o pacman
+					IF (pac_fans_hit(i) = '1') THEN  
 						pr_fan_state(i) <= ST_VIVO;
 						pacman_dead_var := '1';
 					ELSIF (spc_coin = '1') THEN
@@ -152,8 +159,8 @@ BEGIN
 					END IF;
 					fan_rstn_tempo(i) <= '0';
 					
-				WHEN ST_VULN =>
-					IF (pac_fans_hit(i) = '1') THEN
+				WHEN ST_VULN => --estado (temporário) sensível ao pacman
+					IF (pac_fans_hit(i) = '1') THEN 
 						pr_fan_state(i) <= ST_PRE_DEAD;
 						fan_died_var := '1';
 					ELSIF (fan_tempo(i) > FAN_TIME_VULN_START_BLINK) THEN
@@ -163,7 +170,7 @@ BEGIN
 					END IF;
 					fan_rstn_tempo(i) <= '1';
 					
-				WHEN ST_VULN_BLINK =>
+				WHEN ST_VULN_BLINK => --final do estado vulnerável (piscante)
 					IF (pac_fans_hit(i) = '1') THEN
 						pr_fan_state(i) <= ST_PRE_DEAD;
 						fan_died_var := '1';
@@ -174,12 +181,13 @@ BEGIN
 					END IF;
 					fan_rstn_tempo(i) <= '1';
 					
-				WHEN ST_PRE_DEAD => --apenas zera contador de tempo
+				WHEN ST_PRE_DEAD => --apenas zera contador de tempo antes de DEAD
 					pr_fan_state(i) <= ST_DEAD;
 					fan_rstn_tempo(i) <= '0';
 					pacman_dead <= '0';
 				
-				WHEN ST_DEAD =>
+				WHEN ST_DEAD => --estado (temporário) sem controle do fantasma,
+				                --este apenas foge para a cela
 					IF (fan_tempo(i) > FAN_TIME_DEAD) THEN
 						pr_fan_state(i) <= ST_FIND_EXIT;
 					ELSE 
@@ -187,7 +195,7 @@ BEGIN
 					END IF;
 					fan_rstn_tempo(i) <= '1';
 				
-				WHEN ST_FIND_EXIT =>
+				WHEN ST_FIND_EXIT => --estado de busca da entrada da cela
 					IF (fan_pos_x(i) = CELL_IN_X and fan_pos_y(i) = CELL_IN_Y) THEN
 						pr_fan_state(i) <= ST_FUGA;
 					ELSE
@@ -195,7 +203,7 @@ BEGIN
 					END IF;
 					fan_rstn_tempo(i) <= '0';
 					
-				WHEN ST_FUGA =>
+				WHEN ST_FUGA => --fuga da cela
 					IF (fan_pos_y(i) = CELL_OUT_Y) THEN
 						pr_fan_state(i) <= ST_VIVO;
 					ELSE
@@ -205,28 +213,29 @@ BEGIN
 			END CASE;
 		END LOOP;
 
-		pacman_dead <= pacman_dead_var and atua_en(1);
+		pacman_dead <= pacman_dead_var;
 		fan_died <= fan_died_var;
 	END PROCESS p_fan_next_state;
 
 	-- Avança a FSM para o próximo estado
 	-- type: sequential
-	seq_fsm_fan: PROCESS (clk27M, rstn)
+	seq_fsm_fan: PROCESS (clk, rstn)
     BEGIN 
         IF (rstn = '0') THEN                  -- asynchronous reset (active low)
             fan_state <= (OTHERS => ST_FIND_EXIT);
-        ELSIF (clk27M'event and clk27M = '1') THEN 
+        ELSIF (clk'event and clk = '1') THEN 
             fan_state <= pr_fan_state;
         END IF;
     END PROCESS seq_fsm_fan;
     
-    -- Contadores de tempo para os fantasmas
-    fan_counters: PROCESS (clk27M, fan_rstn_tempo)
+    -- Contadores de tempo para os estados dos fantasmas
+    -- type: sequential
+    fan_counters: PROCESS (clk, fan_rstn_tempo)
 	BEGIN
 		FOR i in 0 to FAN_NO-1 LOOP
 			IF (fan_rstn_tempo(i) = '0') THEN
 				fan_tempo(i) <= 0;
-			ELSIF (clk27M'event and clk27M = '1') THEN
+			ELSIF (clk'event and clk = '1') THEN
 				IF (atualiza = '1') THEN
 					fan_tempo(i) <= fan_tempo(i) + 1;
 				END IF;
