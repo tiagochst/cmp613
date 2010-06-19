@@ -479,7 +479,7 @@ RESERVED_INPUT               : U9        :        :                   :         
 RESERVED_INPUT               : U10       :        :                   :         : 8         :                
 GND+                         : U11       :        :                   :         : 8         :                
 GND+                         : U12       :        :                   :         : 8         :                
-endgame                      : U13       : output : 3.3-V LVTTL       :         : 7         : N              
+RESERVED_INPUT               : U13       :        :                   :         : 7         :                
 RESERVED_INPUT               : U14       :        :                   :         : 7         :                
 RESERVED_INPUT               : U15       :        :                   :         : 7         :                
 VCCA_PLL4                    : U16       : power  :                   : 1.2V    :           :                
@@ -553,5 +553,5 @@ RESERVED_INPUT               : Y17       :        :                   :         
 RESERVED_INPUT               : Y18       :        :                   :         : 6         :                
 RESERVED_INPUT               : Y19       :        :                   :         : 6         :                
 RESERVED_INPUT               : Y20       :        :                   :         : 6         :                
-RESERVED_INPUT               : Y21       :        :                   :         : 6         :                
+endgame                      : Y21       : output : 3.3-V LVTTL       :         : 6         : Y              
 RESERVED_INPUT               : Y22       :        :                   :         : 6         :                

@@ -1,41 +1,41 @@
 LIBRARY ieee;
 USE ieee.STD_LOGIC_1164.all;
 USE ieee.NUMERIC_STD.all;
---USE work.PAC_SPRITES.all;
 	
 PACKAGE pac_defs IS
 	-----------------------------------------------------------------------------
 	-- Definições de dados, constantes e tipos para o jogo
 	-----------------------------------------------------------------------------
-		
-	--Resolução de blocos usada (hgt linhas por wdt colunas)
-	CONSTANT SCR_HGT : INTEGER := 96;
+	
+	-- Constantes Básicas
+	CONSTANT SCR_HGT : INTEGER := 96; --Resolução de blocos usada (hgt linhas por wdt colunas)
 	CONSTANT SCR_WDT : INTEGER := 128;
+	CONSTANT TAB_LEN: INTEGER := 91; --Maior dimensao do tabuleiro (em blocos)
+	CONSTANT FAN_NO: INTEGER := 2; --Número de fantasmas no jogo
+	CONSTANT FRUTA_NO: INTEGER := 2;
 	
-	--Maior dimensao do tabuleiro (em blocos)
-	CONSTANT TAB_LEN: INTEGER := 91; 
-	
+	-- Tipos básicos
 	SUBTYPE t_color_3b is std_logic_vector(2 downto 0);
-	
+	SUBTYPE t_pos is INTEGER range 0 to TAB_LEN-1;
+	SUBTYPE t_offset IS INTEGER range -TAB_LEN to TAB_LEN;
+	SUBTYPE t_fan_time is INTEGER range 0 to 1000;
 	TYPE t_direcao is (CIMA,DIREI,BAIXO,ESQUE,NADA);
 	
-	--A legenda pros elementos no tabuleiro é dada por t_tab_sym
-	--Cuidado para manter a mesma sequencia observada em t_blk_sym (FIXME)
-	--Os números representam elementos visuais na tela e o resto
-	--representa posições especiais
+	--A legenda pros elementos no cenário é dada por t_tab_sym
 	--' ': vazio, '.': caminho, 6 tipos de parede de acordo com a orientação,
 	--C: moeda, P: moeda especial, D: porta
 	TYPE t_tab_sym is (' ', '.', '|', '-', 'Q', 'W', 'E', 'R', 'C', 'P', 'D');
 	
+	--Simbologia de direção usada para os fantasmas
+	--C: cima, E: esquerda, B: baixo, D: direita
+	TYPE t_dir_sym is (' ', 'C', 'E', 'B', 'D');
+	
 	SUBTYPE t_blk_id is STD_LOGIC_VECTOR(3 downto 0);
 	SUBTYPE t_ovl_blk_id is STD_LOGIC_VECTOR(8 downto 0);
 	
+	-- Definição dos blocos (cenário e overlay)
 	TYPE t_blk_sym is (BLK_NULL, BLK_PATH, BLK_WALL_V, BLK_WALL_H, BLK_WALL_Q, BLK_WALL_W, BLK_WALL_E,
 					 BLK_WALL_R, BLK_COIN, BLK_SPC_COIN, BLK_DOOR);
-					 
-	TYPE t_blk_bool is array(t_blk_sym) of boolean;
-	CONSTANT WALKABLE: t_blk_bool := --define quais blocos são percorríveis
-		(BLK_PATH => true, BLK_COIN => true, BLK_SPC_COIN => true, OTHERS => false);
 	
 	TYPE t_ovl_blk_sym is (BLK_NULL,
 	                 BLK_PAC_CIM_00, BLK_PAC_CIM_01, BLK_PAC_CIM_02, BLK_PAC_CIM_03, BLK_PAC_CIM_04,
@@ -94,33 +94,44 @@ PACKAGE pac_defs IS
 					 BLK_FAN_VULN_10, BLK_FAN_VULN_11, BLK_FAN_VULN_12, BLK_FAN_VULN_13, BLK_FAN_VULN_14,
  					 BLK_FAN_VULN_20, BLK_FAN_VULN_21, BLK_FAN_VULN_22, BLK_FAN_VULN_23, BLK_FAN_VULN_24,
 					 BLK_FAN_VULN_30, BLK_FAN_VULN_31, BLK_FAN_VULN_32, BLK_FAN_VULN_33, BLK_FAN_VULN_34,
-					 BLK_FAN_VULN_40, BLK_FAN_VULN_41, BLK_FAN_VULN_42, BLK_FAN_VULN_43, BLK_FAN_VULN_44
+					 BLK_FAN_VULN_40, BLK_FAN_VULN_41, BLK_FAN_VULN_42, BLK_FAN_VULN_43, BLK_FAN_VULN_44,
+					 BLK_MACA_00, BLK_MACA_01, BLK_MACA_02, BLK_MACA_03, BLK_MACA_04,
+					 BLK_MACA_10, BLK_MACA_11, BLK_MACA_12, BLK_MACA_13, BLK_MACA_14,
+ 					 BLK_MACA_20, BLK_MACA_21, BLK_MACA_22, BLK_MACA_23, BLK_MACA_24,
+					 BLK_MACA_30, BLK_MACA_31, BLK_MACA_32, BLK_MACA_33, BLK_MACA_34,
+					 BLK_MACA_40, BLK_MACA_41, BLK_MACA_42, BLK_MACA_43, BLK_MACA_44,
+					 BLK_CEREJA_00, BLK_CEREJA_01, BLK_CEREJA_02, BLK_CEREJA_03, BLK_CEREJA_04,
+					 BLK_CEREJA_10, BLK_CEREJA_11, BLK_CEREJA_12, BLK_CEREJA_13, BLK_CEREJA_14,
+ 					 BLK_CEREJA_20, BLK_CEREJA_21, BLK_CEREJA_22, BLK_CEREJA_23, BLK_CEREJA_24,
+					 BLK_CEREJA_30, BLK_CEREJA_31, BLK_CEREJA_32, BLK_CEREJA_33, BLK_CEREJA_34,
+					 BLK_CEREJA_40, BLK_CEREJA_41, BLK_CEREJA_42, BLK_CEREJA_43, BLK_CEREJA_44
 					);
-					
-	CONSTANT FAN_NO: INTEGER := 2; --Número de fantasmas no jogo
-					 
+	
+	-- "Funções" para blocos
+	TYPE t_blk_bool is array(t_blk_sym) of boolean;
+	CONSTANT WALKABLE: t_blk_bool := --define quais blocos são percorríveis
+		(BLK_PATH => true, BLK_COIN => true, BLK_SPC_COIN => true, OTHERS => false);
 	TYPE c_tab_blk is array(t_tab_sym) of t_blk_sym;
 	CONSTANT CONV_TAB_BLK: c_tab_blk := 
 		(' ' => BLK_NULL, '.' => BLK_PATH, '|' => BLK_WALL_V, '-' => BLK_WALL_H, 'Q' => BLK_WALL_Q, 'W' => BLK_WALL_W,
 		 'E' => BLK_WALL_E, 'R' => BLK_WALL_R, 'C' => BLK_COIN, 'P' => BLK_SPC_COIN, 'D' => BLK_DOOR);
 
+	-- Tabelas de blocos
 	TYPE t_tab is array(0 to SCR_HGT-1, 0 to SCR_WDT-1) of t_tab_sym;
 	TYPE t_blk_sym_3x3 is array(-1 to 1, -1 to 1) of t_blk_sym;
 	
+	-- Tipos indexados de armazenamento gráfico em blocos e pixels
 	TYPE t_sprite5 is array(0 to 4, 0 to 4) of STD_LOGIC;
 	TYPE t_ovl_blk_5x5 is array(0 to 4, 0 to 4) of t_ovl_blk_sym;
 	TYPE t_ovl_blk_dir_vet is array(t_direcao) of t_ovl_blk_5x5;
 	TYPE t_fans_ovl_blk_dir_vet is array(0 to FAN_NO-1) of t_ovl_blk_dir_vet;
-	
+	TYPE t_frut_ovl_blk_vet is array(0 to FRUTA_NO) of t_ovl_blk_5x5;
 	TYPE t_sprite5_vet is array(t_blk_sym) of t_sprite5;
 	TYPE t_ovl_sprite5_vet is array(t_ovl_blk_sym) of t_sprite5;
 	
-	--Tipos em array para os fantasmas
-	SUBTYPE t_pos is INTEGER range 0 to TAB_LEN-1;
-	SUBTYPE t_offset IS INTEGER range -TAB_LEN to TAB_LEN;
-	SUBTYPE t_fan_time is INTEGER range 0 to 1000;
 	TYPE t_fan_state is (ST_VIVO, ST_VULN, ST_VULN_BLINK, ST_DEAD, ST_PRE_DEAD, ST_FIND_EXIT, ST_FUGA);
 	
+	--Tipos em array para os fantasmas
 	TYPE t_fans_pos is array(0 to FAN_NO-1) of t_pos;
 	TYPE t_fans_dirs is array(0 to FAN_NO-1) of t_direcao;
 	TYPE t_fans_blk_sym is array(0 to FAN_NO-1) of t_blk_sym;
@@ -130,14 +141,28 @@ PACKAGE pac_defs IS
 	SUBTYPE t_fans_bits is STD_LOGIC_VECTOR(0 to FAN_NO-1);
 	
 	TYPE t_vidas_pos is array(0 to 2) of t_pos;
+	SUBTYPE t_fruta_id is INTEGER range 0 to FRUTA_NO; -- 0 significa sem fruta
+	
+	-- Constantes do jogo
+	CONSTANT CELL_IN_X : INTEGER := 42; --posição da célula principal dentro da cela
+	CONSTANT CELL_IN_Y : INTEGER := 44;
+	CONSTANT CELL_OUT_Y : INTEGER := 35; --posição Y da célula principal fora da cela
+	CONSTANT TELE_DIR_POS : INTEGER := 82;
+	CONSTANT TELE_ESQ_POS : INTEGER := 2;
+	CONSTANT VIDA_ICONS_X: t_vidas_pos := (90, 90, 90);
+	CONSTANT VIDA_ICONS_Y: t_vidas_pos := (89, 83, 77);
+	CONSTANT FRUTA_X: t_pos := 42;
+	CONSTANT FRUTA_Y: t_pos := 53;
 	
 	SUBTYPE t_velocs is INTEGER range 0 to 20;
 	TYPE t_vet_velocs is array(0 to 2) of t_velocs;
+	--divisores de atualização para: 0=pacman, 1=fantasma, 2=fantasma morto
+	CONSTANT VEL_DIV: t_vet_velocs := (6, 5, 4); 
 	   
-	--Fator de divisão do clock de 27MHz, usada para atualização do
-	--estado do jogo ("velocidade de execução")
+	--Fatores de divisão do clock de 27MHz, usados para atualização do
+	--estado do jogo ("velocidade de execução") e do display
 	CONSTANT DIV_FACT: INTEGER := 202500;
-	CONSTANT DISP_DIV_FACT: INTEGER := 20*DIV_FACT;
+	CONSTANT DISP_DIV_FACT: INTEGER := 27000000/4;
 
 	subtype sentido is INTEGER range -1 to 1;
 	TYPE t_direc is array(0 to 1) of sentido;
@@ -147,26 +172,10 @@ PACKAGE pac_defs IS
 	                               BAIXO => ( 1, 0), ESQUE => ( 0,-1),
 	                               NADA  => ( 0, 0));
 	
-	CONSTANT PAC_START_X : INTEGER := 42;
-	CONSTANT PAC_START_Y : INTEGER := 71;
-	CONSTANT FANS_START_X : t_fans_pos := (40, 45);
-	CONSTANT FANS_START_Y : t_fans_pos := (44, 44);
-	CONSTANT FAN_TIME_VULN_START_BLINK : INTEGER := 600;
-	CONSTANT FAN_TIME_VULN_END : INTEGER := 750;
-	CONSTANT FAN_TIME_DEAD : INTEGER := 700;
-	CONSTANT CELL_IN_X : INTEGER := 42;
-	CONSTANT CELL_IN_Y : INTEGER := 44;
-	CONSTANT CELL_OUT_Y : INTEGER := 35;
-	CONSTANT TELE_DIR_POS : INTEGER := 82;
-	CONSTANT TELE_ESQ_POS : INTEGER := 2;
-	CONSTANT VIDA_ICONS_X: t_vidas_pos := (90, 90, 90);
-	CONSTANT VIDA_ICONS_Y: t_vidas_pos := (89, 83, 77);
-	--velocidades de atualização para: 0=pacman, 1=fantasma, 2=fantasma morto
-	CONSTANT VEL_DIV: t_vet_velocs := (6, 5, 4); 
-	
 	TYPE t_tab_array is array(0 to SCR_WDT*SCR_HGT-1) of t_tab_sym;
-	TYPE t_tab_mapa is array(0 to SCR_HGT-1, 0 to SCR_WDT-1) of t_tab_sym;
-	--Mapa de inicialização da RAM inferior, a legenda está acima 
+	TYPE t_dir_mapa is array(0 to SCR_HGT-1, 0 to SCR_WDT-1) of t_dir_sym;
+	
+	--Mapa de inicialização da RAM inferior, a legenda está mais acima
 	CONSTANT MAPA_INICIAL: t_tab_array :=
 	"                                                                                                                                "&
 	"                                                                                                                                "&
@@ -265,99 +274,99 @@ PACKAGE pac_defs IS
 	"                                                                                                                                "& 
 	"                                                                                                                                ";
 	
-	--Neste mapa, estão armazenados apenas a próxima direção do percurso de um fantasma
-    --quando este é comido. A legenda é Q: CIMA, W: BAIXO, E: ESQUERDA, R: DIREITA 
-	CONSTANT FAN_PERCURSO: t_tab_mapa :=(
+	-- Neste mapa, estão armazenados apenas a próxima direção do percurso de um fantasma
+    -- quando este está morto. A legenda é definida para o tipo t_dir_sym
+	CONSTANT FAN_PERCURSO: t_dir_mapa :=(
 	"                                                                                                                                ",
 	"                                                                                                                                ",
 	"                                                                                                                                ",
 	"                                                                                                                                ",
 	"                                                                                                                                ", 
-	"    RRRRRRRRRRRRRRRWEEEEEEEERRRRRRRRRW         WEEEEEEEEERRRRRRRRWEEEEEEEEEEEEEEE                                               ",
-	"    W              W                 W         W                 W              W                                               ", 
-	"    W              W                 W         W                 W              W                                               ",
-	"    W              W                 W         W                 W              W                                               ", 
-	"    W              W                 W         W                 W              W                                               ", 
-	"    W              W                 W         W                 W              W                                               ", 
-	"    W              W                 W         W                 W              W                                               ", 
-	"    W              W                 W         W                 W              W                                               ", 
-	"    W              W                 W         W                 W              W                                               ", 
-	"    W              W                 W         W                 W              W                                               ", 
-	"    W              W                 W         W                 W              W                                               ", 
-	"    W              W                 W         W                 W              W                                               ", 
-	"    RRRRRRRRRRRRRRRRRRRRRRRRWEEEEEEEEEEEEERRRRRRRRRRRRRRWEEEEEEEEEEEEEEEEEEEEEEEE                                               ", 
-	"    Q              Q        W                           W        Q              Q                                               ", 
-	"    Q              Q        W                           W        Q              Q                                               ", 
-	"    Q              Q        W                           W        Q              Q                                               ", 
-	"    Q              Q        W                           W        Q              Q                                               ", 
-	"    Q              Q        W                           W        Q              Q                                               ", 
-	"    Q              Q        W                           W        Q              Q                                               ", 
-	"    Q              Q        W                           W        Q              Q                                               ",
-	"    Q              Q        W                           W        Q              Q                                               ", 
-	"    QRRRRRRRRRRRRRRQ        RRRRRRRRRW         WEEEEEEEEE        QEEEEEEEEEEEEEEQ                                               ", 
-	"                   W                 W         W                 W                                                              ", 
-	"                   W                 W         W                 W                                                              ", 
-	"                   W                 W         W                 W                                                              ", 
-	"                   W                 W         W                 W                                                              ", 
-	"                   W                 W         W                 W                                                              ", 
-	"                   W                 W         W                 W                                                              ", 
-	"                   W                 W         W                 W                                                              ", 
-	"                   W                 W         W                 W                                                              ", 
-	"                   W        WEEEEEEEEEEEEEWEEEEEEEEEEEEEE        W                                                              ", 
-	"                   W        W             W             Q        W                                                              ", 
-	"                   W        W             W             Q        W                                                              ", 
-	"                   W        W             W             Q        W                                                              ", 
-	"                   W        W             W             Q        W                                                              ", 
-	"                   W        W             W             Q        W                                                              ", 
-	"                   W        W             W             Q        W                                                              ", 
-	"                   W        W             W             Q        W                                                              ", 
-	"                   W        W       WEE   W   WEE       Q        W                                                              ", 
-	" RRRRRRRRRRRRRRRRRRRRRRRRRRRW       W QEEEEEEEE Q       QEEEEEEEEEEEEEEEEEEEEEEEEEEE                                            ", 
-	"                   Q        W       RRRRRRRRRRRRQ       Q        Q                                                              ", 
-	"                   Q        W                           Q        Q                                                              ", 
-	"                   Q        W                           Q        Q                                                              ", 
-	"                   Q        W                           Q        Q                                                              ", 
-	"                   Q        W                           Q        Q                                                              ",
-	"                   Q        W                           Q        Q                                                              ", 
-	"                   Q        W                           Q        Q                                                              ", 
-	"                   Q        W                           Q        Q                                                              ", 
-	"                   Q        RRRRRRRRRRRRRRRRRRRRRRRRRRRRQ        Q                                                              ", 
-	"                   Q        Q                           Q        Q                                                              ", 
-	"                   Q        Q                           Q        Q                                                              ", 
-	"                   Q        Q                           Q        Q                                                              ", 
-	"                   Q        Q                           Q        Q                                                              ", 
-	"                   Q        Q                           Q        Q                                                              ", 
-	"                   Q        Q                           Q        Q                                                              ", 
-	"                   Q        Q                           Q        Q                                                              ", 
-	"                   Q        Q                           Q        Q                                                              ", 
-	"    RRRRRRRRRRRRRRRRRRRRRRRRQEEEEEEEEE         RRRRRRRRRQEEEEEEEEEEEEEEEEEEEEEEEE                                               ", 
-	"    Q              Q                 Q         Q                 Q              Q                                               ", 
-	"    Q              Q                 Q         Q                 Q              Q                                               ", 
-	"    Q              Q                 Q         Q                 Q              Q                                               ", 
-	"    Q              Q                 Q         Q                 Q              Q                                               ", 
-	"    Q              Q                 Q         Q                 Q              Q                                               ", 
-	"    Q              Q                 Q         Q                 Q              Q                                               ", 
-	"    Q              Q                 Q         Q                 Q              Q                                               ", 
-	"    Q              Q                 Q         Q                 Q              Q                                               ", 
-	"    QEEEEEE        QEEEEEEEERRRRRRRRRQEEEEERRRRQEEEEEEEEERRRRRRRRQ        RRRRRRQ                                               ", 
-	"          Q        Q        Q                           Q        Q        Q                                                     ", 
-	"          Q        Q        Q                           Q        Q        Q                                                     ", 
-	"          Q        Q        Q                           Q        Q        Q                                                     ", 
-	"          Q        Q        Q                           Q        Q        Q                                                     ", 
-	"          Q        Q        Q                           Q        Q        Q                                                     ", 
-	"          Q        Q        Q                           Q        Q        Q                                                     ", 
-	"          Q        Q        Q                           Q        Q        Q                                                     ", 
-	"          Q        Q        Q                           Q        Q        Q                                                     ", 
-	"    RRRRRRRRRRRRRRRQ        QEEEEEEEEE         RRRRRRRRRQ        QEEEEEEEEEEEEEEE                                               ", 
-	"    Q                                Q         Q                                Q                                               ", 
-	"    Q                                Q         Q                                Q                                               ", 
-	"    Q                                Q         Q                                Q                                               ", 
-	"    Q                                Q         Q                                Q                                               ", 
-	"    Q                                Q         Q                                Q                                               ", 
-	"    Q                                Q         Q                                Q                                               ", 
-	"    Q                                Q         Q                                Q                                               ", 
-	"    Q                                Q         Q                                Q                                               ", 
-	"    QEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRQEEEEERRRRQEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRQ                                               ", 
+	"    DDDDDDDDDDDDDDDBEEEEEEEEDDDDDDDDDB         BEEEEEEEEEDDDDDDDDBEEEEEEEEEEEEEEE                                               ",
+	"    B              B                 B         B                 B              B                                               ", 
+	"    B              B                 B         B                 B              B                                               ",
+	"    B              B                 B         B                 B              B                                               ", 
+	"    B              B                 B         B                 B              B                                               ", 
+	"    B              B                 B         B                 B              B                                               ", 
+	"    B              B                 B         B                 B              B                                               ", 
+	"    B              B                 B         B                 B              B                                               ", 
+	"    B              B                 B         B                 B              B                                               ", 
+	"    B              B                 B         B                 B              B                                               ", 
+	"    B              B                 B         B                 B              B                                               ", 
+	"    B              B                 B         B                 B              B                                               ", 
+	"    DDDDDDDDDDDDDDDDDDDDDDDDBEEEEEEEEEEEEEDDDDDDDDDDDDDDBEEEEEEEEEEEEEEEEEEEEEEEE                                               ", 
+	"    C              C        B                           B        C              C                                               ", 
+	"    C              C        B                           B        C              C                                               ", 
+	"    C              C        B                           B        C              C                                               ", 
+	"    C              C        B                           B        C              C                                               ", 
+	"    C              C        B                           B        C              C                                               ", 
+	"    C              C        B                           B        C              C                                               ", 
+	"    C              C        B                           B        C              C                                               ",
+	"    C              C        B                           B        C              C                                               ", 
+	"    CDDDDDDDDDDDDDDC        DDDDDDDDDB         BEEEEEEEEE        CEEEEEEEEEEEEEEC                                               ", 
+	"                   B                 B         B                 B                                                              ", 
+	"                   B                 B         B                 B                                                              ", 
+	"                   B                 B         B                 B                                                              ", 
+	"                   B                 B         B                 B                                                              ", 
+	"                   B                 B         B                 B                                                              ", 
+	"                   B                 B         B                 B                                                              ", 
+	"                   B                 B         B                 B                                                              ", 
+	"                   B                 B         B                 B                                                              ", 
+	"                   B        BEEEEEEEEEEEEEBEEEEEEEEEEEEEE        B                                                              ", 
+	"                   B        B             B             C        B                                                              ", 
+	"                   B        B             B             C        B                                                              ", 
+	"                   B        B             B             C        B                                                              ", 
+	"                   B        B             B             C        B                                                              ", 
+	"                   B        B             B             C        B                                                              ", 
+	"                   B        B             B             C        B                                                              ", 
+	"                   B        B             B             C        B                                                              ", 
+	"                   B        B       BEE   B   BEE       C        B                                                              ", 
+	" DDDDDDDDDDDDDDDDDDDDDDDDDDDB       B CEEEEEEEE C       CEEEEEEEEEEEEEEEEEEEEEEEEEEE                                            ", 
+	"                   C        B       DDDDDDDDDDDDC       C        C                                                              ", 
+	"                   C        B                           C        C                                                              ", 
+	"                   C        B                           C        C                                                              ", 
+	"                   C        B                           C        C                                                              ", 
+	"                   C        B                           C        C                                                              ",
+	"                   C        B                           C        C                                                              ", 
+	"                   C        B                           C        C                                                              ", 
+	"                   C        B                           C        C                                                              ", 
+	"                   C        DDDDDDDDDDDDDDDDDDDDDDDDDDDDC        C                                                              ", 
+	"                   C        C                           C        C                                                              ", 
+	"                   C        C                           C        C                                                              ", 
+	"                   C        C                           C        C                                                              ", 
+	"                   C        C                           C        C                                                              ", 
+	"                   C        C                           C        C                                                              ", 
+	"                   C        C                           C        C                                                              ", 
+	"                   C        C                           C        C                                                              ", 
+	"                   C        C                           C        C                                                              ", 
+	"    DDDDDDDDDDDDDDDDDDDDDDDDCEEEEEEEEE         DDDDDDDDDCEEEEEEEEEEEEEEEEEEEEEEEE                                               ", 
+	"    C              C                 C         C                 C              C                                               ", 
+	"    C              C                 C         C                 C              C                                               ", 
+	"    C              C                 C         C                 C              C                                               ", 
+	"    C              C                 C         C                 C              C                                               ", 
+	"    C              C                 C         C                 C              C                                               ", 
+	"    C              C                 C         C                 C              C                                               ", 
+	"    C              C                 C         C                 C              C                                               ", 
+	"    C              C                 C         C                 C              C                                               ", 
+	"    CEEEEEE        CEEEEEEEEDDDDDDDDDCEEEEEDDDDCEEEEEEEEEDDDDDDDDC        DDDDDDC                                               ", 
+	"          C        C        C                           C        C        C                                                     ", 
+	"          C        C        C                           C        C        C                                                     ", 
+	"          C        C        C                           C        C        C                                                     ", 
+	"          C        C        C                           C        C        C                                                     ", 
+	"          C        C        C                           C        C        C                                                     ", 
+	"          C        C        C                           C        C        C                                                     ", 
+	"          C        C        C                           C        C        C                                                     ", 
+	"          C        C        C                           C        C        C                                                     ", 
+	"    DDDDDDDDDDDDDDDC        CEEEEEEEEE         DDDDDDDDDC        CEEEEEEEEEEEEEEE                                               ", 
+	"    C                                C         C                                C                                               ", 
+	"    C                                C         C                                C                                               ", 
+	"    C                                C         C                                C                                               ", 
+	"    C                                C         C                                C                                               ", 
+	"    C                                C         C                                C                                               ", 
+	"    C                                C         C                                C                                               ", 
+	"    C                                C         C                                C                                               ", 
+	"    C                                C         C                                C                                               ", 
+	"    CEEEEEEEEEEEEEEEDDDDDDDDDDDDDDDDDCEEEEEDDDDCEEEEEEEEEEEEEEEEEEDDDDDDDDDDDDDDC                                               ", 
 	"                                                                                                                                ", 
 	"                                                                                                                                ", 
 	"                                                                                                                                ", 

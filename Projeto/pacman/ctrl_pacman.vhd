@@ -5,7 +5,7 @@ USE work.PAC_DEFS.all;
 
 ENTITY ctrl_pacman IS
 	PORT (
-	clk27M, rstn			:IN STD_LOGIC;
+	clk, rstn			:IN STD_LOGIC;
     atualiza				:IN STD_LOGIC;
     key_dir					:IN t_direcao; --tecla de ação lida pelo teclado
     pac_area	          	:IN t_blk_sym_3x3; --mapa 3x3 em torno da posição atual
@@ -17,6 +17,9 @@ END ctrl_pacman;
 
 ARCHITECTURE behav OF ctrl_pacman IS
  	SIGNAL pac_nxt_cel, pac_dir_cel, pac_esq_cel, pac_cim_cel, pac_bai_cel: t_blk_sym;
+ 	
+ 	CONSTANT PAC_START_X : INTEGER := 42;
+	CONSTANT PAC_START_Y : INTEGER := 71;
 BEGIN
 	--Calcula possíveis parâmetros envolvidos no próximo movimento
 	--do pacman
@@ -26,12 +29,13 @@ BEGIN
 		pac_nxt_cel <= pac_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1));
 		
 		IF (WALKABLE(pac_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1)))) THEN
-			--o pacman conseguirá andar para a próxima casa
+			-- aqui o pacman conseguirá andar para a próxima casa
 			pac_dir_cel <= pac_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1) + 1);
 			pac_esq_cel <= pac_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1) - 1);
 			pac_cim_cel <= pac_area(DIRS(pac_cur_dir)(0)-1, DIRS(pac_cur_dir)(1));
 			pac_bai_cel <= pac_area(DIRS(pac_cur_dir)(0)+1, DIRS(pac_cur_dir)(1));
 		ELSE
+			-- caso o pacman esteja travado em alguma parede
 			pac_dir_cel <= pac_area( 0, 1);
 			pac_esq_cel <= pac_area( 0, -1);
 			pac_cim_cel <= pac_area(-1, 0);
@@ -42,7 +46,7 @@ BEGIN
     -- purpose: Este processo irá atualizar a posicão do pacman e definir
     --          suas ações no jogo. Opera no estado ATUALIZA_LOGICA_1
     -- type   : sequential
-    p_atualiza_pacman: PROCESS (clk27M, rstn)
+    p_atualiza_pacman: PROCESS (clk, rstn)
 		VARIABLE nxt_move, key_dir_old: t_direcao;
     BEGIN
         IF (rstn = '0') THEN
@@ -50,7 +54,7 @@ BEGIN
             pac_pos_y <= PAC_START_Y;
 			pac_cur_dir <= NADA;
 			nxt_move := NADA;			
-        ELSIF (clk27M'event and clk27M = '1') THEN
+        ELSIF (clk'event and clk = '1') THEN
              IF (atualiza = '1') THEN
 				--Checa teclado para "agendar" um movimento
 				IF (key_dir /= NADA and key_dir_old = NADA) THEN
@@ -87,6 +91,7 @@ BEGIN
         END IF;
 	END PROCESS;
 	
+	-- Sinais de controle ativos durante um ciclo de "atualiza"
 	got_coin <= '1' WHEN (pac_nxt_cel = BLK_COIN and atualiza = '1')
 	ELSE '0';
 			
