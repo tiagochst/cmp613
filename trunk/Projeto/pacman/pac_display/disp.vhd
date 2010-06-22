@@ -54,7 +54,7 @@ BEGIN
 						WHEN 0 =>
 							alfa_code := "0010001"; --Y
 						WHEN 1 =>
-							alfa_code := "0100011"; --O
+							alfa_code := "1000000"; --O
 						WHEN 2 =>
 							alfa_code := "1000001"; --U
 						WHEN 3 =>
@@ -86,7 +86,7 @@ BEGIN
 						WHEN others =>	
 							alfa_code := "1111111";
 						END case;
-					IF (counter = 15) THEN
+					IF (counter = 18) THEN
 						counter := 0;
 					ELSE
 						counter := counter +1;
@@ -96,7 +96,7 @@ BEGIN
 						WHEN 0 =>
 							alfa_code := "0010001"; --Y
 						WHEN 1 =>
-							alfa_code := "0100011"; --O
+							alfa_code := "1000000"; --O
 						WHEN 2 =>
 							alfa_code := "1000001"; --U
 						WHEN 3 =>
@@ -104,7 +104,7 @@ BEGIN
 						WHEN 4 =>
 							alfa_code := "1000111"; --L
 						WHEN 5 =>
-							alfa_code := "0100011"; --O
+							alfa_code := "1000000"; --O
 						WHEN 6 =>
 							alfa_code := "0010010"; --S
 						WHEN 7 =>
@@ -112,7 +112,7 @@ BEGIN
 						WHEN others =>
 							alfa_code := "1111111"; -- 
 						END case;
-					IF (counter = 7) THEN
+					IF (counter = 10) THEN
 						counter := 0;
 					ELSE
 						counter := counter+1;
