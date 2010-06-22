@@ -7,7 +7,7 @@ ENTITY ctrl_fans IS
 	PORT (
 	clk, rstn			:IN STD_LOGIC;
     atualiza				:IN STD_LOGIC;
-    atua_en					:IN STD_LOGIC_VECTOR(2 downto 0); --velocidades para atualizar
+    atua_en					:IN STD_LOGIC_VECTOR(0 to 2); --velocidades para atualizar (lenta -> rápida)
     keys_dir				:IN t_fans_dirs; --teclas de ação lidas pelo teclado
     fan_area	          	:IN t_fans_blk_sym_3x3; --mapas 3x3 em torno da posições atuais
     spc_coin                :IN STD_LOGIC;
@@ -28,10 +28,10 @@ ARCHITECTURE behav OF ctrl_fans IS
     
     -- Tempos (em atualizações) para os estados temporários dos fantasmas
 	CONSTANT FAN_TIME_VULN_START_BLINK : INTEGER := 650;
-	CONSTANT FAN_TIME_VULN_END : INTEGER := 750;
-	CONSTANT FAN_TIME_DEAD : INTEGER := 700;
+	CONSTANT FAN_TIME_VULN_END : INTEGER := 850;
+	CONSTANT FAN_TIME_DEAD : INTEGER := 600;
 	
-	CONSTANT FANS_START_X : t_fans_pos := (40, 44);
+	CONSTANT FANS_START_X : t_fans_pos := (40, 48);
 	CONSTANT FANS_START_Y : t_fans_pos := (44, 44);
 BEGIN
 	-- Calcula possíveis parâmetros envolvidos no próximo movimento
@@ -71,8 +71,10 @@ BEGIN
              IF (atualiza = '1') THEN
 				FOR i in 0 to FAN_NO-1 LOOP
 					CASE fan_state(i) IS
-					WHEN ST_VIVO | ST_VULN | ST_VULN_BLINK => 
-						IF (atua_en(1) = '1') THEN
+					WHEN ST_VIVO | ST_PRE_VULN | ST_VULN | ST_VULN_BLINK =>
+						-- fantasma é mais rápido quando vivo
+						IF ((fan_state(i) =  ST_VIVO and atua_en(1) = '1') or
+					        (fan_state(i) /= ST_VIVO and atua_en(0) = '1')) THEN
 							--Checa teclado para "agendar" um movimento
 							IF (keys_dir(i) /= NADA and keys_dir_old(i) = NADA) THEN
 								nxt_move(i) := keys_dir(i);
@@ -153,11 +155,16 @@ BEGIN
 						pr_fan_state(i) <= ST_VIVO;
 						pacman_dead_var := '1';
 					ELSIF (spc_coin = '1') THEN
-						pr_fan_state(i) <= ST_VULN;
+						pr_fan_state(i) <= ST_PRE_VULN;
 					ELSE
 						pr_fan_state(i) <= ST_VIVO;
 					END IF;
 					fan_rstn_tempo(i) <= '0';
+				
+				WHEN ST_PRE_VULN => --apenas era o contador de tempo antes de VULN
+					pr_fan_state(i) <= ST_VULN;
+					fan_rstn_tempo(i) <= '0';
+					pacman_dead <= '0';
 					
 				WHEN ST_VULN => --estado (temporário) sensível ao pacman
 					IF (pac_fans_hit(i) = '1') THEN 
@@ -165,6 +172,8 @@ BEGIN
 						fan_died_var := '1';
 					ELSIF (fan_tempo(i) > FAN_TIME_VULN_START_BLINK) THEN
 						pr_fan_state(i) <= ST_VULN_BLINK;
+					ELSIF (spc_coin = '1') THEN
+						pr_fan_state(i) <= ST_PRE_VULN;
 					ELSE
 						pr_fan_state(i) <= ST_VULN;
 					END IF;
@@ -176,6 +185,8 @@ BEGIN
 						fan_died_var := '1';
 					ELSIF (fan_tempo(i) > FAN_TIME_VULN_END) THEN
 						pr_fan_state(i) <= ST_VIVO;
+					ELSIF (spc_coin = '1') THEN
+						pr_fan_state(i) <= ST_PRE_VULN;
 					ELSE
 						pr_fan_state(i) <= ST_VULN_BLINK;
 					END IF;

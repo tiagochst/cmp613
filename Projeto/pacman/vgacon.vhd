@@ -57,26 +57,26 @@ begin  -- behav
     MEMSIZE => NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS,
     MEMWDT  => 4)
   port map (
-    read_clk       => vga_clk,
-    write_clk      => write_clk,
-    read_address   => read_addr,
-    write_address  => write_addr,
-    data_in        => id_data_in,
-    rdata_out      => id_vga_data_out,
-    wdata_out      => id_data_block,
-    we             => write_enable);
+    a_clk          => vga_clk,
+    b_clk          => write_clk,
+    a_address      => read_addr,
+    b_address      => write_addr,
+    b_data_in      => id_data_in,
+    a_data_out     => id_vga_data_out,
+    b_data_out     => id_data_block,
+    b_we           => write_enable);
   vgamem1 : work.dual_clock_ram
   generic map (
     MEMSIZE => NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS,
     MEMWDT  => 9)
   port map (
-    read_clk       => vga_clk,
-    write_clk      => write_clk,
-    read_address   => read_addr,
-    write_address  => write_addr,
-    data_in        => id_ovl_in,
-    rdata_out      => id_vga_ovl_data_out,
-    we             => ovl_we);
+    a_clk          => vga_clk,
+    b_clk          => write_clk,
+    a_address      => read_addr,
+    b_address      => write_addr,
+    b_data_in      => id_ovl_in,
+    a_data_out     => id_vga_ovl_data_out,
+    b_we           => ovl_we);
     
   id_data_in       <= std_logic_vector(to_unsigned(t_blk_sym'pos(data_in), 4));
   id_ovl_in        <= std_logic_vector(to_unsigned(t_ovl_blk_sym'pos(ovl_in), 9));
@@ -236,11 +236,11 @@ entity dual_clock_ram is
     MEMSIZE : natural;
     MEMWDT  : natural);  
   port (
-    read_clk, write_clk         : in  std_logic;  -- support different clocks
-    data_in                     : in  std_logic_vector(MEMWDT-1 downto 0);
-    write_address, read_address : in  integer range 0 to MEMSIZE - 1;  
-    we                          : in  std_logic;  -- write enable
-    rdata_out, wdata_out        : out std_logic_vector(MEMWDT-1 downto 0));
+    a_clk, b_clk  		        : in  std_logic;  -- support different clocks
+    b_data_in                   : in  std_logic_vector(MEMWDT-1 downto 0); --only b writes
+    a_address, b_address        : in  integer range 0 to MEMSIZE - 1;
+    b_we                        : in  std_logic;  -- write enable
+    a_data_out, b_data_out      : out std_logic_vector(MEMWDT-1 downto 0));
 end dual_clock_ram;
 
 architecture behav of dual_clock_ram is
@@ -256,28 +256,24 @@ begin  -- behav
 
   -- purpose: Reads data from RAM
   -- type   : sequential
-  -- inputs : read_clk, read_address
-  -- outputs: data_out
-  read: process (read_clk)
+  a: process (a_clk)
   begin  -- process read
-    if read_clk'event and read_clk = '1' then  -- rising clock edge
-      rdata_out <= ram_block(read_address);      
+    if (a_clk'event and a_clk = '1') then  -- rising clock edge
+      a_data_out <= ram_block(a_address);      
     end if;
-  end process read;
+  end process a;
 
   -- purpose: Reads/Writes data to RAM
   -- type   : sequential
-  -- inputs : write_clk, write_address
-  -- outputs: ram_block
-  write: process (write_clk)
+  b: process (b_clk)
   begin  -- process write
-    if write_clk'event and write_clk = '1' then  -- rising clock edge
-      if we = '1' then
-        ram_block(write_address) <= data_in;
+    if (b_clk'event and b_clk = '1') then  -- rising clock edge
+      if (b_we = '1') then
+        ram_block(b_address) <= b_data_in;
       end if;
-      wdata_out <= ram_block(write_address);
+      b_data_out <= ram_block(b_address);
     end if;
-  end process write;
+  end process b;
 
 end behav;
 

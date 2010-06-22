@@ -21,7 +21,7 @@ END pacman;
 ARCHITECTURE comportamento of pacman is
     SIGNAL rstn: STD_LOGIC;                        -- reset active low
     SIGNAL restartn: STD_LOGIC;                    -- Usado quando o pacman morre (active low)
-    SIGNAL load_cenario: STD_LOGIC;				   -- Informa quando o cenário está sendo recarregado
+    SIGNAL le_cenario: STD_LOGIC;				   -- Informa quando o cenário está sendo recarregado
                                         
     -- Interface com a memória de vídeo do controlador
     SIGNAL we : STD_LOGIC;                          -- write enable ('1' p/ escrita)
@@ -49,13 +49,13 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL pr_estado: estado_t := SHOW_SPLASH;
     
     -- sinais que servem como enable de várias velocidades
-    SIGNAL atua_en: STD_LOGIC_VECTOR(2 downto 0);
+    SIGNAL atua_en: STD_LOGIC_VECTOR(0 to VEL_NO-1);
     SIGNAL display_en: STD_LOGIC;
 	SIGNAL disp_count: INTEGER range 0 to 27000000;
     SIGNAL sig_blink: UNSIGNED(6 downto 0); -- enables com duty de 50%
                                                     
     -- Sinais de desenho em overlay sobre o cenário do jogo
-    SIGNAL overlay: STD_LOGIC;
+    SIGNAL varre_tela: STD_LOGIC;
     SIGNAL ovl_blk_in: t_ovl_blk_sym;
 
     -- Sinais para um contador utilizado para atrasar 
@@ -82,6 +82,7 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL update_info: STD_LOGIC;
     SIGNAL fruta_id: t_fruta_id;
     SIGNAL got_fruta: STD_LOGIC;
+    SIGNAL nwc: STD_LOGIC := '0';
    
     -- Controle do pacman
     SIGNAL pac_pos_x: t_pos;
@@ -121,7 +122,7 @@ BEGIN
         write_addr   => addr,
         data_in      => block_in,
         ovl_in       => ovl_blk_in,
-        ovl_we       => overlay);
+        ovl_we       => varre_tela);
         
     -- Atribuição capada das cores 3b -> 12b
     red   <= (OTHERS => vga_pixel_out(0));
@@ -197,7 +198,7 @@ BEGIN
 	-- Controlador dos fantasmas
 	ctrl_fans_inst: ENTITY work.ctrl_fans PORT MAP (
 		clk 		=> clk27M, 			rstn 		=> rstn and restartn,
-		atualiza 	=> fan_atua, 		atua_en 	=> atua_en,
+		atualiza 	=> fan_atua, 		atua_en 	=> atua_en (1 to 3),
 		keys_dir 	=> fan_key_dir,		fan_died	=> fan_died,
 		fan_area 	=> fan_area,		pacman_dead => pacman_dead,
 		spc_coin	=> got_spc_coin,	pac_fans_hit=> pac_fans_hit,
@@ -219,21 +220,29 @@ BEGIN
     -- type   : sequential
     p_fill_memarea: PROCESS (clk27M)
 		VARIABLE x_offset, y_offset: t_offset;
+		VARIABLE blk_out_sp: t_blk_sym; 
 	BEGIN
 		IF (clk27M'event and clk27M='1') THEN
-			IF (estado = PERCORRE_QUADRO) THEN
-				--Leitura atrasada devido ao ciclo de clock da ram
+			IF (varre_tela = '1') THEN
+				-- Parte "inútil" do código
+				IF (nwc = '1' and (not WALKABLE(block_out))) THEN
+					blk_out_sp := BLK_PATH;
+				ELSE
+					blk_out_sp := block_out;
+				END IF;
+				
+				-- Leitura atrasada devido ao ciclo de clock da ram
 				y_offset := line - pac_pos_y;
 				x_offset := col - pac_pos_x;
 				IF (x_offset >=0 and x_offset <=2 and y_offset >=-1 and y_offset<=1) THEN
-					pac_area(y_offset, x_offset-1) <= block_out;
+					pac_area(y_offset, x_offset-1) <= blk_out_sp;
 				END IF;
 				
 				FOR i in 0 to FAN_NO-1 LOOP
 					y_offset := line - fan_pos_y(i);
 					x_offset := col - fan_pos_x(i);
 					IF (x_offset >=0 and x_offset <=2 and y_offset >=-1 and y_offset<=1) THEN
-						fan_area(i)(y_offset, x_offset-1) <= block_out;
+						fan_area(i)(y_offset, x_offset-1) <= blk_out_sp;
 					END IF;
 				END LOOP;
 			END IF;
@@ -263,6 +272,8 @@ BEGIN
 					q_rem_moedas <= q_rem_moedas - 1;
 				ELSIF (got_spc_coin = '1') THEN
 					q_pontos <= q_pontos + 50;
+				ELSIF (nwc = '1') THEN
+					q_pontos <= q_pontos + 1; --modo "especial"
 				END IF;
 			
 				IF (got_coin = '1' or got_spc_coin = '1') THEN
@@ -377,9 +388,9 @@ BEGIN
 	END PROCESS;
     
     -- Define dado que entra na ram de cenário
-	def_block_in: PROCESS (load_cenario, addr)
+	def_block_in: PROCESS (le_cenario, addr)
 	BEGIN
-		IF (load_cenario = '1') THEN
+		IF (le_cenario = '1') THEN
 			block_in <= CONV_TAB_BLK(MAPA_INICIAL(addr));
 		ELSE
 			block_in <= BLK_PATH; --Caso que a moeda é comida pelo pacman
@@ -532,13 +543,13 @@ BEGIN
     sinais_extras: PROCESS (estado, atua_en)
 	BEGIN
 		IF (estado = PERCORRE_QUADRO) 
-		THEN overlay <= '1';
-		ELSE overlay <= '0';
+		THEN varre_tela <= '1';
+		ELSE varre_tela <= '0';
 		END IF;
 		
 		IF (estado = CARREGA_MAPA)
-		THEN load_cenario <= '1';
-		ELSE load_cenario <= '0';
+		THEN le_cenario <= '1';
+		ELSE le_cenario <= '0';
 		END IF;
 		
 		IF (estado = REINICIO) 
@@ -589,7 +600,7 @@ BEGIN
             sig_blink  <= (OTHERS => '0');
 		ELSIF (clk27M'event and clk27M = '1') THEN
 			IF (estado = ATUALIZA_LOGICA_2) THEN
-				FOR i IN 0 to 2 LOOP
+				FOR i IN 0 to VEL_NO-1 LOOP
 					IF (atual_cont(i) = VEL_DIV(i)-1) THEN
 						atual_cont(i) := 0;
 						atua_en(i) <= '1';
@@ -599,6 +610,26 @@ BEGIN
 					END IF;
 				END LOOP;
 				sig_blink <= sig_blink + 1;
+			END IF;
+		END IF;
+	END PROCESS;
+	
+	-- Easter egg! :)
+	PROCESS (clk27M, rstn)
+		VARIABLE hit_count: INTEGER := 0;
+	BEGIN
+		IF (rstn = '0') THEN
+			hit_count := 0;
+			nwc <= '0';
+		ELSIF (clk27M'event and clk27M = '1') THEN
+			IF (pac_pos_x = TELE_ESQ_POS or pac_pos_x = TELE_DIR_POS) THEN
+				hit_count := hit_count + 1;
+			ELSIF (atua_en(4) = '1') THEN 
+				hit_count := hit_count - 1;
+			END IF;
+			
+			IF (hit_count = 5) THEN
+				nwc <= '1'; -- WARNING: no wall collisions!!
 			END IF;
 		END IF;
 	END PROCESS;
