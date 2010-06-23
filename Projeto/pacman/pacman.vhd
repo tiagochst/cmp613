@@ -6,7 +6,8 @@ USE work.PAC_SPRITES.all;
 
 ENTITY pacman is
   PORT (
-    clk27M, reset_button      : in  STD_LOGIC;
+    clk27M, clk24M            : in STD_LOGIC;
+    reset_button              : in STD_LOGIC;
     red, green, blue          : out STD_LOGIC_vector(3 downto 0);
     hsync, vsync              : out STD_LOGIC;
     LEDG                      : BUFFER STD_LOGIC_VECTOR (7 downto 5); 
@@ -91,7 +92,7 @@ ARCHITECTURE comportamento of pacman is
     SIGNAL pac_area: t_blk_sym_3x3;
     SIGNAL pacman_dead: STD_LOGIC;
     SIGNAL pac_fans_hit: UNSIGNED(0 to FAN_NO-1);
-    SIGNAL pac_atua: STD_LOGIC;
+    SIGNAL pac_atua, pac_move: STD_LOGIC;
  	
  	-- Controle dos fantasmas
  	SIGNAL fan_pos_x: t_fans_pos;
@@ -132,7 +133,7 @@ BEGIN
 	-- Controlador do teclado. Devolve os sinais síncronos das teclas
 	-- de interesse pressionadas ou não.
 	kbd: ENTITY WORK.kbd_key PORT MAP (
-		CLOCK_27  => clk27M,
+		CLOCK_24  => clk24M,
 		KEY       => reset_button,
 		LEDG      => LEDG(7 downto 5),
 		PS2_DAT   => PS2_DAT,
@@ -206,10 +207,11 @@ BEGIN
 		fan_state	=> fan_state, 		fan_cur_dir => fan_cur_dir
 	);
 	
+	pac_move <= pac_atua and atua_en(0);
 	-- Controlador do pacman
 	ctrl_pac_inst: ENTITY work.ctrl_pacman PORT MAP (
 		clk 		=> clk27M,			rstn		=> rstn and restartn,
-		key_dir		=> pac_key_dir,		atualiza	=> pac_atua and atua_en(0),
+		key_dir		=> pac_key_dir,		atualiza	=> pac_move,
 		pac_area	=> pac_area,		pac_cur_dir	=> pac_cur_dir,
 		pac_pos_x	=> pac_pos_x,		pac_pos_y	=> pac_pos_y,
 		got_coin	=> got_coin,		got_spc_coin=> got_spc_coin
@@ -299,13 +301,11 @@ BEGIN
 		-- isto é, se ele for desenhado, nenhum outro aparece por cima
 		
 		-- Desenho da fruta
-		IF (fruta_id /= 0) THEN
-			y_offset := line - FRUTA_Y + 2;
-			x_offset := col - FRUTA_X + 2;
-			IF (x_offset>=0 and x_offset<5 and 
-				y_offset>=0 and y_offset<5) THEN
-				ovl_blk_tmp := FRUTA_BLKMAP(fruta_id)(y_offset, x_offset);
-			END IF;
+		y_offset := line - FRUTA_Y + 2;
+		x_offset := col - FRUTA_X + 2;
+		IF (x_offset>=0 and x_offset<5 and 
+			y_offset>=0 and y_offset<5) THEN
+			ovl_blk_tmp := FRUTA_BLKMAP(fruta_id)(y_offset, x_offset);
 		END IF;
 		
 		FOR i in 0 to FAN_NO-1 LOOP -- Desenho dos fantasmas
@@ -397,8 +397,11 @@ BEGIN
 		END IF;
 	END PROCESS;
 	
+	-- Converte representação numérica para unária a fim
+	-- de mostrar a informação na tela
+	-- type: combinational
 	led_vidas: PROCESS (q_vidas)
-	BEGIN
+	BEGIN 
 		IF (q_vidas = 3) THEN
 			vidas_arr <= "111";
 		ELSIF (q_vidas = 2) THEN
@@ -622,9 +625,9 @@ BEGIN
 			hit_count := 0;
 			nwc <= '0';
 		ELSIF (clk27M'event and clk27M = '1') THEN
-			IF (pac_pos_x = TELE_ESQ_POS or pac_pos_x = TELE_DIR_POS) THEN
+			IF ((pac_pos_x = TELE_ESQ_POS or pac_pos_x = TELE_DIR_POS) and pac_move = '1') THEN--) and pac_move = '1') THEN
 				hit_count := hit_count + 1;
-			ELSIF (atua_en(4) = '1') THEN 
+			ELSIF (atua_en(4) = '1' and pac_atua = '1' and hit_count > 0) THEN -- and pac_atua = '1' and hit_count > 0) THEN 
 				hit_count := hit_count - 1;
 			END IF;
 			

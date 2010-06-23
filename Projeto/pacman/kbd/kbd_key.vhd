@@ -5,7 +5,7 @@ use work.pac_defs.all;
 ENTITY kbd_key IS 
   PORT (
     ------------------------   Clock Input       ------------------------
-    CLOCK_27   :    IN   STD_LOGIC;                 --   24 MHz
+    CLOCK_24   :    IN   STD_LOGIC;                 --   24 MHz
     ------------------------   Push Button      -------------------------
     KEY : IN   STD_LOGIC;                           --   Pushbutton reset
     ----------------------------   LED      ----------------------------
@@ -47,7 +47,7 @@ BEGIN
   );
 
   kbd_ctrl : kbdex_ctrl generic map(24000) port map(
-    PS2_DAT, PS2_CLK, CLOCK_27, '1', resetn, "111",
+    PS2_DAT, PS2_CLK, CLOCK_24, '1', resetn, "111",
     key_on, key_code(47 downto 0) => key_all
   );
 	

@@ -5,7 +5,7 @@ USE work.PAC_DEFS.all;
 
 ENTITY ctrl_pacman IS
 	PORT (
-	clk, rstn			:IN STD_LOGIC;
+	clk, rstn				:IN STD_LOGIC;
     atualiza				:IN STD_LOGIC;
     key_dir					:IN t_direcao; --tecla de ação lida pelo teclado
     pac_area	          	:IN t_blk_sym_3x3; --mapa 3x3 em torno da posição atual
