@@ -82,7 +82,7 @@ green[3]                     : A8        : output : 3.3-V LVTTL       :         
 blue[0]                      : A9        : output : 3.3-V LVTTL       :         : 3         : Y              
 blue[2]                      : A10       : output : 3.3-V LVTTL       :         : 3         : Y              
 hsync                        : A11       : output : 3.3-V LVTTL       :         : 3         : Y              
-GND+                         : A12       :        :                   :         : 4         :                
+clk24M                       : A12       : input  : 3.3-V LVTTL       :         : 4         : Y              
 RESERVED_INPUT               : A13       :        :                   :         : 4         :                
 RESERVED_INPUT               : A14       :        :                   :         : 4         :                
 RESERVED_INPUT               : A15       :        :                   :         : 4         :                

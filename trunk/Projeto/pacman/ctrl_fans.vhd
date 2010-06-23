@@ -124,6 +124,8 @@ BEGIN
 								fan_pos_x(i) <= fan_pos_x(i) + 1;
 								fan_cur_dir(i) <= DIREI;
 							WHEN OTHERS =>
+								fan_pos_x(i) <= CELL_IN_X; --restaura posição
+								fan_pos_y(i) <= CELL_IN_Y;
 							END CASE;
 						END IF;
 					WHEN ST_FUGA => 

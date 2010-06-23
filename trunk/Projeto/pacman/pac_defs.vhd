@@ -10,7 +10,7 @@ PACKAGE pac_defs IS
 	-- Constantes Básicas
 	CONSTANT SCR_HGT : INTEGER := 96; --Resolução de blocos usada (hgt linhas por wdt colunas)
 	CONSTANT SCR_WDT : INTEGER := 128;
-	CONSTANT TAB_LEN: INTEGER := 90; --Maior dimensao do tabuleiro (em blocos)
+	CONSTANT TAB_LEN: INTEGER := 91; --Maior dimensao do tabuleiro (em blocos)
 	CONSTANT FAN_NO: INTEGER := 2; --Número de fantasmas no jogo
 	CONSTANT FRUTA_NO: INTEGER := 2;
 	
@@ -156,10 +156,10 @@ PACKAGE pac_defs IS
 	CONSTANT FRUTA_Y: t_pos := 53;
 	
 	CONSTANT VEL_NO: INTEGER := 5;
-	SUBTYPE t_velocs is INTEGER range 0 to 20;
+	SUBTYPE t_velocs is INTEGER range 0 to 200;
 	TYPE t_vet_velocs is array(0 to VEL_NO-1) of t_velocs;
 	--divisores de atualização para: 0=pacman, 1= fantasma vuln, 2=fantasma, 3=fantasma morto
-	CONSTANT VEL_DIV: t_vet_velocs := (6, 8, 5, 4, 15); 
+	CONSTANT VEL_DIV: t_vet_velocs := (6, 8, 5, 4, 60); 
 		   
 	--Fatores de divisão do clock de 27MHz, usados para atualização do
 	--estado do jogo ("velocidade de execução") e do display

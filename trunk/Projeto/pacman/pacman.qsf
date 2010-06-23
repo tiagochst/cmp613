@@ -132,7 +132,7 @@ set_global_assignment -name CYCLONE_OPTIMIZATION_TECHNIQUE SPEED
 set_global_assignment -name CYCLONEII_OPTIMIZATION_TECHNIQUE BALANCED
 set_global_assignment -name STRATIX_OPTIMIZATION_TECHNIQUE SPEED
 set_global_assignment -name MAXII_OPTIMIZATION_TECHNIQUE SPEED
-set_global_assignment -name ADV_NETLIST_OPT_SYNTH_WYSIWYG_REMAP ON
+set_global_assignment -name ADV_NETLIST_OPT_SYNTH_WYSIWYG_REMAP OFF
 set_global_assignment -name CUT_OFF_IO_PIN_FEEDBACK OFF
 set_global_assignment -name FMAX_REQUIREMENT "27 MHz" -section_id clk27M
 set_instance_assignment -name CLOCK_SETTINGS clk27M -to clk27M
@@ -142,4 +142,7 @@ set_global_assignment -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON
 set_global_assignment -name PHYSICAL_SYNTHESIS_REGISTER_RETIMING OFF
 set_location_assignment PIN_Y21 -to endgame
 set_global_assignment -name VHDL_FILE ctrl_frutas.vhd
+set_location_assignment PIN_A12 -to clk24M
+set_global_assignment -name FMAX_REQUIREMENT "24 MHz" -section_id clk24M
+set_instance_assignment -name CLOCK_SETTINGS clk24M -to clk24M
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
