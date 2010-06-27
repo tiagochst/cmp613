@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.6.1 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -21,7 +21,7 @@
 \usepackage{listings}
  \usepackage{courier}
  \lstset{
-         basicstyle=\scriptsize \ttfamily, 
+         basicstyle=\scriptsize , 
          numbers=left,               
          numberstyle=\tiny,         
          %stepnumber=2,              
@@ -31,7 +31,7 @@
          breaklines=true,       
          keywordstyle=\color{blue},
          frame=b,         
-         stringstyle=\color{green}\ttfamily, 
+         stringstyle=\color{green}, 
          showspaces=false,          
          showtabs=false,             
          xleftmargin=5pt,
@@ -54,7 +54,7 @@
 
 
 
-\newcommand*{\titleTMB}{\begingroup \centering \settowidth{\unitlength}{\LARGE MC 613} \vspace*{\baselineskip} {\large\scshape  Grupo 5 - Turma A}\\[\baselineskip] \rule{11.0cm}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} \rule{11.0cm}{0.4pt}\\[\baselineskip] {\LARGE Sexto laboratório }\\[0.2\baselineskip] {\LARGE de Circuitos Digitais}\\[0.2\baselineskip] {\itshape MC 613 - Primeiro Semestre de 2010}\\[0.2\baselineskip] \rule{11.0cm}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} \rule{11.0cm}{1.6pt}\\[\baselineskip] {\large\scshape Professor: Guido Araújo}\par \vfill {\normalsize   \scshape 
+\newcommand*{\titleTMB}{\begingroup \centering \settowidth{\unitlength}{\LARGE MC 613} \vspace*{\baselineskip} {\large\scshape  Grupo 5 - Turma A}\\[\baselineskip] \rule{11.0cm}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} \rule{11.0cm}{0.4pt}\\[\baselineskip] {\LARGE Projeto Final }\\[0.2\baselineskip] {\LARGE de Circuitos Digitais}\\[0.2\baselineskip] {\itshape MC 613 - Primeiro Semestre de 2010}\\[0.2\baselineskip] \rule{11.0cm}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} \rule{11.0cm}{1.6pt}\\[\baselineskip] {\large\scshape Professor: Guido Araújo}\par \vfill {\normalsize   \scshape 
 \begin{center} 
 \begin{tabular}{  l  l  p{5cm} } 
 Henrique Serapião Gonzales     &  RA: 083636 \\
@@ -138,11 +138,293 @@ end{titlepage} % capa no preambulo document settings
 \end_layout
 
 \begin_layout Section
-Código
+Introdução
+\end_layout
+
+\begin_layout Standard
+Nosso projeto foi criar em VHDL um jogo inspirado no clássico original 
+\noun on
+Pacman
+\noun default
+, de autoria de Tohru Iwatani em 1980 pela NAMCO.
+ Devido às dificuldades inerentes em se projetar um jogo relativamente complexo
+ com lógica de 
+\emph on
+hardware
+\emph default
+ ao invés de usar um processador com barramento de memória para tal, algumas
+ partes foram simplificadas em relação ao jogo original.
+ Os componentes de hardware usados foram, além da placa DE1, um monitor
+ VGA em resolução de 
+\begin_inset Formula $640x480$
+\end_inset
+
+ e um teclado padrão PS/2.
+ O jogo é projetado para dois jogadores (ao contrário de apenas um no jogo
+ original) que disputam a vitória em um labirinto, um controla os fantasmas
+ e o outro o pacman.
+ Para mais detalhes das regras, consulte o jogo original em 
+\family sans
+http://en.wikipedia.org/wiki/Pac-Man
+\family default
+\noun on
+.
+\end_layout
+
+\begin_layout Standard
+O código resultou relativamente extenso, portanto o funcionamento em detalhes
+ de suas partes não está descrita nesse texto, mas ao longo do código extensivam
+ente comentado.
+ Esse relatório limita-se a discutir a estrutura geral do design, as consideraçõ
+es tomadas para o projeto, as dificuldades encontradas e as possíveis soluções.
+\end_layout
+
+\begin_layout Section
+Descrição estrutural
+\end_layout
+
+\begin_layout Standard
+A organização de componentes do projeto é simples.
+ Consta de um 
+\emph on
+top-level
+\emph default
+ que instancia e comunica alguns controladores de lógica de jogo e controladores
+ de dispositivos independentes.
+ Uma máquina de estados principal controla o andamento do jogo, gerando
+ sinais para os componentes trocarem informações.
+ Algumas operações são realizadas no 
+\emph on
+top-level
+\emph default
+, entre elas o controle de parâmetros globais do jogo - como vidas e pontuação
+ - que determinam o fim do jogo (o pacman ou os fantasmas vencem).
+ Devido ao fato dos sinais necessários para o desenho dos personagens na
+ tela depender de vários outros sinais, a geração destes primeiros também
+ está feita em um grande 
+\noun on
+PROCESS
+\noun default
+ no 
+\emph on
+top-level.
+\end_layout
+
+\begin_layout Standard
+Em resumo, os componentes principais são os seguintes (veja mais detalhes
+ nas respectivas arquiteturas e instâncias).
 \end_layout
 
 \begin_layout Subsection
-Top-level
+Controladores de lógica do jogo
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+ctrl_pacman: 
+\noun default
+Componente que gera a nova posição do pacman baseado no mapa ao redor dele
+ que recebe.
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+ctrl_fans: 
+\noun default
+Componente que gera as novas posições de múltiplos fantasmas do jogo baseado
+ nos mapas ao redor deles que recebe.
+ Também gerencia e informa os estados atuais dos fantasmas com máquinas
+ de estado.
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+ctrl_frutas: 
+\noun default
+Componente que gera, aleatoriamente, sinais que informam que uma fruta apareceu
+ temporariamente no mapa (elas representam um bônus para o pacman).
+ Ao capturar a fruta, esse componente é resetado.
+\end_layout
+
+\begin_layout Subsection
+Controladores de dispositivos
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+vgacon: 
+\noun default
+Faz a varredura dos pixels da tela na frequência apropriada, gerando também
+ todos os sinais para a interface VGA.
+ Contém internamente duas memórias RAM que representam em blocos lógicos
+ (não foram usados pixels, veja a seção 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Problemas-e-Soluções"
+
+\end_inset
+
+ para mais detalhes) o estado atual da tela em duas camadas: cenário e 
+\emph on
+overlay
+\emph default
+ (para desenho dos personagens).
+ 
+\emph on
+Sprites
+\emph default
+ são usados para mapear esses blocos em pixels de profundidade 3-bit.
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+disp: 
+\noun default
+Controla os quatro displays de 7-segmentos da placa, usados para complementar
+ o HUD
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\emph on
+Head-Up Display: 
+\emph default
+conjunto de símbolos exibidos para informar ao jogador as condições atuais
+ do jogo
+\end_layout
+
+\end_inset
+
+ com a pontuação atual e mensagens de final de jogo.
+ Essa parte não foi implementada na tela devido a complexidade necessária
+ para escrever texto na mesma.
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+kbd_key: 
+\noun default
+Realiza comunicação com o teclado, gerando sinais quando são pressionadas
+ teclas de interesse para o jogo (cursores de movimento).
+ Leia sobre os problemas desse componente na seção 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Problemas-e-Soluções"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Pacotes de Definições
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+pac_defs: 
+\noun default
+Contém todas as constantes e tipos principais usados globalmente no jogo.
+ Note que algumas constantes específicas estão localizadas nos respectivos
+ controladores.
+ Armazena visualmente a estrutura do labirinto do jogo carregada em RAM.
+ Esse pacote é destinado a ser facilmente customizável e entendido por usuários.
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+pac_sprites: 
+\noun default
+Coleção (extensa) de constantes usadas para 
+\emph on
+sprites
+\emph default
+ e mapeamento de 
+\emph on
+sprites
+\emph default
+ enviados à tela.
+ A maior parte deste pacote foi gerada automaticamente e não é aconselhável
+ editá-lo manualmente.
+\end_layout
+
+\begin_layout Section
+Problemas e Soluções
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Problemas-e-Soluções"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+RASCUNHO
+\end_layout
+
+\begin_layout Standard
+- Dificuldade de instanciar a ram (warning de uninferred)
+\end_layout
+
+\begin_layout Standard
+- Problemas com o componente do teclado (warnings e falhas).
+\end_layout
+
+\begin_layout Standard
+- Limitação de 3 teclas pela interface.
+ Solução: dois teclados em duas placas se comunicando durante o jogo.
+\end_layout
+
+\begin_layout Standard
+- Dificuldade em fazer o som funcionar.
+ Complicado pela NIOS e mal documentado em VHDL.
+\end_layout
+
+\begin_layout Standard
+- Simplificação da IA dos fantasmas para segundo player.
+ Menos dor de cabeça no hardware e uma jogabilidade diferente.
+\end_layout
+
+\begin_layout Standard
+- Falta de memória on-chip obrigou a criar tipos enumerados de blocos lógicos.
+ Isso causa a borda preta em volta de objetos que estão na mesma memória.
+ Memória de pixels off-chip (SRAM) seria a solução.
+\end_layout
+
+\begin_layout Standard
+- Não registrar os pinos de pixel antes de enviar pra VGA (há uma lógica
+ complexa de multiplexadores enormes para gerá-lo) faz o compilador silenciosame
+nte mandar um sinal sujo para VGA.
+\end_layout
+
+\begin_layout Standard
+- Desperdício de memória na RAM de overlay.
+ Todos os desenhos são formados por um grupo de 5x5 blocos juntos.
+ Então, deveria haver um bloco lógico no lugar de 25 blocos.
+ Porém, não adianta aumentar em 5 vezes o tamanho do bloco, pois seu posicioname
+nto deve ter uma resolução de um bloco pequeno.
+ Solução: projetar alguma maneira complexa de salvar apenas um bloco central
+ mas a leitura da RAM deve descobrir que em volta dele há um mapeamento
+ de sprites.
+ 
+\end_layout
+
+\begin_layout Section
+Códigos em VHDL (não atualizados)
+\end_layout
+
+\begin_layout Subsection
+Top-Level
 \end_layout
 
 \begin_layout Standard
@@ -191,9 +473,7 @@ status open
 \backslash
 lstinputlisting[basicstyle=
 \backslash
-tiny
-\backslash
-ttfamily,label=alg:Pac_defs,caption=Definicoes para pacman]{t_ovl_blk_sym.txt}
+tiny,label=alg:Pac_defs,caption=Definicoes para pacman]{t_ovl_blk_sym.txt}
 \end_layout
 
 \end_inset
@@ -211,9 +491,7 @@ status open
 \backslash
 lstinputlisting[basicstyle=
 \backslash
-tiny
-\backslash
-ttfamily, label=alg:Pac_defs,caption=Mapa inicial]{MAPA_INICIAL.txt}
+tiny, label=alg:Pac_defs,caption=Mapa inicial]{MAPA_INICIAL.txt}
 \end_layout
 
 \end_inset
@@ -231,10 +509,8 @@ status open
 \backslash
 lstinputlisting[basicstyle=
 \backslash
-tiny
-\backslash
-ttfamily, label=alg:Pac_defs,caption=Percurso de retorno dos fantamas ]{FAN_PERC
-URSO.txt}
+tiny, label=alg:Pac_defs,caption=Percurso de retorno dos fantamas ]{FAN_PERCURSO.
+txt}
 \end_layout
 
 \end_inset
@@ -339,9 +615,7 @@ status open
 \backslash
 lstinputlisting[multicols=2,basicstyle=
 \backslash
-tiny
-\backslash
-ttfamily,label=alg:pac_sprites,caption= sprites pacman ]{pac_sprites.vhd}
+tiny,label=alg:pac_sprites,caption= sprites pacman ]{pac_sprites.vhd}
 \end_layout
 
 \end_inset
@@ -399,7 +673,7 @@ lstinputlisting[label=alg:Pac_defs,caption=Definicoes para pacman]{player_dir.vh
 
 \end_layout
 
-\begin_layout Section*
+\begin_layout Section
 Conclusão
 \end_layout
 
