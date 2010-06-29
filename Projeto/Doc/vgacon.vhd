@@ -1,3 +1,11 @@
+-- VGA controller component
+-- Based on original design by Rafael Auler
+--
+-- Modified to generate up to 640x480 different
+-- pixels through mapping logical blocks of size
+-- 5x5 pixels into user-defined RGB sprites
+-- Also, it has two logical screen maps, overlayed
+-- one on top of another.
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -20,9 +28,9 @@ entity vgacon is
     write_addr                : in  integer range 0 to
                                   NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS - 1;
     data_in                   : in  t_blk_sym;
-    vga_clk                   : buffer std_logic;       -- Ideally 25.175 MHz
-    vga_pixel                 : out t_color_3b; --at 25.2 MHz
-    data_block                : out t_blk_sym; --at 27 MHz
+    vga_clk                   : buffer std_logic;  -- Ideally 25.175 MHz
+    vga_pixel                 : out t_color_3b;    --at 25.2 MHz
+    data_block                : out t_blk_sym;     --at 27 MHz
     hsync, vsync              : out std_logic;
     ovl_in                    : in t_ovl_blk_sym;
     ovl_we                    : in std_logic);
@@ -35,49 +43,50 @@ architecture behav of vgacon is
   -- for the next cycle, when the pixel is in fact sent to the monitor.
   signal h_count, h_count_d : integer range 0 to 799;  -- horizontal counter
   signal v_count, v_count_d : integer range 0 to 524;  -- vertical counter
-  -- We only want to address HORZ*VERT pixels in memory
+
   signal read_addr : integer range 0 to NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS - 1;
   signal h_drawarea, v_drawarea, drawarea : std_logic;
-  signal vga_data_out	  : t_blk_sym;
+  signal vga_data_out    : t_blk_sym;
   signal vga_ovl_data_out : t_ovl_blk_sym;
   signal id_vga_data_out, id_data_block, id_data_in: t_blk_id;
   signal id_ovl_in, id_vga_ovl_data_out: t_ovl_blk_id;
   signal vga_pixel_0 : t_color_3b;
-begin  -- behav
+begin
 
   -- This is our PLL (Phase Locked Loop) to divide the DE1 27 MHz
   -- clock and produce a 25.2MHz clock adequate to our VGA controller
   divider: work.vga_pll port map (clk27M, vga_clk);
 
-  -- This is our dual clock RAM. We use our VGA clock to read contents from
-  -- memory (pixel color value). The user of this module may use any clock
-  -- to write contents to this memory, modifying pixels individually.
-  vgamem0 : work.dual_clock_ram
+  -- This is our main dual clock RAM. We use our VGA clock to read contents from
+  -- memory (block type value). The user of this module may use any clock
+  -- to write contents to this memory, modifying blocks individually.
+  vgamem0 : work.dual_clock_ram -- RAM used for the background elements
   generic map (
     MEMSIZE => NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS,
     MEMWDT  => 4)
   port map (
-    read_clk       => vga_clk,
-    write_clk      => write_clk,
-    read_address   => read_addr,
-    write_address  => write_addr,
-    data_in        => id_data_in,
-    rdata_out      => id_vga_data_out,
-    wdata_out      => id_data_block,
-    we             => write_enable);
-  vgamem1 : work.dual_clock_ram
+    a_clk          => vga_clk,
+    b_clk          => write_clk,
+    a_address      => read_addr,
+    b_address      => write_addr,
+    b_data_in      => id_data_in,
+    a_data_out     => id_vga_data_out,
+    b_data_out     => id_data_block,
+    b_we           => write_enable);
+  vgamem1 : work.dual_clock_ram -- RAM used for overlayed characters
   generic map (
     MEMSIZE => NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS,
     MEMWDT  => 9)
   port map (
-    read_clk       => vga_clk,
-    write_clk      => write_clk,
-    read_address   => read_addr,
-    write_address  => write_addr,
-    data_in        => id_ovl_in,
-    rdata_out      => id_vga_ovl_data_out,
-    we             => ovl_we);
+    a_clk          => vga_clk,
+    b_clk          => write_clk,
+    a_address      => read_addr,
+    b_address      => write_addr,
+    b_data_in      => id_ovl_in,
+    a_data_out     => id_vga_ovl_data_out,
+    b_we           => ovl_we);
     
+  -- Block enumeration to/from logic_vector conversions 
   id_data_in       <= std_logic_vector(to_unsigned(t_blk_sym'pos(data_in), 4));
   id_ovl_in        <= std_logic_vector(to_unsigned(t_ovl_blk_sym'pos(ovl_in), 9));
   vga_data_out     <= t_blk_sym'val(to_integer(unsigned(id_vga_data_out)));
@@ -171,7 +180,7 @@ begin  -- behav
   -- determines whether we are in drawable area on screen a.t.m.
   drawarea <= v_drawarea and h_drawarea;
 
-  -- purpose: calculates the controller memory address to read pixel data
+  -- purpose: calculates the controller memory address to read block data
   -- type   : combinational
   -- inputs : h_count, v_count
   -- outputs: read_addr
@@ -185,11 +194,10 @@ begin  -- behav
   -- Build color signals based on memory output and "drawarea" signal
   -- (if we are not in the drawable area of 640x480, must deassert all
   --  color signals).
-  --MODIFICADO--------------
   PROCESS (vga_data_out, vga_ovl_data_out, drawarea, h_count, v_count)
-	VARIABLE pixel_normal, pixel_ovl: t_color_3b; 
+  VARIABLE pixel_normal, pixel_ovl: t_color_3b; 
   BEGIN
-	pixel_ovl(0) := OVL_SPRITES_RED(vga_ovl_data_out)(v_count mod 5, (h_count+4) mod 5);
+  pixel_ovl(0) := OVL_SPRITES_RED(vga_ovl_data_out)(v_count mod 5, (h_count+4) mod 5);
     pixel_ovl(1) := OVL_SPRITES_GRN(vga_ovl_data_out)(v_count mod 5, (h_count+4) mod 5);
     pixel_ovl(2) := OVL_SPRITES_BLU(vga_ovl_data_out)(v_count mod 5, (h_count+4) mod 5);
     
@@ -198,7 +206,7 @@ begin  -- behav
     pixel_normal(2) := SPRITES_BLU(vga_data_out)(v_count mod 5, (h_count+4) mod 5);
     
     IF (drawarea = '1') THEN
-	  IF (pixel_ovl /= "000") THEN
+    IF (pixel_ovl /= "000") THEN
         vga_pixel_0 <= pixel_ovl;
       ELSE
         vga_pixel_0 <= pixel_normal;
@@ -208,11 +216,15 @@ begin  -- behav
     END IF;  
   END PROCESS;
   
-  PROCESS (vga_clk)
+  -- Here, we register the pixel before sending to VGA pin
+  -- in order to help compiler recognize the critical path
+  -- to the pin and set the timing constraints accordingly.
+  -- It prevents glitches displayed in the screen. 
+  PROCESS (vga_clk) 
   BEGIN
     IF (vga_clk'event and vga_clk = '1') THEN
-		vga_pixel <= vga_pixel_0;
-	END IF;
+    vga_pixel <= vga_pixel_0;
+  END IF;
   END PROCESS;
 end behav;
 
@@ -236,11 +248,11 @@ entity dual_clock_ram is
     MEMSIZE : natural;
     MEMWDT  : natural);  
   port (
-    read_clk, write_clk         : in  std_logic;  -- support different clocks
-    data_in                     : in  std_logic_vector(MEMWDT-1 downto 0);
-    write_address, read_address : in  integer range 0 to MEMSIZE - 1;  
-    we                          : in  std_logic;  -- write enable
-    rdata_out, wdata_out        : out std_logic_vector(MEMWDT-1 downto 0));
+    a_clk, b_clk              : in  std_logic;  -- support different clocks
+    b_data_in                   : in  std_logic_vector(MEMWDT-1 downto 0); --only b writes
+    a_address, b_address        : in  integer range 0 to MEMSIZE - 1;
+    b_we                        : in  std_logic;  -- write enable
+    a_data_out, b_data_out      : out std_logic_vector(MEMWDT-1 downto 0));
 end dual_clock_ram;
 
 architecture behav of dual_clock_ram is
@@ -256,28 +268,24 @@ begin  -- behav
 
   -- purpose: Reads data from RAM
   -- type   : sequential
-  -- inputs : read_clk, read_address
-  -- outputs: data_out
-  read: process (read_clk)
+  a: process (a_clk)
   begin  -- process read
-    if read_clk'event and read_clk = '1' then  -- rising clock edge
-      rdata_out <= ram_block(read_address);      
+    if (a_clk'event and a_clk = '1') then  -- rising clock edge
+      a_data_out <= ram_block(a_address);      
     end if;
-  end process read;
+  end process a;
 
   -- purpose: Reads/Writes data to RAM
   -- type   : sequential
-  -- inputs : write_clk, write_address
-  -- outputs: ram_block
-  write: process (write_clk)
+  b: process (b_clk)
   begin  -- process write
-    if write_clk'event and write_clk = '1' then  -- rising clock edge
-      if we = '1' then
-        ram_block(write_address) <= data_in;
+    if (b_clk'event and b_clk = '1') then  -- rising clock edge
+      if (b_we = '1') then
+        ram_block(b_address) <= b_data_in;
       end if;
-      wdata_out <= ram_block(write_address);
+      b_data_out <= ram_block(b_address);
     end if;
-  end process write;
+  end process b;
 
 end behav;
 
@@ -295,150 +303,150 @@ LIBRARY altera_mf;
 USE altera_mf.all;
 
 ENTITY vga_pll IS
-	PORT
-	(
-		inclk0		: IN STD_LOGIC  := '0';
-		c0		: OUT STD_LOGIC 
-	);
+  PORT
+  (
+    inclk0    : IN STD_LOGIC  := '0';
+    c0    : OUT STD_LOGIC 
+  );
 END vga_pll;
 
 
 ARCHITECTURE SYN OF vga_pll IS
 
-	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (5 DOWNTO 0);
-	SIGNAL sub_wire1	: STD_LOGIC ;
-	SIGNAL sub_wire2	: STD_LOGIC ;
-	SIGNAL sub_wire3	: STD_LOGIC_VECTOR (1 DOWNTO 0);
-	SIGNAL sub_wire4_bv	: BIT_VECTOR (0 DOWNTO 0);
-	SIGNAL sub_wire4	: STD_LOGIC_VECTOR (0 DOWNTO 0);
+  SIGNAL sub_wire0  : STD_LOGIC_VECTOR (5 DOWNTO 0);
+  SIGNAL sub_wire1  : STD_LOGIC ;
+  SIGNAL sub_wire2  : STD_LOGIC ;
+  SIGNAL sub_wire3  : STD_LOGIC_VECTOR (1 DOWNTO 0);
+  SIGNAL sub_wire4_bv  : BIT_VECTOR (0 DOWNTO 0);
+  SIGNAL sub_wire4  : STD_LOGIC_VECTOR (0 DOWNTO 0);
 
 
 
-	COMPONENT altpll
-	GENERIC (
-		clk0_divide_by		: NATURAL;
-		clk0_duty_cycle		: NATURAL;
-		clk0_multiply_by		: NATURAL;
-		clk0_phase_shift		: STRING;
-		compensate_clock		: STRING;
-		inclk0_input_frequency		: NATURAL;
-		intended_device_family		: STRING;
-		lpm_hint		: STRING;
-		lpm_type		: STRING;
-		operation_mode		: STRING;
-		port_activeclock		: STRING;
-		port_areset		: STRING;
-		port_clkbad0		: STRING;
-		port_clkbad1		: STRING;
-		port_clkloss		: STRING;
-		port_clkswitch		: STRING;
-		port_configupdate		: STRING;
-		port_fbin		: STRING;
-		port_inclk0		: STRING;
-		port_inclk1		: STRING;
-		port_locked		: STRING;
-		port_pfdena		: STRING;
-		port_phasecounterselect		: STRING;
-		port_phasedone		: STRING;
-		port_phasestep		: STRING;
-		port_phaseupdown		: STRING;
-		port_pllena		: STRING;
-		port_scanaclr		: STRING;
-		port_scanclk		: STRING;
-		port_scanclkena		: STRING;
-		port_scandata		: STRING;
-		port_scandataout		: STRING;
-		port_scandone		: STRING;
-		port_scanread		: STRING;
-		port_scanwrite		: STRING;
-		port_clk0		: STRING;
-		port_clk1		: STRING;
-		port_clk2		: STRING;
-		port_clk3		: STRING;
-		port_clk4		: STRING;
-		port_clk5		: STRING;
-		port_clkena0		: STRING;
-		port_clkena1		: STRING;
-		port_clkena2		: STRING;
-		port_clkena3		: STRING;
-		port_clkena4		: STRING;
-		port_clkena5		: STRING;
-		port_extclk0		: STRING;
-		port_extclk1		: STRING;
-		port_extclk2		: STRING;
-		port_extclk3		: STRING
-	);
-	PORT (
-			inclk	: IN STD_LOGIC_VECTOR (1 DOWNTO 0);
-			clk	: OUT STD_LOGIC_VECTOR (5 DOWNTO 0)
-	);
-	END COMPONENT;
+  COMPONENT altpll
+  GENERIC (
+    clk0_divide_by    : NATURAL;
+    clk0_duty_cycle    : NATURAL;
+    clk0_multiply_by    : NATURAL;
+    clk0_phase_shift    : STRING;
+    compensate_clock    : STRING;
+    inclk0_input_frequency    : NATURAL;
+    intended_device_family    : STRING;
+    lpm_hint    : STRING;
+    lpm_type    : STRING;
+    operation_mode    : STRING;
+    port_activeclock    : STRING;
+    port_areset    : STRING;
+    port_clkbad0    : STRING;
+    port_clkbad1    : STRING;
+    port_clkloss    : STRING;
+    port_clkswitch    : STRING;
+    port_configupdate    : STRING;
+    port_fbin    : STRING;
+    port_inclk0    : STRING;
+    port_inclk1    : STRING;
+    port_locked    : STRING;
+    port_pfdena    : STRING;
+    port_phasecounterselect    : STRING;
+    port_phasedone    : STRING;
+    port_phasestep    : STRING;
+    port_phaseupdown    : STRING;
+    port_pllena    : STRING;
+    port_scanaclr    : STRING;
+    port_scanclk    : STRING;
+    port_scanclkena    : STRING;
+    port_scandata    : STRING;
+    port_scandataout    : STRING;
+    port_scandone    : STRING;
+    port_scanread    : STRING;
+    port_scanwrite    : STRING;
+    port_clk0    : STRING;
+    port_clk1    : STRING;
+    port_clk2    : STRING;
+    port_clk3    : STRING;
+    port_clk4    : STRING;
+    port_clk5    : STRING;
+    port_clkena0    : STRING;
+    port_clkena1    : STRING;
+    port_clkena2    : STRING;
+    port_clkena3    : STRING;
+    port_clkena4    : STRING;
+    port_clkena5    : STRING;
+    port_extclk0    : STRING;
+    port_extclk1    : STRING;
+    port_extclk2    : STRING;
+    port_extclk3    : STRING
+  );
+  PORT (
+      inclk  : IN STD_LOGIC_VECTOR (1 DOWNTO 0);
+      clk  : OUT STD_LOGIC_VECTOR (5 DOWNTO 0)
+  );
+  END COMPONENT;
 
 BEGIN
-	sub_wire4_bv(0 DOWNTO 0) <= "0";
-	sub_wire4    <= To_stdlogicvector(sub_wire4_bv);
-	sub_wire1    <= sub_wire0(0);
-	c0    <= sub_wire1;
-	sub_wire2    <= inclk0;
-	sub_wire3    <= sub_wire4(0 DOWNTO 0) & sub_wire2;
+  sub_wire4_bv(0 DOWNTO 0) <= "0";
+  sub_wire4    <= To_stdlogicvector(sub_wire4_bv);
+  sub_wire1    <= sub_wire0(0);
+  c0    <= sub_wire1;
+  sub_wire2    <= inclk0;
+  sub_wire3    <= sub_wire4(0 DOWNTO 0) & sub_wire2;
 
-	altpll_component : altpll
-	GENERIC MAP (
-		clk0_divide_by => 15,
-		clk0_duty_cycle => 50,
-		clk0_multiply_by => 14,
-		clk0_phase_shift => "0",
-		compensate_clock => "CLK0",
-		inclk0_input_frequency => 37037,
-		intended_device_family => "Cyclone II",
-		lpm_hint => "CBX_MODULE_PREFIX=vga_pll",
-		lpm_type => "altpll",
-		operation_mode => "NORMAL",
-		port_activeclock => "PORT_UNUSED",
-		port_areset => "PORT_UNUSED",
-		port_clkbad0 => "PORT_UNUSED",
-		port_clkbad1 => "PORT_UNUSED",
-		port_clkloss => "PORT_UNUSED",
-		port_clkswitch => "PORT_UNUSED",
-		port_configupdate => "PORT_UNUSED",
-		port_fbin => "PORT_UNUSED",
-		port_inclk0 => "PORT_USED",
-		port_inclk1 => "PORT_UNUSED",
-		port_locked => "PORT_UNUSED",
-		port_pfdena => "PORT_UNUSED",
-		port_phasecounterselect => "PORT_UNUSED",
-		port_phasedone => "PORT_UNUSED",
-		port_phasestep => "PORT_UNUSED",
-		port_phaseupdown => "PORT_UNUSED",
-		port_pllena => "PORT_UNUSED",
-		port_scanaclr => "PORT_UNUSED",
-		port_scanclk => "PORT_UNUSED",
-		port_scanclkena => "PORT_UNUSED",
-		port_scandata => "PORT_UNUSED",
-		port_scandataout => "PORT_UNUSED",
-		port_scandone => "PORT_UNUSED",
-		port_scanread => "PORT_UNUSED",
-		port_scanwrite => "PORT_UNUSED",
-		port_clk0 => "PORT_USED",
-		port_clk1 => "PORT_UNUSED",
-		port_clk2 => "PORT_UNUSED",
-		port_clk3 => "PORT_UNUSED",
-		port_clk4 => "PORT_UNUSED",
-		port_clk5 => "PORT_UNUSED",
-		port_clkena0 => "PORT_UNUSED",
-		port_clkena1 => "PORT_UNUSED",
-		port_clkena2 => "PORT_UNUSED",
-		port_clkena3 => "PORT_UNUSED",
-		port_clkena4 => "PORT_UNUSED",
-		port_clkena5 => "PORT_UNUSED",
-		port_extclk0 => "PORT_UNUSED",
-		port_extclk1 => "PORT_UNUSED",
-		port_extclk2 => "PORT_UNUSED",
-		port_extclk3 => "PORT_UNUSED"
-	)
-	PORT MAP (
-		inclk => sub_wire3,
-		clk => sub_wire0
-	);
+  altpll_component : altpll
+  GENERIC MAP (
+    clk0_divide_by => 15,
+    clk0_duty_cycle => 50,
+    clk0_multiply_by => 14,
+    clk0_phase_shift => "0",
+    compensate_clock => "CLK0",
+    inclk0_input_frequency => 37037,
+    intended_device_family => "Cyclone II",
+    lpm_hint => "CBX_MODULE_PREFIX=vga_pll",
+    lpm_type => "altpll",
+    operation_mode => "NORMAL",
+    port_activeclock => "PORT_UNUSED",
+    port_areset => "PORT_UNUSED",
+    port_clkbad0 => "PORT_UNUSED",
+    port_clkbad1 => "PORT_UNUSED",
+    port_clkloss => "PORT_UNUSED",
+    port_clkswitch => "PORT_UNUSED",
+    port_configupdate => "PORT_UNUSED",
+    port_fbin => "PORT_UNUSED",
+    port_inclk0 => "PORT_USED",
+    port_inclk1 => "PORT_UNUSED",
+    port_locked => "PORT_UNUSED",
+    port_pfdena => "PORT_UNUSED",
+    port_phasecounterselect => "PORT_UNUSED",
+    port_phasedone => "PORT_UNUSED",
+    port_phasestep => "PORT_UNUSED",
+    port_phaseupdown => "PORT_UNUSED",
+    port_pllena => "PORT_UNUSED",
+    port_scanaclr => "PORT_UNUSED",
+    port_scanclk => "PORT_UNUSED",
+    port_scanclkena => "PORT_UNUSED",
+    port_scandata => "PORT_UNUSED",
+    port_scandataout => "PORT_UNUSED",
+    port_scandone => "PORT_UNUSED",
+    port_scanread => "PORT_UNUSED",
+    port_scanwrite => "PORT_UNUSED",
+    port_clk0 => "PORT_USED",
+    port_clk1 => "PORT_UNUSED",
+    port_clk2 => "PORT_UNUSED",
+    port_clk3 => "PORT_UNUSED",
+    port_clk4 => "PORT_UNUSED",
+    port_clk5 => "PORT_UNUSED",
+    port_clkena0 => "PORT_UNUSED",
+    port_clkena1 => "PORT_UNUSED",
+    port_clkena2 => "PORT_UNUSED",
+    port_clkena3 => "PORT_UNUSED",
+    port_clkena4 => "PORT_UNUSED",
+    port_clkena5 => "PORT_UNUSED",
+    port_extclk0 => "PORT_UNUSED",
+    port_extclk1 => "PORT_UNUSED",
+    port_extclk2 => "PORT_UNUSED",
+    port_extclk3 => "PORT_UNUSED"
+  )
+  PORT MAP (
+    inclk => sub_wire3,
+    clk => sub_wire0
+  );
 
 END SYN;

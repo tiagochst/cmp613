@@ -155,17 +155,25 @@ hardware
 \emph default
  ao invés de usar um processador com barramento de memória para tal, algumas
  partes foram simplificadas em relação ao jogo original.
- Os componentes de hardware usados foram, além da placa DE1, um monitor
+\end_layout
+
+\begin_layout Standard
+Os componentes de hardware usados foram, além da placa Altera DE1, um monitor
  VGA e um teclado padrão PS/2.
  O jogo é projetado para dois jogadores (ao contrário de apenas um no jogo
- original) que disputam a vitória em um labirinto, um controla os fantasmas
- e o outro o pacman.
+ original) que disputam a vitória em um labirinto, um controla dois fantasmas
+ e o outro, o Pacman.
  Para mais detalhes das regras, consulte o jogo original em 
 \family sans
 http://en.wikipedia.org/wiki/Pac-Man
 \family default
 \noun on
 .
+ 
+\noun default
+O desenvolvimento do projeto está hospedado em 
+\family sans
+http://code.google.com/p/cmp613/
 \end_layout
 
 \begin_layout Standard
@@ -274,7 +282,7 @@ overlay
 \emph on
 Sprites
 \emph default
- são usados para mapear esses blocos em pixels de profundidade 3-bit.
+ são usados para mapear esses blocos em pixels de profundidade 3-bits.
 \end_layout
 
 \begin_layout Itemize
@@ -299,8 +307,8 @@ conjunto de símbolos exibidos para informar ao jogador as condições atuais
 \end_inset
 
  com a pontuação atual e mensagens de final de jogo.
- Essa parte não foi implementada na tela devido a complexidade necessária
- para escrever texto na mesma.
+ Essa parte não foi implementada na tela devido a complexidade relacionada
+ a escrever texto na mesma.
 \end_layout
 
 \begin_layout Itemize
@@ -376,8 +384,11 @@ Nos estágios iniciais do projeto, houve bastante dificuldade em fazer o
 template
 \emph default
  do fabricante.
- Queríamos uma RAM que fosse inicializada com o mapa do jogo, para isso
- alteramos a 
+ Queríamos uma RAM 
+\emph on
+Dual Port Dual Clock 
+\emph default
+que fosse inicializada com o mapa do jogo, para isso alteramos a 
 \series bold
 função de inicialização
 \series default
@@ -403,7 +414,7 @@ mudar o tipo do conteúdo da RAM de uma enumeração para um
 std_logic_vector
 \noun default
  e, adicionalmente, fazer a carga do conteúdo inicial manualmente e externamente
- (sem a função) varrendo-a com contadores.
+ (sem a função supracitada) varrendo-a com contadores.
  Essas alterações fizeram a RAM ser reconhecida e sintetizada, porém para
  uma das RAMs do projeto, estranhamente, foi gerado um warning de "
 \emph on
@@ -441,8 +452,8 @@ Solução:
 usar dois teclados (um por jogador) conectados em duas placas, sendo que
  a segunda apenas envia para a primeira informações do seu teclado durante
  o jogo.
- Não justifica adicionar uma interface, uma placa e um teclado só para corrigir
- esse problema.
+ Porém, não se justifica adicionar uma interface, uma placa e um teclado
+ só para corrigir esse problema.
  Ademais, o uso da segunda placa seria subaproveitado.
 \end_layout
 
@@ -460,7 +471,7 @@ Esse não chegou a ser um problema de fato, mas implementar uma movimentação
  "inteligente" para pegar o pacman em hardware seria, potencialmente, bastante
  trabalhoso.
  Além disso, o mau funcionamento dessa parte poderia prejudicar a qualidade
- do jogo, então ela se tornaria uma parte muito laboriosa do projeto.
+ do jogo, então ela seria uma parte muito laboriosa do projeto.
  No jogo original, cada fantasma funciona com uma IA diferente, porém simples.
  Essa implementação seria muito mais confortável e natural programando um
  algoritmo.
@@ -536,8 +547,9 @@ Essas ROMs seriam inicializadas de forma binária através de um arquivo
 status collapsed
 
 \begin_layout Plain Layout
-Na verdade, elas foram geradas automaticamente aos poucos a partir de um
- programa em C que exporta uma planilha para a lista de constantes binárias
+Na verdade, a lista foi gerada automaticamente aos poucos a partir de um
+ programa em C feito para exportar uma planilha para a lista de constantes
+ binárias
 \end_layout
 
 \end_inset
@@ -552,27 +564,129 @@ de pixels RGB organizados na forma de uma matriz.
 \end_layout
 
 \begin_layout Subsection
-Falta de memória on-chip obrigou a criar tipos enumerados de blocos lógicos.
- Isso causa a borda preta em volta de objetos que estão na mesma memória.
- Memória de pixels off-chip (SRAM) seria a solução.
+Memória de vídeo "falsa" causa bordas indesejadas (não resolvido)
+\end_layout
+
+\begin_layout Standard
+A escassez de memória 
+\emph on
+on-chip
+\emph default
+ e a necessidade de se usar uma resolução relativamente alta nos levou a
+ criar uma memória de vídeo "falsa" para o projeto.
+ A lógica dos elementos visuais do jogo foi dividida em um conjunto de tipos
+ enumerados de blocos lógicos.
+ Conseguimos distribuir esses elementos na tela em uma área de 128x96 blocos.
+ Logo, fizemos a memória de vídeo armazenar ao invés da cor dos 640x480
+ pixels reais da tela, o tipo do bloco em cada posição.
+ Dessa forma, cada bloco consiste numa área de 5x5 pixels da tela.
+\end_layout
+
+\begin_layout Standard
+Apesar de economizar memória (já que não há um número tão grande de blocos
+ diferentes), esse método faz aparecer uma borda preta em volta de blocos
+ que estão na mesma memória cujos desenhos não ocupam toda a área do bloco.
+ Isso ocorre pois não é possível sobrepor dois blocos num mesmo bloco, pois
+ isso geraria um tipo de bloco indefinido.
+ Esse é um problema essencialmente estético.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Solução: 
+\series default
+O uso de uma memória de vídeo com 640x480 pixels resolveria o problema.
+ Isso poderia ser implementado em memória off-chip (SRAM ou SDRAM), mas
+ a interface seria mais complicada.
 \end_layout
 
 \begin_layout Subsection
-Não registrar os pinos de pixel antes de enviar pra VGA (há uma lógica complexa
- de multiplexadores enormes para gerá-lo) faz o compilador silenciosamente
- mandar um sinal sujo para VGA.
+Pequenas falhas visuais na imagem enviada ao monitor (resolvido)
+\end_layout
+
+\begin_layout Standard
+A lógica seletora dos pixels dos sprites está localizada entre a leitura
+ da memória de vídeo e os pinos de saída da VGA.
+ Devido ao grande número de sprites, essa lógica consiste em enormes multiplexad
+ores que, naturalmente, geram atrasos para a estabilização do sinal.
+ Esses atrasos provavelmente eram a causa do surgimento de pequenas faixas
+ (menores que um pixel) coloridas na tela.
+ No entanto, nenhum 
+\emph on
+warning
+\emph default
+ ou problema de temporização era reportado pelo compilador.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Solução: 
+\series default
+Ao se registrar em 
+\emph on
+flip-flop
+\emph default
+ os dados de pixel antes de enviar para os pinos da VGA, o problema foi
+ resolvido.
+ Acreditamos que assim o compilador reconheceu um caminho crítico do circuito
+ e ajustou os parâmetros de 
+\emph on
+timing
+\emph default
+ para satisfazer a lógica desejada.
+ Sem o registrador, a estabilidade do caminho em questão não era considerada
+ pelo compilador.
 \end_layout
 
 \begin_layout Subsection
-Desperdício de memória na RAM de overlay.
- Todos os desenhos são formados por um grupo de 5x5 blocos juntos.
- Então, deveria haver um bloco lógico no lugar de 25 blocos.
- Porém, não adianta aumentar em 5 vezes o tamanho do bloco, pois seu posicioname
-nto deve ter uma resolução de um bloco pequeno.
- Solução: projetar alguma maneira complexa de salvar apenas um bloco central
- mas a leitura da RAM deve descobrir que em volta dele há um mapeamento
- de sprites.
+Desperdício de memória na RAM de 
+\emph on
+overlay
+\emph default
+ (não resolvido)
+\end_layout
+
+\begin_layout Standard
+Todos os desenhos de overlay são formados por um grupo de 5x5 blocos juntos
+ (25x25 pixels).
+ Então, faria mais sentido haver um único bloco lógico no lugar de 25 blocos
+ distintos, pois eles sempre aparecem juntos.
+ Porém, não adianta simplesmente aumentar em cinco vezes o tamanho do bloco,
+ pois seu posicionamento deve ter uma resolução de um bloco pequeno, senão
+ a movimentação seria muito grosseira.
+ Esse problema não estaria presente em uma memória de vídeo "real".
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Solução:
+\series default
+ Projetar alguma maneira avançada de salvar apenas um bloco central em uma
+ região 5x5 mas fazer com que a leitura da memória descubra que, em volta
+ dele, há um mapeamento de sprites relativos ao bloco central.
+ Por exemplo, quando for requisitado o bloco localizado em uma certa posição
  
+\begin_inset Formula $(x,y)$
+\end_inset
+
+, se não houver um bloco ali, um componente deve verificar se existe algum
+ bloco ao redor dessa posição (no retângulo limitado por 
+\begin_inset Formula $(x-2,y-2)$
+\end_inset
+
+ e 
+\begin_inset Formula $(x+2,y+2)$
+\end_inset
+
+).
+ O problema é que isso deve ser feito em um ciclo de 
+\emph on
+clock
+\emph default
+ preferencialmente, o que dificulta o projeto.
 \end_layout
 
 \begin_layout Section
@@ -780,7 +894,12 @@ Hz
 \end_layout
 
 \begin_layout Section
-Códigos em VHDL (não atualizados)
+Códigos em VHDL
+\end_layout
+
+\begin_layout Standard
+Por simplicidade, foram omitidos no relatório o arquivo de sprites e os
+ das componentes da interface com o teclado.
 \end_layout
 
 \begin_layout Subsection
@@ -795,7 +914,9 @@ status open
 
 
 \backslash
-lstinputlisting[label=alg:Display,caption=Display]{pacman.vhd}
+lstinputlisting[basicstyle=
+\backslash
+tiny,label=alg:pacman,caption=Top Level]{pacman.vhd}
 \end_layout
 
 \end_inset
@@ -804,7 +925,7 @@ lstinputlisting[label=alg:Display,caption=Display]{pacman.vhd}
 \end_layout
 
 \begin_layout Subsection
-Definições
+Componentes
 \end_layout
 
 \begin_layout Standard
@@ -815,7 +936,9 @@ status open
 
 
 \backslash
-lstinputlisting[label=alg:Pac_defs,caption=Definicoes para pacman]{pac_defs.vhd}
+lstinputlisting[basicstyle=
+\backslash
+tiny,label=alg:pac_defs,caption=Definicões do Jogo]{pac_defs.vhd}
 \end_layout
 
 \end_inset
@@ -833,7 +956,7 @@ status open
 \backslash
 lstinputlisting[basicstyle=
 \backslash
-tiny,label=alg:Pac_defs,caption=Definicoes para pacman]{t_ovl_blk_sym.txt}
+tiny,label=alg:ctrl_pacman,caption=Controlador do pacman]{ctrl_pacman.vhd}
 \end_layout
 
 \end_inset
@@ -851,7 +974,7 @@ status open
 \backslash
 lstinputlisting[basicstyle=
 \backslash
-tiny, label=alg:Pac_defs,caption=Mapa inicial]{MAPA_INICIAL.txt}
+tiny,label=alg:ctrl_fans,caption=Controlador dos fantasmas]{ctrl_fans.vhd}
 \end_layout
 
 \end_inset
@@ -869,95 +992,7 @@ status open
 \backslash
 lstinputlisting[basicstyle=
 \backslash
-tiny, label=alg:Pac_defs,caption=Percurso de retorno dos fantamas ]{FAN_PERCURSO.
-txt}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Float algorithm
-placement H
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{multicols}{2}
-\end_layout
-
-\end_inset
-
-
-\size scriptsize
-
-\begin_inset CommandInset include
-LatexCommand verbatiminput
-filename "pat_shift_det.vhd"
-
-\end_inset
-
-
-\size default
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{multicols}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Componente do detector de padrão 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sub:Registrador-de-Deslocamento"
-
-\end_inset
-
- em VHDL
-\begin_inset CommandInset label
-LatexCommand label
-name "alg:Componente-do-detector"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+tiny,label=alg:ctrl_frutas,caption=Controlador das frutas]{ctrl_frutas.vhd}
 \end_layout
 
 \end_inset
@@ -973,9 +1008,9 @@ status open
 
 
 \backslash
-lstinputlisting[multicols=2,basicstyle=
+lstinputlisting[basicstyle=
 \backslash
-tiny,label=alg:pac_sprites,caption= sprites pacman ]{pac_sprites.vhd}
+tiny,label=alg:player_dir,caption=Leitor de teclas]{player_dir.vhd}
 \end_layout
 
 \end_inset
@@ -991,8 +1026,9 @@ status open
 
 
 \backslash
-lstinputlisting[label=alg:Pac_defs,caption=Definicoes para pacman]{ctrl_pacman.vh
-d}
+lstinputlisting[basicstyle=
+\backslash
+tiny,label=alg:disp,caption=Display de 7-segmentos]{disp.vhd}
 \end_layout
 
 \end_inset
@@ -1008,24 +1044,9 @@ status open
 
 
 \backslash
-lstinputlisting[label=alg:Pac_defs,caption=Definicoes para pacman]{ctrl_fans.vhd}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
+lstinputlisting[basicstyle=
 \backslash
-lstinputlisting[label=alg:Pac_defs,caption=Definicoes para pacman]{player_dir.vhd
-}
+tiny,label=alg:vgacon,caption=Controlador VGA]{vgacon.vhd}
 \end_layout
 
 \end_inset
