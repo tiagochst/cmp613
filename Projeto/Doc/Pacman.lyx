@@ -1,4 +1,4 @@
-#LyX 1.6.6.1 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -22,7 +22,7 @@
 \usepackage{bbding}
  \usepackage{courier}
  \lstset{
-         basicstyle=\scriptsize , 
+         basicstyle=\scriptsize \ttfamily, 
          numbers=left,               
          numberstyle=\tiny,         
          %stepnumber=2,              
@@ -32,7 +32,7 @@
          breaklines=true,       
          keywordstyle=\color{blue},
          frame=b,         
-         stringstyle=\color{green}, 
+         stringstyle=\color{green}\ttfamily, 
          showspaces=false,          
          showtabs=false,             
          xleftmargin=5pt,
@@ -40,7 +40,7 @@
          framexrightmargin=1pt,
          framexbottommargin=1pt,
          language=VHDL,
-         fontadjust,
+     %    fontadjust,
          %backgroundcolor=\color{lightgray},
          showstringspaces=false              
   }
@@ -427,6 +427,19 @@ Uninferred RAM due to asynchronous read logic"
 Problemas com o componente do teclado (warnings e falhas)
 \end_layout
 
+\begin_layout Standard
+O componente do teclado possui um critical waring relacionado ao timing,
+ porém ele não afeta o jogo.
+\end_layout
+
+\begin_layout Standard
+Além disso, a inicilização do componente, posterior ao carregamento do jogo
+ na placa, pode apresentar um comportamento indevido.
+ Esse comportamento que impossibilita o recebimento de três teclas simultâneas
+ do teclado (poderia nesse caso receber duas, uma ou nenhuma).
+ Ao reiniciar o jogo o problema é resolvido.
+\end_layout
+
 \begin_layout Subsection
 Limitação de 3 teclas simultâneas no teclado (não resolvido)
 \end_layout
@@ -460,6 +473,107 @@ usar dois teclados (um por jogador) conectados em duas placas, sendo que
 \begin_layout Subsection
 Dificuldade em fazer o som funcionar.
  Complicado pela NIOS e mal documentado em VHDL.
+\end_layout
+
+\begin_layout Standard
+A proposta inicial de colocar o som, era projetar o pacman próximo ao original.
+ Havia duas possibilidades para sua implementação, uma unsando o codec de
+ audio documentado no site do altera, ou a implementação da Nios2.
+\end_layout
+
+\begin_layout Standard
+Optou-se pelo segundo método que consistia em usar o SOPC Builder (programa
+ integrado ao quartus) que geraria uma NIOS com os componentes especificados
+ pelo usuário.Os componentes mínimos eram uma Cpu, um componente de memória,
+ o componente do som fornecido no site do altera.
+ Para testes iniciais da NIOS usamos componentes de saída para os leds e
+ de entrada para os switches.
+\end_layout
+
+\begin_layout Standard
+Implementado a NIOS deviamos instanciá-la em um top-level e piná-lo de acordo
+ com os manuais do altera.
+ Após isso, deviamos utilizar o programa NIOS II EDS, que utilizaria a NIOS
+ instanciada e geraria um projeto em C/C++ para a criação de um software.
+ Ou seja, a NIOS atua como um computador e o código em C como o software.
+\end_layout
+
+\begin_layout Standard
+Nossos passos iniciais de teste foram ligar os endereços dos switches com
+ os endereços dos leds.
+ Assim, os leds receberiam o valor dos switches.Foi um suceso a instanciação
+ NIOS.Bastava portanto, utilizar o componente do som para gerar a música.
+\end_layout
+
+\begin_layout Standard
+Para passar a música para a placa, poderíamos usar uma das seguintes memória:
+ SD Card, SRAM,RAM,ROM,FLASH.
+ Como SRAM e RAM são voláteis, ao desligar a placa, perderíamos seus dados.
+ Como não possuíamos um cartão de memória compatível com a entrada do SD
+ Card, sua utilização também foi descartada.
+ Restou-se portanto oa utilização da memória flash.
+\end_layout
+
+\begin_layout Standard
+O site do altera possui pouca documentação prática sobre a utilização de
+ memória flash, apresentado apenas a teórica, logo perdemos muito tempo
+ aprendendo a instanciá-la na NIOS.
+ Contudo, não foi possível realizar uma comunicação com o dispositivo em
+ flash para sua leitura, pois a NIOS não encontrava o dispositivo.
+ Esse problema foi presenciado por diversos usuários no fórum do site do
+ altera, e não exisitia uma solução, sendo um problema de ligação no código
+ da NIOS sitado como problema, mas não foi demonstrado sua solução.
+\end_layout
+
+\begin_layout Standard
+Apesar de não conseguir ler, foi possível escrever na flash através de outro
+ programa fornecido pelo altera 
+\begin_inset Quotes eld
+\end_inset
+
+Altera Monitor Program
+\begin_inset Quotes erd
+\end_inset
+
+, com o qual pode-se apagar a memória flash e Sram, assim como, colocar
+ arquivos inteiros, ou apenas alterar alguns bits de determinado endereço.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename NIOS.PNG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+NIOS implementada para o laboratório
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
