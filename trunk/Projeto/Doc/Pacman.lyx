@@ -1030,6 +1030,22 @@ Hz
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Códigos em VHDL
 \end_layout
@@ -1184,6 +1200,22 @@ status open
 lstinputlisting[basicstyle=
 \backslash
 tiny,label=alg:vgacon,caption=Controlador VGA]{vgacon.vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
 \end_layout
 
 \end_inset
