@@ -1,3 +1,11 @@
+-- VGA controller component
+-- Based on original design by Rafael Auler
+--
+-- Modified to generate up to 640x480 different
+-- pixels through mapping logical blocks of size
+-- 5x5 pixels into user-defined RGB sprites
+-- Also, it has two logical screen maps, overlayed
+-- one on top of another.
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -20,9 +28,9 @@ entity vgacon is
     write_addr                : in  integer range 0 to
                                   NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS - 1;
     data_in                   : in  t_blk_sym;
-    vga_clk                   : buffer std_logic;       -- Ideally 25.175 MHz
-    vga_pixel                 : out t_color_3b; --at 25.2 MHz
-    data_block                : out t_blk_sym; --at 27 MHz
+    vga_clk                   : buffer std_logic;  -- Ideally 25.175 MHz
+    vga_pixel                 : out t_color_3b;    --at 25.2 MHz
+    data_block                : out t_blk_sym;     --at 27 MHz
     hsync, vsync              : out std_logic;
     ovl_in                    : in t_ovl_blk_sym;
     ovl_we                    : in std_logic);
@@ -35,7 +43,7 @@ architecture behav of vgacon is
   -- for the next cycle, when the pixel is in fact sent to the monitor.
   signal h_count, h_count_d : integer range 0 to 799;  -- horizontal counter
   signal v_count, v_count_d : integer range 0 to 524;  -- vertical counter
-  -- We only want to address HORZ*VERT pixels in memory
+
   signal read_addr : integer range 0 to NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS - 1;
   signal h_drawarea, v_drawarea, drawarea : std_logic;
   signal vga_data_out	  : t_blk_sym;
@@ -43,16 +51,16 @@ architecture behav of vgacon is
   signal id_vga_data_out, id_data_block, id_data_in: t_blk_id;
   signal id_ovl_in, id_vga_ovl_data_out: t_ovl_blk_id;
   signal vga_pixel_0 : t_color_3b;
-begin  -- behav
+begin
 
   -- This is our PLL (Phase Locked Loop) to divide the DE1 27 MHz
   -- clock and produce a 25.2MHz clock adequate to our VGA controller
   divider: work.vga_pll port map (clk27M, vga_clk);
 
-  -- This is our dual clock RAM. We use our VGA clock to read contents from
-  -- memory (pixel color value). The user of this module may use any clock
-  -- to write contents to this memory, modifying pixels individually.
-  vgamem0 : work.dual_clock_ram
+  -- This is our main dual clock RAM. We use our VGA clock to read contents from
+  -- memory (block type value). The user of this module may use any clock
+  -- to write contents to this memory, modifying blocks individually.
+  vgamem0 : work.dual_clock_ram -- RAM used for the background elements
   generic map (
     MEMSIZE => NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS,
     MEMWDT  => 4)
@@ -65,7 +73,7 @@ begin  -- behav
     a_data_out     => id_vga_data_out,
     b_data_out     => id_data_block,
     b_we           => write_enable);
-  vgamem1 : work.dual_clock_ram
+  vgamem1 : work.dual_clock_ram -- RAM used for overlayed characters
   generic map (
     MEMSIZE => NUM_HORZ_BLOCKS * NUM_VERT_BLOCKS,
     MEMWDT  => 9)
@@ -78,6 +86,7 @@ begin  -- behav
     a_data_out     => id_vga_ovl_data_out,
     b_we           => ovl_we);
     
+  -- Block enumeration to/from logic_vector conversions 
   id_data_in       <= std_logic_vector(to_unsigned(t_blk_sym'pos(data_in), 4));
   id_ovl_in        <= std_logic_vector(to_unsigned(t_ovl_blk_sym'pos(ovl_in), 9));
   vga_data_out     <= t_blk_sym'val(to_integer(unsigned(id_vga_data_out)));
@@ -171,7 +180,7 @@ begin  -- behav
   -- determines whether we are in drawable area on screen a.t.m.
   drawarea <= v_drawarea and h_drawarea;
 
-  -- purpose: calculates the controller memory address to read pixel data
+  -- purpose: calculates the controller memory address to read block data
   -- type   : combinational
   -- inputs : h_count, v_count
   -- outputs: read_addr
@@ -185,7 +194,6 @@ begin  -- behav
   -- Build color signals based on memory output and "drawarea" signal
   -- (if we are not in the drawable area of 640x480, must deassert all
   --  color signals).
-  --MODIFICADO--------------
   PROCESS (vga_data_out, vga_ovl_data_out, drawarea, h_count, v_count)
 	VARIABLE pixel_normal, pixel_ovl: t_color_3b; 
   BEGIN
@@ -208,7 +216,11 @@ begin  -- behav
     END IF;  
   END PROCESS;
   
-  PROCESS (vga_clk)
+  -- Here, we register the pixel before sending to VGA pin
+  -- in order to help compiler recognize the critical path
+  -- to the pin and set the timing constraints accordingly.
+  -- It prevents glitches displayed in the screen. 
+  PROCESS (vga_clk) 
   BEGIN
     IF (vga_clk'event and vga_clk = '1') THEN
 		vga_pixel <= vga_pixel_0;

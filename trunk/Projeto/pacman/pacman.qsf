@@ -122,9 +122,6 @@ set_global_assignment -name MISC_FILE "C:/Documents and Settings/marspeople/Desk
 set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
 set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-STATED"
 set_global_assignment -name MISC_FILE "C:/Documents and Settings/ra082115/Desktop/pacman/pacman.dpf"
-set_location_assignment PIN_R20 -to LEDR[0]
-set_location_assignment PIN_R19 -to LEDR[1]
-set_location_assignment PIN_U19 -to LEDR[2]
 set_global_assignment -name ENABLE_CLOCK_LATENCY ON
 set_global_assignment -name OPTIMIZATION_TECHNIQUE SPEED
 set_global_assignment -name STRATIXII_OPTIMIZATION_TECHNIQUE SPEED

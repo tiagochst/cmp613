@@ -12,7 +12,6 @@ use work.pac_defs.all;
 --saida: mudancas de direcao do player
 -- code entrada codificada das teclas 
 --(maximo tres teclas pressionadas 16 bits cada)
--- p1_dir - p2_dir representacao de cima,desce,esquerda,direita,nenhuma
 entity player_dir is 
 port(
 	code: IN STD_LOGIC_VECTOR(47 downto 0);
@@ -26,10 +25,9 @@ architecture rtl of player_dir is
 begin
 -- Modelo:
 -->> 2-players -> cada um aperta uma tecla
--- Codigo referente a cada tecla deve estar em key_1 ou key_2 
--->> Desconsiderarei key_3 -> implementacao futura mas sem grande utilidade.
+-- Codigo referente a cada tecla deve estar em key_1, key_2 ou key_3 
 -- Problemas referentes a entrada de teclas:
--->> se um player aperta 3 teclas, o outro nao tera a sua teclalida 
+-->> se um player aperta 3 teclas, o outro nao tera a sua tecla lida 
   key_1<=code(47 downto 32);-- terceira tecla pressionada
   key_2<=code(31 downto 16);-- segunda tecla pressionada
   key_3<=code(15 downto 0); -- primeira tecla pressionada
@@ -47,7 +45,6 @@ begin
 -- Baixo       | (S)  | x"001b"
 -- Esquerda    | (A)  | x"001c"
 -- Direita     | (D)  | x"0023"
-
 
 -- P 3 Teclas
 -- Movimentacao|Tecla | codigo  

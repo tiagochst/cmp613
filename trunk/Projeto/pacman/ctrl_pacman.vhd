@@ -21,8 +21,9 @@ ARCHITECTURE behav OF ctrl_pacman IS
  	CONSTANT PAC_START_X : INTEGER := 42;
 	CONSTANT PAC_START_Y : INTEGER := 71;
 BEGIN
-	--Calcula possíveis parâmetros envolvidos no próximo movimento
-	--do pacman
+	-- Calcula possíveis parâmetros envolvidos no próximo movimento
+	-- do pacman
+	-- type: combinational
 	PROCESS (pac_cur_dir, pac_area)
 	BEGIN
 		--calcula qual seriam as proximas celulas visitadas pelo pacman
@@ -30,12 +31,13 @@ BEGIN
 		
 		IF (WALKABLE(pac_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1)))) THEN
 			-- aqui o pacman conseguirá andar para a próxima casa
+			-- então as células candidatas para fazer curva estão nas diagonais
 			pac_dir_cel <= pac_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1) + 1);
 			pac_esq_cel <= pac_area(DIRS(pac_cur_dir)(0), DIRS(pac_cur_dir)(1) - 1);
 			pac_cim_cel <= pac_area(DIRS(pac_cur_dir)(0)-1, DIRS(pac_cur_dir)(1));
 			pac_bai_cel <= pac_area(DIRS(pac_cur_dir)(0)+1, DIRS(pac_cur_dir)(1));
 		ELSE
-			-- caso o pacman esteja travado em alguma parede
+			-- caso o pacman esteja travado (parado) em alguma parede
 			pac_dir_cel <= pac_area( 0, 1);
 			pac_esq_cel <= pac_area( 0, -1);
 			pac_cim_cel <= pac_area(-1, 0);
@@ -44,7 +46,7 @@ BEGIN
 	END PROCESS;
 
     -- purpose: Este processo irá atualizar a posicão do pacman e definir
-    --          suas ações no jogo. Opera no estado ATUALIZA_LOGICA_1
+    --          suas ações no jogo.
     -- type   : sequential
     p_atualiza_pacman: PROCESS (clk, rstn)
 		VARIABLE nxt_move, key_dir_old: t_direcao;
@@ -77,10 +79,14 @@ BEGIN
                 END IF;
                 
 				IF (WALKABLE(pac_nxt_cel)) THEN --atualiza posicao
-					IF (pac_pos_x = TELE_DIR_POS) then --teletransporte
-						pac_pos_x <= TELE_ESQ_POS + 1;
-					ELSIF (pac_pos_x = TELE_ESQ_POS) then
-						pac_pos_x <= TELE_DIR_POS - 1;
+					IF (pac_pos_x = MAP_X_MAX) then --teletransporte
+						pac_pos_x <= MAP_X_MIN + 1;
+					ELSIF (pac_pos_x = MAP_X_MIN) then
+						pac_pos_x <= MAP_X_MAX - 1;
+					ELSIF (pac_pos_y = MAP_Y_MIN) then
+						pac_pos_y <= MAP_Y_MAX - 1;
+					ELSIF (pac_pos_y = MAP_Y_MAX) then
+						pac_pos_y <= MAP_Y_MIN + 1;
 					ELSE
 						pac_pos_x <= pac_pos_x + DIRS(pac_cur_dir)(1);
 						pac_pos_y <= pac_pos_y + DIRS(pac_cur_dir)(0);
@@ -91,7 +97,7 @@ BEGIN
         END IF;
 	END PROCESS;
 	
-	-- Sinais de controle ativos durante um ciclo de "atualiza"
+	-- Sinais de controle externos ficam ativos durante um ciclo de "atualiza"
 	got_coin <= '1' WHEN (pac_nxt_cel = BLK_COIN and atualiza = '1')
 	ELSE '0';
 			

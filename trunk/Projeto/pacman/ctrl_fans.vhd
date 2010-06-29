@@ -7,16 +7,17 @@ ENTITY ctrl_fans IS
 	PORT (
 	clk, rstn			:IN STD_LOGIC;
     atualiza				:IN STD_LOGIC;
-    atua_en					:IN STD_LOGIC_VECTOR(0 to 2); --velocidades para atualizar (lenta -> rápida)
-    keys_dir				:IN t_fans_dirs; --teclas de ação lidas pelo teclado
-    fan_area	          	:IN t_fans_blk_sym_3x3; --mapas 3x3 em torno da posições atuais
+    --diferentes velocidades para atualizar (lenta -> rápida)
+    atua_en					:IN STD_LOGIC_VECTOR(0 to 2); 
+    keys_dir				:IN t_fans_dirs; --teclas de ação do teclado
+    --mapas 3x3 em torno da posições atuais
+    fan_area	          	:IN t_fans_blk_sym_3x3; 
     spc_coin                :IN STD_LOGIC;
     pac_fans_hit            :IN UNSIGNED(0 to FAN_NO-1);
     fan_pos_x, fan_pos_y	:BUFFER t_fans_pos;
     fan_state               :BUFFER t_fans_states;
     fan_cur_dir				:BUFFER t_fans_dirs;
-    pacman_dead				:OUT STD_LOGIC;
-    fan_died				:OUT STD_LOGIC
+    pacman_dead, fan_died   :OUT STD_LOGIC
 	);
 END ctrl_fans;
 
@@ -26,7 +27,7 @@ ARCHITECTURE behav OF ctrl_fans IS
     SIGNAL fan_rstn_tempo: t_fans_bits;
     SIGNAL pr_fan_state: t_fans_states;
     
-    -- Tempos (em atualizações) para os estados temporários dos fantasmas
+    -- Tempos (em n. de atualizações) para os estados temporários dos fantasmas
 	CONSTANT FAN_TIME_VULN_START_BLINK : INTEGER := 650;
 	CONSTANT FAN_TIME_VULN_END : INTEGER := 850;
 	CONSTANT FAN_TIME_DEAD : INTEGER := 600;
@@ -35,7 +36,7 @@ ARCHITECTURE behav OF ctrl_fans IS
 	CONSTANT FANS_START_Y : t_fans_pos := (44, 44);
 BEGIN
 	-- Calcula possíveis parâmetros envolvidos no próximo movimento
-	-- de todos os fantasmas. Análogo ao do pacman.
+	-- de todos os fantasmas. Análogo ao do pacman (veja ctrl_pacman).
 	-- type: combinational
 	PROCESS (fan_area, fan_cur_dir)
 	BEGIN
@@ -71,6 +72,7 @@ BEGIN
              IF (atualiza = '1') THEN
 				FOR i in 0 to FAN_NO-1 LOOP
 					CASE fan_state(i) IS
+					-- Estados de movimento livre do jogador
 					WHEN ST_VIVO | ST_PRE_VULN | ST_VULN | ST_VULN_BLINK =>
 						-- fantasma é mais rápido quando vivo
 						IF ((fan_state(i) =  ST_VIVO and atua_en(1) = '1') or
@@ -95,10 +97,14 @@ BEGIN
 							END IF;
 							
 							IF (WALKABLE(fan_nxt_cel(i))) THEN --atualiza posicao
-								IF(fan_pos_x(i) = TELE_DIR_POS) then --teletransporte
-									fan_pos_x(i) <= TELE_ESQ_POS + 1;
-								ELSIF(fan_pos_x(i) = TELE_ESQ_POS) then
-									fan_pos_x(i) <= TELE_DIR_POS - 1;
+								IF(fan_pos_x(i) = MAP_X_MAX) then --teletransporte
+									fan_pos_x(i) <= MAP_X_MIN + 1;
+								ELSIF(fan_pos_x(i) = MAP_X_MIN) then
+									fan_pos_x(i) <= MAP_X_MAX - 1;
+								ELSIF(fan_pos_y(i) = MAP_Y_MAX) then 
+									fan_pos_y(i) <= MAP_Y_MIN + 1;
+								ELSIF(fan_pos_y(i) = MAP_Y_MIN) then
+									fan_pos_y(i) <= MAP_Y_MAX - 1;
 								ELSE
 									fan_pos_x(i) <= fan_pos_x(i) + DIRS(fan_cur_dir(i))(1);
 									fan_pos_y(i) <= fan_pos_y(i) + DIRS(fan_cur_dir(i))(0);
@@ -107,6 +113,7 @@ BEGIN
 							
 							keys_dir_old(i) := keys_dir(i);
 						END IF;
+					-- Estados de piloto automático
 					WHEN ST_DEAD | ST_PRE_DEAD | ST_FIND_EXIT => 
 						IF (atua_en(2) = '1') THEN
 							-- Movimento automático do fantasma para a cela com velocidade maior
@@ -128,8 +135,9 @@ BEGIN
 								fan_pos_y(i) <= CELL_IN_Y;
 							END CASE;
 						END IF;
+					-- Apenas movimento vertical até sair da jaula
+					--Supõe que fan_pos_x já vale CELL_IN_X, apenas anda pra cima
 					WHEN ST_FUGA => 
-						--Supõe que fan_pos_x já vale CELL_IN_X, apenas anda pra cima
 						IF (atua_en(1) = '1') THEN 
 							fan_pos_y(i) <= fan_pos_y(i) - 1;
 							fan_cur_dir(i) <= CIMA;
@@ -141,18 +149,18 @@ BEGIN
 	END PROCESS p_atualiza_fan;
 	
 	-- Gera o próximo estado de cada fantasma para atualização
-	-- e os sinais de controle do estado
+	-- e os sinais de controle do estado. Há uma FSM por fantasma.
 	-- type: combinational
 	p_fan_next_state: PROCESS (fan_state, spc_coin, pac_fans_hit, fan_tempo,
 	                           fan_pos_x, fan_pos_y, atua_en)
 		VARIABLE pacman_dead_var, fan_died_var: STD_LOGIC;
 	BEGIN
-		pacman_dead_var := '0';
-		fan_died_var := '0';
+		pacman_dead_var := '0'; -- um OR de todos os fantasmas
+		fan_died_var := '0'; -- um OR de todos os fantasmas
 
 		FOR i in 0 to FAN_NO-1 LOOP
 			CASE fan_state(i) IS
-				WHEN ST_VIVO => --estado normal, mata o pacman
+				WHEN ST_VIVO => -- estado normal, capaz de matar o pacman
 					IF (pac_fans_hit(i) = '1') THEN  
 						pr_fan_state(i) <= ST_VIVO;
 						pacman_dead_var := '1';
@@ -163,7 +171,7 @@ BEGIN
 					END IF;
 					fan_rstn_tempo(i) <= '0';
 				
-				WHEN ST_PRE_VULN => --apenas era o contador de tempo antes de VULN
+				WHEN ST_PRE_VULN => -- apenas zera o contador de tempo antes de VULN
 					pr_fan_state(i) <= ST_VULN;
 					fan_rstn_tempo(i) <= '0';
 					pacman_dead <= '0';
@@ -174,14 +182,14 @@ BEGIN
 						fan_died_var := '1';
 					ELSIF (fan_tempo(i) > FAN_TIME_VULN_START_BLINK) THEN
 						pr_fan_state(i) <= ST_VULN_BLINK;
-					ELSIF (spc_coin = '1') THEN
-						pr_fan_state(i) <= ST_PRE_VULN;
+					ELSIF (spc_coin = '1') THEN -- comer outra spc_coin deve zerar
+						pr_fan_state(i) <= ST_PRE_VULN; -- o tempo de VULN
 					ELSE
 						pr_fan_state(i) <= ST_VULN;
 					END IF;
 					fan_rstn_tempo(i) <= '1';
 					
-				WHEN ST_VULN_BLINK => --final do estado vulnerável (piscante)
+				WHEN ST_VULN_BLINK => --parte final do estado vulnerável (piscante)
 					IF (pac_fans_hit(i) = '1') THEN
 						pr_fan_state(i) <= ST_PRE_DEAD;
 						fan_died_var := '1';
@@ -230,7 +238,7 @@ BEGIN
 		fan_died <= fan_died_var;
 	END PROCESS p_fan_next_state;
 
-	-- Avança a FSM para o próximo estado
+	-- Avança as FSMs para o próximos estados
 	-- type: sequential
 	seq_fsm_fan: PROCESS (clk, rstn)
     BEGIN 
