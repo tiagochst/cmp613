@@ -4,8 +4,8 @@ USE ieee.numeric_std.all;
 
 ENTITY disp IS
    port(
-	  CLK:       IN STD_LOGIC;--   27 MHz
-	  EN:        IN STD_LOGIC;
+	  CLK:       IN STD_LOGIC;
+ 	  EN:        IN STD_LOGIC;
       VIDAS: IN INTEGER range 0 to 5:=1;       
       PNT :IN INTEGER range 0 to 9999:=0;
       PEDRAS: IN INTEGER range -10 to 255:=0;   
@@ -23,6 +23,8 @@ architecture struct of disp is
 	        y: OUT STD_LOGIC_VECTOR(6 downto 0));
     END COMPONENT conv_7seg;
 
+	SIGNAL cont1, cont2: INTEGER range 0 to 100;
+	SIGNAL show_pts, frase_rstn: STD_LOGIC;
 BEGIN
 	PROCESS(PNT)
 		BEGIN
@@ -33,24 +35,12 @@ BEGIN
 	END PROCESS;
 
 	PROCESS (clk)
-		VARIABLE counter:INTEGER:=0;
 		VARIABLE alfa_code: STD_LOGIC_VECTOR(6 downto 0):="0000000"; -- intermediario letras
     BEGIN
 		IF(clk'event and clk = '1') THEN
 			IF (en = '1') THEN
-				IF (counter /= 0 AND (PEDRAS<=0 or VIDAS=0)) THEN
-					aux_seg3 <= aux_seg2; -- dISplay
-					aux_seg2 <= aux_seg1; -- rolante
-					aux_seg1 <= aux_seg0; --
-				ELSE
-					aux_seg3 <= "1111111"; -- apaga palavras
-					aux_seg2 <= "1111111"; -- quANDo jogo e
-					aux_seg1 <= "1111111"; -- reiniciado ou 
-					aux_seg0 <= "1111111"; -- iniciado
-				END IF;
-
 				IF(PEDRAS<= 0) THEN
-					case (counter) IS
+					case (cont1) IS
 						WHEN 0 =>
 							alfa_code := "0010001"; --Y
 						WHEN 1 =>
@@ -86,13 +76,9 @@ BEGIN
 						WHEN others =>	
 							alfa_code := "1111111";
 						END case;
-					IF (counter = 18) THEN
-						counter := 0;
-					ELSE
-						counter := counter +1;
-					END IF;
+					
 				ELSIF (VIDAS = 0) THEN
-					case (counter) IS
+					case (cont2) IS
 						WHEN 0 =>
 							alfa_code := "0010001"; --Y
 						WHEN 1 =>
@@ -112,20 +98,39 @@ BEGIN
 						WHEN others =>
 							alfa_code := "1111111"; -- 
 						END case;
-					IF (counter = 10) THEN
-						counter := 0;
-					ELSE
-						counter := counter+1;
-					END IF;			
-				ELSE
-					counter :=0;
-					alfa_code := "1111111";
 				END IF;
-				
-				aux_seg0 <= alfa_code;
+								
+				IF (PEDRAS<=0 or VIDAS=0) THEN
+					aux_seg3 <= aux_seg2; -- dISplay
+					aux_seg2 <= aux_seg1; -- rolante
+					aux_seg1 <= aux_seg0; --
+					aux_seg0 <= alfa_code;
+				ELSE
+					aux_seg3 <= "1111111"; -- apaga palavras
+					aux_seg2 <= "1111111"; -- quANDo jogo e
+					aux_seg1 <= "1111111"; -- reiniciado ou 
+					aux_seg0 <= "1111111"; -- iniciado
+				END IF;
 			END IF;
 		END IF;
 	END PROCESS;
+	
+	frase_rstn <= '1' WHEN (PEDRAS <=0 or VIDAS = 0)
+	ELSE '0';
+
+	p_contador0: ENTITY WORK.counter 
+        PORT MAP (clk 	=> CLK,
+		          rstn 	=> frase_rstn,
+		          en	=> en,
+				  max	=> 24,
+				  q		=> cont1);
+				  
+	p_contador1: ENTITY WORK.counter 
+        PORT MAP (clk 	=> CLK,
+		          rstn 	=> frase_rstn,
+		          en	=> en,
+				  max	=> 16,
+				  q		=> cont2);
 
 	hexseg0: conv_7seg port map(P0, HEX0); --casa da unidade da pontuacao
 	hexseg1: conv_7seg port map(P1, HEX1); --casa da dezena da pontuacao
@@ -134,8 +139,12 @@ BEGIN
 
 	--se nem perdeu todas as vidas ou terminou todas as pecas mostra pontuacao,
 	--caso contrario mostra as frases.
-	seg0 <= HEX0 WHEN (VIDAS /= 0 AND PEDRAS > 0) ELSE aux_seg0; 
-	seg1 <= HEX1 WHEN (VIDAS /= 0 AND PEDRAS > 0) ELSE aux_seg1;
-	seg2 <= HEX2 WHEN (VIDAS /= 0 AND PEDRAS > 0) ELSE aux_seg2;
-	seg3 <= HEX3 WHEN (VIDAS /= 0 AND PEDRAS > 0) ELSE aux_seg3;
+	show_pts <= '1' WHEN ((PEDRAS <= 0 and cont1 >= 20) or (VIDAS = 0 and cont2 >= 12)
+	                      or (VIDAS /=0 and PEDRAS > 0))
+	ELSE '0';
+	
+	seg0 <= HEX0 WHEN (show_pts = '1') ELSE aux_seg0; 
+	seg1 <= HEX1 WHEN (show_pts = '1') ELSE aux_seg1;
+	seg2 <= HEX2 WHEN (show_pts = '1') ELSE aux_seg2;
+	seg3 <= HEX3 WHEN (show_pts = '1') ELSE aux_seg3;
 END struct;

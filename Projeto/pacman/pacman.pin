@@ -441,8 +441,8 @@ RESERVED_INPUT               : R15       :        :                   :         
 RESERVED_INPUT               : R16       :        :                   :         : 7         :                
 RESERVED_INPUT               : R17       :        :                   :         : 6         :                
 RESERVED_INPUT               : R18       :        :                   :         : 6         :                
-LEDR[1]                      : R19       : output : 3.3-V LVTTL       :         : 6         : Y              
-LEDR[0]                      : R20       : output : 3.3-V LVTTL       :         : 6         : Y              
+RESERVED_INPUT               : R19       :        :                   :         : 6         :                
+RESERVED_INPUT               : R20       :        :                   :         : 6         :                
 RESERVED_INPUT               : R21       :        :                   :         : 6         :                
 RESERVED_INPUT               : R22       :        :                   :         : 6         :                
 RESERVED_INPUT               : T1        :        :                   :         : 1         :                
@@ -485,7 +485,7 @@ RESERVED_INPUT               : U15       :        :                   :         
 VCCA_PLL4                    : U16       : power  :                   : 1.2V    :           :                
 VCCD_PLL4                    : U17       : power  :                   : 1.2V    :           :                
 RESERVED_INPUT               : U18       :        :                   :         : 6         :                
-LEDR[2]                      : U19       : output : 3.3-V LVTTL       :         : 6         : Y              
+RESERVED_INPUT               : U19       :        :                   :         : 6         :                
 RESERVED_INPUT               : U20       :        :                   :         : 6         :                
 LEDG[6]                      : U21       : output : 3.3-V LVTTL       :         : 6         : Y              
 LEDG[7]                      : U22       : output : 3.3-V LVTTL       :         : 6         : Y              
