@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.6.1 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -424,19 +424,26 @@ Uninferred RAM due to asynchronous read logic"
 \end_layout
 
 \begin_layout Subsection
-Problemas com o componente do teclado (warnings e falhas)
+Problemas com o componente do teclado (não resolvido)
 \end_layout
 
 \begin_layout Standard
-O componente do teclado possui um critical waring relacionado ao timing,
- porém ele não afeta o jogo.
+O componente do teclado possui um 
+\emph on
+critical warning
+\emph default
+ relacionado ao 
+\emph on
+timing
+\emph default
+, porém ele não afeta o jogo.
 \end_layout
 
 \begin_layout Standard
-Além disso, a inicilização do componente, posterior ao carregamento do jogo
- na placa, pode apresentar um comportamento indevido.
- Esse comportamento que impossibilita o recebimento de três teclas simultâneas
- do teclado (poderia nesse caso receber duas, uma ou nenhuma).
+Além disso, a inicialização do componente, posterior ao carregamento do
+ jogo na placa, pode apresentar um comportamento indevido.
+ Esse comportamento acaba impossibilitando o recebimento de três teclas
+ simultâneas do teclado (poderia nesse caso receber duas, uma ou nenhuma).
  
 \end_layout
 
@@ -445,7 +452,7 @@ Além disso, a inicilização do componente, posterior ao carregamento do jogo
 \series bold
 Solução:
 \series default
-Ao reiniciar o jogo manualmente, o problema é resolvido.
+ ao se reiniciar o jogo manualmente, o problema é resolvido.
 \end_layout
 
 \begin_layout Subsection
@@ -479,65 +486,68 @@ usar dois teclados (um por jogador) conectados em duas placas, sendo que
 \end_layout
 
 \begin_layout Subsection
-Dificuldade em fazer o som funcionar.
- Complicado pela NIOS e mal documentado em VHDL.
+Dificuldade em fazer o som funcionar (não resolvido)
 \end_layout
 
 \begin_layout Standard
-A proposta inicial de colocar o som, era desenvolver um som do jogo pacman
+A proposta inicial de colocar o som era desenvolver um áudio do jogo pacman
  próximo ao original.
- Havia duas possibilidades para sua implementação, uma unsando o codec de
- audio documentado no site do altera, ou a implementação da Nios2.
+ Havia duas possibilidades para sua implementação, uma usando o codec de
+ áudio documentado no site do Altera, ou a implementação da Nios2.
  Optou-se pelo segundo método que consistia em usar o SOPC Builder (programa
- integrado ao quartus) que geraria uma NIOS com os componentes especificados
+ integrado ao Quartus) que geraria uma NIOS com os componentes especificados
  pelo usuário.
  
 \end_layout
 
 \begin_layout Standard
-Os componentes mínimos eram uma Cpu, um componente de memória e o componente
- do som fornecido no site do altera.
- Para testes iniciais da NIOS usamos componentes de saída para os leds e
- de entrada para os switches.Implementado a NIOS deviamos instanciá-la em
- um top-level e piná-lo de acordo com os manuais do altera.
+Os componentes mínimos eram uma CPU, um componente de memória e o componente
+ do som fornecido no site do Altera.
+ Para testes iniciais da NIOS, usamos componentes de saída para os leds
+ e de entrada para os switches.
+ Implementada a NIOS, devíamos instanciá-la em um 
+\emph on
+top-level
+\emph default
+ e piná-la de acordo com os manuais do fabricante.
  
 \end_layout
 
 \begin_layout Standard
-Após isso, deviamos utilizar o programa NIOS II EDS, que utilizaria a NIOS
+Após isso, devíamos utilizar o programa NIOS II EDS, que utilizaria a NIOS
  instanciada e geraria um projeto em C/C++ para a criação de um software.
- Ou seja, a NIOS atua teoricamente como um computador e o código em C passaria
- a ser o software.
+ Ou seja, a NIOS atua teoricamente como uma arquitetura de computador e
+ o código em C passaria a ser o software.
 \end_layout
 
 \begin_layout Standard
 O passo iniciais de teste foi ligar os endereços dos switches ao endereços
  dos leds.
  Assim, os leds receberiam o valor dos switches.
- Foi um suceso a instanciação NIOS.
+ Foi um suceso a instanciação da NIOS.
  Bastava portanto, utilizar o componente do som para gerar a música.
 \end_layout
 
 \begin_layout Standard
 Para passar a música para a placa, poderíamos usar uma das seguintes memória:
  SD Card, SRAM, RAM, ROM, FLASH.
- Como SRAM e RAM são voláteis, ao desligar a placa, perderíamos seus dados.Além
- disso, como não possuíamos um cartão de memória compatível com a entrada
+ Como SRAM e RAM são voláteis, ao desligar a placa, perderíamos seus dados.
+ Além disso, como não possuíamos um cartão de memória compatível com a entrada
  do SD Card, sua utilização também foi descartada.
- Restou portanto a utilização da memória flash.O site do altera possui pouca
- documentação prática sobre a utilização de memória flash, apresentado apenas
- uma grande documentação teórica, logo perdemos muito tempo aprendendo a
- instanciá-la na NIOS.
+ Restou portanto a utilização da memória flash.
+ O site do Altera possui pouca documentação prática sobre a utilização de
+ memória flash, apresentado apenas uma grande documentação teórica, logo
+ perdemos muito tempo aprendendo a instanciá-la na NIOS.
 \end_layout
 
 \begin_layout Standard
 Contudo, não foi possível realizar uma comunicação com o dispositivo em
  flash para sua leitura, pois a NIOS não encontrava o dispositivo através
- da funçao 
+ da função 
 \begin_inset Quotes eld
 \end_inset
 
-alt_flash_open_dev(nome da flash )
+alt_flash_open_dev(nome da flash)
 \begin_inset Quotes erd
 \end_inset
 
@@ -566,7 +576,7 @@ Altera Monitor Program
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -587,10 +597,6 @@ NIOS implementada para o laboratório
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -1053,6 +1059,13 @@ Códigos em VHDL
 \begin_layout Standard
 Por simplicidade, foram omitidos no relatório o arquivo de sprites e os
  das componentes da interface com o teclado.
+ Além disso, algumas tabelas não estão nos respectivos códigos pelo mesmo
+ motivo.
+ Nesses casos, há um comentário 
+\family typewriter
+TRECHO DE CÓDIGO SUPRIMIDO
+\family default
+ no lugar.
 \end_layout
 
 \begin_layout Subsection
@@ -1067,9 +1080,7 @@ status open
 
 
 \backslash
-lstinputlisting[basicstyle=
-\backslash
-tiny,label=alg:pacman,caption=Top Level]{pacman.vhd}
+lstinputlisting[label=alg:pacman,caption=Top Level]{pacman.vhd}
 \end_layout
 
 \end_inset
@@ -1089,9 +1100,7 @@ status open
 
 
 \backslash
-lstinputlisting[basicstyle=
-\backslash
-tiny,label=alg:pac_defs,caption=Definicões do Jogo]{pac_defs.vhd}
+lstinputlisting[label=alg:pac_defs,caption=Definicões do Jogo]{pac_defs.vhd}
 \end_layout
 
 \end_inset
@@ -1107,9 +1116,8 @@ status open
 
 
 \backslash
-lstinputlisting[basicstyle=
-\backslash
-tiny,label=alg:ctrl_pacman,caption=Controlador do pacman]{ctrl_pacman.vhd}
+lstinputlisting[label=alg:ctrl_pacman,caption=Controlador do pacman]{ctrl_pacman.
+vhd}
 \end_layout
 
 \end_inset
@@ -1125,9 +1133,8 @@ status open
 
 
 \backslash
-lstinputlisting[basicstyle=
-\backslash
-tiny,label=alg:ctrl_fans,caption=Controlador dos fantasmas]{ctrl_fans.vhd}
+lstinputlisting[label=alg:ctrl_fans,caption=Controlador dos fantasmas]{ctrl_fans.
+vhd}
 \end_layout
 
 \end_inset
@@ -1143,9 +1150,8 @@ status open
 
 
 \backslash
-lstinputlisting[basicstyle=
-\backslash
-tiny,label=alg:ctrl_frutas,caption=Controlador das frutas]{ctrl_frutas.vhd}
+lstinputlisting[label=alg:ctrl_frutas,caption=Controlador das frutas]{ctrl_fruta
+s.vhd}
 \end_layout
 
 \end_inset
@@ -1161,9 +1167,7 @@ status open
 
 
 \backslash
-lstinputlisting[basicstyle=
-\backslash
-tiny,label=alg:player_dir,caption=Leitor de teclas]{player_dir.vhd}
+lstinputlisting[label=alg:player_dir,caption=Leitor de teclas]{player_dir.vhd}
 \end_layout
 
 \end_inset
@@ -1179,9 +1183,7 @@ status open
 
 
 \backslash
-lstinputlisting[basicstyle=
-\backslash
-tiny,label=alg:disp,caption=Display de 7-segmentos]{disp.vhd}
+lstinputlisting[label=alg:disp,caption=Display de 7-segmentos]{disp.vhd}
 \end_layout
 
 \end_inset
@@ -1197,9 +1199,7 @@ status open
 
 
 \backslash
-lstinputlisting[basicstyle=
-\backslash
-tiny,label=alg:vgacon,caption=Controlador VGA]{vgacon.vhd}
+lstinputlisting[label=alg:vgacon,caption=Controlador VGA]{vgacon.vhd}
 \end_layout
 
 \end_inset
@@ -1225,6 +1225,21 @@ newpage
 
 \begin_layout Section
 Conclusão
+\end_layout
+
+\begin_layout Standard
+No final, o nível do projeto do jogo resultante superou nossas expectativas
+ em termos de complexidade, estabilidade e qualidade.
+ Infelizmente, vários problemas surgiram durante o desenvolvimento (aqueles
+ listados na seção 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Problemas-e-Soluções"
+
+\end_inset
+
+); nosso insucesso mais grave ocorreu ao tentar adicionar áudio ao projeto,
+ o que certamente seria bastante trabalhoso.
 \end_layout
 
 \end_body
