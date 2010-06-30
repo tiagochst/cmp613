@@ -1,4 +1,4 @@
-#LyX 1.6.6.1 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -40,7 +40,7 @@
          framexrightmargin=1pt,
          framexbottommargin=1pt,
          language=VHDL,
-     %    fontadjust,
+        fontadjust,
          %backgroundcolor=\color{lightgray},
          showstringspaces=false              
   }
@@ -1036,6 +1036,25 @@ Hz
 
 \end_layout
 
+\begin_layout Section
+Conclusão
+\end_layout
+
+\begin_layout Standard
+No final, o nível do projeto do jogo resultante superou nossas expectativas
+ em termos de complexidade, estabilidade e qualidade.
+ Infelizmente, vários problemas surgiram durante o desenvolvimento (aqueles
+ listados na seção 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Problemas-e-Soluções"
+
+\end_inset
+
+); nosso insucesso mais grave ocorreu ao tentar adicionar áudio ao projeto,
+ o que certamente seria bastante trabalhoso.
+\end_layout
+
 \begin_layout Standard
 \begin_inset ERT
 status open
@@ -1208,38 +1227,7 @@ lstinputlisting[label=alg:vgacon,caption=Controlador VGA]{vgacon.vhd}
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
 
-\begin_layout Plain Layout
-
-
-\backslash
-newpage
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
-Conclusão
-\end_layout
-
-\begin_layout Standard
-No final, o nível do projeto do jogo resultante superou nossas expectativas
- em termos de complexidade, estabilidade e qualidade.
- Infelizmente, vários problemas surgiram durante o desenvolvimento (aqueles
- listados na seção 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Problemas-e-Soluções"
-
-\end_inset
-
-); nosso insucesso mais grave ocorreu ao tentar adicionar áudio ao projeto,
- o que certamente seria bastante trabalhoso.
 \end_layout
 
 \end_body
