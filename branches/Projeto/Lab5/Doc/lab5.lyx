@@ -1,0 +1,2476 @@
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage[brazil]{babel}    % dá suporte para os termos na língua portuguesa do Brasil
+\usepackage{url}
+\usepackage{textcomp}
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{amsmath} 
+\usepackage{wrapfig}
+\numberwithin{table}{section}
+\numberwithin{figure}{section}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{indentfirst}
+\usepackage{multicol}
+
+\newcommand*{\titleTMB}{\begingroup \centering \settowidth{\unitlength}{\LARGE MC 613} \vspace*{\baselineskip} {\large\scshape  Grupo 5 - Turma A}\\[\baselineskip] \rule{11.0cm}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} \rule{11.0cm}{0.4pt}\\[\baselineskip] {\LARGE Quinto laboratório }\\[0.2\baselineskip] {\LARGE de Circuitos Digitais}\\[0.2\baselineskip] {\itshape MC 613 - Primeiro Semestre de 2010}\\[0.2\baselineskip] \rule{11.0cm}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} \rule{11.0cm}{1.6pt}\\[\baselineskip] {\large\scshape Professor: Guido Araújo}\par \vfill {\normalsize   \scshape 
+\begin{center} 
+\begin{tabular}{  l  l  p{5cm} } 
+Henrique Serapião Gonzales     &  RA: 083636 \\
+Marcelo Galvão Póvoa & RA: 082115\\ 		
+Tiago Chedraoui Silva      & RA: 082941\\  	
+\end{tabular} \end{center}
+\itshape \today }\\[\baselineskip] \vspace{3.2pt} \endgroup}
+
+\usepackage{multicol}
+\end_preamble
+\use_default_options true
+\begin_modules
+eqs-within-sections
+figs-within-sections
+tabs-within-sections
+\end_modules
+\language brazilian
+\inputencoding auto
+\font_roman ae
+\font_sans lmss
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letterpaper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\leftmargin 3cm
+\rightmargin 3cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{titlepage}  
+\backslash
+titleTMB 
+\backslash
+end{titlepage} % capa no preambulo document settings
+\end_layout
+
+\begin_layout Plain Layout
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 1
+\end_layout
+
+\begin_layout Standard
+O medidor de tempo de reação proposto consiste de uma lógica de vários estágios,
+ alguns que terminam após um certo intervalo de tempo (aleatório) ou após
+ o usuário apertar um botão.
+ Esse comportamento foi implementado usando uma máquina de estados (síncrona
+ a 
+\begin_inset Formula $27MHz$
+\end_inset
+
+) e contadores de vários bits para contagem de tempo.
+ Um contador fica ativado o tempo todo e é usado para geração (simples)
+ de números aleatórios no intervalo 
+\begin_inset Formula $0\rightarrow27000000$
+\end_inset
+
+ (contagem até 1 segundo) e o outro é ativado para medição dos atrasos (até
+ 2 segundos) envolvidos no circuito.
+ Os estados, na ordem em que ocorrem em uma execução normal, são os seguintes
+ :
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+get_rand:
+\series default
+ Amostra o conteúdo do contador aleatório somando um segundo para obter
+ um tempo aletório usado na espera.
+ Inicia a contagem desse tempo.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+delay: 
+\series default
+O circuito permanece nesse estado até a espera esgotar; quando isso ocorre,
+ inicia a contagem do tempo de reação e avança o estado.
+ Os 
+\emph on
+displays
+\emph default
+ ficam apagados.
+ Se o usuário apertar o 
+\emph on
+PB2
+\emph default
+ antes do fim da espera, entra-se no estado 
+\series bold
+error
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+wait_b2:
+\series default
+ O circuito permanece nesse estado até o usuário reagir apertando 
+\emph on
+PB2
+\emph default
+.
+ Os 
+\emph on
+displays
+\emph default
+ ficam acesos.
+ Se, ao invés, 
+\emph on
+PB1 
+\emph default
+for pressionado ou o usuário demorar mais que 1 segundo para reagir, entra-se
+ no estado 
+\series bold
+error
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+result:
+\series default
+ Pára a contagem do tempo de reação e exibe-o nos 
+\emph on
+displays
+\emph default
+ em centésimos de segundo.
+ Aguarda 
+\emph on
+PB1
+\emph default
+ para reiniciar o processo no estado 
+\series bold
+get_rand
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+error: 
+\series default
+Exibe código de erro nos 
+\emph on
+displays 
+\emph default
+e aguarda 
+\emph on
+PB1 
+\emph default
+para reiniciar o processo no estado 
+\series bold
+get_rand
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+Como no laboratório do "relógio digital", os sinais dos 
+\emph on
+push buttons
+\emph default
+ foram tratados para serem síncronos e eliminar repetição da operação (
+\emph on
+i.e.
+ 
+\emph default
+sensibilidade à variação 
+\begin_inset Formula $0\rightarrow1$
+\end_inset
+
+) no estado do botão.
+ Veja o algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:\"Bufferização\"-dos-push"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "buff.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+"Bufferização" dos 
+\emph on
+push buttons 
+\emph default
+em VHDL
+\emph on
+
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:\"Bufferização\"-dos-push"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "reacao.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Medidor de reação com máquina de estados em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "cont_int.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Contador síncrono de conteúdo inteiro em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 2
+\end_layout
+
+\begin_layout Standard
+Este somador/subtrator serial síncrono tem um comportamento baseado em sinais
+ de controle e sua operação leva um ciclo constante de 8 pulsos de 
+\emph on
+clocks 
+\emph default
+(um por bit) para ser concluída.
+ É fácil modificar o número de bits do somador para 
+\emph on
+n 
+\emph default
+bits, basta mudar o número de estágios e de bits do registrador de deslocamento.
+ No entanto, o número de ciclos de 
+\emph on
+clock
+\emph default
+ até o resultado ficar pronto será 
+\emph on
+n
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Em modo 
+\series bold
+idle
+\series default
+, os bits resultantes da operação são mostrados na saída e a saída de 
+\emph on
+strobe
+\emph default
+ está ativada, indicando prontidão.
+ A saída 
+\emph on
+overflow
+\emph default
+ indica se ocorreu estouro na última operação realizada.
+ A cada subida do 
+\emph on
+clock
+\emph default
+, é verificado o sinal de entrada 
+\emph on
+lsb
+\emph default
+, que indica se os operandos estão prontos para serem recebidos.
+ Em caso positivo, o sinal seletor de operação (
+\begin_inset Formula $1$
+\end_inset
+
+ para soma, 
+\begin_inset Formula $0$
+\end_inset
+
+ para subtração) é armazenado em FF para evitar que ele varie durante a
+ operação e o modo torna-se 
+\series bold
+run
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+O modo 
+\series bold
+run
+\series default
+ compreende oito estágios sequenciais; em cada um, é implementado um 
+\emph on
+full-adder
+\emph default
+ ou 
+\emph on
+full-subtractor 
+\emph default
+(dependendo da operação) para os bits de entrada 
+\begin_inset Formula $x_{a}$
+\end_inset
+
+ e 
+\begin_inset Formula $x_{b}$
+\end_inset
+
+ e o 
+\emph on
+carry 
+\emph default
+ou 
+\emph on
+borrow
+\emph default
+ anterior.
+ O resultado entra no registrador de deslocamento e o próximo 
+\emph on
+carry
+\emph default
+ é
+\emph on
+ 
+\emph default
+armazenado.
+ Ao final, o estado volta para 
+\series bold
+idle 
+\series default
+e são armazenados os últimos bits 
+\begin_inset Formula $x_{a}$
+\end_inset
+
+ e 
+\begin_inset Formula $x_{b}$
+\end_inset
+
+ para cálculo dos casos de 
+\emph on
+overflow
+\emph default
+ para complemento de 2: dois positivos somando um negativo ou dois negativos
+ somando um negativo.
+\end_layout
+
+\begin_layout Standard
+A entrada assíncrona 
+\emph on
+rstn
+\emph default
+ é útil para reinicializar o circuito no modo 
+\series bold
+idle
+\series default
+ quando o mesmo estiver em algum estágio de 
+\series bold
+run
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+A simulação foi feita usando os seguintes exemplos:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \[
+11010100_{2}+10011111_{2}=01110011_{2}(overflow)\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \[
+10101010_{2}-00001101_{2}=10011101_{2}(sem\: overflow)\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename sim_somsub.PNG
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação do somador/subtrator serial
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "somsub.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Somador/subtrator serial com sinais de controle em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 3
+\end_layout
+
+\begin_layout Standard
+Projetamos, usando VHDL, um dado eletrônico que mostra aleatoriamente valores
+ de 1 a 6 no display de 7 segmentos sempre que se pressionar um 
+\emph on
+push button
+\emph default
+.
+ Isso prescindiu de alguma forma para obter um número aleatório.
+ Para isso, a solução (simples) usada foi criar um contador de 1 a 6 alimentado
+ por um clock de alta frequência.
+ Cada vez que o usuário pressiona o botão, é registrado um evento de amostragem
+ do contador a ser realizado em seguida.
+\end_layout
+
+\begin_layout Standard
+Para verificar a aleatoriadade do dados coletamos 120 valores cuja frequência
+ de cada valor pode ser vista na tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Frequência-dos-valores"
+
+\end_inset
+
+.
+ Esperava-se uma frequência próxima a 16,67%.
+ Em média, os valores podem ser considerados aleatórios, contudo, o valor
+ 1 teve uma frequência um pouco maior que o esperado.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Valor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Vezes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Freqência
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+21% 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+21
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18% 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15% 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15% 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+19
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+16% 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+19
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+16% 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Frequência dos valores de um dado em vhdl
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Frequência-dos-valores"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "rand_dice.vhd"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Top level - dado aleatório
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:buff-1-2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "cnt6.vhdl"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Contador de 1 a 6 - incremento usando clock de alta frequência
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:cnt6"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 4
+\end_layout
+
+\begin_layout Standard
+O código de 
+\emph on
+Hamming
+\emph default
+ para correção de erro é bastante útil em transmissão de dados nas quais
+ há risco (pequeno) de adulteração em um dos bits.
+ Nesse caso, há 4 bits de dados e 3 bits extras são usados para garantir
+ a recuperação da informação em caso de falha em no máximo um dos bits (o
+ que inclui os próprios 3 bits de codificação).
+ Portanto, há oito estados de erro recuperável possíveis (nenhum erro ou
+ erro em um dos bits); os três bits (
+\begin_inset Formula $2^{3}$
+\end_inset
+
+) codificam essas possibilidades.
+ Note que o resultado da recuperação é inesperado em caso de dois ou mais
+ erros, sendo impossível inclusive atestar essa condição.
+ 
+\end_layout
+
+\begin_layout Standard
+Em resumo, cada bit do código de 
+\emph on
+Hamming
+\emph default
+ representa a paridade de um conjunto pré-determinado de bits da sequência.
+ Na decodificação, se a paridade indicada por esses bits for inválida, é
+ possível determinar unicamente qual é o bit defeituoso (supondo que haja
+ apenas um) e reproduzir os dados corrigidos.
+\end_layout
+
+\begin_layout Standard
+A implementação feita apresenta um codificador, cuja saídas podem receber
+ adulterações propositais que comporão a entrada para o decodificador que
+ "tentará" reparar o erro.
+ Os dados originais já com os bits de codificação e as saídas corrigidas
+ serão observados nos leds.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "hamming_enc.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Codificador de código de 
+\emph on
+Hamming
+\emph default
+ em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "hamming_dec.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Decodificador de código de 
+\emph on
+Hamming
+\emph default
+ em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q4.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Top-level de inserção de erro em 
+\emph on
+Hamming
+\emph default
+ em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 5
+\end_layout
+
+\begin_layout Standard
+O objetivo central de projeto é propiciar a interação entre teclado e placa
+ de forma que o código das teclas sejam transformadas em caracteres alfa
+ numéricos.
+\end_layout
+
+\begin_layout Standard
+Inicialmente, identificamos os valores das teclas de A até Z e de 0 até
+ 9 através da utilização dos 4 displays da placa (ver tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Cod-teclas"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Posteriormente, implementamos um código de tradução (ver algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Deco_char-1"
+
+\end_inset
+
+), no qual, utilizando o display de sete segmentos, mostramos um desenho
+ representativo da tecla decodificada.
+ Note que, devido a simplicidade do display, algumas letras não puderam
+ ser representadas muito bem e outras ficaram com desenhos iguais.
+\end_layout
+
+\begin_layout Standard
+Utilizando a implementação de decodificação, tranformou-se os displays em
+ uma "tela dinâmica", deslocando os valores registrados quando novas teclas
+ fossem digitadas (valores antigos eram transferidos para o display da esquerda).
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "alfa_char.vhd"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Códigos de tradução do teclado
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Deco_char-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="8">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tecla
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Código
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tecla
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Código
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tecla
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Código
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tecla
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Código
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+001c
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+J
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+003b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+S
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+001b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0016
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0032
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+K
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0042
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+T
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+002c
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+001e
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+C
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0021
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+L
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+004b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+U
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+003c
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0026
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+D
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0023
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+M
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+003a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+V
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+002a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0025
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+E
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0024
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+N
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0031
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+W
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+001d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+002e
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+F
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+002b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+O
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0044
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+X
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0022
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0036
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+G
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0034
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+P
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+004d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Y
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0035
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+003d
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+H
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0033
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Q
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0015
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Z
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+001a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+003e
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+I
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0043
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+R
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+002d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0045
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0046
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Codificação teclas
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Cod-teclas"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "disp_roll.vhd"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Decodificador teclado
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:disp_roll"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "kbd_key_q5c.vhd"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Top level - alterações
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:buff-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Conclusão
+\end_layout
+
+\begin_layout Standard
+Esse laboratório versou sobre circuitos de aplicações diversas, portanto
+ não há conclusões gerais a serem feitas.
+ No entanto, algumas considerações interessantes podem ser listadas.
+\end_layout
+
+\begin_layout Standard
+O medidor do tempo de reação da 1ª questão envolveu uma máquina com vários
+ estados, cujas transições não eram sempre instantâneas, mas de certo intervalo
+ de tempo.
+ Isso exigiu contadores de vários bits para contar de um a dois segundos.
+ Para obter o tempo do contador em centésimos de segundo, foram usadas operações
+ de divisão ("/") e módulo ("%") em VHDL, o que se mostrou dispendioso no
+ número de células lógicas, porém com uma implementação mais simples.
+\end_layout
+
+\begin_layout Standard
+Nessa mesma questão e na 3ª, foi necessário o desenvolvimento de um gerador
+ de números aleatórios.
+ Foi usado simples um contador operado em alta frequência mas que pareceu
+ adequado às necessidades, afinal a distribuição de frequências para o lançament
+o de um dado mostrou-se bem comportada.
+\end_layout
+
+\begin_layout Standard
+Na 2ª questão explorou-se novamente um componente aritmético mas, nesse
+ caso, operado por sinais de controle e em vários ciclos de 
+\emph on
+clock.
+ 
+\emph default
+A 4ª questão foi simples mas com uma temática importante de correção de
+ erros: uma codificação que permite recuperação integral dos dados em caso
+ de adulteração de um dos bits.
+\end_layout
+
+\end_body
+\end_document

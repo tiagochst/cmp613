@@ -1,0 +1,1234 @@
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage[brazil]{babel}    % dá suporte para os termos na língua portuguesa do Brasil
+\usepackage{url}
+\usepackage{textcomp}
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{amsmath} 
+\usepackage{wrapfig}
+\numberwithin{table}{section}
+\numberwithin{figure}{section}
+\usepackage{color}
+\usepackage{indentfirst}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{bbding}
+ \usepackage{courier}
+ \lstset{
+         basicstyle=\scriptsize \ttfamily, 
+         numbers=left,               
+         numberstyle=\tiny,         
+         %stepnumber=2,              
+         numbersep=5pt,             
+         tabsize=2,                  
+         extendedchars=true,  
+         breaklines=true,       
+         keywordstyle=\color{blue},
+         frame=b,         
+         stringstyle=\color{green}\ttfamily, 
+         showspaces=false,          
+         showtabs=false,             
+         xleftmargin=5pt,
+         framexleftmargin=5pt,
+         framexrightmargin=1pt,
+         framexbottommargin=1pt,
+         language=VHDL,
+        fontadjust,
+         %backgroundcolor=\color{lightgray},
+         showstringspaces=false              
+  }
+ \lstloadlanguages{VHDL
+ }
+  \usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFont{green}{\color{green}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+
+
+
+
+\newcommand*{\titleTMB}{\begingroup \centering \settowidth{\unitlength}{\LARGE MC 613} \vspace*{\baselineskip} {\large\scshape  Grupo 5 - Turma A}\\[\baselineskip] \rule{11.0cm}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} \rule{11.0cm}{0.4pt}\\[\baselineskip] {\LARGE Projeto Final }\\[0.2\baselineskip] {\LARGE de Circuitos Digitais}\\[0.2\baselineskip] {\itshape MC 613 - Primeiro Semestre de 2010}\\[0.2\baselineskip] \rule{11.0cm}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} \rule{11.0cm}{1.6pt}\\[\baselineskip] {\large\scshape Professor: Guido Araújo}\par \vfill {\normalsize   \scshape 
+\begin{center} 
+\begin{tabular}{  l  l  p{5cm} } 
+Henrique Serapião Gonzales     &  RA: 083636 \\
+Marcelo Galvão Póvoa & RA: 082115\\ 		
+Tiago Chedraoui Silva      & RA: 082941\\  	
+\end{tabular} \end{center}
+\itshape \today }\\[\baselineskip] \vspace{3.2pt} \endgroup}
+
+\floatname{algorithm}{Algoritmo}
+\end_preamble
+\use_default_options true
+\begin_modules
+eqs-within-sections
+figs-within-sections
+tabs-within-sections
+\end_modules
+\language brazilian
+\inputencoding auto
+\font_roman ae
+\font_sans lmss
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letterpaper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\leftmargin 3cm
+\rightmargin 3cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{titlepage}  
+\backslash
+titleTMB 
+\backslash
+end{titlepage} % capa no preambulo document settings
+\end_layout
+
+\begin_layout Plain Layout
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introdução
+\end_layout
+
+\begin_layout Standard
+Nosso projeto foi criar em VHDL um jogo inspirado no clássico original 
+\noun on
+Pacman
+\noun default
+, de autoria de Tohru Iwatani em 1980 pela NAMCO.
+ Devido às dificuldades inerentes em se projetar um jogo relativamente complexo
+ com lógica de 
+\emph on
+hardware
+\emph default
+ ao invés de usar um processador com barramento de memória para tal, algumas
+ partes foram simplificadas em relação ao jogo original.
+\end_layout
+
+\begin_layout Standard
+Os componentes de hardware usados foram, além da placa Altera DE1, um monitor
+ VGA e um teclado padrão PS/2.
+ O jogo é projetado para dois jogadores (ao contrário de apenas um no jogo
+ original) que disputam a vitória em um labirinto, um controla dois fantasmas
+ e o outro, o Pacman.
+ Para mais detalhes das regras, consulte o jogo original em 
+\family sans
+http://en.wikipedia.org/wiki/Pac-Man
+\family default
+\noun on
+.
+ 
+\noun default
+O desenvolvimento do projeto está hospedado em 
+\family sans
+http://code.google.com/p/cmp613/
+\end_layout
+
+\begin_layout Standard
+O código resultou relativamente extenso, portanto o funcionamento em detalhes
+ de suas partes não está descrita nesse texto, mas ao longo do código extensivam
+ente comentado.
+ Esse relatório limita-se a discutir a estrutura geral do design, as consideraçõ
+es tomadas para o projeto, as dificuldades encontradas e as possíveis soluções.
+\end_layout
+
+\begin_layout Section
+Descrição estrutural
+\end_layout
+
+\begin_layout Standard
+A organização de componentes do projeto é simples.
+ Consta de um 
+\emph on
+top-level
+\emph default
+ que instancia e comunica alguns controladores de lógica de jogo e controladores
+ de dispositivos independentes.
+ Uma máquina de estados principal controla o andamento do jogo, gerando
+ sinais para os componentes trocarem informações.
+ Algumas operações são realizadas no 
+\emph on
+top-level
+\emph default
+, entre elas o controle de parâmetros globais do jogo - como vidas e pontuação
+ - que determinam o fim do jogo (o pacman ou os fantasmas vencem).
+ Devido ao fato dos sinais necessários para o desenho dos personagens na
+ tela depender de vários outros sinais, a geração destes primeiros também
+ está feita em um grande 
+\noun on
+PROCESS
+\noun default
+ no 
+\emph on
+top-level.
+\end_layout
+
+\begin_layout Standard
+Em resumo, os componentes principais são os seguintes (veja mais detalhes
+ nas respectivas arquiteturas e instâncias).
+\end_layout
+
+\begin_layout Subsection
+Controladores de lógica do jogo
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+ctrl_pacman: 
+\noun default
+Componente que gera a nova posição do pacman baseado no mapa ao redor dele
+ que recebe.
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+ctrl_fans: 
+\noun default
+Componente que gera as novas posições de múltiplos fantasmas do jogo baseado
+ nos mapas ao redor deles que recebe.
+ Também gerencia e informa os estados atuais dos fantasmas com máquinas
+ de estado.
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+ctrl_frutas: 
+\noun default
+Componente que gera, "aleatoriamente", sinais que informam que uma fruta
+ apareceu temporariamente no mapa (elas representam um bônus para o pacman).
+ Ao capturar a fruta, esse componente é resetado.
+\end_layout
+
+\begin_layout Subsection
+Controladores de dispositivos
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+vgacon: 
+\noun default
+Faz a varredura dos pixels da tela na frequência apropriada, gerando também
+ todos os sinais para a interface VGA.
+ Contém internamente duas memórias RAM que representam em blocos lógicos
+ (não foram usados pixels, veja a seção 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Problemas-e-Soluções"
+
+\end_inset
+
+ para mais detalhes) o estado atual da tela em duas camadas: cenário e 
+\emph on
+overlay
+\emph default
+ (para desenho dos personagens).
+ 
+\emph on
+Sprites
+\emph default
+ são usados para mapear esses blocos em pixels de profundidade 3-bits.
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+disp: 
+\noun default
+Controla os quatro displays de 7-segmentos da placa, usados para complementar
+ o HUD
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\emph on
+Head-Up Display: 
+\emph default
+conjunto de símbolos exibidos para informar ao jogador as condições atuais
+ do jogo
+\end_layout
+
+\end_inset
+
+ com a pontuação atual e mensagens de final de jogo.
+ Essa parte não foi implementada na tela devido a complexidade relacionada
+ a escrever texto na mesma.
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+kbd_key: 
+\noun default
+Realiza comunicação com o teclado, gerando sinais quando são pressionadas
+ teclas de interesse para o jogo (cursores de movimento).
+ Leia sobre os problemas desse componente na seção 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Problemas-e-Soluções"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Pacotes de Definições
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+pac_defs: 
+\noun default
+Contém todas as constantes e tipos principais usados globalmente no jogo.
+ Note que algumas constantes específicas estão localizadas nos respectivos
+ controladores.
+ Armazena visualmente a estrutura do labirinto do jogo carregada em RAM.
+ Esse pacote é destinado a ser facilmente customizável e entendido por usuários.
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+pac_sprites: 
+\noun default
+Coleção (extensa) de constantes usadas para 
+\emph on
+sprites
+\emph default
+ e mapeamento de 
+\emph on
+sprites
+\emph default
+ enviados à tela.
+ A maior parte deste pacote foi gerada automaticamente e não é aconselhável
+ editá-lo manualmente.
+\end_layout
+
+\begin_layout Section
+Problemas e Soluções
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Problemas-e-Soluções"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Dificuldade de instanciar uma RAM (resolvido)
+\end_layout
+
+\begin_layout Standard
+Nos estágios iniciais do projeto, houve bastante dificuldade em fazer o
+ compilador inferir uma RAM através do 
+\emph on
+template
+\emph default
+ do fabricante.
+ Queríamos uma RAM 
+\emph on
+Dual Port Dual Clock 
+\emph default
+que fosse inicializada com o mapa do jogo, para isso alteramos a 
+\series bold
+função de inicialização
+\series default
+ do 
+\emph on
+template
+\emph default
+ para copiar para a RAM um array constante que continha blocos 
+\series bold
+enumerados
+\series default
+.
+ Após compilar, a RAM não era reconhecida.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Solução: 
+\series default
+mudar o tipo do conteúdo da RAM de uma enumeração para um 
+\noun on
+std_logic_vector
+\noun default
+ e, adicionalmente, fazer a carga do conteúdo inicial manualmente e externamente
+ (sem a função supracitada) varrendo-a com contadores.
+ Essas alterações fizeram a RAM ser reconhecida e sintetizada, porém para
+ uma das RAMs do projeto, estranhamente, foi gerado um warning de "
+\emph on
+Uninferred RAM due to asynchronous read logic"
+\emph default
+, que não foi resolvido mas parece não afetar o circuito.
+\end_layout
+
+\begin_layout Subsection
+Problemas com o componente do teclado (não resolvido)
+\end_layout
+
+\begin_layout Standard
+O componente do teclado possui um 
+\emph on
+critical warning
+\emph default
+ relacionado ao 
+\emph on
+timing
+\emph default
+, porém ele não afeta o jogo.
+\end_layout
+
+\begin_layout Standard
+Além disso, a inicialização do componente, posterior ao carregamento do
+ jogo na placa, pode apresentar um comportamento indevido.
+ Esse comportamento acaba impossibilitando o recebimento de três teclas
+ simultâneas do teclado (poderia nesse caso receber duas, uma ou nenhuma).
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Solução:
+\series default
+ ao se reiniciar o jogo manualmente, o problema é resolvido.
+\end_layout
+
+\begin_layout Subsection
+Limitação de 3 teclas simultâneas no teclado (não resolvido)
+\end_layout
+
+\begin_layout Standard
+Quando três teclas já estão pressionadas no teclado, teclas adicionais são
+ ignoradas até que solte-se uma das teclas originais.
+ Assim, um jogador mal-intencionado pode impedir o outro de jogar, conseguindo
+ vencer desonestamente.
+ Problema provavelmente causado por uma limitação do 
+\emph on
+hardware
+\emph default
+ (teclado) ou pela interface PS/2.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Solução: 
+\series default
+usar dois teclados (um por jogador) conectados em duas placas, sendo que
+ a segunda apenas envia para a primeira informações do seu teclado durante
+ o jogo.
+ Porém, não se justifica adicionar uma interface, uma placa e um teclado
+ só para corrigir esse problema.
+ Ademais, o uso da segunda placa seria subaproveitado.
+\end_layout
+
+\begin_layout Subsection
+Dificuldade em fazer o som funcionar (não resolvido)
+\end_layout
+
+\begin_layout Standard
+A proposta inicial de colocar o som era desenvolver um áudio do jogo pacman
+ próximo ao original.
+ Havia duas possibilidades para sua implementação, uma usando o codec de
+ áudio documentado no site do Altera, ou a implementação da Nios2.
+ Optou-se pelo segundo método que consistia em usar o SOPC Builder (programa
+ integrado ao Quartus) que geraria uma NIOS com os componentes especificados
+ pelo usuário.
+ 
+\end_layout
+
+\begin_layout Standard
+Os componentes mínimos eram uma CPU, um componente de memória e o componente
+ do som fornecido no site do Altera.
+ Para testes iniciais da NIOS, usamos componentes de saída para os leds
+ e de entrada para os switches.
+ Implementada a NIOS, devíamos instanciá-la em um 
+\emph on
+top-level
+\emph default
+ e piná-la de acordo com os manuais do fabricante.
+ 
+\end_layout
+
+\begin_layout Standard
+Após isso, devíamos utilizar o programa NIOS II EDS, que utilizaria a NIOS
+ instanciada e geraria um projeto em C/C++ para a criação de um software.
+ Ou seja, a NIOS atua teoricamente como uma arquitetura de computador e
+ o código em C passaria a ser o software.
+\end_layout
+
+\begin_layout Standard
+O passo iniciais de teste foi ligar os endereços dos switches ao endereços
+ dos leds.
+ Assim, os leds receberiam o valor dos switches.
+ Foi um suceso a instanciação da NIOS.
+ Bastava portanto, utilizar o componente do som para gerar a música.
+\end_layout
+
+\begin_layout Standard
+Para passar a música para a placa, poderíamos usar uma das seguintes memória:
+ SD Card, SRAM, RAM, ROM, FLASH.
+ Como SRAM e RAM são voláteis, ao desligar a placa, perderíamos seus dados.
+ Além disso, como não possuíamos um cartão de memória compatível com a entrada
+ do SD Card, sua utilização também foi descartada.
+ Restou portanto a utilização da memória flash.
+ O site do Altera possui pouca documentação prática sobre a utilização de
+ memória flash, apresentado apenas uma grande documentação teórica, logo
+ perdemos muito tempo aprendendo a instanciá-la na NIOS.
+\end_layout
+
+\begin_layout Standard
+Contudo, não foi possível realizar uma comunicação com o dispositivo em
+ flash para sua leitura, pois a NIOS não encontrava o dispositivo através
+ da função 
+\begin_inset Quotes eld
+\end_inset
+
+alt_flash_open_dev(nome da flash)
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Esse problema foi presenciado por diversos usuários no fórum do site do
+ altera, e não exisitia uma solução, sendo um problema relacionado à ligação
+ de pinos no código da NIOS citado como problema, mas não foi demonstrado
+ sua solução.
+\end_layout
+
+\begin_layout Standard
+Apesar de não conseguir ler, foi possível escrever na flash através de outro
+ programa fornecido pelo altera 
+\begin_inset Quotes eld
+\end_inset
+
+Altera Monitor Program
+\begin_inset Quotes erd
+\end_inset
+
+, com o qual pode-se apagar a memória flash e Sram, assim como, colocar
+ arquivos inteiros, ou apenas alterar alguns bits de determinado endereço.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename NIOS.PNG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+NIOS implementada para o laboratório
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Projeto da inteligência artifical dos fantasmas (resolvido)
+\end_layout
+
+\begin_layout Standard
+Esse não chegou a ser um problema de fato, mas implementar uma movimentação
+ "inteligente" para pegar o pacman em hardware seria, potencialmente, bastante
+ trabalhoso.
+ Além disso, o mau funcionamento dessa parte poderia prejudicar a qualidade
+ do jogo, então ela seria uma parte muito laboriosa do projeto.
+ No jogo original, cada fantasma funciona com uma IA diferente, porém simples.
+ Essa implementação seria muito mais confortável e natural programando um
+ algoritmo.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Solução: 
+\series default
+Resolvemos criar um segundo jogador que controla os fantasmas.
+ Apesar disso, eles ainda voltam sozinho para a "jaula"
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Trata-se do percurso automático do fantasma ao centro do mapa quando este
+ é "morto" pelo pacman
+\end_layout
+
+\end_inset
+
+, algo mais simples de projetar.
+ Resultado: menos dor-de-cabeça no hardware e uma jogabilidade diferente.
+\end_layout
+
+\begin_layout Subsection
+
+\emph on
+Arrays
+\emph default
+ usados como constantes (não resolvido)
+\end_layout
+
+\begin_layout Standard
+Há dois grandes mapas constantes no jogo: o mapa inicial e o de percurso
+ automático dos fantasmas.
+ Além disso, há três vetores enormes de 
+\emph on
+sprites
+\emph default
+ para cada um dos mais de 300 tipos de blocos existentes no jogo.
+ Apesar de isso facilitar muito a edição dos mapas diretamente no código,
+ usar constantes faz com que o conteúdo desses vetores seja sintetizado
+ através de células lógicas, enquanto na verdade eles funcionam como memória
+ ROM.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Solução: 
+\series default
+Armazenar esses dados em memória ROM, reduzindo drasticamente o número de
+ células lógicas.
+ Isso não foi feito pelos seguintes motivos:
+\end_layout
+
+\begin_layout Itemize
+Não havia praticamente mais blocos de memória on-chip (M4K) disponíveis,
+ muitos foram usados para as RAMs.
+\end_layout
+
+\begin_layout Itemize
+Essas ROMs seriam inicializadas de forma binária através de um arquivo 
+\noun on
+.mif
+\noun default
+.
+ Além do trabalho em converter enumerações em binário e endereçar corretamente,
+ não seria mais tão simples manipular e modificar a longa lista de sprites
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Na verdade, a lista foi gerada automaticamente aos poucos a partir de um
+ programa em C feito para exportar uma planilha para a lista de constantes
+ binárias
+\end_layout
+
+\end_inset
+
+.
+ Idealmente, deveríamos trabalhar com um programa que permitisse editar
+ um 
+\noun on
+.mif 
+\noun default
+de pixels RGB organizados na forma de uma matriz.
+\end_layout
+
+\begin_layout Subsection
+Memória de vídeo "falsa" causa bordas indesejadas (não resolvido)
+\end_layout
+
+\begin_layout Standard
+A escassez de memória 
+\emph on
+on-chip
+\emph default
+ e a necessidade de se usar uma resolução relativamente alta nos levou a
+ criar uma memória de vídeo "falsa" para o projeto.
+ A lógica dos elementos visuais do jogo foi dividida em um conjunto de tipos
+ enumerados de blocos lógicos.
+ Conseguimos distribuir esses elementos na tela em uma área de 128x96 blocos.
+ Logo, fizemos a memória de vídeo armazenar ao invés da cor dos 640x480
+ pixels reais da tela, o tipo do bloco em cada posição.
+ Dessa forma, cada bloco consiste numa área de 5x5 pixels da tela.
+\end_layout
+
+\begin_layout Standard
+Apesar de economizar memória (já que não há um número tão grande de blocos
+ diferentes), esse método faz aparecer uma borda preta em volta de blocos
+ que estão na mesma memória cujos desenhos não ocupam toda a área do bloco.
+ Isso ocorre pois não é possível sobrepor dois blocos num mesmo bloco, pois
+ isso geraria um tipo de bloco indefinido.
+ Esse é um problema essencialmente estético.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Solução: 
+\series default
+O uso de uma memória de vídeo com 640x480 pixels resolveria o problema.
+ Isso poderia ser implementado em memória off-chip (SRAM ou SDRAM), mas
+ a interface seria mais complicada.
+\end_layout
+
+\begin_layout Subsection
+Pequenas falhas visuais na imagem enviada ao monitor (resolvido)
+\end_layout
+
+\begin_layout Standard
+A lógica seletora dos pixels dos sprites está localizada entre a leitura
+ da memória de vídeo e os pinos de saída da VGA.
+ Devido ao grande número de sprites, essa lógica consiste em enormes multiplexad
+ores que, naturalmente, geram atrasos para a estabilização do sinal.
+ Esses atrasos provavelmente eram a causa do surgimento de pequenas faixas
+ (menores que um pixel) coloridas na tela.
+ No entanto, nenhum 
+\emph on
+warning
+\emph default
+ ou problema de temporização era reportado pelo compilador.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Solução: 
+\series default
+Ao se registrar em 
+\emph on
+flip-flop
+\emph default
+ os dados de pixel antes de enviar para os pinos da VGA, o problema foi
+ resolvido.
+ Acreditamos que assim o compilador reconheceu um caminho crítico do circuito
+ e ajustou os parâmetros de 
+\emph on
+timing
+\emph default
+ para satisfazer a lógica desejada.
+ Sem o registrador, a estabilidade do caminho em questão não era considerada
+ pelo compilador.
+\end_layout
+
+\begin_layout Subsection
+Desperdício de memória na RAM de 
+\emph on
+overlay
+\emph default
+ (não resolvido)
+\end_layout
+
+\begin_layout Standard
+Todos os desenhos de overlay são formados por um grupo de 5x5 blocos juntos
+ (25x25 pixels).
+ Então, faria mais sentido haver um único bloco lógico no lugar de 25 blocos
+ distintos, pois eles sempre aparecem juntos.
+ Porém, não adianta simplesmente aumentar em cinco vezes o tamanho do bloco,
+ pois seu posicionamento deve ter uma resolução de um bloco pequeno, senão
+ a movimentação seria muito grosseira.
+ Esse problema não estaria presente em uma memória de vídeo "real".
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Solução:
+\series default
+ Projetar alguma maneira avançada de salvar apenas um bloco central em uma
+ região 5x5 mas fazer com que a leitura da memória descubra que, em volta
+ dele, há um mapeamento de sprites relativos ao bloco central.
+ Por exemplo, quando for requisitado o bloco localizado em uma certa posição
+ 
+\begin_inset Formula $(x,y)$
+\end_inset
+
+, se não houver um bloco ali, um componente deve verificar se existe algum
+ bloco ao redor dessa posição (no retângulo limitado por 
+\begin_inset Formula $(x-2,y-2)$
+\end_inset
+
+ e 
+\begin_inset Formula $(x+2,y+2)$
+\end_inset
+
+).
+ O problema é que isso deve ser feito em um ciclo de 
+\emph on
+clock
+\emph default
+ preferencialmente, o que dificulta o projeto.
+\end_layout
+
+\begin_layout Section
+Descrição básica de E/S
+\end_layout
+
+\begin_layout Subsection*
+Teclado:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[W][A][S][D]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Controle na forma de cursor para o fantasma verde
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[I][J][K][L]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Controle na forma de cursor para o fantasma vermelho
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[Num 8][Num 4][Num 5][Num 6]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Controle na forma de cursor para o pacman
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Placa:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+KEY3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reset assíncrono para todo o circuito
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LEDG7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Indicador de 
+\emph on
+Game Over
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LEDG2..LEDG0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Número de teclas lidas no teclado
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+HEX3..HEX0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Mostrador de pontos e mensagens
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+VGA
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Saída de vídeo para monitor (640x480 @60
+\emph on
+Hz
+\emph default
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Conclusão
+\end_layout
+
+\begin_layout Standard
+No final, o nível do projeto do jogo resultante superou nossas expectativas
+ em termos de complexidade, estabilidade e qualidade.
+ Infelizmente, vários problemas surgiram durante o desenvolvimento (aqueles
+ listados na seção 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Problemas-e-Soluções"
+
+\end_inset
+
+); nosso insucesso mais grave ocorreu ao tentar adicionar áudio ao projeto,
+ o que certamente seria bastante trabalhoso.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Códigos em VHDL
+\end_layout
+
+\begin_layout Standard
+Por simplicidade, foram omitidos no relatório o arquivo de sprites e os
+ das componentes da interface com o teclado.
+ Além disso, algumas tabelas não estão nos respectivos códigos pelo mesmo
+ motivo.
+ Nesses casos, há um comentário 
+\family typewriter
+TRECHO DE CÓDIGO SUPRIMIDO
+\family default
+ no lugar.
+\end_layout
+
+\begin_layout Subsection
+Top-Level
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:pacman,caption=Top Level]{pacman.vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Componentes
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:pac_defs,caption=Definicões do Jogo]{pac_defs.vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:ctrl_pacman,caption=Controlador do pacman]{ctrl_pacman.
+vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:ctrl_fans,caption=Controlador dos fantasmas]{ctrl_fans.
+vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:ctrl_frutas,caption=Controlador das frutas]{ctrl_fruta
+s.vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:player_dir,caption=Leitor de teclas]{player_dir.vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:disp,caption=Display de 7-segmentos]{disp.vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label=alg:vgacon,caption=Controlador VGA]{vgacon.vhd}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\end_body
+\end_document

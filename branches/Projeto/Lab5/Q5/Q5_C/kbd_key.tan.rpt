@@ -1,0 +1,818 @@
+Classic Timing Analyzer report for kbd_key
+Thu May 13 17:35:23 2010
+Quartus II Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Timing Analyzer Summary
+  3. Timing Analyzer Settings
+  4. Clock Settings Summary
+  5. Parallel Compilation
+  6. Clock Setup: 'CLOCK_24'
+  7. Clock Hold: 'CLOCK_24'
+  8. tsu
+  9. tco
+ 10. tpd
+ 11. th
+ 12. Timing Analyzer Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2010 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Timing Analyzer Summary                                                                                                                                                                                                                                                  ;
++------------------------------+-----------+----------------------------------+----------------------------------+--------------------------------------------------------+---------------------------------------------------------+------------+----------+--------------+
+; Type                         ; Slack     ; Required Time                    ; Actual Time                      ; From                                                   ; To                                                      ; From Clock ; To Clock ; Failed Paths ;
++------------------------------+-----------+----------------------------------+----------------------------------+--------------------------------------------------------+---------------------------------------------------------+------------+----------+--------------+
+; Worst-case tsu               ; N/A       ; None                             ; 8.696 ns                         ; KEY                                                    ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                   ; --         ; CLOCK_24 ; 0            ;
+; Worst-case tco               ; N/A       ; None                             ; 13.516 ns                        ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending     ; PS2_DAT                                                 ; CLOCK_24   ; --       ; 0            ;
+; Worst-case tpd               ; N/A       ; None                             ; 13.619 ns                        ; KEY                                                    ; PS2_DAT                                                 ; --         ; --       ; 0            ;
+; Worst-case th                ; N/A       ; None                             ; 0.749 ns                         ; PS2_DAT                                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]        ; --         ; CLOCK_24 ; 0            ;
+; Clock Setup: 'CLOCK_24'      ; 31.798 ns ; 24.00 MHz ( period = 41.666 ns ) ; 101.34 MHz ( period = 9.868 ns ) ; kbdex_ctrl:kbd_ctrl|key0code[7]                        ; disp_roll:display|key0[5]                               ; CLOCK_24   ; CLOCK_24 ; 0            ;
+; Clock Hold: 'CLOCK_24'       ; -1.991 ns ; 24.00 MHz ( period = 41.666 ns ) ; N/A                              ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkreleased ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[0] ; CLOCK_24   ; CLOCK_24 ; 8            ;
+; Total number of failed paths ;           ;                                  ;                                  ;                                                        ;                                                         ;            ;          ; 8            ;
++------------------------------+-----------+----------------------------------+----------------------------------+--------------------------------------------------------+---------------------------------------------------------+------------+----------+--------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Timing Analyzer Settings                                                                                                                                  ;
++------------------------------------------------------------------------------------------------------+--------------------+------+----------+-------------+
+; Option                                                                                               ; Setting            ; From ; To       ; Entity Name ;
++------------------------------------------------------------------------------------------------------+--------------------+------+----------+-------------+
+; Device Name                                                                                          ; EP2C20F484C7       ;      ;          ;             ;
+; Timing Models                                                                                        ; Final              ;      ;          ;             ;
+; Default hold multicycle                                                                              ; Same as Multicycle ;      ;          ;             ;
+; Cut paths between unrelated clock domains                                                            ; On                 ;      ;          ;             ;
+; Cut off read during write signal paths                                                               ; On                 ;      ;          ;             ;
+; Cut off feedback from I/O pins                                                                       ; On                 ;      ;          ;             ;
+; Report Combined Fast/Slow Timing                                                                     ; Off                ;      ;          ;             ;
+; Ignore Clock Settings                                                                                ; Off                ;      ;          ;             ;
+; Analyze latches as synchronous elements                                                              ; On                 ;      ;          ;             ;
+; Enable Recovery/Removal analysis                                                                     ; Off                ;      ;          ;             ;
+; Enable Clock Latency                                                                                 ; Off                ;      ;          ;             ;
+; Use TimeQuest Timing Analyzer                                                                        ; Off                ;      ;          ;             ;
+; Minimum Core Junction Temperature                                                                    ; 0                  ;      ;          ;             ;
+; Maximum Core Junction Temperature                                                                    ; 85                 ;      ;          ;             ;
+; Number of source nodes to report per destination node                                                ; 10                 ;      ;          ;             ;
+; Number of destination nodes to report                                                                ; 10                 ;      ;          ;             ;
+; Number of paths to report                                                                            ; 200                ;      ;          ;             ;
+; Report Minimum Timing Checks                                                                         ; Off                ;      ;          ;             ;
+; Use Fast Timing Models                                                                               ; Off                ;      ;          ;             ;
+; Report IO Paths Separately                                                                           ; Off                ;      ;          ;             ;
+; Perform Multicorner Analysis                                                                         ; On                 ;      ;          ;             ;
+; Reports the worst-case path for each clock domain and analysis                                       ; Off                ;      ;          ;             ;
+; Reports worst-case timing paths for each clock domain and analysis                                   ; On                 ;      ;          ;             ;
+; Specifies the maximum number of worst-case timing paths to report for each clock domain and analysis ; 100                ;      ;          ;             ;
+; Removes common clock path pessimism (CCPP) during slack computation                                  ; Off                ;      ;          ;             ;
+; Output I/O Timing Endpoint                                                                           ; Near End           ;      ;          ;             ;
+; Clock Settings                                                                                       ; CLOCK_24           ;      ; CLOCK_24 ;             ;
++------------------------------------------------------------------------------------------------------+--------------------+------+----------+-------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Clock Settings Summary                                                                                                                                                             ;
++-----------------+--------------------+----------+------------------+---------------+--------------+----------+-----------------------+---------------------+--------+--------------+
+; Clock Node Name ; Clock Setting Name ; Type     ; Fmax Requirement ; Early Latency ; Late Latency ; Based on ; Multiply Base Fmax by ; Divide Base Fmax by ; Offset ; Phase offset ;
++-----------------+--------------------+----------+------------------+---------------+--------------+----------+-----------------------+---------------------+--------+--------------+
+; CLOCK_24        ; CLOCK_24           ; User Pin ; 24.0 MHz         ; 0.000 ns      ; 0.000 ns     ; --       ; N/A                   ; N/A                 ; N/A    ;              ;
++-----------------+--------------------+----------+------------------+---------------+--------------+----------+-----------------------+---------------------+--------+--------------+
+
+
+Parallel compilation was disabled, but you have multiple processors available. Enable parallel compilation to reduce compilation time.
++-------------------------------------+
+; Parallel Compilation                ;
++----------------------------+--------+
+; Processors                 ; Number ;
++----------------------------+--------+
+; Number detected on machine ; 2      ;
+; Maximum allowed            ; 1      ;
++----------------------------+--------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Clock Setup: 'CLOCK_24'                                                                                                                                                                                                                                                                                 ;
++-----------------------------------------+-----------------------------------------------------+----------------------------------------------------+----------------------------------------+------------+----------+-----------------------------+---------------------------+-------------------------+
+; Slack                                   ; Actual fmax (period)                                ; From                                               ; To                                     ; From Clock ; To Clock ; Required Setup Relationship ; Required Longest P2P Time ; Actual Longest P2P Time ;
++-----------------------------------------+-----------------------------------------------------+----------------------------------------------------+----------------------------------------+------------+----------+-----------------------------+---------------------------+-------------------------+
+; 31.798 ns                               ; 101.34 MHz ( period = 9.868 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; disp_roll:display|key0[5]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.433 ns                 ; 9.635 ns                ;
+; 31.948 ns                               ; 102.90 MHz ( period = 9.718 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[2]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 5.414 ns                ;
+; 31.996 ns                               ; 103.41 MHz ( period = 9.670 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; disp_roll:display|key0[0]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.433 ns                 ; 9.437 ns                ;
+; 32.303 ns                               ; 106.80 MHz ( period = 9.363 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 5.059 ns                ;
+; 32.348 ns                               ; 107.32 MHz ( period = 9.318 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 5.014 ns                ;
+; 32.468 ns                               ; 108.72 MHz ( period = 9.198 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; disp_roll:display|key0[3]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.438 ns                 ; 8.970 ns                ;
+; 32.524 ns                               ; 109.39 MHz ( period = 9.142 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[2]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD    ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 4.838 ns                ;
+; 32.657 ns                               ; 111.00 MHz ( period = 9.009 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; disp_roll:display|key0[4]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.438 ns                 ; 8.781 ns                ;
+; 32.687 ns                               ; 111.37 MHz ( period = 8.979 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[1]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 4.675 ns                ;
+; 32.758 ns                               ; 112.26 MHz ( period = 8.908 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; disp_roll:display|key0[6]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.438 ns                 ; 8.680 ns                ;
+; 32.759 ns                               ; 112.27 MHz ( period = 8.907 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; disp_roll:display|key0[2]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.438 ns                 ; 8.679 ns                ;
+; 32.770 ns                               ; 112.41 MHz ( period = 8.896 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[2]   ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR     ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 4.592 ns                ;
+; 32.869 ns                               ; 113.68 MHz ( period = 8.797 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 4.493 ns                ;
+; 32.879 ns                               ; 113.80 MHz ( period = 8.787 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD    ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 4.483 ns                ;
+; 32.924 ns                               ; 114.39 MHz ( period = 8.742 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD    ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 4.438 ns                ;
+; 32.948 ns                               ; 114.71 MHz ( period = 8.718 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[4]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 4.414 ns                ;
+; 32.994 ns                               ; 115.31 MHz ( period = 8.672 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key1code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 8.423 ns                ;
+; 32.994 ns                               ; 115.31 MHz ( period = 8.672 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key1code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 8.423 ns                ;
+; 33.000 ns                               ; 115.39 MHz ( period = 8.666 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key1code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 8.419 ns                ;
+; 33.000 ns                               ; 115.39 MHz ( period = 8.666 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key1code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 8.419 ns                ;
+; 33.000 ns                               ; 115.39 MHz ( period = 8.666 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key1code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 8.419 ns                ;
+; 33.000 ns                               ; 115.39 MHz ( period = 8.666 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key1code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 8.419 ns                ;
+; 33.000 ns                               ; 115.39 MHz ( period = 8.666 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key1code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 8.419 ns                ;
+; 33.000 ns                               ; 115.39 MHz ( period = 8.666 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key1code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 8.419 ns                ;
+; 33.000 ns                               ; 115.39 MHz ( period = 8.666 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key1code[13]       ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 8.419 ns                ;
+; 33.008 ns                               ; 115.50 MHz ( period = 8.658 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 8.417 ns                ;
+; 33.008 ns                               ; 115.50 MHz ( period = 8.658 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 8.417 ns                ;
+; 33.014 ns                               ; 115.58 MHz ( period = 8.652 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.413 ns                ;
+; 33.014 ns                               ; 115.58 MHz ( period = 8.652 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.413 ns                ;
+; 33.014 ns                               ; 115.58 MHz ( period = 8.652 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.413 ns                ;
+; 33.014 ns                               ; 115.58 MHz ( period = 8.652 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.413 ns                ;
+; 33.014 ns                               ; 115.58 MHz ( period = 8.652 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.413 ns                ;
+; 33.014 ns                               ; 115.58 MHz ( period = 8.652 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.413 ns                ;
+; 33.014 ns                               ; 115.58 MHz ( period = 8.652 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[13]       ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.413 ns                ;
+; 33.073 ns                               ; 116.37 MHz ( period = 8.593 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1  ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 38.568 ns                 ; 5.495 ns                ;
+; 33.075 ns                               ; 116.40 MHz ( period = 8.591 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK   ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 38.568 ns                 ; 5.493 ns                ;
+; 33.080 ns                               ; 116.47 MHz ( period = 8.586 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[4]                    ; disp_roll:display|key0[5]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.432 ns                 ; 8.352 ns                ;
+; 33.100 ns                               ; 116.74 MHz ( period = 8.566 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[4]                    ; disp_roll:display|key0[0]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.432 ns                 ; 8.332 ns                ;
+; 33.125 ns                               ; 117.08 MHz ( period = 8.541 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]   ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR     ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 4.237 ns                ;
+; 33.153 ns                               ; 117.47 MHz ( period = 8.513 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key1code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 8.264 ns                ;
+; 33.153 ns                               ; 117.47 MHz ( period = 8.513 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key1code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 8.264 ns                ;
+; 33.159 ns                               ; 117.55 MHz ( period = 8.507 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key1code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 8.260 ns                ;
+; 33.159 ns                               ; 117.55 MHz ( period = 8.507 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key1code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 8.260 ns                ;
+; 33.159 ns                               ; 117.55 MHz ( period = 8.507 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key1code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 8.260 ns                ;
+; 33.159 ns                               ; 117.55 MHz ( period = 8.507 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key1code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 8.260 ns                ;
+; 33.159 ns                               ; 117.55 MHz ( period = 8.507 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key1code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 8.260 ns                ;
+; 33.159 ns                               ; 117.55 MHz ( period = 8.507 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key1code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 8.260 ns                ;
+; 33.159 ns                               ; 117.55 MHz ( period = 8.507 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key1code[13]       ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 8.260 ns                ;
+; 33.170 ns                               ; 117.70 MHz ( period = 8.496 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]   ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR     ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 4.192 ns                ;
+; 33.192 ns                               ; 118.01 MHz ( period = 8.474 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.235 ns                ;
+; 33.192 ns                               ; 118.01 MHz ( period = 8.474 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.235 ns                ;
+; 33.193 ns                               ; 118.02 MHz ( period = 8.473 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key1code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 8.232 ns                ;
+; 33.193 ns                               ; 118.02 MHz ( period = 8.473 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key1code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 8.232 ns                ;
+; 33.194 ns                               ; 118.04 MHz ( period = 8.472 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[7]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 4.168 ns                ;
+; 33.198 ns                               ; 118.09 MHz ( period = 8.468 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.231 ns                ;
+; 33.198 ns                               ; 118.09 MHz ( period = 8.468 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.231 ns                ;
+; 33.198 ns                               ; 118.09 MHz ( period = 8.468 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.231 ns                ;
+; 33.198 ns                               ; 118.09 MHz ( period = 8.468 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.231 ns                ;
+; 33.198 ns                               ; 118.09 MHz ( period = 8.468 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.231 ns                ;
+; 33.198 ns                               ; 118.09 MHz ( period = 8.468 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.231 ns                ;
+; 33.198 ns                               ; 118.09 MHz ( period = 8.468 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key1code[13]       ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.231 ns                ;
+; 33.199 ns                               ; 118.11 MHz ( period = 8.467 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key1code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.228 ns                ;
+; 33.199 ns                               ; 118.11 MHz ( period = 8.467 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key1code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.228 ns                ;
+; 33.199 ns                               ; 118.11 MHz ( period = 8.467 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key1code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.228 ns                ;
+; 33.199 ns                               ; 118.11 MHz ( period = 8.467 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key1code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.228 ns                ;
+; 33.199 ns                               ; 118.11 MHz ( period = 8.467 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key1code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.228 ns                ;
+; 33.199 ns                               ; 118.11 MHz ( period = 8.467 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key1code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.228 ns                ;
+; 33.199 ns                               ; 118.11 MHz ( period = 8.467 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key1code[13]       ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.228 ns                ;
+; 33.263 ns                               ; 119.01 MHz ( period = 8.403 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[1]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD    ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 4.099 ns                ;
+; 33.271 ns                               ; 119.12 MHz ( period = 8.395 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key2code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 8.146 ns                ;
+; 33.271 ns                               ; 119.12 MHz ( period = 8.395 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key2code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 8.146 ns                ;
+; 33.271 ns                               ; 119.12 MHz ( period = 8.395 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key2code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 8.146 ns                ;
+; 33.271 ns                               ; 119.12 MHz ( period = 8.395 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key2code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 8.146 ns                ;
+; 33.271 ns                               ; 119.12 MHz ( period = 8.395 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key2code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 8.146 ns                ;
+; 33.271 ns                               ; 119.12 MHz ( period = 8.395 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key2code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 8.146 ns                ;
+; 33.271 ns                               ; 119.12 MHz ( period = 8.395 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key2code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 8.146 ns                ;
+; 33.285 ns                               ; 119.32 MHz ( period = 8.381 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 8.140 ns                ;
+; 33.285 ns                               ; 119.32 MHz ( period = 8.381 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 8.140 ns                ;
+; 33.285 ns                               ; 119.32 MHz ( period = 8.381 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 8.140 ns                ;
+; 33.285 ns                               ; 119.32 MHz ( period = 8.381 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 8.140 ns                ;
+; 33.285 ns                               ; 119.32 MHz ( period = 8.381 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 8.140 ns                ;
+; 33.285 ns                               ; 119.32 MHz ( period = 8.381 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 8.140 ns                ;
+; 33.285 ns                               ; 119.32 MHz ( period = 8.381 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 8.140 ns                ;
+; 33.319 ns                               ; 119.80 MHz ( period = 8.347 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; disp_roll:display|key0[5]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.433 ns                 ; 8.114 ns                ;
+; 33.322 ns                               ; 119.85 MHz ( period = 8.344 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[5]                    ; disp_roll:display|key0[5]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.433 ns                 ; 8.111 ns                ;
+; 33.341 ns                               ; 120.12 MHz ( period = 8.325 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key1code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.416 ns                 ; 8.075 ns                ;
+; 33.341 ns                               ; 120.12 MHz ( period = 8.325 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key1code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.416 ns                 ; 8.075 ns                ;
+; 33.347 ns                               ; 120.21 MHz ( period = 8.319 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key1code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.418 ns                 ; 8.071 ns                ;
+; 33.347 ns                               ; 120.21 MHz ( period = 8.319 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key1code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.418 ns                 ; 8.071 ns                ;
+; 33.347 ns                               ; 120.21 MHz ( period = 8.319 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key1code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.418 ns                 ; 8.071 ns                ;
+; 33.347 ns                               ; 120.21 MHz ( period = 8.319 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key1code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.418 ns                 ; 8.071 ns                ;
+; 33.347 ns                               ; 120.21 MHz ( period = 8.319 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key1code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.418 ns                 ; 8.071 ns                ;
+; 33.347 ns                               ; 120.21 MHz ( period = 8.319 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key1code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.418 ns                 ; 8.071 ns                ;
+; 33.347 ns                               ; 120.21 MHz ( period = 8.319 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key1code[13]       ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.418 ns                 ; 8.071 ns                ;
+; 33.357 ns                               ; 120.35 MHz ( period = 8.309 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key1code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.070 ns                ;
+; 33.357 ns                               ; 120.35 MHz ( period = 8.309 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key1code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.070 ns                ;
+; 33.363 ns                               ; 120.44 MHz ( period = 8.303 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key1code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.066 ns                ;
+; 33.363 ns                               ; 120.44 MHz ( period = 8.303 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key1code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.066 ns                ;
+; 33.363 ns                               ; 120.44 MHz ( period = 8.303 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key1code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.066 ns                ;
+; 33.363 ns                               ; 120.44 MHz ( period = 8.303 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key1code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.066 ns                ;
+; 33.363 ns                               ; 120.44 MHz ( period = 8.303 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key1code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.066 ns                ;
+; 33.363 ns                               ; 120.44 MHz ( period = 8.303 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key1code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.066 ns                ;
+; 33.363 ns                               ; 120.44 MHz ( period = 8.303 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key1code[13]       ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.066 ns                ;
+; 33.381 ns                               ; 120.70 MHz ( period = 8.285 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key1code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.046 ns                ;
+; 33.381 ns                               ; 120.70 MHz ( period = 8.285 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key1code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 8.046 ns                ;
+; 33.387 ns                               ; 120.79 MHz ( period = 8.279 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key1code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.042 ns                ;
+; 33.387 ns                               ; 120.79 MHz ( period = 8.279 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key1code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.042 ns                ;
+; 33.387 ns                               ; 120.79 MHz ( period = 8.279 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key1code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.042 ns                ;
+; 33.387 ns                               ; 120.79 MHz ( period = 8.279 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key1code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.042 ns                ;
+; 33.387 ns                               ; 120.79 MHz ( period = 8.279 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key1code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.042 ns                ;
+; 33.387 ns                               ; 120.79 MHz ( period = 8.279 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key1code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.042 ns                ;
+; 33.387 ns                               ; 120.79 MHz ( period = 8.279 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key1code[13]       ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.429 ns                 ; 8.042 ns                ;
+; 33.389 ns                               ; 120.82 MHz ( period = 8.277 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; disp_roll:display|key0[1]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.438 ns                 ; 8.049 ns                ;
+; 33.430 ns                               ; 121.42 MHz ( period = 8.236 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key2code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 7.987 ns                ;
+; 33.430 ns                               ; 121.42 MHz ( period = 8.236 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key2code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 7.987 ns                ;
+; 33.430 ns                               ; 121.42 MHz ( period = 8.236 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key2code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 7.987 ns                ;
+; 33.430 ns                               ; 121.42 MHz ( period = 8.236 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key2code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 7.987 ns                ;
+; 33.430 ns                               ; 121.42 MHz ( period = 8.236 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key2code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 7.987 ns                ;
+; 33.430 ns                               ; 121.42 MHz ( period = 8.236 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key2code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 7.987 ns                ;
+; 33.430 ns                               ; 121.42 MHz ( period = 8.236 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key2code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 7.987 ns                ;
+; 33.469 ns                               ; 122.00 MHz ( period = 8.197 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.958 ns                ;
+; 33.469 ns                               ; 122.00 MHz ( period = 8.197 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.958 ns                ;
+; 33.469 ns                               ; 122.00 MHz ( period = 8.197 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.958 ns                ;
+; 33.469 ns                               ; 122.00 MHz ( period = 8.197 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.958 ns                ;
+; 33.469 ns                               ; 122.00 MHz ( period = 8.197 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.958 ns                ;
+; 33.469 ns                               ; 122.00 MHz ( period = 8.197 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.958 ns                ;
+; 33.469 ns                               ; 122.00 MHz ( period = 8.197 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.958 ns                ;
+; 33.470 ns                               ; 122.01 MHz ( period = 8.196 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key2code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 7.955 ns                ;
+; 33.470 ns                               ; 122.01 MHz ( period = 8.196 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key2code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 7.955 ns                ;
+; 33.470 ns                               ; 122.01 MHz ( period = 8.196 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key2code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 7.955 ns                ;
+; 33.470 ns                               ; 122.01 MHz ( period = 8.196 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key2code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 7.955 ns                ;
+; 33.470 ns                               ; 122.01 MHz ( period = 8.196 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key2code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 7.955 ns                ;
+; 33.470 ns                               ; 122.01 MHz ( period = 8.196 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key2code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 7.955 ns                ;
+; 33.470 ns                               ; 122.01 MHz ( period = 8.196 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key2code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.425 ns                 ; 7.955 ns                ;
+; 33.475 ns                               ; 122.09 MHz ( period = 8.191 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key0code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.428 ns                 ; 7.953 ns                ;
+; 33.475 ns                               ; 122.09 MHz ( period = 8.191 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key0code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.428 ns                 ; 7.953 ns                ;
+; 33.475 ns                               ; 122.09 MHz ( period = 8.191 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key0code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.428 ns                 ; 7.953 ns                ;
+; 33.475 ns                               ; 122.09 MHz ( period = 8.191 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key0code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.428 ns                 ; 7.953 ns                ;
+; 33.489 ns                               ; 122.29 MHz ( period = 8.177 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key0code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.436 ns                 ; 7.947 ns                ;
+; 33.489 ns                               ; 122.29 MHz ( period = 8.177 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key0code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.436 ns                 ; 7.947 ns                ;
+; 33.489 ns                               ; 122.29 MHz ( period = 8.177 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key0code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.436 ns                 ; 7.947 ns                ;
+; 33.489 ns                               ; 122.29 MHz ( period = 8.177 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key0code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.436 ns                 ; 7.947 ns                ;
+; 33.509 ns                               ; 122.59 MHz ( period = 8.157 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[1]   ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR     ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 3.853 ns                ;
+; 33.518 ns                               ; 122.73 MHz ( period = 8.148 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; disp_roll:display|key0[0]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.433 ns                 ; 7.915 ns                ;
+; 33.520 ns                               ; 122.76 MHz ( period = 8.146 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[5]                    ; disp_roll:display|key0[0]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.433 ns                 ; 7.913 ns                ;
+; 33.531 ns                               ; 122.93 MHz ( period = 8.135 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[6]                    ; kbdex_ctrl:kbd_ctrl|key1code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 7.886 ns                ;
+; 33.531 ns                               ; 122.93 MHz ( period = 8.135 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[6]                    ; kbdex_ctrl:kbd_ctrl|key1code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.417 ns                 ; 7.886 ns                ;
+; 33.537 ns                               ; 123.02 MHz ( period = 8.129 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[6]                    ; kbdex_ctrl:kbd_ctrl|key1code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 7.882 ns                ;
+; 33.537 ns                               ; 123.02 MHz ( period = 8.129 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[6]                    ; kbdex_ctrl:kbd_ctrl|key1code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 7.882 ns                ;
+; 33.537 ns                               ; 123.02 MHz ( period = 8.129 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[6]                    ; kbdex_ctrl:kbd_ctrl|key1code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 7.882 ns                ;
+; 33.537 ns                               ; 123.02 MHz ( period = 8.129 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[6]                    ; kbdex_ctrl:kbd_ctrl|key1code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 7.882 ns                ;
+; 33.537 ns                               ; 123.02 MHz ( period = 8.129 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[6]                    ; kbdex_ctrl:kbd_ctrl|key1code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 7.882 ns                ;
+; 33.537 ns                               ; 123.02 MHz ( period = 8.129 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[6]                    ; kbdex_ctrl:kbd_ctrl|key1code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 7.882 ns                ;
+; 33.537 ns                               ; 123.02 MHz ( period = 8.129 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[6]                    ; kbdex_ctrl:kbd_ctrl|key1code[13]       ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.419 ns                 ; 7.882 ns                ;
+; 33.554 ns                               ; 123.27 MHz ( period = 8.112 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD    ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 3.808 ns                ;
+; 33.618 ns                               ; 124.25 MHz ( period = 8.048 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key2code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.416 ns                 ; 7.798 ns                ;
+; 33.618 ns                               ; 124.25 MHz ( period = 8.048 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key2code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.416 ns                 ; 7.798 ns                ;
+; 33.618 ns                               ; 124.25 MHz ( period = 8.048 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key2code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.416 ns                 ; 7.798 ns                ;
+; 33.618 ns                               ; 124.25 MHz ( period = 8.048 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key2code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.416 ns                 ; 7.798 ns                ;
+; 33.618 ns                               ; 124.25 MHz ( period = 8.048 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key2code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.416 ns                 ; 7.798 ns                ;
+; 33.618 ns                               ; 124.25 MHz ( period = 8.048 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key2code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.416 ns                 ; 7.798 ns                ;
+; 33.618 ns                               ; 124.25 MHz ( period = 8.048 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; kbdex_ctrl:kbd_ctrl|key2code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.416 ns                 ; 7.798 ns                ;
+; 33.623 ns                               ; 124.33 MHz ( period = 8.043 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[0]                    ; kbdex_ctrl:kbd_ctrl|key2code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.432 ns                 ; 7.809 ns                ;
+; 33.633 ns                               ; 124.49 MHz ( period = 8.033 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[4]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD    ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 3.729 ns                ;
+; 33.634 ns                               ; 124.50 MHz ( period = 8.032 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key2code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.793 ns                ;
+; 33.634 ns                               ; 124.50 MHz ( period = 8.032 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key2code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.793 ns                ;
+; 33.634 ns                               ; 124.50 MHz ( period = 8.032 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key2code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.793 ns                ;
+; 33.634 ns                               ; 124.50 MHz ( period = 8.032 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key2code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.793 ns                ;
+; 33.634 ns                               ; 124.50 MHz ( period = 8.032 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key2code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.793 ns                ;
+; 33.634 ns                               ; 124.50 MHz ( period = 8.032 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key2code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.793 ns                ;
+; 33.634 ns                               ; 124.50 MHz ( period = 8.032 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                   ; kbdex_ctrl:kbd_ctrl|key2code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.793 ns                ;
+; 33.634 ns                               ; 124.50 MHz ( period = 8.032 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key0code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.428 ns                 ; 7.794 ns                ;
+; 33.634 ns                               ; 124.50 MHz ( period = 8.032 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key0code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.428 ns                 ; 7.794 ns                ;
+; 33.634 ns                               ; 124.50 MHz ( period = 8.032 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key0code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.428 ns                 ; 7.794 ns                ;
+; 33.634 ns                               ; 124.50 MHz ( period = 8.032 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key0code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.428 ns                 ; 7.794 ns                ;
+; 33.637 ns                               ; 124.55 MHz ( period = 8.029 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[5]                    ; kbdex_ctrl:kbd_ctrl|key2code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.440 ns                 ; 7.803 ns                ;
+; 33.658 ns                               ; 124.88 MHz ( period = 8.008 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key2code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.769 ns                ;
+; 33.658 ns                               ; 124.88 MHz ( period = 8.008 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key2code[0]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.769 ns                ;
+; 33.658 ns                               ; 124.88 MHz ( period = 8.008 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key2code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.769 ns                ;
+; 33.658 ns                               ; 124.88 MHz ( period = 8.008 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key2code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.769 ns                ;
+; 33.658 ns                               ; 124.88 MHz ( period = 8.008 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key2code[5]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.769 ns                ;
+; 33.658 ns                               ; 124.88 MHz ( period = 8.008 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key2code[6]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.769 ns                ;
+; 33.658 ns                               ; 124.88 MHz ( period = 8.008 ns )                    ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                   ; kbdex_ctrl:kbd_ctrl|key2code[7]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.427 ns                 ; 7.769 ns                ;
+; 33.672 ns                               ; 125.09 MHz ( period = 7.994 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[6]                    ; disp_roll:display|key0[5]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.433 ns                 ; 7.761 ns                ;
+; 33.673 ns                               ; 125.11 MHz ( period = 7.993 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key0code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.438 ns                 ; 7.765 ns                ;
+; 33.673 ns                               ; 125.11 MHz ( period = 7.993 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key0code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.438 ns                 ; 7.765 ns                ;
+; 33.673 ns                               ; 125.11 MHz ( period = 7.993 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key0code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.438 ns                 ; 7.765 ns                ;
+; 33.673 ns                               ; 125.11 MHz ( period = 7.993 ns )                    ; kbdex_ctrl:kbd_ctrl|key2code[5]                    ; kbdex_ctrl:kbd_ctrl|key0code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.438 ns                 ; 7.765 ns                ;
+; 33.674 ns                               ; 125.13 MHz ( period = 7.992 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key0code[2]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.436 ns                 ; 7.762 ns                ;
+; 33.674 ns                               ; 125.13 MHz ( period = 7.992 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key0code[1]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.436 ns                 ; 7.762 ns                ;
+; 33.674 ns                               ; 125.13 MHz ( period = 7.992 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key0code[3]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.436 ns                 ; 7.762 ns                ;
+; 33.674 ns                               ; 125.13 MHz ( period = 7.992 ns )                    ; kbdex_ctrl:kbd_ctrl|key1code[4]                    ; kbdex_ctrl:kbd_ctrl|key0code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.436 ns                 ; 7.762 ns                ;
+; 33.701 ns                               ; 125.55 MHz ( period = 7.965 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[1]                    ; disp_roll:display|key0[0]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.432 ns                 ; 7.731 ns                ;
+; 33.702 ns                               ; 125.57 MHz ( period = 7.964 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]   ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR     ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 3.660 ns                ;
+; 33.704 ns                               ; 125.60 MHz ( period = 7.962 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[5]   ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 3.658 ns                ;
+; 33.715 ns                               ; 125.77 MHz ( period = 7.951 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[2]                    ; disp_roll:display|key0[0]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.432 ns                 ; 7.717 ns                ;
+; 33.750 ns                               ; 126.33 MHz ( period = 7.916 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[4]                    ; disp_roll:display|key0[3]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.437 ns                 ; 7.687 ns                ;
+; 33.761 ns                               ; 126.50 MHz ( period = 7.905 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[4]                    ; disp_roll:display|key0[4]              ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.437 ns                 ; 7.676 ns                ;
+; 33.781 ns                               ; 126.82 MHz ( period = 7.885 ns )                    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[4]   ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR     ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 37.362 ns                 ; 3.581 ns                ;
+; 33.782 ns                               ; 126.84 MHz ( period = 7.884 ns )                    ; kbdex_ctrl:kbd_ctrl|key0code[7]                    ; kbdex_ctrl:kbd_ctrl|key2code[4]        ; CLOCK_24   ; CLOCK_24 ; 41.666 ns                   ; 41.432 ns                 ; 7.650 ns                ;
+; Timing analysis restricted to 200 rows. ; To change the limit use Settings (Assignments menu) ;                                                    ;                                        ;            ;          ;                             ;                           ;                         ;
++-----------------------------------------+-----------------------------------------------------+----------------------------------------------------+----------------------------------------+------------+----------+-----------------------------+---------------------------+-------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Clock Hold: 'CLOCK_24'                                                                                                                                                                                                                                                          ;
++-----------------------------------------+-----------------------------------------------------------+--------------------------------------------------------------+------------+----------+----------------------------+----------------------------+--------------------------+
+; Minimum Slack                           ; From                                                      ; To                                                           ; From Clock ; To Clock ; Required Hold Relationship ; Required Shortest P2P Time ; Actual Shortest P2P Time ;
++-----------------------------------------+-----------------------------------------------------------+--------------------------------------------------------------+------------+----------+----------------------------+----------------------------+--------------------------+
+; -1.991 ns                               ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkreleased    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[0]      ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 4.062 ns                   ; 2.071 ns                 ;
+; -1.991 ns                               ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkreleased    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[3]      ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 4.062 ns                   ; 2.071 ns                 ;
+; -1.991 ns                               ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkreleased    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[1]      ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 4.062 ns                   ; 2.071 ns                 ;
+; -1.991 ns                               ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkreleased    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsendend           ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 4.062 ns                   ; 2.071 ns                 ;
+; -1.957 ns                               ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkreleased    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~en_emulated ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 4.068 ns                   ; 2.111 ns                 ;
+; -1.957 ns                               ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkreleased    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~reg0        ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 4.068 ns                   ; 2.111 ns                 ;
+; -1.522 ns                               ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkreleased    ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[2]      ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 4.063 ns                   ; 2.541 ns                 ;
+; -0.958 ns                               ; kbdex_ctrl:kbd_ctrl|hdata[7]                              ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[7]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 2.863 ns                   ; 1.905 ns                 ;
+; 0.308 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|hdata[7]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~reg0        ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 1.223 ns                   ; 1.531 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|hdata[7]                              ; kbdex_ctrl:kbd_ctrl|hdata[7]                                 ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[3] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[3]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[2] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[2]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[1] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[1]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                        ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                           ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[0] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[0]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[0]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[0]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                     ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                        ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[5]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[5]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[7]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[7]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[4]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[4]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[1]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[1]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[2]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[2]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|parchecked        ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|parchecked           ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                      ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                       ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                    ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                       ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[0]   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[0]      ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[2]   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[2]      ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[3]   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[3]      ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[1]   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[1]      ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger        ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger           ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.445 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsendend        ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsendend           ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.454 ns                 ;
+; 0.620 ns                                ; disp_roll:display|key2[6]                                 ; disp_roll:display|key3[6]                                    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.629 ns                 ;
+; 0.623 ns                                ; disp_roll:display|key2[5]                                 ; disp_roll:display|key3[5]                                    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.632 ns                 ;
+; 0.623 ns                                ; disp_roll:display|key1[6]                                 ; disp_roll:display|key2[6]                                    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.632 ns                 ;
+; 0.625 ns                                ; disp_roll:display|key2[4]                                 ; disp_roll:display|key3[4]                                    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.634 ns                 ;
+; 0.626 ns                                ; disp_roll:display|key2[0]                                 ; disp_roll:display|key3[0]                                    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.635 ns                 ;
+; 0.626 ns                                ; disp_roll:display|key1[1]                                 ; disp_roll:display|key2[1]                                    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.635 ns                 ;
+; 0.627 ns                                ; disp_roll:display|key2[1]                                 ; disp_roll:display|key3[1]                                    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.636 ns                 ;
+; 0.628 ns                                ; disp_roll:display|key1[3]                                 ; disp_roll:display|key2[3]                                    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.637 ns                 ;
+; 0.629 ns                                ; disp_roll:display|key2[3]                                 ; disp_roll:display|key3[3]                                    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.638 ns                 ;
+; 0.634 ns                                ; kbdex_ctrl:kbd_ctrl|state.IDLE                            ; kbdex_ctrl:kbd_ctrl|state.FETCH                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.643 ns                 ;
+; 0.636 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[3]   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[1]      ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.645 ns                 ;
+; 0.641 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[3] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[0]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.650 ns                 ;
+; 0.641 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[0]   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[3]      ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.650 ns                 ;
+; 0.641 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[11]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkheld           ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.650 ns                 ;
+; 0.641 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[11]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[11]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.650 ns                 ;
+; 0.643 ns                                ; kbdex_ctrl:kbd_ctrl|fetchdata[0]                          ; kbdex_ctrl:kbd_ctrl|key1code[0]                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.652 ns                 ;
+; 0.645 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[0] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[3]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.654 ns                 ;
+; 0.645 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[0] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[2]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.654 ns                 ;
+; 0.648 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[0] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[1]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.657 ns                 ;
+; 0.769 ns                                ; kbdex_ctrl:kbd_ctrl|fetchdata[3]                          ; kbdex_ctrl:kbd_ctrl|key2code[3]                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.778 ns                 ;
+; 0.769 ns                                ; kbdex_ctrl:kbd_ctrl|state.FETCH                           ; kbdex_ctrl:kbd_ctrl|state.DECODE                             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.778 ns                 ;
+; 0.771 ns                                ; disp_roll:display|key1[2]                                 ; disp_roll:display|key2[2]                                    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.780 ns                 ;
+; 0.772 ns                                ; disp_roll:display|key1[0]                                 ; disp_roll:display|key2[0]                                    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.781 ns                 ;
+; 0.773 ns                                ; disp_roll:display|key2[2]                                 ; disp_roll:display|key3[2]                                    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.782 ns                 ;
+; 0.774 ns                                ; disp_roll:display|key1[4]                                 ; disp_roll:display|key2[4]                                    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.783 ns                 ;
+; 0.796 ns                                ; kbdex_ctrl:kbd_ctrl|fetchdata[6]                          ; kbdex_ctrl:kbd_ctrl|key1code[6]                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.805 ns                 ;
+; 0.798 ns                                ; kbdex_ctrl:kbd_ctrl|fetchdata[1]                          ; kbdex_ctrl:kbd_ctrl|key1code[1]                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.807 ns                 ;
+; 0.868 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[1]   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[2]      ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.010 ns                   ; 0.878 ns                 ;
+; 0.875 ns                                ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                          ; kbdex_ctrl:kbd_ctrl|key2code[2]                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.884 ns                 ;
+; 0.916 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.SEND                         ; kbdex_ctrl:kbd_ctrl|sigsend                                  ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; -0.162 ns                  ; 0.754 ns                 ;
+; 0.921 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[0]   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~en_emulated ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.015 ns                   ; 0.936 ns                 ;
+; 0.924 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                       ; kbdex_ctrl:kbd_ctrl|cmdstate.SEND                            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.933 ns                 ;
+; 0.949 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.SENDVAL                      ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.958 ns                 ;
+; 0.952 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                    ; kbdex_ctrl:kbd_ctrl|cmdstate.SEND                            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.961 ns                 ;
+; 0.960 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[2]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[2]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.969 ns                 ;
+; 0.960 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[0]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[0]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.969 ns                 ;
+; 0.962 ns                                ; kbdex_ctrl:kbd_ctrl|state.DECODE                          ; kbdex_ctrl:kbd_ctrl|state.RELEASE                            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.971 ns                 ;
+; 0.964 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[1]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[1]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.973 ns                 ;
+; 0.964 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[4]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[4]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.973 ns                 ;
+; 0.964 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[4]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[4]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.973 ns                 ;
+; 0.968 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[1]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[1]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.977 ns                 ;
+; 0.968 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[10]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[10]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.977 ns                 ;
+; 0.968 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[11]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[11]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.977 ns                 ;
+; 0.968 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[6]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[6]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.977 ns                 ;
+; 0.972 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[3]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[3]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.981 ns                 ;
+; 0.972 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[5]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[5]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.981 ns                 ;
+; 0.972 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[6]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[6]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.981 ns                 ;
+; 0.976 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[12]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[12]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.985 ns                 ;
+; 0.977 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[14]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[14]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.986 ns                 ;
+; 0.977 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[7]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[7]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.986 ns                 ;
+; 0.977 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[9]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[9]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.986 ns                 ;
+; 0.977 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[8]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[8]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.986 ns                 ;
+; 0.977 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[17]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[17]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.986 ns                 ;
+; 0.978 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[1]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[1]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.987 ns                 ;
+; 0.979 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.SEND                         ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.988 ns                 ;
+; 0.984 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[9]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[9]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.993 ns                 ;
+; 0.985 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.SEND                         ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                        ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.994 ns                 ;
+; 0.986 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[1] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[3]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.995 ns                 ;
+; 0.987 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[1] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[0]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.996 ns                 ;
+; 0.987 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[1]   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[3]      ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.996 ns                 ;
+; 0.989 ns                                ; kbdex_ctrl:kbd_ctrl|state.DECODE                          ; kbdex_ctrl:kbd_ctrl|state.CODE                               ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.998 ns                 ;
+; 0.989 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[1] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[2]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 0.998 ns                 ;
+; 0.991 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[3] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[1]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.000 ns                 ;
+; 0.991 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[0]   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[1]      ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.000 ns                 ;
+; 0.991 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[2]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[2]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.000 ns                 ;
+; 0.993 ns                                ; kbdex_ctrl:kbd_ctrl|state.DECODE                          ; kbdex_ctrl:kbd_ctrl|state.EXT1                               ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.002 ns                 ;
+; 0.993 ns                                ; kbdex_ctrl:kbd_ctrl|state.DECODE                          ; kbdex_ctrl:kbd_ctrl|state.EXT0                               ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.002 ns                 ;
+; 0.993 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[4]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[4]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.002 ns                 ;
+; 0.994 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[7]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[7]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.003 ns                 ;
+; 1.004 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[1]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[1]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.013 ns                 ;
+; 1.006 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[18]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[18]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.015 ns                 ;
+; 1.007 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[0]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[0]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.016 ns                 ;
+; 1.007 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[3]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[3]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.016 ns                 ;
+; 1.008 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[2]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[2]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.017 ns                 ;
+; 1.008 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[3]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[3]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.017 ns                 ;
+; 1.011 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[0]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[0]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.020 ns                 ;
+; 1.011 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[5]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[5]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.020 ns                 ;
+; 1.011 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[7]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[7]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.020 ns                 ;
+; 1.015 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[2]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[2]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.024 ns                 ;
+; 1.016 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[15]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[15]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.025 ns                 ;
+; 1.016 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[13]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[13]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.025 ns                 ;
+; 1.016 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[6]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[6]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.025 ns                 ;
+; 1.016 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[4]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[4]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.025 ns                 ;
+; 1.016 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[16]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[16]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.025 ns                 ;
+; 1.016 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[5]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[5]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.025 ns                 ;
+; 1.016 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[7]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[7]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.025 ns                 ;
+; 1.016 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[10]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[10]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.025 ns                 ;
+; 1.019 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[8]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[8]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.028 ns                 ;
+; 1.024 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[2] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[0]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.033 ns                 ;
+; 1.027 ns                                ; kbdex_ctrl:kbd_ctrl|fetchdata[4]                          ; kbdex_ctrl:kbd_ctrl|key1code[4]                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.036 ns                 ;
+; 1.028 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[2] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[3]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.037 ns                 ;
+; 1.030 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[2] ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\FROMPS2:count[1]    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.039 ns                 ;
+; 1.033 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[3]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[3]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.042 ns                 ;
+; 1.034 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.SENDVAL                      ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                        ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.043 ns                 ;
+; 1.034 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[5]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[5]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.043 ns                 ;
+; 1.040 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[6]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[6]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.049 ns                 ;
+; 1.046 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                    ; kbdex_ctrl:kbd_ctrl|cmdstate.SENDVAL                         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.055 ns                 ;
+; 1.112 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[5]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger           ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.383 ns                   ; 1.495 ns                 ;
+; 1.127 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                     ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                           ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.136 ns                 ;
+; 1.133 ns                                ; kbdex_ctrl:kbd_ctrl|state.EXT1                            ; kbdex_ctrl:kbd_ctrl|state.IDLE                               ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.142 ns                 ;
+; 1.134 ns                                ; kbdex_ctrl:kbd_ctrl|fetchdata[2]                          ; kbdex_ctrl:kbd_ctrl|key1code[2]                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.143 ns                 ;
+; 1.136 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                        ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.145 ns                 ;
+; 1.138 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.CLEAR                        ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                        ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.147 ns                 ;
+; 1.145 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[11]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_clk~en           ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.010 ns                   ; 1.155 ns                 ;
+; 1.145 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[11]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkreleased       ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.010 ns                   ; 1.155 ns                 ;
+; 1.167 ns                                ; kbdex_ctrl:kbd_ctrl|fetchdata[7]                          ; kbdex_ctrl:kbd_ctrl|key2code[7]                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.007 ns                   ; 1.174 ns                 ;
+; 1.210 ns                                ; kbdex_ctrl:kbd_ctrl|cmdstate.SENDVAL                      ; kbdex_ctrl:kbd_ctrl|sigsend                                  ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; -0.162 ns                  ; 1.048 ns                 ;
+; 1.241 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[0]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[1]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.250 ns                 ;
+; 1.260 ns                                ; kbdex_ctrl:kbd_ctrl|fetchdata[5]                          ; kbdex_ctrl:kbd_ctrl|key1code[5]                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.269 ns                 ;
+; 1.264 ns                                ; kbdex_ctrl:kbd_ctrl|state.EXT0                            ; kbdex_ctrl:kbd_ctrl|state.IDLE                               ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.273 ns                 ;
+; 1.271 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[0]   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~reg0        ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.015 ns                   ; 1.286 ns                 ;
+; 1.278 ns                                ; kbdex_ctrl:kbd_ctrl|key0code[2]                           ; kbdex_ctrl:kbd_ctrl|key_on[0]                                ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.014 ns                   ; 1.292 ns                 ;
+; 1.290 ns                                ; kbdex_ctrl:kbd_ctrl|fetchdata[7]                          ; kbdex_ctrl:kbd_ctrl|key1code[7]                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.299 ns                 ;
+; 1.292 ns                                ; kbdex_ctrl:kbd_ctrl|key_on[0]                             ; disp_roll:display|buff:bf|state                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.301 ns                 ;
+; 1.311 ns                                ; kbdex_ctrl:kbd_ctrl|state.CLRDP                           ; kbdex_ctrl:kbd_ctrl|key_on[2]                                ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.010 ns                   ; 1.321 ns                 ;
+; 1.311 ns                                ; kbdex_ctrl:kbd_ctrl|state.CLRDP                           ; kbdex_ctrl:kbd_ctrl|key_on[1]                                ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.010 ns                   ; 1.321 ns                 ;
+; 1.311 ns                                ; kbdex_ctrl:kbd_ctrl|state.CLRDP                           ; kbdex_ctrl:kbd_ctrl|key_on[0]                                ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.010 ns                   ; 1.321 ns                 ;
+; 1.313 ns                                ; kbdex_ctrl:kbd_ctrl|fetchdata[5]                          ; kbdex_ctrl:kbd_ctrl|key2code[5]                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.007 ns                   ; 1.320 ns                 ;
+; 1.322 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[1]   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~reg0        ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.015 ns                   ; 1.337 ns                 ;
+; 1.326 ns                                ; kbdex_ctrl:kbd_ctrl|fetchdata[6]                          ; kbdex_ctrl:kbd_ctrl|key2code[6]                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.007 ns                   ; 1.333 ns                 ;
+; 1.331 ns                                ; kbdex_ctrl:kbd_ctrl|fetchdata[1]                          ; kbdex_ctrl:kbd_ctrl|key2code[1]                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.007 ns                   ; 1.338 ns                 ;
+; 1.331 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[1]   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~en_emulated ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.015 ns                   ; 1.346 ns                 ;
+; 1.349 ns                                ; kbdex_ctrl:kbd_ctrl|fetchdata[4]                          ; kbdex_ctrl:kbd_ctrl|key0code[4]                              ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.018 ns                   ; 1.367 ns                 ;
+; 1.392 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[0]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[1]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.401 ns                 ;
+; 1.396 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[1]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[2]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.405 ns                 ;
+; 1.396 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[4]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[5]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.405 ns                 ;
+; 1.400 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[11]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[12]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.409 ns                 ;
+; 1.400 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[10]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[11]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.409 ns                 ;
+; 1.400 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[6]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[7]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.409 ns                 ;
+; 1.404 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[5]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[6]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.413 ns                 ;
+; 1.404 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[3]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[4]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.413 ns                 ;
+; 1.404 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[6]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[7]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.413 ns                 ;
+; 1.408 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[12]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[13]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.417 ns                 ;
+; 1.409 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[14]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[15]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.418 ns                 ;
+; 1.409 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[8]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[9]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.418 ns                 ;
+; 1.409 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[7]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[8]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.418 ns                 ;
+; 1.410 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[1]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[2]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.419 ns                 ;
+; 1.416 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[9]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[10]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.425 ns                 ;
+; 1.423 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[2]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[3]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.432 ns                 ;
+; 1.425 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[4]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[5]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.434 ns                 ;
+; 1.437 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[0]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[1]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.446 ns                 ;
+; 1.437 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[1]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[2]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.446 ns                 ;
+; 1.440 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[3]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[4]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.449 ns                 ;
+; 1.441 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[0]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[1]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.450 ns                 ;
+; 1.441 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[2]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[3]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.450 ns                 ;
+; 1.441 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[3]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[4]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.450 ns                 ;
+; 1.444 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[5]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[6]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.453 ns                 ;
+; 1.447 ns                                ; disp_roll:display|key1[5]                                 ; disp_roll:display|key2[5]                                    ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.007 ns                   ; 1.454 ns                 ;
+; 1.448 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[2]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[3]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.457 ns                 ;
+; 1.449 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[13]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[14]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.458 ns                 ;
+; 1.449 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[6]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[7]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.458 ns                 ;
+; 1.449 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[4]       ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[5]          ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.458 ns                 ;
+; 1.449 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[15]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[16]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.458 ns                 ;
+; 1.449 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[16]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[17]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.458 ns                 ;
+; 1.449 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[5]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[6]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.458 ns                 ;
+; 1.449 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[10]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[11]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.458 ns                 ;
+; 1.452 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[8]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[9]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.461 ns                 ;
+; 1.464 ns                                ; kbdex_ctrl:kbd_ctrl|key1code[6]                           ; kbdex_ctrl:kbd_ctrl|key_on[1]                                ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.023 ns                   ; 1.487 ns                 ;
+; 1.466 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[3]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[4]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.475 ns                 ;
+; 1.467 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[5]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[6]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.476 ns                 ;
+; 1.472 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[0]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[2]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.481 ns                 ;
+; 1.473 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[6]          ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|count[7]             ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.482 ns                 ;
+; 1.476 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[1]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[3]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.485 ns                 ;
+; 1.476 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[4]         ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[6]            ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.485 ns                 ;
+; 1.480 ns                                ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[11]      ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|countclk[13]         ; CLOCK_24   ; CLOCK_24 ; 0.000 ns                   ; 0.009 ns                   ; 1.489 ns                 ;
+; Timing analysis restricted to 200 rows. ; To change the limit use Settings (Assignments menu)       ;                                                              ;            ;          ;                            ;                            ;                          ;
++-----------------------------------------+-----------------------------------------------------------+--------------------------------------------------------------+------------+----------+----------------------------+----------------------------+--------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------+
+; tsu                                                                                                                 ;
++-------+--------------+------------+---------+------------------------------------------------------------+----------+
+; Slack ; Required tsu ; Actual tsu ; From    ; To                                                         ; To Clock ;
++-------+--------------+------------+---------+------------------------------------------------------------+----------+
+; N/A   ; None         ; 8.696 ns   ; KEY     ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                      ; CLOCK_24 ;
+; N/A   ; None         ; 8.694 ns   ; KEY     ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                       ; CLOCK_24 ;
+; N/A   ; None         ; 7.574 ns   ; KEY     ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                     ; CLOCK_24 ;
+; N/A   ; None         ; 7.570 ns   ; KEY     ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                        ; CLOCK_24 ;
+; N/A   ; None         ; 7.335 ns   ; KEY     ; kbdex_ctrl:kbd_ctrl|cmdstate.SEND                          ; CLOCK_24 ;
+; N/A   ; None         ; 7.329 ns   ; KEY     ; kbdex_ctrl:kbd_ctrl|cmdstate.SENDVAL                       ; CLOCK_24 ;
+; N/A   ; None         ; 5.594 ns   ; KEY     ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~_emulated ; CLOCK_24 ;
+; N/A   ; None         ; 5.298 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[7]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.298 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[6]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.298 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[5]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.298 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[4]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.298 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[3]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.298 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[2]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.298 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[1]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.298 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[0]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.029 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[6]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.029 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[7]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.029 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[5]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.029 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[4]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.029 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[3]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.029 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[2]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.029 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[1]          ; CLOCK_24 ;
+; N/A   ; None         ; 5.029 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[0]          ; CLOCK_24 ;
+; N/A   ; None         ; 4.436 ns   ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger         ; CLOCK_24 ;
+; N/A   ; None         ; 3.887 ns   ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|parchecked         ; CLOCK_24 ;
+; N/A   ; None         ; -0.493 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]           ; CLOCK_24 ;
+; N/A   ; None         ; -0.493 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[5]           ; CLOCK_24 ;
+; N/A   ; None         ; -0.494 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[4]           ; CLOCK_24 ;
+; N/A   ; None         ; -0.496 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[7]           ; CLOCK_24 ;
+; N/A   ; None         ; -0.498 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[1]           ; CLOCK_24 ;
+; N/A   ; None         ; -0.499 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[2]           ; CLOCK_24 ;
+; N/A   ; None         ; -0.501 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]           ; CLOCK_24 ;
+; N/A   ; None         ; -0.501 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]           ; CLOCK_24 ;
++-------+--------------+------------+---------+------------------------------------------------------------+----------+
+
+
++-------------------------------------------------------------------------------------------------------------------------+
+; tco                                                                                                                     ;
++-------+--------------+------------+--------------------------------------------------------------+---------+------------+
+; Slack ; Required tco ; Actual tco ; From                                                         ; To      ; From Clock ;
++-------+--------------+------------+--------------------------------------------------------------+---------+------------+
+; N/A   ; None         ; 13.516 ns  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending           ; PS2_DAT ; CLOCK_24   ;
+; N/A   ; None         ; 12.751 ns  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~en_emulated ; PS2_DAT ; CLOCK_24   ;
+; N/A   ; None         ; 12.052 ns  ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~reg0        ; PS2_DAT ; CLOCK_24   ;
+; N/A   ; None         ; 10.598 ns  ; disp_roll:display|key0[6]                                    ; HEX0[6] ; CLOCK_24   ;
+; N/A   ; None         ; 10.526 ns  ; disp_roll:display|key0[0]                                    ; HEX0[0] ; CLOCK_24   ;
+; N/A   ; None         ; 10.423 ns  ; disp_roll:display|key0[3]                                    ; HEX0[3] ; CLOCK_24   ;
+; N/A   ; None         ; 10.282 ns  ; disp_roll:display|key0[4]                                    ; HEX0[4] ; CLOCK_24   ;
+; N/A   ; None         ; 10.244 ns  ; disp_roll:display|key0[2]                                    ; HEX0[2] ; CLOCK_24   ;
+; N/A   ; None         ; 10.235 ns  ; disp_roll:display|key0[5]                                    ; HEX0[5] ; CLOCK_24   ;
+; N/A   ; None         ; 9.476 ns   ; disp_roll:display|key0[1]                                    ; HEX0[1] ; CLOCK_24   ;
+; N/A   ; None         ; 9.366 ns   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkheld           ; PS2_DAT ; CLOCK_24   ;
+; N/A   ; None         ; 8.623 ns   ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_clk~en           ; PS2_CLK ; CLOCK_24   ;
+; N/A   ; None         ; 8.200 ns   ; kbdex_ctrl:kbd_ctrl|key_on[0]                                ; LEDG[5] ; CLOCK_24   ;
+; N/A   ; None         ; 8.124 ns   ; kbdex_ctrl:kbd_ctrl|key_on[1]                                ; LEDG[6] ; CLOCK_24   ;
+; N/A   ; None         ; 8.089 ns   ; kbdex_ctrl:kbd_ctrl|key_on[2]                                ; LEDG[7] ; CLOCK_24   ;
+; N/A   ; None         ; 7.481 ns   ; disp_roll:display|key3[3]                                    ; HEX3[3] ; CLOCK_24   ;
+; N/A   ; None         ; 7.439 ns   ; disp_roll:display|key1[5]                                    ; HEX1[5] ; CLOCK_24   ;
+; N/A   ; None         ; 7.162 ns   ; disp_roll:display|key2[6]                                    ; HEX2[6] ; CLOCK_24   ;
+; N/A   ; None         ; 7.161 ns   ; disp_roll:display|key3[6]                                    ; HEX3[6] ; CLOCK_24   ;
+; N/A   ; None         ; 7.142 ns   ; disp_roll:display|key2[5]                                    ; HEX2[5] ; CLOCK_24   ;
+; N/A   ; None         ; 7.130 ns   ; disp_roll:display|key3[4]                                    ; HEX3[4] ; CLOCK_24   ;
+; N/A   ; None         ; 7.061 ns   ; disp_roll:display|key3[2]                                    ; HEX3[2] ; CLOCK_24   ;
+; N/A   ; None         ; 6.945 ns   ; disp_roll:display|key1[0]                                    ; HEX1[0] ; CLOCK_24   ;
+; N/A   ; None         ; 6.943 ns   ; disp_roll:display|key3[1]                                    ; HEX3[1] ; CLOCK_24   ;
+; N/A   ; None         ; 6.913 ns   ; disp_roll:display|key1[4]                                    ; HEX1[4] ; CLOCK_24   ;
+; N/A   ; None         ; 6.895 ns   ; disp_roll:display|key2[4]                                    ; HEX2[4] ; CLOCK_24   ;
+; N/A   ; None         ; 6.895 ns   ; disp_roll:display|key1[3]                                    ; HEX1[3] ; CLOCK_24   ;
+; N/A   ; None         ; 6.888 ns   ; disp_roll:display|key1[2]                                    ; HEX1[2] ; CLOCK_24   ;
+; N/A   ; None         ; 6.887 ns   ; disp_roll:display|key1[1]                                    ; HEX1[1] ; CLOCK_24   ;
+; N/A   ; None         ; 6.882 ns   ; disp_roll:display|key2[0]                                    ; HEX2[0] ; CLOCK_24   ;
+; N/A   ; None         ; 6.833 ns   ; disp_roll:display|key1[6]                                    ; HEX1[6] ; CLOCK_24   ;
+; N/A   ; None         ; 6.797 ns   ; disp_roll:display|key3[5]                                    ; HEX3[5] ; CLOCK_24   ;
+; N/A   ; None         ; 6.576 ns   ; disp_roll:display|key2[3]                                    ; HEX2[3] ; CLOCK_24   ;
+; N/A   ; None         ; 6.575 ns   ; disp_roll:display|key2[2]                                    ; HEX2[2] ; CLOCK_24   ;
+; N/A   ; None         ; 6.549 ns   ; disp_roll:display|key3[0]                                    ; HEX3[0] ; CLOCK_24   ;
+; N/A   ; None         ; 6.547 ns   ; disp_roll:display|key2[1]                                    ; HEX2[1] ; CLOCK_24   ;
++-------+--------------+------------+--------------------------------------------------------------+---------+------------+
+
+
++--------------------------------------------------------------+
+; tpd                                                          ;
++-------+-------------------+-----------------+------+---------+
+; Slack ; Required P2P Time ; Actual P2P Time ; From ; To      ;
++-------+-------------------+-----------------+------+---------+
+; N/A   ; None              ; 13.619 ns       ; KEY  ; PS2_DAT ;
++-------+-------------------+-----------------+------+---------+
+
+
++---------------------------------------------------------------------------------------------------------------------------+
+; th                                                                                                                        ;
++---------------+-------------+-----------+---------+------------------------------------------------------------+----------+
+; Minimum Slack ; Required th ; Actual th ; From    ; To                                                         ; To Clock ;
++---------------+-------------+-----------+---------+------------------------------------------------------------+----------+
+; N/A           ; None        ; 0.749 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]           ; CLOCK_24 ;
+; N/A           ; None        ; 0.749 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[6]           ; CLOCK_24 ;
+; N/A           ; None        ; 0.747 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[2]           ; CLOCK_24 ;
+; N/A           ; None        ; 0.746 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[1]           ; CLOCK_24 ;
+; N/A           ; None        ; 0.744 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[7]           ; CLOCK_24 ;
+; N/A           ; None        ; 0.742 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[4]           ; CLOCK_24 ;
+; N/A           ; None        ; 0.741 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[3]           ; CLOCK_24 ;
+; N/A           ; None        ; 0.741 ns  ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[5]           ; CLOCK_24 ;
+; N/A           ; None        ; -3.639 ns ; PS2_DAT ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|parchecked         ; CLOCK_24 ;
+; N/A           ; None        ; -4.188 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger         ; CLOCK_24 ;
+; N/A           ; None        ; -4.569 ns ; KEY     ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~_emulated ; CLOCK_24 ;
+; N/A           ; None        ; -4.781 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[6]          ; CLOCK_24 ;
+; N/A           ; None        ; -4.781 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[7]          ; CLOCK_24 ;
+; N/A           ; None        ; -4.781 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[5]          ; CLOCK_24 ;
+; N/A           ; None        ; -4.781 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[4]          ; CLOCK_24 ;
+; N/A           ; None        ; -4.781 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[3]          ; CLOCK_24 ;
+; N/A           ; None        ; -4.781 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[2]          ; CLOCK_24 ;
+; N/A           ; None        ; -4.781 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[1]          ; CLOCK_24 ;
+; N/A           ; None        ; -4.781 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|fcount[0]          ; CLOCK_24 ;
+; N/A           ; None        ; -5.050 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[7]          ; CLOCK_24 ;
+; N/A           ; None        ; -5.050 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[6]          ; CLOCK_24 ;
+; N/A           ; None        ; -5.050 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[5]          ; CLOCK_24 ;
+; N/A           ; None        ; -5.050 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[4]          ; CLOCK_24 ;
+; N/A           ; None        ; -5.050 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[3]          ; CLOCK_24 ;
+; N/A           ; None        ; -5.050 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[2]          ; CLOCK_24 ;
+; N/A           ; None        ; -5.050 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[1]          ; CLOCK_24 ;
+; N/A           ; None        ; -5.050 ns ; PS2_CLK ; kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|rcount[0]          ; CLOCK_24 ;
+; N/A           ; None        ; -6.304 ns ; KEY     ; kbdex_ctrl:kbd_ctrl|cmdstate.SENDVAL                       ; CLOCK_24 ;
+; N/A           ; None        ; -6.310 ns ; KEY     ; kbdex_ctrl:kbd_ctrl|cmdstate.SEND                          ; CLOCK_24 ;
+; N/A           ; None        ; -6.545 ns ; KEY     ; kbdex_ctrl:kbd_ctrl|cmdstate.SETCMD                        ; CLOCK_24 ;
+; N/A           ; None        ; -6.549 ns ; KEY     ; kbdex_ctrl:kbd_ctrl|cmdstate.SETLIGHTS                     ; CLOCK_24 ;
+; N/A           ; None        ; -7.669 ns ; KEY     ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK                       ; CLOCK_24 ;
+; N/A           ; None        ; -7.671 ns ; KEY     ; kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1                      ; CLOCK_24 ;
++---------------+-------------+-----------+---------+------------------------------------------------------------+----------+
+
+
++--------------------------+
+; Timing Analyzer Messages ;
++--------------------------+
+Info: *******************************************************************
+Info: Running Quartus II Classic Timing Analyzer
+    Info: Version 9.1 Build 304 01/25/2010 Service Pack 1 SJ Web Edition
+    Info: Processing started: Thu May 13 17:35:22 2010
+Info: Command: quartus_tan --read_settings_files=off --write_settings_files=off kbd_key -c kbd_key --timing_analysis_only
+Warning: Timing Analysis is analyzing one or more combinational loops as latches
+    Warning: Node "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~latch" is a latch
+    Warning: Node "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~enlatch" is a latch
+    Warning: Node "kbdex_ctrl:kbd_ctrl|selE0" is a latch
+    Warning: Node "kbdex_ctrl:kbd_ctrl|selbt" is a latch
+    Warning: Node "kbdex_ctrl:kbd_ctrl|relbt" is a latch
+Warning: Found 3 node(s) in clock paths which may be acting as ripple and/or gated clocks -- node(s) analyzed as buffer(s) resulting in clock skew
+    Info: Detected ripple clock "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|parchecked" as buffer
+    Info: Detected ripple clock "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger" as buffer
+    Info: Detected ripple clock "kbdex_ctrl:kbd_ctrl|sigsend" as buffer
+Info: Slack time is 31.798 ns for clock "CLOCK_24" between source register "kbdex_ctrl:kbd_ctrl|key0code[7]" and destination register "disp_roll:display|key0[5]"
+    Info: Fmax is 101.34 MHz (period= 9.868 ns)
+    Info: + Largest register to register requirement is 41.433 ns
+        Info: + Setup relationship between source and destination is 41.666 ns
+            Info: + Latch edge is 41.666 ns
+                Info: Clock period of Destination clock "CLOCK_24" is 41.666 ns with  offset of 0.000 ns and duty cycle of 50
+                Info: Multicycle Setup factor for Destination register is 1
+            Info: - Launch edge is 0.000 ns
+                Info: Clock period of Source clock "CLOCK_24" is 41.666 ns with  offset of 0.000 ns and duty cycle of 50
+                Info: Multicycle Setup factor for Source register is 1
+        Info: + Largest clock skew is 0.006 ns
+            Info: + Shortest clock path from clock "CLOCK_24" to destination register is 2.852 ns
+                Info: 1: + IC(0.000 ns) + CELL(1.026 ns) = 1.026 ns; Loc. = PIN_B12; Fanout = 3; CLK Node = 'CLOCK_24'
+                Info: 2: + IC(0.238 ns) + CELL(0.000 ns) = 1.264 ns; Loc. = CLKCTRL_G10; Fanout = 135; COMB Node = 'CLOCK_24~clkctrl'
+                Info: 3: + IC(0.986 ns) + CELL(0.602 ns) = 2.852 ns; Loc. = LCFF_X45_Y22_N19; Fanout = 2; REG Node = 'disp_roll:display|key0[5]'
+                Info: Total cell delay = 1.628 ns ( 57.08 % )
+                Info: Total interconnect delay = 1.224 ns ( 42.92 % )
+            Info: - Longest clock path from clock "CLOCK_24" to source register is 2.846 ns
+                Info: 1: + IC(0.000 ns) + CELL(1.026 ns) = 1.026 ns; Loc. = PIN_B12; Fanout = 3; CLK Node = 'CLOCK_24'
+                Info: 2: + IC(0.238 ns) + CELL(0.000 ns) = 1.264 ns; Loc. = CLKCTRL_G10; Fanout = 135; COMB Node = 'CLOCK_24~clkctrl'
+                Info: 3: + IC(0.980 ns) + CELL(0.602 ns) = 2.846 ns; Loc. = LCFF_X44_Y19_N21; Fanout = 5; REG Node = 'kbdex_ctrl:kbd_ctrl|key0code[7]'
+                Info: Total cell delay = 1.628 ns ( 57.20 % )
+                Info: Total interconnect delay = 1.218 ns ( 42.80 % )
+        Info: - Micro clock to output delay of source is 0.277 ns
+        Info: - Micro setup delay of destination is -0.038 ns
+    Info: - Longest register to register delay is 9.635 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = LCFF_X44_Y19_N21; Fanout = 5; REG Node = 'kbdex_ctrl:kbd_ctrl|key0code[7]'
+        Info: 2: + IC(1.968 ns) + CELL(0.455 ns) = 2.423 ns; Loc. = LCCOMB_X44_Y19_N22; Fanout = 11; COMB Node = 'alfa_char:code|Equal1~0'
+        Info: 3: + IC(1.176 ns) + CELL(0.485 ns) = 4.084 ns; Loc. = LCCOMB_X45_Y21_N12; Fanout = 4; COMB Node = 'alfa_char:code|Equal29~0'
+        Info: 4: + IC(0.892 ns) + CELL(0.178 ns) = 5.154 ns; Loc. = LCCOMB_X45_Y21_N22; Fanout = 3; COMB Node = 'alfa_char:code|WideOr2~0'
+        Info: 5: + IC(0.888 ns) + CELL(0.521 ns) = 6.563 ns; Loc. = LCCOMB_X45_Y23_N16; Fanout = 4; COMB Node = 'alfa_char:code|WideNor0~9'
+        Info: 6: + IC(0.834 ns) + CELL(0.418 ns) = 7.815 ns; Loc. = LCCOMB_X46_Y23_N18; Fanout = 2; COMB Node = 'alfa_char:code|WideOr3~4'
+        Info: 7: + IC(1.402 ns) + CELL(0.322 ns) = 9.539 ns; Loc. = LCCOMB_X45_Y22_N18; Fanout = 1; COMB Node = 'alfa_char:code|WideOr1'
+        Info: 8: + IC(0.000 ns) + CELL(0.096 ns) = 9.635 ns; Loc. = LCFF_X45_Y22_N19; Fanout = 2; REG Node = 'disp_roll:display|key0[5]'
+        Info: Total cell delay = 2.475 ns ( 25.69 % )
+        Info: Total interconnect delay = 7.160 ns ( 74.31 % )
+Info: Minimum slack time is -1.991 ns for clock "CLOCK_24" between source register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkreleased" and destination register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[0]"
+    Info: + Shortest register to register delay is 2.071 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = LCFF_X37_Y14_N19; Fanout = 3; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkreleased'
+        Info: 2: + IC(0.628 ns) + CELL(0.177 ns) = 0.805 ns; Loc. = LCCOMB_X38_Y14_N12; Fanout = 4; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|TOPS2~1'
+        Info: 3: + IC(0.508 ns) + CELL(0.758 ns) = 2.071 ns; Loc. = LCFF_X39_Y14_N29; Fanout = 9; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[0]'
+        Info: Total cell delay = 0.935 ns ( 45.15 % )
+        Info: Total interconnect delay = 1.136 ns ( 54.85 % )
+    Info: - Smallest register to register requirement is 4.062 ns
+        Info: + Hold relationship between source and destination is 0.000 ns
+            Info: + Latch edge is 0.000 ns
+                Info: Clock period of Destination clock "CLOCK_24" is 41.666 ns with  offset of 0.000 ns and duty cycle of 50
+                Info: Multicycle Setup factor for Destination register is 1
+                Info: Multicycle Hold factor for Destination register is 1
+            Info: - Launch edge is 0.000 ns
+                Info: Clock period of Source clock "CLOCK_24" is 41.666 ns with  offset of 0.000 ns and duty cycle of 50
+                Info: Multicycle Setup factor for Source register is 1
+                Info: Multicycle Hold factor for Source register is 1
+        Info: + Smallest clock skew is 4.053 ns
+            Info: + Longest clock path from clock "CLOCK_24" to destination register is 6.913 ns
+                Info: 1: + IC(0.000 ns) + CELL(1.026 ns) = 1.026 ns; Loc. = PIN_B12; Fanout = 3; CLK Node = 'CLOCK_24'
+                Info: 2: + IC(1.599 ns) + CELL(0.879 ns) = 3.504 ns; Loc. = LCFF_X36_Y22_N29; Fanout = 3; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger'
+                Info: 3: + IC(1.820 ns) + CELL(0.000 ns) = 5.324 ns; Loc. = CLKCTRL_G9; Fanout = 19; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger~clkctrl'
+                Info: 4: + IC(0.987 ns) + CELL(0.602 ns) = 6.913 ns; Loc. = LCFF_X39_Y14_N29; Fanout = 9; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|\TOPS2:count[0]'
+                Info: Total cell delay = 2.507 ns ( 36.27 % )
+                Info: Total interconnect delay = 4.406 ns ( 63.73 % )
+            Info: - Shortest clock path from clock "CLOCK_24" to source register is 2.860 ns
+                Info: 1: + IC(0.000 ns) + CELL(1.026 ns) = 1.026 ns; Loc. = PIN_B12; Fanout = 3; CLK Node = 'CLOCK_24'
+                Info: 2: + IC(0.238 ns) + CELL(0.000 ns) = 1.264 ns; Loc. = CLKCTRL_G10; Fanout = 135; COMB Node = 'CLOCK_24~clkctrl'
+                Info: 3: + IC(0.994 ns) + CELL(0.602 ns) = 2.860 ns; Loc. = LCFF_X37_Y14_N19; Fanout = 3; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigclkreleased'
+                Info: Total cell delay = 1.628 ns ( 56.92 % )
+                Info: Total interconnect delay = 1.232 ns ( 43.08 % )
+        Info: - Micro clock to output delay of source is 0.277 ns
+        Info: + Micro hold delay of destination is 0.286 ns
+Warning: Can't achieve minimum setup and hold requirement CLOCK_24 along 8 path(s). See Report window for details.
+Info: tsu for register "kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1" (data pin = "KEY", clock pin = "CLOCK_24") is 8.696 ns
+    Info: + Longest pin to register delay is 11.583 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.874 ns) = 0.874 ns; Loc. = PIN_T21; Fanout = 49; PIN Node = 'KEY'
+        Info: 2: + IC(5.744 ns) + CELL(0.178 ns) = 6.796 ns; Loc. = LCCOMB_X35_Y12_N26; Fanout = 7; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|TOPS2~0'
+        Info: 3: + IC(0.317 ns) + CELL(0.461 ns) = 7.574 ns; Loc. = LCCOMB_X35_Y12_N0; Fanout = 6; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|send_rdy~head_lut'
+        Info: 4: + IC(2.226 ns) + CELL(0.322 ns) = 10.122 ns; Loc. = LCCOMB_X27_Y24_N24; Fanout = 1; COMB Node = 'kbdex_ctrl:kbd_ctrl|Selector10~1'
+        Info: 5: + IC(0.328 ns) + CELL(0.545 ns) = 10.995 ns; Loc. = LCCOMB_X27_Y24_N2; Fanout = 2; COMB Node = 'kbdex_ctrl:kbd_ctrl|Selector10~2'
+        Info: 6: + IC(0.314 ns) + CELL(0.178 ns) = 11.487 ns; Loc. = LCCOMB_X27_Y24_N28; Fanout = 1; COMB Node = 'kbdex_ctrl:kbd_ctrl|Selector13~0'
+        Info: 7: + IC(0.000 ns) + CELL(0.096 ns) = 11.583 ns; Loc. = LCFF_X27_Y24_N29; Fanout = 3; REG Node = 'kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1'
+        Info: Total cell delay = 2.654 ns ( 22.91 % )
+        Info: Total interconnect delay = 8.929 ns ( 77.09 % )
+    Info: + Micro setup delay of destination is -0.038 ns
+    Info: - Shortest clock path from clock "CLOCK_24" to destination register is 2.849 ns
+        Info: 1: + IC(0.000 ns) + CELL(1.026 ns) = 1.026 ns; Loc. = PIN_B12; Fanout = 3; CLK Node = 'CLOCK_24'
+        Info: 2: + IC(0.238 ns) + CELL(0.000 ns) = 1.264 ns; Loc. = CLKCTRL_G10; Fanout = 135; COMB Node = 'CLOCK_24~clkctrl'
+        Info: 3: + IC(0.983 ns) + CELL(0.602 ns) = 2.849 ns; Loc. = LCFF_X27_Y24_N29; Fanout = 3; REG Node = 'kbdex_ctrl:kbd_ctrl|cmdstate.WAITACK1'
+        Info: Total cell delay = 1.628 ns ( 57.14 % )
+        Info: Total interconnect delay = 1.221 ns ( 42.86 % )
+Info: tco from clock "CLOCK_24" to destination pin "PS2_DAT" through register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending" is 13.516 ns
+    Info: + Longest clock path from clock "CLOCK_24" to source register is 5.708 ns
+        Info: 1: + IC(0.000 ns) + CELL(1.026 ns) = 1.026 ns; Loc. = PIN_B12; Fanout = 3; CLK Node = 'CLOCK_24'
+        Info: 2: + IC(1.050 ns) + CELL(0.879 ns) = 2.955 ns; Loc. = LCFF_X27_Y24_N1; Fanout = 1; REG Node = 'kbdex_ctrl:kbd_ctrl|sigsend'
+        Info: 3: + IC(1.161 ns) + CELL(0.000 ns) = 4.116 ns; Loc. = CLKCTRL_G8; Fanout = 2; COMB Node = 'kbdex_ctrl:kbd_ctrl|sigsend~clkctrl'
+        Info: 4: + IC(0.990 ns) + CELL(0.602 ns) = 5.708 ns; Loc. = LCFF_X35_Y12_N17; Fanout = 12; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending'
+        Info: Total cell delay = 2.507 ns ( 43.92 % )
+        Info: Total interconnect delay = 3.201 ns ( 56.08 % )
+    Info: + Micro clock to output delay of source is 0.277 ns
+    Info: + Longest register to pin delay is 7.531 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = LCFF_X35_Y12_N17; Fanout = 12; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigsending'
+        Info: 2: + IC(0.389 ns) + CELL(0.319 ns) = 0.708 ns; Loc. = LCCOMB_X35_Y12_N26; Fanout = 7; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|TOPS2~0'
+        Info: 3: + IC(1.257 ns) + CELL(0.545 ns) = 2.510 ns; Loc. = LCCOMB_X38_Y14_N28; Fanout = 1; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~enhead_lut'
+        Info: 4: + IC(1.954 ns) + CELL(3.067 ns) = 7.531 ns; Loc. = PIN_J14; Fanout = 0; PIN Node = 'PS2_DAT'
+        Info: Total cell delay = 3.931 ns ( 52.20 % )
+        Info: Total interconnect delay = 3.600 ns ( 47.80 % )
+Info: Longest tpd from source pin "KEY" to destination pin "PS2_DAT" is 13.619 ns
+    Info: 1: + IC(0.000 ns) + CELL(0.874 ns) = 0.874 ns; Loc. = PIN_T21; Fanout = 49; PIN Node = 'KEY'
+    Info: 2: + IC(5.744 ns) + CELL(0.178 ns) = 6.796 ns; Loc. = LCCOMB_X35_Y12_N26; Fanout = 7; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|TOPS2~0'
+    Info: 3: + IC(1.257 ns) + CELL(0.545 ns) = 8.598 ns; Loc. = LCCOMB_X38_Y14_N28; Fanout = 1; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|ps2_data~enhead_lut'
+    Info: 4: + IC(1.954 ns) + CELL(3.067 ns) = 13.619 ns; Loc. = PIN_J14; Fanout = 0; PIN Node = 'PS2_DAT'
+    Info: Total cell delay = 4.664 ns ( 34.25 % )
+    Info: Total interconnect delay = 8.955 ns ( 65.75 % )
+Info: th for register "kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]" (data pin = "PS2_DAT", clock pin = "CLOCK_24") is 0.749 ns
+    Info: + Longest clock path from clock "CLOCK_24" to destination register is 6.914 ns
+        Info: 1: + IC(0.000 ns) + CELL(1.026 ns) = 1.026 ns; Loc. = PIN_B12; Fanout = 3; CLK Node = 'CLOCK_24'
+        Info: 2: + IC(1.599 ns) + CELL(0.879 ns) = 3.504 ns; Loc. = LCFF_X36_Y22_N29; Fanout = 3; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger'
+        Info: 3: + IC(1.820 ns) + CELL(0.000 ns) = 5.324 ns; Loc. = CLKCTRL_G9; Fanout = 19; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sigtrigger~clkctrl'
+        Info: 4: + IC(0.988 ns) + CELL(0.602 ns) = 6.914 ns; Loc. = LCFF_X42_Y23_N21; Fanout = 4; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]'
+        Info: Total cell delay = 2.507 ns ( 36.26 % )
+        Info: Total interconnect delay = 4.407 ns ( 63.74 % )
+    Info: + Micro hold delay of destination is 0.286 ns
+    Info: - Shortest pin to register delay is 6.451 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = PIN_J14; Fanout = 1; PIN Node = 'PS2_DAT'
+        Info: 2: + IC(0.000 ns) + CELL(0.853 ns) = 0.853 ns; Loc. = IOC_X42_Y27_N3; Fanout = 9; COMB Node = 'PS2_DAT~0'
+        Info: 3: + IC(5.324 ns) + CELL(0.178 ns) = 6.355 ns; Loc. = LCCOMB_X42_Y23_N20; Fanout = 1; COMB Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]~2'
+        Info: 4: + IC(0.000 ns) + CELL(0.096 ns) = 6.451 ns; Loc. = LCFF_X42_Y23_N21; Fanout = 4; REG Node = 'kbdex_ctrl:kbd_ctrl|ps2_iobase:ps2_ctrl|sdata[0]'
+        Info: Total cell delay = 1.127 ns ( 17.47 % )
+        Info: Total interconnect delay = 5.324 ns ( 82.53 % )
+Critical Warning: Timing requirements for slow timing model timing analysis were not met. See Report window for details.
+Info: Quartus II Classic Timing Analyzer was successful. 0 errors, 9 warnings
+    Info: Peak virtual memory: 149 megabytes
+    Info: Processing ended: Thu May 13 17:35:23 2010
+    Info: Elapsed time: 00:00:01
+    Info: Total CPU time (on all processors): 00:00:01
+
+

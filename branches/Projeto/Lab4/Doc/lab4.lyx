@@ -1,0 +1,3115 @@
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage[brazil]{babel}    % dá suporte para os termos na língua portuguesa do Brasil
+\usepackage{url}
+\usepackage{textcomp}
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{amsmath} 
+\usepackage{wrapfig}
+\numberwithin{table}{section}
+\numberwithin{figure}{section}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{indentfirst}
+
+
+\newcommand*{\titleTMB}{\begingroup \centering \settowidth{\unitlength}{\LARGE MC 613} \vspace*{\baselineskip} {\large\scshape  Grupo 5 - Turma A}\\[\baselineskip] \rule{11.0cm}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} \rule{11.0cm}{0.4pt}\\[\baselineskip] {\LARGE Quarto laboratório }\\[0.2\baselineskip] {\LARGE de Circuitos Digitais}\\[0.2\baselineskip] {\itshape MC 613 - Primeiro Semestre de 2010}\\[0.2\baselineskip] \rule{11.0cm}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} \rule{11.0cm}{1.6pt}\\[\baselineskip] {\large\scshape Professor: Guido Araújo}\par \vfill {\normalsize   \scshape 
+\begin{center} 
+\begin{tabular}{  l  l  p{5cm} } 
+Henrique Serapião Gonzales     &  RA: 083636 \\
+Marcelo Galvão Póvoa & RA: 082115\\ 		
+Tiago Chedraoui Silva      & RA: 082941\\  	
+\end{tabular} \end{center}
+\itshape \today }\\[\baselineskip] \vspace{3.2pt} \endgroup}
+
+\usepackage{multicol}
+\end_preamble
+\use_default_options true
+\begin_modules
+eqs-within-sections
+figs-within-sections
+tabs-within-sections
+\end_modules
+\language brazilian
+\inputencoding auto
+\font_roman ae
+\font_sans lmss
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letterpaper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\leftmargin 3cm
+\rightmargin 3cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{titlepage}  
+\backslash
+titleTMB 
+\backslash
+end{titlepage} % capa no preambulo document settings
+\end_layout
+
+\begin_layout Plain Layout
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 1
+\end_layout
+
+\begin_layout Standard
+Projetamos um contador síncrono, cuja contagem é realizada de acordo com
+ a tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Q1Função-de-transição"
+
+\end_inset
+
+, e possui um sinal de reset ativo baixo que inicializa o contador com 
+\begin_inset Formula $Q_{c}Q_{b}Q_{a}=001$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Como a saída pode ser representada em binário (
+\begin_inset Formula $Z_{c}Z_{b}Z_{a}$
+\end_inset
+
+), pode-se minimizar a saída através de tabelas de Karnaugh (tabelas: 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Karnaugh-zc"
+
+\end_inset
+
+,
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Karnaugh-zb"
+
+\end_inset
+
+,
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Karnaugh-za"
+
+\end_inset
+
+).
+ A partir da minimização realizada, as saídas (dígitos binários de saída)
+ podem ser calculadas utilizando as formulas 1, 2 e 3 respectivamente (código
+ em vdhl: algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Q1Função-de-contagem"
+
+\end_inset
+
+).
+ Posteriormente, a saída foi colocada no display de sete segmentos para
+ uma melhor análise (código em vhdl : algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Q1Contador-síncrono"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Para a simulação (figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Simulação-contador-baseado"
+
+\end_inset
+
+), fizemos a análise da contagem e zeragem.
+ Tempo máximo de propagação: 4.872 ns
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Função de transição
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Q1Função-de-transição"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="6">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Qc
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Qb
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Qa
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zc
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zb
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Za
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Karnaugh para para 
+\begin_inset Formula $Z_{c}$
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Karnaugh-zc"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="5">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overline{Q_{b}Q_{a}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overline{Q_{b}}Q_{a}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Q_{b}Q_{a}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Q_{b}\overline{Q_{a}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overline{Q_{c}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Q_{c}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Karnaugh para 
+\begin_inset Formula $Z_{b}$
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Karnaugh-zb"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="5">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overline{Q_{b}Q_{a}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overline{Q_{b}}Q_{a}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Q_{b}Q_{a}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Q_{b}\overline{Q_{a}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overline{Q_{c}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Q_{c}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Karnaugh para 
+\begin_inset Formula $Z_{a}$
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Karnaugh-za"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="5">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overline{Q_{b}Q_{a}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overline{Q_{b}}Q_{a}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Q_{b}Q_{a}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Q_{b}\overline{Q_{a}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overline{Q_{c}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Q_{c}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula \begin{equation}
+Z_{c}=Q_{c}Q_{a}+Q_{c}Q_{b}+Q_{b}Q_{a}\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula \begin{equation}
+Z_{b}=Q_{c}Q_{a}+\overline{Q_{b}}\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula \begin{equation}
+Z_{a}=\overline{Q_{c}}+\overline{Q_{b}}Q_{a}\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "cont.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Função de contagem 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Q1Função-de-contagem"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q1.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Contador síncrono - saída no display de 7 segmentos 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Q1Contador-síncrono"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename q1vwf.PNG
+	scale 60
+	BoundingBox 0bp 0bp 1039bp 120bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação contador baseado em função
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Simulação-contador-baseado"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 2
+\end_layout
+
+\begin_layout Standard
+Usando 3 CI’s 7490 (algoritmo: 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Q2comp_cont"
+
+\end_inset
+
+), projetamos um contador BCD módulo mil, cuja entrada era composta de um
+ clock, um preset e um reset.
+ Utilizando 4 clocks de diferentes frequências selecionados através de toggles
+ (algoritmo de frequência dependente de varíavel: 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:freq_div"
+
+\end_inset
+
+), demonstramos o funcionamento na placa visualizando a contagem em três
+ displays de 7 segmentos (centena, dezena, unidade).
+ Dois push buttons foram usados, um para os sinais de clear (display passa
+ a ser '000', contador zerado) e preset (display passa a ser '999'), o comportam
+ento é simulado na figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Q2 Simulação-cont-mod-mil"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Como esse componente não tem uma entrada de 
+\emph on
+clock enable, 
+\emph default
+tivemos que recorrer ao uso de 
+\emph on
+gated clock
+\emph default
+, isto é, obter o 
+\emph on
+clock 
+\emph default
+do próximo contador através de uma lógica na saída do anterior.
+ Com isso, cada contador opera com um 
+\emph on
+clock 
+\emph default
+diferente, mas para esse caso simples, os atrasos inerentes não prejudicaram
+ o funcionamento do circuito.
+
+\emph on
+ 
+\emph default
+Para a mudança de valor nos displays de dezena, quando o valor do dígito
+ da unidade atingir o valor '9' alteramos o 
+\emph on
+clock
+\emph default
+ e entrada no componente da dezena para 1 caso contrário fica '0' (algoritmo:
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Q2contador_mod_mil"
+
+\end_inset
+
+).
+ O mesmo é feito em relação a centena, sendo que quando a dezena chegar
+ ao valor '9' o 
+\emph on
+clock
+\emph default
+ da centena recebe valor '1'.
+ O comportamento é simulado na figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Q2 Simulação-cont-mod-mil-prop"
+
+\end_inset
+
+.
+ Tempo máximo de propagação: 15.627 ns
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "freq_div.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Divisor de frequência variável 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:freq_div"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q2.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+ Contador BCD módulo mil 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Q2contador_mod_mil"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "bcd_count.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+ Componente contador BCD 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Q2comp_cont"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename q2vwf_rst_pre.PNG
+	scale 60
+	BoundingBox 0bp 0bp 1039bp 158bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação contador módulo mil - análise reset e preset 
+\lang english
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Q2 Simulação-cont-mod-mil"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename q2vwf_prop.PNG
+	scale 60
+	BoundingBox 0bp 0bp 1039bp 158bp
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação contador módulo mil - análise de propagação 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Q2 Simulação-cont-mod-mil-prop"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 3
+\end_layout
+
+\begin_layout Standard
+Quer-se obter um divisor de frequência por 6 usando como componente um contador
+ síncrono de 4-bits, modelo 
+\emph on
+74161.
+
+\emph default
+ O 
+\emph on
+clock
+\emph default
+ dividido deve ser simétrico em relação aos níveis LOW e HIGH.
+\end_layout
+
+\begin_layout Standard
+Pelo datasheet do contador, descobriu-se que ele possui entradas assíncronas
+ de 
+\emph on
+load 
+\emph default
+e 
+\emph on
+clear
+\emph default
+ (lógica negativa), além de entradas de modo de contagem (serão mantidas
+ em 
+\emph on
+COUNT
+\emph default
+).
+ O tamanho do ciclo de contagem deve ser 6, portanto basta ativar o 
+\emph on
+clear
+\emph default
+ assíncrono quando as saídas do contador 
+\begin_inset Formula $q_{3}..q_{0}$
+\end_inset
+
+ atingirem esse valor.
+ Além disso, o 
+\emph on
+clock
+\emph default
+ de saída é simplesmente LOW quando o contador estiver em 
+\begin_inset Formula $0\rightarrow2$
+\end_inset
+
+ ou HIGH caso contrário.
+ Esse comportamento pode ser sintetizado pela expressão:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{equation}
+clk=q_{2}+(q_{1}\cdot q_{0})\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Para ser possível avaliar o funcionamento na placa, o 
+\emph on
+clock 
+\emph default
+de 
+\begin_inset Formula $27MHz$
+\end_inset
+
+ foi dividido para 
+\begin_inset Formula $3Hz$
+\end_inset
+
+ (usando divisor já desenvolvido: algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:freq_div"
+
+\end_inset
+
+), com o qual o divisor por 6 deve gerar 
+\begin_inset Formula $0,5Hz$
+\end_inset
+
+.
+ Tempo máximo de propagação: 5.004 ns
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "freq_div6.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Divisor de frequência por 6 usando o 
+\emph on
+74161
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Divisor-de-freq6"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q3.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Implementação prática do algoritmo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Divisor-de-freq6"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename q3vwf.PNG
+	width 100text%
+	BoundingBox 0bp 0bp 1008bp 150bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulação do divisor de frequência por 6
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Questão 4
+\end_layout
+
+\begin_layout Standard
+Será projetado e implementado um relógio digital simples na DE1 (vide especifica
+ções do laboratório), usando quatro displays de 7 segmentos para exibição.
+ No seu comportamento estão subentendidos vários contadores síncronos (todos
+ operados a 
+\begin_inset Formula $27MHz$
+\end_inset
+
+, como será explicado adiante), são eles:
+\end_layout
+
+\begin_layout Itemize
+Contador de modo de operação 
+\begin_inset Formula $0\rightarrow4$
+\end_inset
+
+ (um modo de exibição e quatro modos de ajuste de dígitos 
+\begin_inset Formula $m_{0},$
+\end_inset
+
+ 
+\begin_inset Formula $m_{1},$
+\end_inset
+
+ 
+\begin_inset Formula $h_{0}$
+\end_inset
+
+, 
+\begin_inset Formula $h_{1}$
+\end_inset
+
+respectivamente).
+ Seu 
+\emph on
+clock enable
+\emph default
+ é o PB1.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $s_{0}$
+\end_inset
+
+: unidade do segundo (
+\begin_inset Formula $0\rightarrow9$
+\end_inset
+
+), incrementa a cada 
+\begin_inset Formula $1Hz$
+\end_inset
+
+ no modo de exibição.
+ Zerada quando em algum modo de ajuste.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $s_{1}$
+\end_inset
+
+: dezena do segundo (
+\begin_inset Formula $0\rightarrow5$
+\end_inset
+
+).
+ Zerada quando em algum modo de ajuste.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $m_{0}$
+\end_inset
+
+: unidade do minuto (ajustável, 
+\begin_inset Formula $0\rightarrow9$
+\end_inset
+
+).
+ Seu 
+\emph on
+clock enable 
+\emph default
+(bem como nos 3 contadores seguintes) é PB2 quando no modo de ajuste.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $m_{1}$
+\end_inset
+
+: dezena do minuto (ajustável, 
+\begin_inset Formula $0\rightarrow5$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $h_{0}$
+\end_inset
+
+: unidade da hora (ajustável, é 
+\begin_inset Formula $0\rightarrow9$
+\end_inset
+
+ quando 
+\begin_inset Formula $h_{1}$
+\end_inset
+
+ é 
+\begin_inset Formula $0$
+\end_inset
+
+ ou 
+\begin_inset Formula $1$
+\end_inset
+
+,
+\emph on
+ senão
+\emph default
+ é 
+\begin_inset Formula $0\rightarrow3$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $h_{1}$
+\end_inset
+
+: dezena da hora (ajustável, é 
+\begin_inset Formula $0\rightarrow2$
+\end_inset
+
+ quando 
+\begin_inset Formula $h_{1}$
+\end_inset
+
+ é 
+\begin_inset Formula $0\rightarrow3$
+\end_inset
+
+,
+\emph on
+ senão 
+\emph default
+é 
+\begin_inset Formula $0\rightarrow1$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Os 5 últimos contadores acima também têm seu 
+\emph on
+clock enable 
+\emph default
+sendo o carry-out do contador anterior apenas quando no modo de exibição,
+ isto é, o relógio 
+\emph on
+pára de contar
+\emph default
+ quando está sendo ajustado.
+ Todos esses contadores foram implementados com um componente contador 
+\series bold
+cont4
+\series default
+, que possui 4 entradas para o módulo da contagem e uma saída de 
+\emph on
+terminal count 
+\emph default
+(fim da contagem).
+\end_layout
+
+\begin_layout Standard
+Além disso, há o botão PB4 que muda o tipo de exibição, 
+\begin_inset Formula $hh:mm$
+\end_inset
+
+ ou 
+\begin_inset Formula $mm:ss$
+\end_inset
+
+, sendo que deve ser usado o primeiro tipo quando no modo de ajuste.
+ Isso foi implementado com um 
+\emph on
+flip-flop 
+\emph default
+que inverte seu estado tendo o PB4 como 
+\emph on
+clock
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+A fim de obter um circuito síncrono mais robusto e com menos 
+\emph on
+warnings 
+\emph default
+de compilação, foi usado o mesmo 
+\emph on
+clock
+\emph default
+ em todos os contadores.
+ Escolheu-se exatamente 
+\begin_inset Formula $27MHz$
+\end_inset
+
+, uma vez que esta frequência será usada tanto para contar o tempo quanto
+ para atualizar os botões de ajuste.
+ Para este último fim, 
+\emph on
+
+\begin_inset Formula $1Hz$
+\end_inset
+
+ 
+\emph default
+seria muito lento e pouco responsivo.
+ Além disso, os botões operados pelo usuário seriam, a princípio, assíncronos
+ em relação ao 
+\emph on
+clock.
+
+\emph default
+ Para contornar isso, o estado do botão é salvo a 
+\begin_inset Formula $27MHz$
+\end_inset
+
+ e a operação do botão é apenas ativada quando na variação 
+\begin_inset Formula $0\rightarrow1$
+\end_inset
+
+ (evita repetições).
+\end_layout
+
+\begin_layout Standard
+Entretanto, para realizar a contagem correta de tempo, isto é, de frequência
+ 
+\begin_inset Formula $1Hz$
+\end_inset
+
+, foi necessário usar um 
+\emph on
+clock enable
+\emph default
+ no contador 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+ que ativa em apenas um ciclo a cada 
+\emph on
+27 milhões 
+\emph default
+de períodos do 
+\emph on
+clock
+\emph default
+.
+ Isso seria simplesmente um 
+\emph on
+clock 
+\emph default
+de 
+\begin_inset Formula $1Hz$
+\end_inset
+
+ com 
+\emph on
+duty cycle 
+\emph default
+de 
+\begin_inset Formula $1/27000000$
+\end_inset
+
+.
+ Outra característica do circuito é que o dígito no display deve piscar
+ caso esteja sendo ajustado, isto foi implementado com a própria frequência
+ de 
+\begin_inset Formula $27MHz$
+\end_inset
+
+, resultando numa exibição esmaecida de fácil visualização.
+ Tempo máximo de propagação: 11.812 ns
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "cont4.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Contador de 4-bits com parâmetro de contagem em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "q4.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Relógio digital ajustável em VHDL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "buff.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Sincronização dos botões de entrada usando máquina de estados
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "freq_div_sp.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Divisor de frequência especial
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Section
+Questão 5
+\end_layout
+
+\begin_layout Standard
+Utilizando os componentes ps2_mouse_test.vhd (top level), mouse_ctrl.vhd e
+ ps2_iobase.vhd (protocolo básico PS/2, pode ser usado no mouse e no teclado),
+ implementou-se na DE1 a comunicação com o mouse, na qual mostrava sua posição
+ no display de 7 segmentos.
+\end_layout
+
+\begin_layout Standard
+A movimentação do mouse altera os valores dos displays, sendo que dois deles
+ representam a posição no eixo y e outro no eixo x (valores de 00 a FF).Um
+ push button foi usado para zerar as cordenadas, ou seja, ao pressionar
+ os displays de sete segmentos passam a mostrar '0000'.
+ E quando ocorre overflow na posição do mouse dois leds vermelhos devem
+ piscar, sendo um responsável pelo overflow no eixo horizontal enquanto
+ o outro na vertical.
+ 
+\end_layout
+
+\begin_layout Standard
+Os botões do mouse (esquerdo, direito, wheel) têm seus valores mostrados
+ em três LEDs verdes, sendo que ao serem pressionados acende cada um o seu
+ respectivo LED.
+ A movimentação do wheel para cima é negativo e para baixo é positivo (represent
+ação em complemento de 2 nos 4 primeiros LEDs verdes), quão mais rápido
+ move-se a wheel maior é o módulo do valor.
+ Tempo máximo de propagação: 14.046 ns
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "mvmouse.vhd"
+
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Movimentação do mouse - mostra posição e botões 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Q5mvmouse"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "ps2_iobase.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Protocolo básico PS/2
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Q5ps2io"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\size scriptsize
+\lang brazilian
+
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "mouse_ctrl.vhd"
+
+\end_inset
+
+
+\size default
+\lang english
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Componente de controle do mouse 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Q5mousectrl"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Conclusão
+\end_layout
+
+\begin_layout Standard
+O laboratório presente acerca de contadores síncronos explorou diversos
+ tipos de circuitos.
+ O mais simples foi um contador de 3-bits cuja sequência não é convencional,
+ mas a diferença surge apenas na função de transição do valor (obtida por
+ 
+\emph on
+Karnaugh
+\emph default
+), que não é mais o incremento.
+ 
+\end_layout
+
+\begin_layout Standard
+Duas questões versaram sobre comportamentos baseados em instanciação de
+ contadores comerciais com várias portas.
+ Estes geralmente têm alguns modos de operação configuráveis: contagem (BCD
+ ou 
+\emph on
+mod 16
+\emph default
+), ociosidade, 
+\emph on
+clear
+\emph default
+ e 
+\emph on
+preset 
+\emph default
+(o conteúdo torna-se o valor máximo do contador).
+ Usando essas configurações apropriadamente, construiu-se um contador módulo
+ mil a partir de 3 contadores e 
+\emph on
+gated clock 
+\emph default
+e também um divisor de frequência por 6, que é simplesmente um contador
+ com 6 estágios e o 
+\emph on
+clock
+\emph default
+ deriva das suas saídas.
+\end_layout
+
+\begin_layout Standard
+Na questão 4, projetou-se um relógio digital de forma totalmente síncrona
+ pois, dada a complexidade do circuito, é mais seguro fazer todo ele síncrono
+ usando apenas um clock, que não deve ser do tipo 
+\emph on
+gated 
+\emph default
+ou 
+\emph on
+ripple.
+
+\emph default
+ Assim, usando uma frequência alta, foi possível amostrar a entrada assíncrona
+ dos botões e, através de uma máquina de estados, produzir um sinal síncrono
+ e preciso pro botão.
+ Isso evitou vários 
+\emph on
+glitches 
+\emph default
+e warnings de compilação.
+\end_layout
+
+\begin_layout Standard
+Adicionalmente, na questão 5 exploramos o uso de uma porta PS/2 da placa
+ para implementar a interface de comunicação de um mouse cujos vários sinais
+ foram avaliados nos leds e displays da placa.
+\end_layout
+
+\end_body
+\end_document
